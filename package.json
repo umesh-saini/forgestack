@@ -1,0 +1,22 @@
+{
+  "name": "forgestack-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.33.4",
+  "scripts": {
+    "build": "pnpm --filter \"@forgestack/*\" run build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint .",
+    "typecheck": "tsc -b",
+    "cli:dev": "node packages/cli/bin/create-forgestack-app.js",
+    "desktop:web": "pnpm --filter @forgestack/desktop dev",
+    "desktop:dev": "pnpm --filter @forgestack/desktop tauri dev",
+    "desktop:build": "pnpm --filter @forgestack/desktop tauri build"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5"
+  }
+}

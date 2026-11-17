@@ -1,0 +1,87 @@
+name: CI & Permutation Matrix
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    # Daily at 04:00 UTC
+    - cron: '0 4 * * *'
+
+jobs:
+  test:
+    name: Build, Lint & Test (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x, 22.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Build all packages
+        run: pnpm run build
+
+      - name: Run unit & E2E tests
+        run: pnpm run test
+
+  e2e-matrix:
+    name: Daily Scaffolding Permutation Matrix
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: 'pnpm'
+
+      - name: Install dependencies & Build CLI
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build
+
+      - name: Test Monorepo Scaffolding
+        run: |
+          node packages/cli/bin/create-forgestack-app.js test-matrix-mono \
+            --topology monorepo \
+            --fe react-vite \
+            --state query \
+            --styling tailwind \
+            --be fastify \
+            --db postgres \
+            --orm drizzle \
+            --install \
+            --git
+
+      - name: Verify Scaffolded Monorepo Build & Test
+        run: |
+          cd test-matrix-mono
+          pnpm run build
+          pnpm run test
