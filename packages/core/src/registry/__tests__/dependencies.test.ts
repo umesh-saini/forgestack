@@ -44,6 +44,14 @@ describe('Dependency Registry', () => {
       'turbo',
       'vitest',
       'tsup',
+      'next',
+      'electron',
+      'electron-vite',
+      'dayjs',
+      'date-fns',
+      'moment',
+      'jsonwebtoken',
+      'pm2',
     ];
 
     for (const dep of required) {

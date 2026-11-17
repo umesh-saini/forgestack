@@ -11,15 +11,14 @@
   "9": "core/package.json",
   "10": "cli/package.json",
   "11": "compilerOptions",
-  "12": "package.json",
-  "13": "scripts",
+  "12": "scripts",
+  "13": "Badge.tsx",
   "14": "fs.rs",
   "15": ".openspec.yaml",
   "16": "json-merge.ts",
   "17": "CodePatcher",
-  "18": "@types/node",
   "19": "create-forgestack-app.js",
-  "20": "bin",
+  "20": "package.json",
   "21": "scripts",
   "22": "build.rs",
   "23": "lib.rs",
@@ -27,5 +26,6 @@
   "25": "pnpm-workspace.yaml",
   "26": "mod.rs",
   "27": "forgestack-desktop",
-  "28": "scripts"
+  "32": "devDependencies",
+  "33": "@types/node"
 }

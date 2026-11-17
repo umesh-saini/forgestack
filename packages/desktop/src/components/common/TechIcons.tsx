@@ -76,6 +76,7 @@ export const SQLiteIcon: React.FC<IconProps> = ({ className = 'w-5 h-5' }) => (
     <path d="M21.678.521c-1.032-.92-2.28-.55-3.513.544a8.71 8.71 0 0 0-.547.535c-2.109 2.237-4.066 6.38-4.674 9.544.237.48.422 1.093.544 1.561a13.044 13.044 0 0 1 .164.703s-.019-.071-.096-.296l-.05-.146a1.689 1.689 0 0 0-.033-.08c-.138-.32-.518-.995-.686-1.289-.143.423-.27.818-.376 1.176.484.884.778 2.4.778 2.4s-.025-.099-.147-.442c-.107-.303-.644-1.244-.772-1.464-.217.804-.304 1.346-.226 1.478.152.256.296.698.422 1.186.286 1.1.485 2.44.485 2.44l.017.224a22.41 22.41 0 0 0 .056 2.748c.095 1.146.273 2.13.5 2.657l.155-.084c-.334-1.038-.47-2.399-.41-3.967.09-2.398.642-5.29 1.661-8.304 1.723-4.55 4.113-8.201 6.3-9.945-1.993 1.8-4.692 7.63-5.5 9.788-.904 2.416-1.545 4.684-1.931 6.857.666-2.037 2.821-2.912 2.821-2.912s1.057-1.304 2.292-3.166c-.74.169-1.955.458-2.362.629-.6.251-.762.337-.762.337s1.945-1.184 3.613-1.72C21.695 7.9 24.195 2.767 21.678.521m-18.573.543A1.842 1.842 0 0 0 1.27 2.9v16.608a1.84 1.84 0 0 0 1.835 1.834h9.418a22.953 22.953 0 0 1-.052-2.707c-.006-.062-.011-.141-.016-.2a27.01 27.01 0 0 0-.473-2.378c-.121-.47-.275-.898-.369-1.057-.116-.197-.098-.31-.097-.432 0-.12.015-.245.037-.386a9.98 9.98 0 0 1 .234-1.045l.217-.028c-.017-.035-.014-.065-.031-.097l-.041-.381a32.8 32.8 0 0 1 .382-1.194l.2-.019c-.008-.016-.01-.038-.018-.053l-.043-.316c.63-3.28 2.587-7.443 4.8-9.791.066-.069.133-.128.198-.194Z"/>
   </svg>
 );
+export const SqliteIcon = SQLiteIcon;
 
 // 10. Drizzle ORM (Official Drizzle Rain Drops)
 export const DrizzleIcon: React.FC<IconProps> = ({ className = 'w-5 h-5' }) => (
@@ -241,3 +242,85 @@ export const OpenSpecIcon: React.FC<IconProps> = ({ className = 'w-5 h-5' }) => 
     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm-1 2l5 5h-5V4zm-3 8h6v2h-6v-2zm0 4h6v2h-6v-2z" />
   </svg>
 );
+
+// 29. Next.js 15
+export const NextJsIcon: React.FC<IconProps> = ({ className = 'w-5 h-5' }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+    <title>Next.js</title>
+    <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.66 17.51L9.44 7.2h2.23l6.55 8.78c-.5.54-1.03 1.05-1.56 1.53zM15.82 7.2v5.82l-1.92-2.58V7.2h1.92z"/>
+  </svg>
+);
+
+// 30. Electron
+export const ElectronIcon: React.FC<IconProps> = ({ className = 'w-5 h-5' }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="#47848F">
+    <title>Electron</title>
+    <path d="M12 1.75c-3.15 0-5.71 4.59-5.71 10.25 0 5.66 2.56 10.25 5.71 10.25 3.15 0 5.71-4.59 5.71-10.25 0-5.66-2.56-10.25-5.71-10.25zm0 1.25c2.37 0 4.46 4.03 4.46 9s-2.09 9-4.46 9-4.46-4.03-4.46-9 2.09-9 4.46-9zm-7.39 3.03a20.08 20.08 0 0 0-1.5 5.97c0 5.66 2.56 10.25 5.71 10.25.96 0 1.87-.43 2.67-1.19-.38-.42-.73-.89-1.04-1.4a8.67 8.67 0 0 1-1.63.19c-2.37 0-4.46-4.03-4.46-9 0-1.78.27-3.44.75-4.82zm14.78 0c.48 1.38.75 3.04.75 4.82 0 4.97-2.09 9-4.46 9-.57 0-1.12-.07-1.63-.19-.31.51-.66.98-1.04 1.4.8.76 1.71 1.19 2.67 1.19 3.15 0 5.71-4.59 5.71-10.25 0-2.18-.39-4.23-1.06-5.97zM12 9.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5z" />
+  </svg>
+);
+
+// 31. JSON Icon (Crisp Vector Curly Brackets)
+export const JsonIcon: React.FC<IconProps> = ({ className = 'w-4 h-4' }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="none">
+    <title>JSON</title>
+    <path
+      d="M8 3C6.34 3 5 4.34 5 6v3c0 1.1-.9 2-2 2v2c1.1 0 2 .9 2 2v3c0 1.66 1.34 3 3 3h2v-2H8c-.55 0-1-.45-1-1v-3c0-1.3-.84-2.4-2-2.82V11.82C6.16 11.4 7 10.3 7 9V6c0-.55.45-1 1-1h2V3H8zm8 0h-2v2h2c.55 0 1 .45 1 1v3c0 1.3.84 2.4 2 2.82v.36c-1.16.42-2 1.52-2 2.82v3c0 .55-.45 1-1 1h-2v2h2c1.66 0 3-1.34 3-3v-3c0-1.1.9-2 2-2v-2c-1.1 0-2-.9-2-2V6c0-1.66-1.34-3-3-3z"
+      fill="#F59E0B"
+    />
+  </svg>
+);
+
+// 32. Claude Code Icon
+export const ClaudeIcon: React.FC<IconProps> = ({ className = 'w-4 h-4' }) => (
+  <svg className={className} viewBox="0 0 24 24" fill="#D97706">
+    <title>Claude Code</title>
+    <path d="M12 2a1.5 1.5 0 0 1 1.5 1.5v3.086l2.182-2.182a1.5 1.5 0 0 1 2.122 2.122L15.62 8.708h3.086a1.5 1.5 0 0 1 0 3H15.62l2.183 2.182a1.5 1.5 0 0 1-2.122 2.122L13.5 13.83v3.086a1.5 1.5 0 0 1-3 0V13.83l-2.182 2.182a1.5 1.5 0 0 1-2.122-2.122l2.182-2.182H5.292a1.5 1.5 0 0 1 0-3h3.086L6.196 6.526a1.5 1.5 0 0 1 2.122-2.122L10.5 6.586V3.5A1.5 1.5 0 0 1 12 2z"/>
+  </svg>
+);
+
+// Helper for file tree preview
+export function getFileIcon(filename: string): React.ReactNode {
+  const lower = filename.toLowerCase();
+  if (lower === 'claude.md') {
+    return <ClaudeIcon className="w-3.5 h-3.5" />;
+  }
+  if (lower.endsWith('.tsx') || lower.endsWith('.jsx')) {
+    return <ReactIcon className="w-3.5 h-3.5 text-cyan-400" />;
+  }
+  if (lower.endsWith('.ts') || lower.endsWith('.js') || lower.endsWith('.mjs') || lower.endsWith('.cjs')) {
+    return (
+      <span className="w-3.5 h-3.5 rounded bg-blue-600/20 text-blue-400 flex items-center justify-center font-bold text-[8px] font-mono">
+        TS
+      </span>
+    );
+  }
+  if (lower.endsWith('.json')) {
+    return <JsonIcon className="w-3.5 h-3.5" />;
+  }
+  if (lower.endsWith('.md') || lower.endsWith('.mdc')) {
+    return (
+      <span className="w-3.5 h-3.5 rounded bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-[8px] font-mono">
+        MD
+      </span>
+    );
+  }
+  if (lower.endsWith('.css') || lower.endsWith('.scss')) {
+    return (
+      <span className="w-3.5 h-3.5 rounded bg-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-[8px] font-mono">
+        #
+      </span>
+    );
+  }
+  if (lower.includes('docker') || lower.endsWith('.dockerfile')) {
+    return <DockerIcon className="w-3.5 h-3.5 text-blue-400" />;
+  }
+  if (lower.includes('pnpm-workspace') || lower.includes('pnpm-lock') || lower === '.npmrc') {
+    return <PnpmIcon className="w-3.5 h-3.5 text-orange-400" />;
+  }
+  return (
+    <svg className="w-3.5 h-3.5 opacity-60 text-slate-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+      <polyline points="14 2 14 8 20 8" />
+    </svg>
+  );
+}

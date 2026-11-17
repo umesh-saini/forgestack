@@ -7,7 +7,7 @@ export const cleanModularBackendSlice: FeatureSlice = {
   id: 'be-clean-modular',
   name: 'Node.js ESM Clean Modular Backend',
   apply: (vfs: VirtualFileSystem, config: ProjectConfig) => {
-    if (config.backend.framework === 'none') {
+    if (!config.backend || config.backend.framework === 'none') {
       return;
     }
 
@@ -16,6 +16,8 @@ export const cleanModularBackendSlice: FeatureSlice = {
         ? 'apps/api'
         : config.topology === 'separate-folders'
         ? 'backend'
+        : config.topology === 'electron-desktop' || config.topology === 'nextjs-fullstack'
+        ? 'server'
         : '';
     const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
 
@@ -66,6 +68,7 @@ export const cleanModularBackendSlice: FeatureSlice = {
         vitest: DEPENDENCY_REGISTRY.vitest,
         'pino-pretty': DEPENDENCY_REGISTRY['pino-pretty'],
         '@types/node': DEPENDENCY_REGISTRY['@types/node'],
+        ...(config.backend.processManager === 'pm2' ? { pm2: DEPENDENCY_REGISTRY.pm2 } : {}),
         ...(isFastify
           ? {}
           : {

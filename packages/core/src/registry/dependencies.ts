@@ -10,6 +10,25 @@ export const DEPENDENCY_REGISTRY = {
   '@types/react-dom': '^19.0.3',
   '@vitejs/plugin-react': '^4.3.4',
   vite: '^6.1.0',
+  next: '^15.1.7',
+
+  // Desktop & Electron
+  electron: '^34.2.0',
+  'electron-vite': '^3.0.0',
+  '@electron-toolkit/utils': '^3.0.0',
+  '@electron-toolkit/preload': '^3.0.0',
+
+  // Date Libraries
+  dayjs: '^1.11.13',
+  'date-fns': '^4.1.0',
+  moment: '^2.30.1',
+
+  // Utilities & Security
+  jsonwebtoken: '^9.0.2',
+  '@types/jsonwebtoken': '^9.0.8',
+
+  // Process Management
+  pm2: '^5.4.3',
 
   // Styling & UI Primitives
   tailwindcss: '^4.0.0',

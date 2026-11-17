@@ -8,7 +8,11 @@ export const uiExtrasSlice: FeatureSlice = {
   id: 'fe-ui-extras',
   name: 'Frontend Feedback & UI Extras (Sonner, Lucide, RHF + Zod)',
   apply: (vfs: VirtualFileSystem, config: ProjectConfig) => {
-    if (config.frontend.framework !== 'react-vite') {
+    if (
+      config.frontend.framework !== 'react-vite' ||
+      config.topology === 'electron-desktop' ||
+      config.topology === 'nextjs-fullstack'
+    ) {
       return;
     }
 

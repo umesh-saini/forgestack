@@ -1,0 +1,200 @@
+import type { ProjectConfig } from '@forgestack/core/browser';
+
+export interface SavedTemplate {
+  id: string;
+  name: string;
+  description: string;
+  isBuiltIn?: boolean;
+  config: ProjectConfig;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export const BUILTIN_TEMPLATES: SavedTemplate[] = [
+  {
+    id: 'preset-monorepo',
+    name: 'Enterprise Monorepo',
+    description: 'Turborepo + React 19 + Fastify + PostgreSQL (Drizzle) with Day-One AI Governance & Contracts',
+    isBuiltIn: true,
+    createdAt: '2026-11-17T00:00:00.000Z',
+    updatedAt: '2026-11-17T00:00:00.000Z',
+    config: {
+      name: 'enterprise-monorepo',
+      targetPath: '/home/dev/Documents/enterprise-monorepo',
+      topology: 'monorepo',
+      frontend: {
+        framework: 'react-vite',
+        styling: 'tailwind',
+        state: 'query',
+        icons: 'lucide',
+        toast: 'sonner',
+        forms: 'rhf-zod',
+        dateLib: 'dayjs',
+        uiExtras: { toast: true, icons: true, forms: true },
+      },
+      backend: {
+        framework: 'fastify',
+        database: 'postgres',
+        orm: 'drizzle',
+        container: true,
+        processManager: 'docker',
+      },
+      utilities: {
+        frontendHelpers: true,
+        backendHelpers: true,
+      },
+      aiGovernance: { rules: true, skills: true, openSpec: true, engine: 'openspec' },
+      packageManager: 'pnpm',
+      git: true,
+      install: true,
+    },
+  },
+  {
+    id: 'preset-electron',
+    name: 'Electron Desktop Studio',
+    description: 'Hardened Electron app with electron-vite, React 19, Tailwind v4, and ContextBridge IPC APIs',
+    isBuiltIn: true,
+    createdAt: '2026-11-17T00:00:00.000Z',
+    updatedAt: '2026-11-17T00:00:00.000Z',
+    config: {
+      name: 'desktop-client',
+      targetPath: '/home/dev/Documents/desktop-client',
+      topology: 'electron-desktop',
+      frontend: {
+        framework: 'react-vite',
+        styling: 'tailwind',
+        state: 'none',
+        icons: 'lucide',
+        toast: 'sonner',
+        forms: 'rhf-zod',
+        dateLib: 'dayjs',
+        uiExtras: { toast: true, icons: true, forms: false },
+      },
+      backend: {
+        framework: 'none',
+        database: 'none',
+        orm: 'none',
+        container: false,
+        processManager: 'none',
+      },
+      utilities: {
+        frontendHelpers: false,
+        backendHelpers: false,
+      },
+      aiGovernance: { rules: true, skills: true, openSpec: true, engine: 'gsd' },
+      packageManager: 'pnpm',
+      git: true,
+      install: true,
+    },
+  },
+  {
+    id: 'preset-nextjs',
+    name: 'Next.js 15 Full-Stack',
+    description: 'Next.js 15 App Router + Tailwind CSS v4 + Server Actions + PostgreSQL (Drizzle ORM)',
+    isBuiltIn: true,
+    createdAt: '2026-11-17T00:00:00.000Z',
+    updatedAt: '2026-11-17T00:00:00.000Z',
+    config: {
+      name: 'nextjs-portal',
+      targetPath: '/home/dev/Documents/nextjs-portal',
+      topology: 'nextjs-fullstack',
+      frontend: {
+        framework: 'nextjs',
+        styling: 'tailwind',
+        state: 'query',
+        icons: 'lucide',
+        toast: 'sonner',
+        forms: 'rhf-zod',
+        dateLib: 'date-fns',
+        uiExtras: { toast: true, icons: true, forms: true },
+      },
+      backend: {
+        framework: 'none',
+        database: 'postgres',
+        orm: 'drizzle',
+        container: true,
+        processManager: 'docker',
+      },
+      utilities: {
+        frontendHelpers: true,
+        backendHelpers: true,
+      },
+      aiGovernance: { rules: true, skills: true, openSpec: true, engine: 'speckit' },
+      packageManager: 'pnpm',
+      git: true,
+      install: true,
+    },
+  },
+  {
+    id: 'preset-polyrepo',
+    name: 'Clean Polyrepo (Front & Back)',
+    description: 'Clean split folders (frontend/ & backend/) with Express, MongoDB (Mongoose), and React 19',
+    isBuiltIn: true,
+    createdAt: '2026-11-17T00:00:00.000Z',
+    updatedAt: '2026-11-17T00:00:00.000Z',
+    config: {
+      name: 'polyrepo-app',
+      targetPath: '/home/dev/Documents/polyrepo-app',
+      topology: 'separate-folders',
+      frontend: {
+        framework: 'react-vite',
+        styling: 'tailwind',
+        state: 'query',
+        icons: 'tabler',
+        toast: 'sonner',
+        forms: 'rhf-zod',
+        dateLib: 'moment',
+        uiExtras: { toast: true, icons: true, forms: true },
+      },
+      backend: {
+        framework: 'express',
+        database: 'mongodb',
+        orm: 'mongoose',
+        container: true,
+        processManager: 'docker',
+      },
+      utilities: {
+        frontendHelpers: true,
+        backendHelpers: true,
+      },
+      aiGovernance: { rules: true, skills: true, openSpec: true, engine: 'all' },
+      packageManager: 'pnpm',
+      git: true,
+      install: true,
+    },
+  },
+  {
+    id: 'preset-fastify-api',
+    name: 'High-Throughput Fastify API',
+    description: 'Standalone Fastify microservice with PostgreSQL connection pooling, Drizzle ORM, and PM2 clustering',
+    isBuiltIn: true,
+    createdAt: '2026-11-17T00:00:00.000Z',
+    updatedAt: '2026-11-17T00:00:00.000Z',
+    config: {
+      name: 'fastify-service',
+      targetPath: '/home/dev/Documents/fastify-service',
+      topology: 'standalone-be',
+      frontend: {
+        framework: 'none',
+        styling: 'none',
+        state: 'none',
+        uiExtras: { toast: false, icons: false, forms: false },
+      },
+      backend: {
+        framework: 'fastify',
+        database: 'postgres',
+        orm: 'drizzle',
+        container: false,
+        processManager: 'pm2',
+      },
+      utilities: {
+        frontendHelpers: false,
+        backendHelpers: true,
+      },
+      aiGovernance: { rules: true, skills: true, openSpec: true, engine: 'openspec' },
+      packageManager: 'pnpm',
+      git: true,
+      install: true,
+    },
+  },
+];

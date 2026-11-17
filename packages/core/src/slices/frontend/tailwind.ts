@@ -7,7 +7,12 @@ export const tailwindSlice: FeatureSlice = {
   id: 'fe-tailwind',
   name: 'Tailwind CSS v4 Styling',
   apply: (vfs: VirtualFileSystem, config: ProjectConfig) => {
-    if (config.frontend.framework !== 'react-vite' || config.frontend.styling !== 'tailwind') {
+    if (
+      config.frontend.framework !== 'react-vite' ||
+      config.frontend.styling !== 'tailwind' ||
+      config.topology === 'electron-desktop' ||
+      config.topology === 'nextjs-fullstack'
+    ) {
       return;
     }
 
