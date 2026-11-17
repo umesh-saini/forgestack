@@ -16,7 +16,10 @@ export const StudioNavbar: React.FC<Props> = ({
   onBrowsePath,
 }) => {
   const location = useLocation();
-  const isWizardRoute = location.pathname === '/new' || location.pathname === '/studio';
+  const isWizardRoute =
+    location.pathname === '/new' ||
+    location.pathname === '/studio' ||
+    location.pathname === '/scaffold';
 
   return (
     <header className="sticky top-0 z-40 w-full ui-panel border-b backdrop-blur-md bg-[var(--bg-surface)]/95 transition-colors">
