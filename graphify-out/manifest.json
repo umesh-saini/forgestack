@@ -140,9 +140,9 @@
     "semantic_hash": "81bfe04a4b0d85391b1611142d6c4a28"
   },
   "packages/core/src/slices/backend/clean-modular.ts": {
-    "mtime": 1794897333.4056213,
-    "seen": 1794897670.2101367,
-    "ast_hash": "22ebc5312dec32ad6b9956cec1b87592",
+    "mtime": 1794915273.7100232,
+    "seen": 1794915691.480761,
+    "ast_hash": "232abe8b3b24161ae1b22cace1948ec2",
     "semantic_hash": ""
   },
   "packages/core/src/slices/container/__tests__/docker.test.ts": {
@@ -206,9 +206,9 @@
     "semantic_hash": "c4c4ac48a1e2808439ebaaaa5334d4e8"
   },
   "packages/core/src/slices/frontend/react-vite.ts": {
-    "mtime": 1794896589.5266192,
-    "seen": 1794897291.0582492,
-    "ast_hash": "aeda89cab6b3b1500d628be39d4ebc6f",
+    "mtime": 1794915409.5369935,
+    "seen": 1794915691.4807851,
+    "ast_hash": "a4923b67023ad2e5f8d1028738b42068",
     "semantic_hash": ""
   },
   "packages/core/src/slices/frontend/state.ts": {
@@ -254,10 +254,10 @@
     "semantic_hash": "f564a5f1a791a342f435f95b53123e8b"
   },
   "packages/core/src/slices/monorepo/index.ts": {
-    "mtime": 1794830762.597381,
-    "seen": 1794892396.4600742,
-    "ast_hash": "97f859980fae3805364f7f2a440678b7",
-    "semantic_hash": "97f859980fae3805364f7f2a440678b7"
+    "mtime": 1794915441.0074034,
+    "seen": 1794915691.4808002,
+    "ast_hash": "a6bb03f40d47cd43a7110fcad304e668",
+    "semantic_hash": ""
   },
   "packages/core/src/slices/shared-packages/__tests__/shared-packages.test.ts": {
     "mtime": 1794826037.2823484,
@@ -413,8 +413,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/App.tsx": {
-    "mtime": 1794902433.7005107,
-    "seen": 1794902459.8434298,
+    "mtime": 1794902506.5299294,
+    "seen": 1794915691.4808414,
     "ast_hash": "f42b6d959f201fcb2d42d9721bd86a85",
     "semantic_hash": ""
   },
@@ -425,9 +425,9 @@
     "semantic_hash": "2a7f4bc2fa545ad6ab5e8bfa429feac2"
   },
   "packages/desktop/src/components/common/TechIcons.tsx": {
-    "mtime": 1794899671.561435,
-    "seen": 1794899878.080514,
-    "ast_hash": "6c69215fb27d6c4d3b2a58964ffa7090",
+    "mtime": 1794915244.7415547,
+    "seen": 1794915691.4808443,
+    "ast_hash": "d694e48496cc27d9564b554732602d89",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/console/ExecutionConsole.tsx": {
@@ -437,9 +437,9 @@
     "semantic_hash": "491ac8a4da3fcd25e5f0686629079f6d"
   },
   "packages/desktop/src/components/preview/FileTreePreview.tsx": {
-    "mtime": 1794899858.8030849,
-    "seen": 1794899878.0805366,
-    "ast_hash": "84ae8b4c2461f1829cc7441eee49f667",
+    "mtime": 1794915592.4134698,
+    "seen": 1794915691.4808547,
+    "ast_hash": "5d83f05ea1928267d7d6c674b85eac73",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/preview/FileViewerModal.tsx": {
@@ -827,9 +827,9 @@
     "semantic_hash": ""
   },
   "packages/core/src/slices/desktop/electron-vite.ts": {
-    "mtime": 1794895052.3972964,
-    "seen": 1794896368.4202428,
-    "ast_hash": "ffb17fa29a273c0ed36a72e247d7e322",
+    "mtime": 1794915425.9562092,
+    "seen": 1794915691.4807746,
+    "ast_hash": "37f71add162fb91a81d87adcb6d1254f",
     "semantic_hash": ""
   },
   "packages/core/src/slices/frontend/__tests__/nextjs.test.ts": {
@@ -839,9 +839,9 @@
     "semantic_hash": ""
   },
   "packages/core/src/slices/frontend/nextjs.ts": {
-    "mtime": 1794895072.956385,
-    "seen": 1794896368.4202697,
-    "ast_hash": "548476c178f203172804052196fa2f7f",
+    "mtime": 1794915418.6131132,
+    "seen": 1794915691.4807837,
+    "ast_hash": "c488035c6252e898e3ba205eeec33eb2",
     "semantic_hash": ""
   },
   "packages/core/src/slices/governance/__tests__/gsd-speckit.test.ts": {
@@ -905,9 +905,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/wizard/Step4ReviewScaffold.tsx": {
-    "mtime": 1794895845.0735996,
-    "seen": 1794896368.4205458,
-    "ast_hash": "d3b0d7583e745e434e23c9a0632592b4",
+    "mtime": 1794915592.6811786,
+    "seen": 1794915691.4808748,
+    "ast_hash": "4c4937577af0cf64f5c39e1cfe4e3f93",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/wizard/StepperWizard.tsx": {
@@ -923,8 +923,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/layout/StudioNavbar.tsx": {
-    "mtime": 1794902382.2972133,
-    "seen": 1794902459.8434591,
+    "mtime": 1794902507.2049334,
+    "seen": 1794915691.4808517,
     "ast_hash": "c7162f69930d4d98dd693c6c551bb3b9",
     "semantic_hash": ""
   },

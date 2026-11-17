@@ -60,7 +60,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 <div class="container">
 
 <h1>project-setup — Complete Call Flow &amp; Architecture Documentation</h1>
-<p class="subtitle">Generated from graphify knowledge graph: 536 nodes, 1262 edges, 24 communities. Commit: 505d9c7</p>
+<p class="subtitle">Generated from graphify knowledge graph: 536 nodes, 1261 edges, 24 communities. Commit: 3af062e</p>
 
 <div class="nav">
     <a href="#overview">Architecture Overview</a>
@@ -87,7 +87,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    BUILD_GRAPH_321CBB04("Graph Build<br/><small>334 nodes</small>")
+    BUILD_GRAPH_321CBB04("Graph Build<br/><small>333 nodes</small>")
     class BUILD_GRAPH_321CBB04 module;
     ANALYSIS_CLUSTERING_C79796DA("Analysis &amp; Clustering<br/><small>13 nodes</small>")
     class ANALYSIS_CLUSTERING_C79796DA module;
@@ -95,7 +95,7 @@ flowchart LR
     class CLI_SKILLS_9964CBB8 module;
     TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>75 nodes</small>")
     class TESTS_FIXTURES_B84B1DCC module;
-    PACKAGES_DESKTOP_COMPONENTS_6AAA3929("Packages Desktop Components<br/><small>53 nodes</small>")
+    PACKAGES_DESKTOP_COMPONENTS_6AAA3929("Packages Desktop Components<br/><small>54 nodes</small>")
     class PACKAGES_DESKTOP_COMPONENTS_6AAA3929 module;
     PACKAGES_VFS_TYPESTS_B4A6B825("Packages Vfs Typests<br/><small>21 nodes</small>")
     class PACKAGES_VFS_TYPESTS_B4A6B825 module;
@@ -115,12 +115,12 @@ flowchart LR
     class MODRS_PACKAGES_DESKTOP_8A21A912 module;
     DESKTOP_FORGESTACK_PACKAGES_B23FC757("Desktop Forgestack Packages<br/><small>1 nodes</small>")
     class DESKTOP_FORGESTACK_PACKAGES_B23FC757 module;
-    BUILD_GRAPH_321CBB04 -->|imports x41| TESTS_FIXTURES_B84B1DCC
+    BUILD_GRAPH_321CBB04 -->|imports x39| TESTS_FIXTURES_B84B1DCC
     TESTS_FIXTURES_B84B1DCC -->|method x17| PACKAGES_VFS_TYPESTS_B4A6B825
-    PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|imports x16| BUILD_GRAPH_321CBB04
+    PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|imports x15| BUILD_GRAPH_321CBB04
+    BUILD_GRAPH_321CBB04 -->|calls x13| PACKAGES_DESKTOP_COMPONENTS_6AAA3929
     TESTS_FIXTURES_B84B1DCC -->|re exports x12| BUILD_GRAPH_321CBB04
     PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|imports x12| TESTS_FIXTURES_B84B1DCC
-    BUILD_GRAPH_321CBB04 -->|calls x12| PACKAGES_DESKTOP_COMPONENTS_6AAA3929
     PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116 -->|imports x10| TESTS_FIXTURES_B84B1DCC
     PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116 -->|imports x9| BUILD_GRAPH_321CBB04
     TESTS_FIXTURES_B84B1DCC -->|imports x6| PACKAGES_UTILS_CODE_BA9DD804
@@ -143,7 +143,7 @@ flowchart LR
     <h4>Architecture Layers</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>Layer</th><th>Nodes</th><th>Communities</th></tr>
-      <tr><td>Graph Build</td><td>334</td><td><code>1, 2, 3, 9, 5, 6, 8, 11, 16, 18, 22</code></td></tr><tr><td>Analysis &amp; Clustering</td><td>13</td><td><code>14</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>2</td><td><code>24</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>75</td><td><code>0</code></td></tr><tr><td>Packages Desktop Components</td><td>53</td><td><code>4</code></td></tr><tr><td>Packages Vfs Typests</td><td>21</td><td><code>7</code></td></tr><tr><td>Packages Desktop Components</td><td>18</td><td><code>13</code></td></tr><tr><td>Packages Utils Code</td><td>6</td><td><code>17</code></td></tr><tr><td>Openspecyaml Openspec Changes</td><td>4</td><td><code>15</code></td></tr><tr><td>Cli Packages Create</td><td>4</td><td><code>19</code></td></tr><tr><td>Librs Packages Desktop</td><td>2</td><td><code>23</code></td></tr><tr><td>Pnpm Workspaceyaml Packages</td><td>2</td><td><code>25</code></td></tr><tr><td>Modrs Packages Desktop</td><td>1</td><td><code>26</code></td></tr><tr><td>Desktop Forgestack Packages</td><td>1</td><td><code>27</code></td></tr>
+      <tr><td>Graph Build</td><td>333</td><td><code>1, 2, 3, 9, 5, 6, 8, 11, 16, 18, 22</code></td></tr><tr><td>Analysis &amp; Clustering</td><td>13</td><td><code>14</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>2</td><td><code>24</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>75</td><td><code>0</code></td></tr><tr><td>Packages Desktop Components</td><td>54</td><td><code>4</code></td></tr><tr><td>Packages Vfs Typests</td><td>21</td><td><code>7</code></td></tr><tr><td>Packages Desktop Components</td><td>18</td><td><code>13</code></td></tr><tr><td>Packages Utils Code</td><td>6</td><td><code>17</code></td></tr><tr><td>Openspecyaml Openspec Changes</td><td>4</td><td><code>15</code></td></tr><tr><td>Cli Packages Create</td><td>4</td><td><code>19</code></td></tr><tr><td>Librs Packages Desktop</td><td>2</td><td><code>23</code></td></tr><tr><td>Pnpm Workspaceyaml Packages</td><td>2</td><td><code>25</code></td></tr><tr><td>Modrs Packages Desktop</td><td>1</td><td><code>26</code></td></tr><tr><td>Desktop Forgestack Packages</td><td>1</td><td><code>27</code></td></tr>
     </table>
   </div>
   <div class="card">
@@ -155,10 +155,10 @@ flowchart LR
   <div class="card">
     <h4>Graph Report Highlights</h4>
     <ul>
-      <li>536 nodes · 1262 edges · 24 communities (16 shown, 8 thin omitted)</li>
+      <li>536 nodes · 1261 edges · 24 communities (16 shown, 8 thin omitted)</li>
       <li>Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.85)</li>
       <li>Token cost: 0 input · 0 output</li>
-      <li>1. `ProjectConfig` - 64 edges</li>
+      <li>1. `ProjectConfig` - 62 edges</li>
       <li>2. `VirtualFileSystem` - 56 edges</li>
       <li>3. `react` - 29 edges</li>
     </ul>
@@ -167,12 +167,12 @@ flowchart LR
 <hr>
 <!-- ====== 2. Graph Build ====== -->
 <h2 id="build-graph">2. Graph Build</h2>
-<p>Graph Build groups implementation around packages, desktop, packagejson, components, mostly in packages/desktop/package.json, packages/cli/package.json, .github/workflows/ci.yml. This section covers 334 nodes and 516 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Graph Build groups implementation around packages, desktop, packagejson, cli, mostly in packages/desktop/package.json, packages/cli/package.json, .github/workflows/ci.yml. This section covers 333 nodes and 515 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Graph Build (334 nodes, 516 edges)
+    %% Section: Graph Build (333 nodes, 515 edges)
     subgraph build_graph_src_engine_flusher_ts_60ba38f7["src/engine/flusher.ts"]
         packages_core_src_engine_flusher_transactionalfl_ae2e799a("TransactionalFlusher<br/><small>src/engine/flusher.ts</small>")
         packages_core_src_engine_flusher_transactionalfl_39196c56("rollback()<br/><small>src/engine/flusher.ts</small>")
@@ -217,7 +217,7 @@ flowchart LR
     packages_cli_src_cli_825c483b -->|imports| packages_core_src_utils_process_runner_processru_e193798f
     packages_desktop_vite_config_c68000dd -->|imports| packages_core_src_engine_flusher_transactionalfl_ae2e799a
     packages_desktop_vite_config_c68000dd -->|imports| packages_core_src_utils_process_runner_processru_e193798f
-    %% Omitted for readability: 316 nodes, 0 edges
+    %% Omitted for readability: 315 nodes, 0 edges
     class packages_core_src_engine_flusher_transactionalfl_ae2e799a klass;
     class packages_core_src_engine_flusher_transactionalfl_39196c56 function;
     class packages_core_src_engine_flusher_transactionalfl_841e8672 function;
@@ -516,7 +516,7 @@ flowchart LR
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: contains x236, imports x97, imports x81, calls x44. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x235, imports x97, imports x82, calls x43. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -887,7 +887,7 @@ flowchart LR
   <td>3</td>
   <td><code>ProjectConfig</code><br><small style="color:var(--muted)">src/types/config.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
-  <td><code>ai-rules.test.ts</code><br><small style="color:var(--muted)">governance/__tests__/ai-rules.test.ts</small><br><code>ai-rules.ts</code><br><small style="color:var(--muted)">slices/governance/ai-rules.ts</small><br><code>AiGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small><br>+46 more</td>
+  <td><code>ai-rules.test.ts</code><br><small style="color:var(--muted)">governance/__tests__/ai-rules.test.ts</small><br><code>ai-rules.ts</code><br><small style="color:var(--muted)">slices/governance/ai-rules.ts</small><br><code>AiGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small><br>+45 more</td>
   <td>No direct outbound edge</td>
   <td>Reads, resolves, or persists project configuration.</td>
 </tr>
@@ -1133,12 +1133,12 @@ flowchart LR
 
 <!-- ====== 6. Packages Desktop Components ====== -->
 <h2 id="packages-desktop-components">6. Packages Desktop Components</h2>
-<p>Packages Desktop Components groups implementation around packages, desktop, components, techiconstsx, mostly in components/common/TechIcons.tsx, components/wizard/DragDropConfigurator.tsx, components/wizard/Step1IdentityArchetype.tsx. This section covers 53 nodes and 146 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Packages Desktop Components groups implementation around packages, desktop, components, techiconstsx, mostly in components/common/TechIcons.tsx, components/wizard/DragDropConfigurator.tsx, components/wizard/Step1IdentityArchetype.tsx. This section covers 54 nodes and 148 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Packages Desktop Components (53 nodes, 146 edges)
+    %% Section: Packages Desktop Components (54 nodes, 148 edges)
     subgraph packages_desktop_components_components_common_Te_da5326d4["components/common/TechIcons.tsx"]
         packages_desktop_src_components_common_techicons_90619e5a("getFileIcon()<br/><small>components/common/TechIcons.tsx</small>")
         packages_desktop_src_components_common_techicons_7604c2f8("ClaudeIcon()<br/><small>components/common/TechIcons.tsx</small>")
@@ -1187,7 +1187,7 @@ flowchart LR
     packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_7a46c856
     packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_04dc50ea
     packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_f8418b95
-    %% Omitted for readability: 35 nodes, 6 edges
+    %% Omitted for readability: 36 nodes, 6 edges
     class packages_desktop_src_components_common_techicons_90619e5a ui;
     class packages_desktop_src_components_common_techicons_7604c2f8 ui;
     class packages_desktop_src_components_common_techicons_d38a1f1a ui;
@@ -1480,11 +1480,12 @@ flowchart LR
 <tr><td><code>components/wizard/Step2StackEcosystem.tsx</code></td><td>3 nodes</td></tr>
 <tr><td><code>components/wizard/Step3ToolingGovernance.tsx</code></td><td>3 nodes</td></tr>
 <tr><td><code>components/wizard/StepperWizard.tsx</code></td><td>3 nodes</td></tr>
+<tr><td><code>components/wizard/Step4ReviewScaffold.tsx</code></td><td>1 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: imports x48, contains x47, calls x45, imports x6. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: imports x49, contains x47, calls x46, imports x6. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -2551,7 +2552,7 @@ flowchart LR
     <h4>Graph</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><td>Nodes</td><td>536</td></tr>
-      <tr><td>Edges</td><td>1262</td></tr>
+      <tr><td>Edges</td><td>1261</td></tr>
       <tr><td>Hyperedges</td><td>0</td></tr>
       <tr><td>Communities</td><td>24</td></tr>
       <tr><td>Documented Sections</td><td>14</td></tr>
@@ -2560,7 +2561,7 @@ flowchart LR
   <div class="card">
     <h4>Edge Confidence</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>EXTRACTED</td><td>1260</td></tr>
+      <tr><td>EXTRACTED</td><td>1259</td></tr>
       <tr><td>INFERRED</td><td>2</td></tr>
       <tr><td>AMBIGUOUS</td><td>0</td></tr>
     </table>
@@ -2569,7 +2570,7 @@ flowchart LR
 
 <div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
   <p>project-setup — Architecture Documentation</p>
-  <p>Generated: 2026-11-17 08:01 UTC · graphify callflow-html</p>
+  <p>Generated: 2026-11-17 11:41 UTC · graphify callflow-html</p>
 </div>
 
 </div><!-- .container -->

@@ -473,5 +473,18 @@ export default function App() {
         2
       ) + '\n',
     });
+
+    // 11. .env.example
+    const electronEnvLines = [
+      '# Electron Desktop Application Environment Variables',
+      'MAIN_VITE_API_URL=http://localhost:3000/api',
+      `RENDERER_VITE_APP_TITLE=${config.name}`,
+      'NODE_ENV=development',
+    ];
+    vfs.applyAction({
+      type: 'CREATE',
+      path: '.env.example',
+      content: electronEnvLines.join('\n') + '\n',
+    });
   },
 };

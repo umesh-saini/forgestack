@@ -491,5 +491,35 @@ describe('Health Check Test Suite', () => {
 });
 `,
     });
+
+    // 11. .env.example
+    const beEnvLines = [
+      '# Node.js ESM Backend Server Configuration',
+      `PORT=${config.topology === 'monorepo' ? '3001' : '3000'}`,
+      'NODE_ENV=development',
+      'LOG_LEVEL=info',
+      'CORS_ORIGIN=http://localhost:5173',
+    ];
+    if (config.backend.database === 'postgres') {
+      beEnvLines.push(
+        `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/${config.name.replace(/[^a-zA-Z0-9_]/g, '_')}`
+      );
+    } else if (config.backend.database === 'mongodb') {
+      beEnvLines.push(
+        `MONGODB_URI=mongodb://localhost:27017/${config.name.replace(/[^a-zA-Z0-9_]/g, '_')}`
+      );
+    } else if (config.backend.database === 'sqlite') {
+      beEnvLines.push('DATABASE_URL=file:./dev.db');
+    }
+    if (config.utilities?.backendHelpers) {
+      beEnvLines.push('JWT_SECRET=supersecret-dev-jwt-key-replace-in-production-min-32-chars-long');
+      beEnvLines.push('JWT_EXPIRES_IN=15m');
+      beEnvLines.push('JWT_REFRESH_EXPIRES_IN=7d');
+    }
+    vfs.applyAction({
+      type: 'CREATE',
+      path: resolvePath('.env.example'),
+      content: beEnvLines.join('\n') + '\n',
+    });
   },
 };

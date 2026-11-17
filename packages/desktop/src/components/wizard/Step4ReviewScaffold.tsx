@@ -145,20 +145,32 @@ export const Step4ReviewScaffold: React.FC<Props> = ({
       </div>
 
       {/* Save as Custom Template Preset Section */}
-      <div className="ui-panel rounded-2xl p-5 border space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Bookmark className="w-4 h-4 text-amber-500" />
-            <h4 className="font-bold text-xs uppercase tracking-wider">
-              Save as Reusable Custom Template
-            </h4>
+      <div className="ui-panel rounded-2xl p-5 border space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-start sm:items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/25 text-amber-500 flex items-center justify-center shrink-0">
+              <Bookmark className="w-4 h-4" />
+            </div>
+            <div>
+              <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--text-main)]">
+                Save as Reusable Custom Template
+              </h4>
+              <p className="text-[11px] opacity-70">
+                Preserve this architecture composition to fast-scaffold future projects in one click from the Templates Hub.
+              </p>
+            </div>
           </div>
           <button
             type="button"
             onClick={() => setIsSaving(!isSaving)}
-            className="text-xs text-blue-400 hover:text-blue-300 font-medium cursor-pointer"
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 ${
+              isSaving
+                ? 'bg-slate-200 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-300 dark:hover:bg-zinc-700'
+                : 'bg-amber-500/10 hover:bg-amber-500/20 text-amber-600 dark:text-amber-400 border border-amber-500/30'
+            }`}
           >
-            {isSaving ? 'Cancel' : '+ Save Preset'}
+            <BookmarkPlus className="w-3.5 h-3.5" />
+            <span>{isSaving ? 'Cancel' : 'Save Preset'}</span>
           </button>
         </div>
 
@@ -190,7 +202,7 @@ export const Step4ReviewScaffold: React.FC<Props> = ({
                 />
               </div>
             </div>
-            <div className="flex justify-end gap-2">
+            <div className="flex justify-end gap-2 pt-1">
               <button
                 type="button"
                 onClick={handleSave}
@@ -205,7 +217,7 @@ export const Step4ReviewScaffold: React.FC<Props> = ({
                 ) : (
                   <>
                     <Save className="w-3.5 h-3.5" />
-                    <span>Save to Dashboard</span>
+                    <span>Confirm & Save Preset</span>
                   </>
                 )}
               </button>
@@ -215,11 +227,13 @@ export const Step4ReviewScaffold: React.FC<Props> = ({
       </div>
 
       {/* Synthesis Trigger Button */}
-      <div className="flex items-center justify-between gap-4 p-4 rounded-2xl bg-gradient-to-r from-blue-600/10 via-indigo-600/10 to-purple-600/10 border border-blue-500/20">
-        <div>
-          <h4 className="font-bold text-sm tracking-tight">Ready to Synthesize Architecture</h4>
-          <p className="text-xs opacity-70">
-            Writes {fileCount} staged files atomically to {config.targetPath}.
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-blue-600/10 via-indigo-600/10 to-purple-600/10 border border-blue-500/20">
+        <div className="min-w-0 flex-1 space-y-1">
+          <h4 className="font-bold text-sm tracking-tight text-[var(--text-main)]">
+            Ready to Synthesize Architecture
+          </h4>
+          <p className="text-xs opacity-70 truncate font-mono">
+            Writes {fileCount} staged files atomically to <span className="font-semibold text-[var(--text-main)]">{config.targetPath}</span>
           </p>
         </div>
 
@@ -227,16 +241,16 @@ export const Step4ReviewScaffold: React.FC<Props> = ({
           type="button"
           onClick={onScaffold}
           disabled={isGenerating}
-          className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-sm font-bold flex items-center gap-2 shadow-lg shadow-blue-600/30 transition-all cursor-pointer active:scale-95 disabled:opacity-50"
+          className="shrink-0 whitespace-nowrap px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-xs md:text-sm font-semibold flex items-center justify-center gap-2 shadow-md shadow-blue-600/20 transition-all cursor-pointer active:scale-98 disabled:opacity-50"
         >
           {isGenerating ? (
             <>
-              <Loader2 className="w-4 h-4 animate-spin" />
+              <Loader2 className="w-4 h-4 animate-spin shrink-0" />
               <span>Synthesizing...</span>
             </>
           ) : (
             <>
-              <Rocket className="w-4 h-4" />
+              <Rocket className="w-4 h-4 shrink-0" />
               <span>Scaffold Project ({fileCount} files)</span>
             </>
           )}

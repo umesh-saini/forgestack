@@ -33,6 +33,12 @@ export const monorepoKernelSlice: FeatureSlice = {
         path: 'README.md',
         content: `# ${config.name}\n\nFullstack application with separate \`frontend/\` and \`backend/\` directories.\n`,
       });
+
+      vfs.applyAction({
+        type: 'CREATE',
+        path: '.env.example',
+        content: `# Root Environment Variables (see frontend/.env.example and backend/.env.example for details)\nNODE_ENV=development\nPORT=3000\n`,
+      });
       return;
     }
 
@@ -204,6 +210,19 @@ Generated with **ForgeStack** - Production-Grade Architecture.
    pnpm typecheck
    pnpm test
    \`\`\`
+`,
+    });
+
+    // 7. Root .env.example
+    vfs.applyAction({
+      type: 'CREATE',
+      path: '.env.example',
+      content: `# Monorepo Global Environment Variables
+NODE_ENV=development
+PORT=3000
+API_PORT=3001
+WEB_PORT=3000
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/${config.name.replace(/[^a-zA-Z0-9_]/g, '_')}
 `,
     });
   },

@@ -1,17 +1,17 @@
 # Graph Report - project-setup  (2026-11-17)
 
 ## Corpus Check
-- 114 files · ~142,512 words
+- 114 files · ~142,866 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 5 file(s) not represented in the graph (top: (none) 4, .css 1)
 
 ## Summary
-- 536 nodes · 1262 edges · 24 communities (16 shown, 8 thin omitted)
+- 536 nodes · 1261 edges · 24 communities (16 shown, 8 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `505d9c72`
+- Built from commit: `3af062e6`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -38,7 +38,7 @@
 - forgestack-desktop
 
 ## God Nodes (most connected - your core abstractions)
-1. `ProjectConfig` - 64 edges
+1. `ProjectConfig` - 62 edges
 2. `VirtualFileSystem` - 56 edges
 3. `react` - 29 edges
 4. `DragDropConfigurator()` - 26 edges
@@ -51,9 +51,9 @@
 
 ## Surprising Connections (you probably didn't know these)
 - `typescript@^5.7.3` --declares--> `typescript`  [EXTRACTED]
-  packages/core/package.json → package.json
-- `typescript@^5.7.3` --declares--> `typescript`  [EXTRACTED]
   packages/cli/package.json → package.json
+- `typescript@^5.7.3` --declares--> `typescript`  [EXTRACTED]
+  packages/core/package.json → package.json
 - `Props` --references--> `ProjectConfig`  [EXTRACTED]
   packages/desktop/src/components/wizard/AiGovernance.tsx → packages/core/src/types/config.ts
 - `Props` --references--> `ProjectConfig`  [EXTRACTED]
@@ -71,8 +71,8 @@ Cohesion: 0.14
 Nodes (26): FeatureSlice, DEPENDENCY_REGISTRY, getPinnedVersion(), PackageName, resolveDependencies(), cleanModularBackendSlice, pm2Slice, dockerSlice (+18 more)
 
 ### Community 1 - "App.tsx"
-Cohesion: 0.06
-Nodes (44): App(), ForgeStackAppContent(), ExecutionConsole(), Props, FastScaffoldModal(), Props, HomeTemplatesDashboard(), Props (+36 more)
+Cohesion: 0.07
+Nodes (43): App(), ForgeStackAppContent(), ExecutionConsole(), Props, FastScaffoldModal(), Props, HomeTemplatesDashboard(), Props (+35 more)
 
 ### Community 2 - "cli.ts"
 Cohesion: 0.06
@@ -83,8 +83,8 @@ Cohesion: 0.05
 Nodes (48): RecipeCompositor, createProjectPipeline(), generateProjectVfs(), dependencies, clsx@^2.1.1, @forgestack/core@workspace:*, lucide-react@^0.475.0, @monaco-editor/react@^4.7.0 (+40 more)
 
 ### Community 4 - "DragDropConfigurator.tsx"
-Cohesion: 0.11
-Nodes (47): ClaudeIcon(), CursorRulesIcon(), DockerIcon(), DrizzleIcon(), ElectronIcon(), ExpressIcon(), FastifyIcon(), getFileIcon() (+39 more)
+Cohesion: 0.10
+Nodes (48): ClaudeIcon(), CursorRulesIcon(), DockerIcon(), DrizzleIcon(), ElectronIcon(), ExpressIcon(), FastifyIcon(), getFileIcon() (+40 more)
 
 ### Community 5 - "steps"
 Cohesion: 0.08
@@ -132,23 +132,23 @@ Nodes (5): description, identifier, permissions, $schema, windows
 
 ## Knowledge Gaps
 - **1 isolated node(s):** `forgestack-desktop`
-  These have ≤1 connection - possible missing edges. (Counts symbols only; 174 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+  These have ≤1 connection - possible missing edges. (Counts symbols only; 175 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **8 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `ProjectConfig` connect `ProjectConfig` to `App.tsx`, `cli.ts`, `DragDropConfigurator.tsx`, `Badge.tsx`?**
-  _High betweenness centrality (0.150) - this node is a cross-community bridge._
+  _High betweenness centrality (0.144) - this node is a cross-community bridge._
 - **What connects `forgestack-desktop` to the rest of the system?**
   _1 weakly-connected nodes found - possible missing edges._
 - **Should `ProjectConfig` be split into smaller, more focused modules?**
   _Cohesion score 0.13873873873873874 - nodes in this community are weakly interconnected._
 - **Why does `zod` connect `core/package.json` to `ProjectConfig`?**
-  _High betweenness centrality (0.078) - this node is a cross-community bridge._
+  _High betweenness centrality (0.079) - this node is a cross-community bridge._
 - **Should `App.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.06377151799687011 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06519114688128773 - nodes in this community are weakly interconnected._
 - **Why does `react` connect `App.tsx` to `desktop/package.json`, `DragDropConfigurator.tsx`, `Badge.tsx`?**
-  _High betweenness centrality (0.063) - this node is a cross-community bridge._
+  _High betweenness centrality (0.064) - this node is a cross-community bridge._
 - **Should `cli.ts` be split into smaller, more focused modules?**
   _Cohesion score 0.05747126436781609 - nodes in this community are weakly interconnected._
