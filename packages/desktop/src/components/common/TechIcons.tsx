@@ -281,6 +281,23 @@ export const ClaudeIcon: React.FC<IconProps> = ({ className = 'w-4 h-4' }) => (
 // Helper for file tree preview
 export function getFileIcon(filename: string): React.ReactNode {
   const lower = filename.toLowerCase();
+  if (lower.startsWith('.env') || lower.endsWith('.env') || lower.includes('.env.')) {
+    return (
+      <svg
+        className="w-3.5 h-3.5 text-amber-500 shrink-0"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <circle cx="7.5" cy="15.5" r="5.5" />
+        <path d="m21 2-9.6 9.6" />
+        <path d="m15.5 7.5 3 3L22 7l-3-3" />
+      </svg>
+    );
+  }
   if (lower === 'claude.md') {
     return <ClaudeIcon className="w-3.5 h-3.5" />;
   }

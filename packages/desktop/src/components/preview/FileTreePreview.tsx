@@ -314,12 +314,12 @@ const TreeItem: React.FC<TreeItemProps> = ({
       <div
         onClick={handleClick}
         style={{ paddingLeft: `${level * 14 + 6}px` }}
-        className={`flex items-center gap-1.5 py-1 px-2 rounded-lg cursor-pointer transition-colors text-xs select-none ${
+        className={`flex items-center gap-1.5 py-1 px-2 rounded-sm cursor-pointer transition-colors text-xs select-none tree-row ${
           isDirectory
-            ? 'font-semibold text-slate-900 dark:text-slate-200 tree-dir-text hover:bg-slate-200/60 dark:hover:bg-slate-800/60'
+            ? 'font-semibold text-[var(--text-main)] tree-dir-text'
             : isSelected
-            ? 'font-bold bg-blue-500/20 text-blue-600 dark:text-blue-400 border border-blue-500/35 shadow-xs'
-            : 'font-medium text-slate-800 dark:text-slate-300 tree-file-text hover:text-blue-600 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800/60'
+            ? 'font-semibold is-selected text-[var(--text-main)] shadow-xs'
+            : 'font-normal text-[var(--text-main)] tree-file-text'
         }`}
       >
         {isDirectory ? (

@@ -229,5 +229,18 @@ body {
       content: `/// <reference types="vite/client" />
 `,
     });
+
+    // 9. .env.example
+    const feEnvLines = [
+      '# Vite Frontend Client Environment Variables',
+      '# Note: Only variables prefixed with VITE_ are exposed to client-side code',
+      'VITE_API_BASE_URL=http://localhost:3000/api',
+      `VITE_APP_TITLE=${config.name}`,
+    ];
+    vfs.applyAction({
+      type: 'CREATE',
+      path: resolvePath('.env.example'),
+      content: feEnvLines.join('\n') + '\n',
+    });
   },
 };

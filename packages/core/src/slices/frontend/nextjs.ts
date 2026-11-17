@@ -222,5 +222,34 @@ export default function Home() {
         2
       ) + '\n',
     });
+
+    // 8. .env.example
+    const nextEnvLines = [
+      '# Next.js Full-Stack Application Environment Variables',
+      'PORT=3000',
+      'NODE_ENV=development',
+      'NEXT_PUBLIC_APP_URL=http://localhost:3000',
+    ];
+    if (config.backend?.database === 'postgres') {
+      nextEnvLines.push(
+        `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/${config.name.replace(/[^a-zA-Z0-9_]/g, '_')}`
+      );
+    } else if (config.backend?.database === 'mongodb') {
+      nextEnvLines.push(
+        `MONGODB_URI=mongodb://localhost:27017/${config.name.replace(/[^a-zA-Z0-9_]/g, '_')}`
+      );
+    } else if (config.backend?.database === 'sqlite') {
+      nextEnvLines.push('DATABASE_URL=file:./dev.db');
+    }
+    if (config.utilities?.backendHelpers) {
+      nextEnvLines.push(
+        'JWT_SECRET=supersecret-dev-jwt-key-replace-in-production-min-32-chars-long'
+      );
+    }
+    vfs.applyAction({
+      type: 'CREATE',
+      path: resolvePath('.env.example'),
+      content: nextEnvLines.join('\n') + '\n',
+    });
   },
 };
