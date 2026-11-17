@@ -552,7 +552,7 @@ function ForgeStackAppContent() {
       <PathSelectorModal
         isOpen={isPathModalOpen}
         currentPath={config.targetPath}
-        projectName={config.name}
+        projectName={browseCallback ? '' : config.name}
         onSelectPath={(selected: string) => {
           if (browseCallback) {
             browseCallback(selected);

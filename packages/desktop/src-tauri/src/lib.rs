@@ -6,7 +6,8 @@ pub fn run() {
         .plugin(tauri_plugin_shell::init())
         .invoke_handler(tauri::generate_handler![
             commands::fs::validate_target_path,
-            commands::fs::scaffold_project_files
+            commands::fs::scaffold_project_files,
+            commands::fs::pick_directory
         ])
         .run(tauri::generate_context!())
         .expect("error while running ForgeStack desktop application");

@@ -4,7 +4,7 @@ import { Check, Folder, FolderOpen, Laptop, Monitor, Sparkles, X } from 'lucide-
 interface Props {
   isOpen: boolean;
   currentPath: string;
-  projectName: string;
+  projectName?: string;
   onClose: () => void;
   onSelectPath: (newPath: string) => void;
 }
@@ -12,7 +12,7 @@ interface Props {
 export const PathSelectorModal: React.FC<Props> = ({
   isOpen,
   currentPath,
-  projectName,
+  projectName = '',
   onClose,
   onSelectPath,
 }) => {
@@ -26,14 +26,44 @@ export const PathSelectorModal: React.FC<Props> = ({
 
   if (!isOpen) return null;
 
+  const suffix = projectName ? `/${projectName}` : '';
   const quickBookmarks = [
-    { label: 'Documents', path: `/home/dev/Documents/${projectName}`, icon: <Folder className="w-4 h-4 text-blue-500" /> },
-    { label: 'Desktop', path: `/home/dev/Desktop/${projectName}`, icon: <Monitor className="w-4 h-4 text-cyan-500" /> },
-    { label: 'Home Projects', path: `/home/dev/Projects/${projectName}`, icon: <Laptop className="w-4 h-4 text-purple-500" /> },
-    { label: 'Temp Live Test', path: `/tmp/${projectName}`, icon: <Sparkles className="w-4 h-4 text-amber-500" /> },
+    { label: 'Documents', path: `/home/dev/Documents${suffix}`, icon: <Folder className="w-4 h-4 text-blue-500" /> },
+    { label: 'Desktop', path: `/home/dev/Desktop${suffix}`, icon: <Monitor className="w-4 h-4 text-cyan-500" /> },
+    { label: 'Home Projects', path: `/home/dev/Projects${suffix}`, icon: <Laptop className="w-4 h-4 text-purple-500" /> },
+    { label: 'Temp Live Test', path: `/tmp${suffix}`, icon: <Sparkles className="w-4 h-4 text-amber-500" /> },
   ];
 
   const handlePickNative = async () => {
+    // 1. Try native Rust command `pick_directory` (Tauri invoke handler with zenity fallback)
+    try {
+      const isTauri =
+        typeof window !== 'undefined' &&
+        ('__TAURI_INTERNALS__' in window || '__TAURI__' in window);
+
+      if (isTauri) {
+        const { invoke } = await import('@tauri-apps/api/core');
+        const picked = await invoke<string | null>('pick_directory', {
+          title: 'Select Destination Folder',
+          defaultPath: customPath || undefined,
+        });
+
+        if (picked && typeof picked === 'string') {
+          const finalPath =
+            projectName && !picked.endsWith(projectName)
+              ? `${picked.replace(/\/+$/, '')}/${projectName}`
+              : picked;
+          setCustomPath(finalPath);
+          onSelectPath(finalPath);
+          onClose();
+          return;
+        }
+      }
+    } catch (err) {
+      console.warn('Native pick_directory invoke failed, falling back to plugin-dialog:', err);
+    }
+
+    // 2. Try Tauri plugin-dialog
     try {
       const { open } = await import('@tauri-apps/plugin-dialog');
       const selected = await open({
@@ -42,20 +72,25 @@ export const PathSelectorModal: React.FC<Props> = ({
         title: 'Select Destination Folder',
       });
       if (selected && typeof selected === 'string') {
-        const full = `${selected}/${projectName}`;
-        onSelectPath(full);
+        const finalPath =
+          projectName && !selected.endsWith(projectName)
+            ? `${selected.replace(/\/+$/, '')}/${projectName}`
+            : selected;
+        setCustomPath(finalPath);
+        onSelectPath(finalPath);
         onClose();
         return;
       }
-    } catch {
-      // Not in Tauri or dialog plugin unavailable
+    } catch (err) {
+      console.warn('Tauri plugin-dialog failed:', err);
     }
 
+    // 3. Browser fallback for web runtime testing
     if ('showDirectoryPicker' in window) {
       try {
         const dirHandle = await (window as any).showDirectoryPicker();
         if (dirHandle && dirHandle.name) {
-          const path = `/home/dev/Documents/${projectName}`;
+          const path = `/home/dev/${dirHandle.name}${suffix}`;
           setCustomPath(path);
         }
       } catch {
