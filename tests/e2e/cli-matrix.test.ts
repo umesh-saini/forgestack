@@ -52,8 +52,8 @@ describe('E2E Scaffolding Permutation Matrix', () => {
     expect(fs.existsSync(path.join(config.targetPath, 'turbo.json'))).toBe(true);
     expect(fs.existsSync(path.join(config.targetPath, 'apps/web/src/providers/query-provider.tsx'))).toBe(true);
     expect(fs.existsSync(path.join(config.targetPath, 'apps/api/src/database/schema/users.ts'))).toBe(true);
-    expect(fs.existsSync(path.join(config.targetPath, '.agents/skills/modern-ui-engineering/SKILL.md'))).toBe(true);
-    expect(fs.existsSync(path.join(config.targetPath, '.agents/skills/clean-code-craftsmanship/SKILL.md'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, '.agents/skills/anti-ui-slop/SKILL.md'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, '.agents/skills/clean-code-guard/SKILL.md'))).toBe(true);
     expect(fs.existsSync(path.join(config.targetPath, '.cursor/rules/03-brutally-honest-reviewer.mdc'))).toBe(true);
   });
 
