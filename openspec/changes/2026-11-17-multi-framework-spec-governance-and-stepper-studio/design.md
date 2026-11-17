@@ -154,9 +154,52 @@ Developers can select between three complementary specification standards:
 
 ---
 
-### 4. 4-Step Stepper Studio UX
+### 4. Home Landing View (Templates Hub) & 4-Step Stepper Studio UX
 
-The left-side panel transitions from an overwhelming single view to a disciplined 4-stage stepper:
+The desktop interface introduces a dual-view architecture:
+1. **Home Landing View (`/` Templates Hub)**: The initial landing page showing all stored architectures with direct 1-click project creation.
+2. **Studio Configurator View (`/new` Stepper)**: The guided 4-step architecture synthesizer.
+
+```mermaid
+stateDiagram-v2
+    [*] --> HomeLanding: App Mounts
+    HomeLanding --> FastScaffoldModal: Click "⚡ Scaffold" on Template Card
+    FastScaffoldModal --> ScaffoldExecution: Enter Project Name & Path -> Run
+    HomeLanding --> StudioConfigurator: Click "[+] Create New Stack" or "Edit Template"
+    
+    state StudioConfigurator {
+        [*] --> Step1_Identity
+        Step1_Identity --> Step2_Stack: Choose Archetype & Next
+        Step2_Stack --> Step3_Tooling: Configure Framework & Next
+        Step3_Tooling --> Step4_Review: Select DevOps/AI & Next
+        Step4_Review --> SavePresetModal: Click "Save as Preset"
+        SavePresetModal --> Step4_Review: Stored to localStorage
+        Step4_Review --> ScaffoldExecution: Click "Scaffold Project"
+    }
+
+    ScaffoldExecution --> HomeLanding: Project Complete -> View Saved Templates
+```
+
+#### Home Landing View (`/` Templates Hub):
+- **Hero Card (Position 0)**:
+  - Centerpiece `+ Create New Stack` action card with subtle animated pulse border.
+  - Clicking this card transitions into the Studio Configurator (`/new`) with completely clean, empty starting slots.
+- **Template Card Grid**:
+  - Renders built-in curated presets (Monorepo, Next.js 15, Electron, Polyrepo, Fastify API) alongside all custom user-saved templates stored in `localStorage` (`forgestack-templates`).
+  - Card elements:
+    - **Archetype Badge**: (e.g. `Electron Desktop`, `Next.js 15 Full-Stack`, `Monorepo`)
+    - **Stack Chips**: (`React 19`, `Tailwind v4`, `Drizzle`, `Postgres`, `GSD`, `Docker`)
+    - **Primary Action: `⚡ Scaffold Project`**:
+      - Opens an instant, focused modal requiring only **Project Name** and **Destination Directory Path**.
+      - Clicking "Scaffold Now" invokes synthesis directly without needing to step through the wizard again!
+    - **Template Menu Actions**:
+      - `Edit`: Re-opens the template configuration inside the 4-step studio.
+      - `Duplicate`: Clones the configuration under a new name.
+      - `Rename`: Inline rename of the template.
+      - `Delete`: Deletes the custom template from `localStorage`.
+
+#### Studio Configurator View (`/new` 4-Step Stepper):
+The left-side panel transitions into a disciplined 4-stage stepper:
 
 | Step | Title | Purpose & Controls |
 | :--- | :--- | :--- |

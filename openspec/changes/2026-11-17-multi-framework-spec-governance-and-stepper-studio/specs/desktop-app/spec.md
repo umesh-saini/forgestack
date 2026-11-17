@@ -5,8 +5,21 @@ Specifies the 4-step progressive disclosure stepper wizard, context-aware stack 
 
 ## Requirements
 
+### Requirement: Home Landing Dashboard (Templates Hub)
+The desktop application SHALL mount on a visual Templates Dashboard displaying saved custom templates, built-in presets, and a primary action to create new stacks or fast-scaffold existing ones.
+
+#### Scenario: User visits the home landing page
+- **WHEN** the application opens
+- **THEN** it displays a hero `+ Create New Stack` card at position 0, followed by cards for all saved custom templates and presets
+- **AND** each template card displays stack badges, archetype indicators, an `⚡ Scaffold` button, and management controls (Edit, Rename, Duplicate, Delete).
+
+#### Scenario: User fast-scaffolds a project from a template card
+- **WHEN** the user clicks `⚡ Scaffold` on any template card
+- **THEN** a minimal modal opens prompting ONLY for `Project Name` and `Destination Directory`
+- **AND** confirming synthesis immediately generates the complete project without opening the full stepper configurator.
+
 ### Requirement: 4-Step Stepper Studio Wizard
-The desktop application SHALL guide users through 4 discrete, structured configuration stages without presenting cluttered initial defaults.
+The desktop application SHALL provide a `/new` studio guiding users through 4 discrete, structured configuration stages starting from empty, unconfigured slots.
 
 #### Scenario: User navigates through stepper stages
 - **WHEN** the application initializes

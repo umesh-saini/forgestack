@@ -48,16 +48,26 @@
 - [ ] 2.6 Register all slices in `packages/core/src/engine/create-pipeline.ts`.
 - [ ] 2.7 Write comprehensive unit tests for all new slices and verify 100% pass rate.
 
-## Phase 3: Desktop App 4-Step Stepper Studio (`@forgestack/desktop`)
+## Phase 3: Desktop App Home Landing Dashboard & 4-Step Stepper Studio (`@forgestack/desktop`)
 
-- [ ] 3.1 Design Stepper Wizard State Machine:
-  - [ ] Create `packages/desktop/src/components/wizard/StepperWizard.tsx` with 4 steps:
+- [ ] 3.1 Build Home Landing Dashboard (`packages/desktop/src/components/home/HomeTemplatesDashboard.tsx`):
+  - [ ] Hero Card 0: Prominent, centered `[+ Create New Stack]` card routing to `/new` (Stepper Studio) with empty starting slots.
+  - [ ] Template Cards Grid: Renders built-in presets (Monorepo, Next.js 15, Electron, Polyrepo, Fastify API) and user's saved custom templates from `localStorage`.
+  - [ ] Card Action 1: `⚡ Fast Scaffold` button opening `FastScaffoldModal.tsx` asking only for Project Name + Path, synthesizing immediately.
+  - [ ] Card Action 2: `Edit` button opening Stepper Studio with template configuration preloaded.
+  - [ ] Card Action 3: Template management dropdown (Rename, Duplicate, Delete).
+- [ ] 3.2 Build Fast Scaffold Modal (`packages/desktop/src/components/home/FastScaffoldModal.tsx`):
+  - [ ] Clean, focused dialog for rapid project creation from a saved template.
+  - [ ] Project Name input and Destination Path folder browser.
+  - [ ] One-click synthesis execution.
+- [ ] 3.3 Design Stepper Wizard State Machine (`packages/desktop/src/components/wizard/StepperWizard.tsx`):
+  - [ ] 4-step progressive disclosure wizard:
     - Step 1: Project Identity & Target Archetype
     - Step 2: Adaptive Stack Ecosystem
     - Step 3: Tooling, Utilities & AI Governance
     - Step 4: Review, Save Preset & Scaffold
   - [ ] Ensure clean starting state with empty slots and explicit selection indicators.
-- [ ] 3.2 Build Step 1 (`Step1IdentityArchetype.tsx`):
+- [ ] 3.4 Build Step 1 (`Step1IdentityArchetype.tsx`):
   - [ ] Project name input with slug sanitizer.
   - [ ] Destination path with native browse button.
   - [ ] Package manager buttons (`pnpm`, `npm`, `yarn`, `bun`).
@@ -68,23 +78,23 @@
     - Full-Stack Next.js 15
     - Clean Backend API
     - Electron Desktop App
-- [ ] 3.3 Build Step 2 (`Step2StackEcosystem.tsx`):
+- [ ] 3.5 Build Step 2 (`Step2StackEcosystem.tsx`):
   - [ ] Dynamically display only relevant sections based on Step 1 archetype.
   - [ ] Frontend tiles: React 19 vs Next.js 15, Tailwind v4, State, Icons, Toast, Forms, Date libraries (`dayjs`, `date-fns`, `moment`).
   - [ ] Backend tiles: Fastify vs Express vs Hono, Postgres vs Mongo vs SQLite, Drizzle vs Prisma vs Mongoose.
   - [ ] Electron tiles: Secure contextBridge IPC configuration, React 19 renderer, optional embedded backend.
-- [ ] 3.4 Build Step 3 (`Step3ToolingGovernance.tsx`):
+- [ ] 3.6 Build Step 3 (`Step3ToolingGovernance.tsx`):
   - [ ] Process management: Docker vs PM2 vs None.
   - [ ] Utility packs: Frontend Axios interceptors & Token manager, Backend JWT & Password hasher.
   - [ ] AI Governance Engine: Selectable OpenSpec vs Open-GSD vs GitHub Spec-Kit.
   - [ ] Agentic Awesome Skills: Curated 17 AAS playbooks checklist.
   - [ ] Architecture Rules: Cursor `.cursor/rules/*.mdc` and Copilot instructions.
-- [ ] 3.5 Build Step 4 (`Step4ReviewScaffold.tsx`):
+- [ ] 3.7 Build Step 4 (`Step4ReviewScaffold.tsx`):
   - [ ] Architecture review checklist showing selected components.
   - [ ] "Save as Custom Template Preset" dialog storing stack definition in `localStorage`.
   - [ ] "Load Saved Preset" dropdown to instantly populate the stepper with saved stacks.
   - [ ] One-click scaffold execution trigger with live console streaming.
-- [ ] 3.6 Update Right-Panel Staging (`FileTreePreview.tsx`):
+- [ ] 3.8 Update Right-Panel Staging (`FileTreePreview.tsx`):
   - [ ] Add VS Code-style action bar matching user reference image:
     - `+ New File` button & inline modal to stage custom files.
     - `+ New Folder` button & inline modal to stage custom folders.

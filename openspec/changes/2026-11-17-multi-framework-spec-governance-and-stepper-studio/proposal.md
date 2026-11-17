@@ -30,12 +30,21 @@ ForgeStack's current studio provides high composability for React 19 + Vite and 
    - **Backend Utilities**: Modular `src/utils/token-generator.ts` (JWT access/refresh token signing & verification), `src/utils/password-hasher.ts` (crypto hashing), and `src/utils/api-response.ts` (standardized envelopes) with clean barrel export via `src/utils/index.ts`.
    - **Process Management**: Selectable `docker` (`Dockerfile` + `docker-compose.yml`), `pm2` (`ecosystem.config.cjs` clustering & auto-restart), or `none`.
 
-4. **Desktop Studio Stepper UX Overhaul**:
-   - **Clean Starting Slate**: Starts with empty, unconfigured slots rather than overwhelming defaults.
-   - **Step 1: Project Identity & Runtime Archetype**: Name, destination path, package manager (`pnpm`, `npm`, `yarn`, `bun`), and target archetype (`fullstack-monorepo`, `fullstack-polyrepo`, `frontend-spa`, `nextjs-fullstack`, `backend-api`, `electron-desktop`).
-   - **Step 2: Context-Aware Framework & Stack Configurator**: Dynamically displays only relevant options (Frontend framework, styling, state, icons, toast, forms, date library; Backend framework, database, ORM; Electron IPC & main/renderer options).
-   - **Step 3: Tooling, Utilities & AI Governance**: Select process manager (Docker/PM2), utility packs (Axios interceptor, JWT generator), AI governance engine (OpenSpec / GSD / Spec-Kit), and 17 Agentic Awesome Skills.
-   - **Step 4: Review, Save Custom Preset & Scaffold**: Complete architecture breakdown, "Save as Reusable Preset" to localStorage, and one-click disk synthesis with live progress streaming.
+4. **Desktop Studio: Home Landing Dashboard & 4-Step Stepper UX**:
+   - **Home Landing View (`/` Dashboard)**:
+     - Users land on a dedicated **Templates & Projects Hub**.
+     - **Hero Card (Position 0)**: A centered, prominent `+ Create New Stack` card that routes to `/new` to design a new architecture from scratch with clean, unconfigured slots.
+     - **Template Card Grid**: Displays built-in curated presets alongside user-saved custom templates from `localStorage`.
+     - **Template Actions**:
+       - `⚡ Instant Scaffold`: Opens a streamlined dialog requiring only **Project Name** and **Destination Path**, immediately synthesizing the pre-configured stack to physical disk.
+       - `Edit`: Re-opens the template inside the 4-step studio for refinement.
+       - `Rename`, `Duplicate`, and `Delete`: Complete lifecycle management of stored templates.
+   - **Studio Configurator View (`/new`)**:
+     - **Clean Starting Slate**: Starts with empty, unconfigured slots rather than overwhelming defaults.
+     - **Step 1: Project Identity & Runtime Archetype**: Name, destination path, package manager (`pnpm`, `npm`, `yarn`, `bun`), and target archetype (`fullstack-monorepo`, `fullstack-polyrepo`, `frontend-spa`, `nextjs-fullstack`, `backend-api`, `electron-desktop`).
+     - **Step 2: Context-Aware Framework & Stack Configurator**: Dynamically displays only relevant options (Frontend framework, styling, state, icons, toast, forms, date library; Backend framework, database, ORM; Electron IPC & main/renderer options).
+     - **Step 3: Tooling, Utilities & AI Governance**: Select process manager (Docker/PM2), utility packs (Axios interceptor, JWT generator), AI governance engine (OpenSpec / GSD / Spec-Kit), and 17 Agentic Awesome Skills.
+     - **Step 4: Review, Save Custom Preset & Scaffold**: Complete architecture breakdown, "Save as Reusable Preset" to localStorage, and one-click disk synthesis with live progress streaming.
 
 5. **Right-Panel Virtual Staging with VS Code-Grade Actions**:
    - Real-time animated tree updates reflecting active selections.
