@@ -20,3 +20,6 @@ target/
 # OS Files
 .DS_Store
 Thumbs.db
+
+# Graphify Cache
+graphify-out/cache/

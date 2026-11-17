@@ -1,0 +1,2324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>project-setup — Complete Call Flow &amp; Architecture Documentation</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+:root {
+  --bg: #0f172a; --surface: #1e293b; --border: #334155;
+  --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8;
+  --warn: #fbbf24; --err: #f87171; --ok: #34d399;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+h1 { font-size: 2.4rem; margin-bottom: 8px; background: linear-gradient(135deg, var(--accent), #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+h2 { font-size: 1.7rem; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+h3 { font-size: 1.25rem; margin: 32px 0 12px; color: var(--accent); }
+h4 { font-size: 1.05rem; margin: 20px 0 8px; color: var(--warn); }
+p { margin: 8px 0; color: var(--muted); }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin-bottom: 32px; }
+.mermaid { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 20px 0; overflow-x: auto; position: relative; }
+.mermaid.is-enhanced { padding: 0; overflow: hidden; min-height: 260px; }
+.mermaid-viewport { padding: 54px 24px 24px; overflow: hidden; cursor: grab; touch-action: none; min-height: 260px; }
+.mermaid-viewport.is-dragging { cursor: grabbing; }
+.mermaid-viewport svg { max-width: none !important; height: auto; transform-origin: 0 0; transition: transform 120ms ease; }
+.mermaid-toolbar { position: absolute; top: 10px; right: 10px; z-index: 3; display: flex; align-items: center; gap: 6px; padding: 6px; background: rgba(15,23,42,0.92); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.28); }
+.mermaid-toolbar button, .mermaid-toolbar .zoom-level { height: 28px; min-width: 32px; border: 1px solid var(--border); border-radius: 6px; background: #1e293b; color: var(--text); font: 600 0.78rem system-ui, sans-serif; display: inline-flex; align-items: center; justify-content: center; }
+.mermaid-toolbar button { cursor: pointer; }
+.mermaid-toolbar button:hover { border-color: var(--accent); color: var(--accent); }
+.mermaid-toolbar .zoom-level { min-width: 52px; color: var(--muted); background: transparent; }
+.call-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+.call-table th { background: #1a2744; color: var(--accent); text-align: left; padding: 10px 14px; border: 1px solid var(--border); }
+.call-table td { padding: 8px 14px; border: 1px solid var(--border); vertical-align: top; }
+.call-table tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+.tag-async { background: #7c3aed33; color: #a78bfa; }
+.tag-class { background: #05966933; color: var(--ok); }
+.tag-func { background: #2563eb33; color: var(--accent); }
+.tag-cmd { background: #d9770633; color: var(--warn); }
+.tag-endpoint { background: #dc262633; color: var(--err); }
+.tag-hook { background: #db277733; color: #f472b6; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin: 16px 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin: 16px 0; }
+.arrow-chain { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--accent); padding: 10px; background: rgba(56,189,248,0.06); border-radius: 6px; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 3px; font-size: 0.88em; }
+ul, ol { margin: 8px 0 8px 24px; color: var(--muted); }
+li { margin: 4px 0; }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+.nav { position: sticky; top: 0; background: var(--bg); z-index: 10; padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.9rem; }
+.nav a { text-decoration: none; }
+.nav a:hover { text-decoration: underline; }
+@media (max-width: 768px) { .container { padding: 16px; } h1 { font-size: 1.8rem; } }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>project-setup — Complete Call Flow &amp; Architecture Documentation</h1>
+<p class="subtitle">Generated from graphify knowledge graph: 443 nodes, 962 edges, 28 communities. Commit: 22dd938</p>
+
+<div class="nav">
+    <a href="#overview">Architecture Overview</a>
+    <a href="#build-graph">Graph Build</a>
+    <a href="#analysis-clustering">Analysis &amp; Clustering</a>
+    <a href="#cli-skills">CLI &amp; Skill Installers</a>
+    <a href="#tests-fixtures">Tests &amp; Fixtures</a>
+    <a href="#packages-desktop-components">Packages Desktop Components</a>
+    <a href="#packages-vfs-typests">Packages Vfs Typests</a>
+    <a href="#packages-utils-code">Packages Utils Code</a>
+    <a href="#cli-packages-create">Cli Packages Create</a>
+    <a href="#librs-packages-desktop">Librs Packages Desktop</a>
+    <a href="#pnpm-workspaceyaml-packages">Pnpm Workspaceyaml Packages</a>
+    <a href="#modrs-packages-desktop">Modrs Packages Desktop</a>
+    <a href="#desktop-forgestack-packages">Desktop Forgestack Packages</a>
+</div>
+
+<!-- ====== Architecture Overview ====== -->
+<h2 id="overview">1. Architecture Overview</h2>
+
+<div class="mermaid">
+
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    BUILD_GRAPH_321CBB04("Graph Build<br/><small>258 nodes</small>")
+    class BUILD_GRAPH_321CBB04 module;
+    ANALYSIS_CLUSTERING_C79796DA("Analysis &amp; Clustering<br/><small>9 nodes</small>")
+    class ANALYSIS_CLUSTERING_C79796DA module;
+    CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>2 nodes</small>")
+    class CLI_SKILLS_9964CBB8 module;
+    TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>103 nodes</small>")
+    class TESTS_FIXTURES_B84B1DCC module;
+    PACKAGES_DESKTOP_COMPONENTS_6AAA3929("Packages Desktop Components<br/><small>35 nodes</small>")
+    class PACKAGES_DESKTOP_COMPONENTS_6AAA3929 module;
+    PACKAGES_VFS_TYPESTS_B4A6B825("Packages Vfs Typests<br/><small>20 nodes</small>")
+    class PACKAGES_VFS_TYPESTS_B4A6B825 module;
+    PACKAGES_UTILS_CODE_BA9DD804("Packages Utils Code<br/><small>6 nodes</small>")
+    class PACKAGES_UTILS_CODE_BA9DD804 module;
+    CLI_PACKAGES_CREATE_5CFCA687("Cli Packages Create<br/><small>4 nodes</small>")
+    class CLI_PACKAGES_CREATE_5CFCA687 module;
+    LIBRS_PACKAGES_DESKTOP_AC87268D("Librs Packages Desktop<br/><small>2 nodes</small>")
+    class LIBRS_PACKAGES_DESKTOP_AC87268D module;
+    PNPM_WORKSPACEYAML_PACKAGES_65667B11("Pnpm Workspaceyaml Packages<br/><small>2 nodes</small>")
+    class PNPM_WORKSPACEYAML_PACKAGES_65667B11 module;
+    MODRS_PACKAGES_DESKTOP_8A21A912("Modrs Packages Desktop<br/><small>1 nodes</small>")
+    class MODRS_PACKAGES_DESKTOP_8A21A912 module;
+    DESKTOP_FORGESTACK_PACKAGES_B23FC757("Desktop Forgestack Packages<br/><small>1 nodes</small>")
+    class DESKTOP_FORGESTACK_PACKAGES_B23FC757 module;
+    BUILD_GRAPH_321CBB04 -->|imports x27| TESTS_FIXTURES_B84B1DCC
+    TESTS_FIXTURES_B84B1DCC -->|method x17| PACKAGES_VFS_TYPESTS_B4A6B825
+    TESTS_FIXTURES_B84B1DCC -->|imports x9| BUILD_GRAPH_321CBB04
+    TESTS_FIXTURES_B84B1DCC -->|imports x6| PACKAGES_UTILS_CODE_BA9DD804
+    PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|references x4| TESTS_FIXTURES_B84B1DCC
+    BUILD_GRAPH_321CBB04 -->|calls x3| PACKAGES_DESKTOP_COMPONENTS_6AAA3929
+    PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|imports x3| BUILD_GRAPH_321CBB04
+    PACKAGES_VFS_TYPESTS_B4A6B825 -->|references x2| BUILD_GRAPH_321CBB04
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h4>Architecture Layers</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>Layer</th><th>Nodes</th><th>Communities</th></tr>
+      <tr><td>Graph Build</td><td>258</td><td><code>1, 3, 5, 6, 8, 9, 10, 11, 12, 13, 15, 16, 18, 20, 21, 22</code></td></tr><tr><td>Analysis &amp; Clustering</td><td>9</td><td><code>14</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>2</td><td><code>24</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>103</td><td><code>0, 2</code></td></tr><tr><td>Packages Desktop Components</td><td>35</td><td><code>4</code></td></tr><tr><td>Packages Vfs Typests</td><td>20</td><td><code>7</code></td></tr><tr><td>Packages Utils Code</td><td>6</td><td><code>17</code></td></tr><tr><td>Cli Packages Create</td><td>4</td><td><code>19</code></td></tr><tr><td>Librs Packages Desktop</td><td>2</td><td><code>23</code></td></tr><tr><td>Pnpm Workspaceyaml Packages</td><td>2</td><td><code>25</code></td></tr><tr><td>Modrs Packages Desktop</td><td>1</td><td><code>26</code></td></tr><tr><td>Desktop Forgestack Packages</td><td>1</td><td><code>27</code></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Core Flow</h4>
+    <div class="arrow-chain">Analysis &amp; Clustering -&gt; Graph Build -&gt; Tests &amp; Fixtures -&gt; Packages Vfs Typests -&gt; CLI &amp; Skill Installers -&gt; Packages Desktop Components -&gt; Packages Utils Code</div>
+  </div>
+</div>
+<div class="grid">
+  <div class="card">
+    <h4>Graph Report Highlights</h4>
+    <ul>
+      <li>443 nodes · 962 edges · 28 communities (20 shown, 8 thin omitted)</li>
+      <li>Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.85)</li>
+      <li>Token cost: 0 input · 0 output</li>
+      <li>1. `ProjectConfig` - 47 edges</li>
+      <li>2. `VirtualFileSystem` - 46 edges</li>
+      <li>3. `DragDropConfigurator()` - 28 edges</li>
+    </ul>
+  </div>
+</div>
+<hr>
+<!-- ====== 2. Graph Build ====== -->
+<h2 id="build-graph">2. Graph Build</h2>
+<p>Graph Build groups implementation around packages, desktop, packagejson, tsconfigjson, mostly in packages/desktop/package.json, .github/workflows/ci.yml, packages/cli/package.json. This section covers 258 nodes and 359 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Graph Build (258 nodes, 359 edges)
+    subgraph build_graph_components_preview_FileTreePreview_t_9a28128c["components/preview/FileTreePreview.tsx"]
+        packages_desktop_src_components_preview_filetree_2b119f15("FileTreePreview()<br/><small>components/preview/FileTreePreview.tsx</small>")
+        packages_desktop_src_components_preview_filetree_1ddd805c("TreeItem()<br/><small>components/preview/FileTreePreview.tsx</small>")
+        packages_desktop_src_components_preview_filetree_e3b435bb("filterTree()<br/><small>components/preview/FileTreePreview.tsx</small>")
+    end
+    subgraph build_graph_components_wizard_TopologySelector_t_c6febf3a["components/wizard/TopologySelector.tsx"]
+        packages_desktop_src_components_wizard_topologys_c495d504("TopologySelector.tsx")
+        packages_desktop_src_components_wizard_topologys_8ab080b7("TopologySelector()<br/><small>components/wizard/TopologySelector.tsx</small>")
+    end
+    subgraph build_graph_desktop_src_App_tsx_19ec034a["desktop/src/App.tsx"]
+        packages_desktop_src_app_81241b1a("App.tsx")
+        packages_desktop_src_app_app_036f02f1("App()<br/><small>desktop/src/App.tsx</small>")
+    end
+    packages_desktop_src_components_console_executio_b6aea39f("ExecutionConsole()<br/><small>components/console/ExecutionConsole.tsx</small>")
+    packages_desktop_src_components_preview_fileview_a1d972f3("FileViewerModal()<br/><small>components/preview/FileViewerModal.tsx</small>")
+    packages_desktop_src_components_wizard_aigoverna_735479fe("AiGovernance()<br/><small>components/wizard/AiGovernance.tsx</small>")
+    packages_desktop_src_components_wizard_backendgr_594bb769("BackendGrid()<br/><small>components/wizard/BackendGrid.tsx</small>")
+    packages_desktop_src_components_wizard_frontendg_57a859a2("FrontendGrid()<br/><small>components/wizard/FrontendGrid.tsx</small>")
+    packages_desktop_src_components_wizard_header_he_944e4b2c("Header()<br/><small>components/wizard/Header.tsx</small>")
+    packages_desktop_src_components_wizard_pathselec_b34d9880("PathSelectorModal()<br/><small>components/wizard/PathSelectorModal.tsx</small>")
+    packages_desktop_src_components_wizard_projectid_6df39944("ProjectIdentity()<br/><small>components/wizard/ProjectIdentity.tsx</small>")
+    packages_desktop_src_main_6fe932e8("main.tsx")
+    packages_cli_package_b336a4de("cli/package.json")
+    packages_desktop_package_51ae776b("desktop/package.json")
+    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_wizard_header_he_944e4b2c
+    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_wizard_projectid_6df39944
+    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_wizard_topologys_8ab080b7
+    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_wizard_frontendg_57a859a2
+    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_wizard_backendgr_594bb769
+    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_wizard_aigoverna_735479fe
+    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_console_executio_b6aea39f
+    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_preview_filetree_2b119f15
+    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_wizard_pathselec_b34d9880
+    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_preview_fileview_a1d972f3
+    packages_desktop_src_components_preview_filetree_2b119f15 -->|calls| packages_desktop_src_components_preview_filetree_1ddd805c
+    packages_desktop_src_components_preview_filetree_2b119f15 -->|calls| packages_desktop_src_components_preview_filetree_e3b435bb
+    packages_desktop_src_components_preview_filetree_e3b435bb -->|calls| packages_desktop_src_components_preview_filetree_e3b435bb
+    packages_desktop_src_components_preview_filetree_1ddd805c -->|calls| packages_desktop_src_components_preview_filetree_1ddd805c
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_pathselec_b34d9880
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_topologys_8ab080b7
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_frontendg_57a859a2
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_backendgr_594bb769
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_aigoverna_735479fe
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_preview_filetree_2b119f15
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_preview_fileview_a1d972f3
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_console_executio_b6aea39f
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_header_he_944e4b2c
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_projectid_6df39944
+    %% Omitted for readability: 240 nodes, 3 edges
+    class packages_desktop_src_components_preview_filetree_2b119f15 ui;
+    class packages_desktop_src_components_preview_filetree_1ddd805c ui;
+    class packages_desktop_src_components_preview_filetree_e3b435bb ui;
+    class packages_desktop_src_components_wizard_topologys_c495d504 ui;
+    class packages_desktop_src_components_wizard_topologys_8ab080b7 ui;
+    class packages_desktop_src_app_81241b1a ui;
+    class packages_desktop_src_app_app_036f02f1 ui;
+    class packages_desktop_src_components_console_executio_b6aea39f ui;
+    class packages_desktop_src_components_preview_fileview_a1d972f3 ui;
+    class packages_desktop_src_components_wizard_aigoverna_735479fe ui;
+    class packages_desktop_src_components_wizard_backendgr_594bb769 ui;
+    class packages_desktop_src_components_wizard_frontendg_57a859a2 ui;
+    class packages_desktop_src_components_wizard_header_he_944e4b2c ui;
+    class packages_desktop_src_components_wizard_pathselec_b34d9880 ui;
+    class packages_desktop_src_components_wizard_projectid_6df39944 ui;
+    class packages_desktop_src_main_6fe932e8 ui;
+    class packages_cli_package_b336a4de entry;
+    class packages_desktop_package_51ae776b function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>ArchitectureTopology</code><br><small style="color:var(--muted)">src/types/config.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>TopologySelector.tsx</code><br><small style="color:var(--muted)">components/wizard/TopologySelector.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ArchitectureTopology node in src/types/config.ts.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>TreeNode</code><br><small style="color:var(--muted)">src/vfs/types.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>FileTreePreview.tsx</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small><br><code>vfs.ts</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>TreeNode node in src/vfs/types.ts.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>BadgeProps</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>BadgeProps node in components/common/Badge.tsx.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>BadgeVariant</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>BadgeVariant node in components/common/Badge.tsx.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/console/ExecutionConsole.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/console/ExecutionConsole.tsx.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/preview/FileTreePreview.tsx.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>TreeItemProps</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>TreeItemProps node in components/preview/FileTreePreview.tsx.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>FileViewerModalProps</code><br><small style="color:var(--muted)">components/preview/FileViewerModal.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>FileViewerModalProps node in components/preview/FileViewerModal.tsx.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/wizard/AiGovernance.tsx.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/BackendGrid.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/wizard/BackendGrid.tsx.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/FrontendGrid.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/wizard/FrontendGrid.tsx.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/Header.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/wizard/Header.tsx.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>ThemeId</code><br><small style="color:var(--muted)">components/wizard/Header.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ThemeId node in components/wizard/Header.tsx.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/PathSelectorModal.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/wizard/PathSelectorModal.tsx.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/ProjectIdentity.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/wizard/ProjectIdentity.tsx.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/TopologySelector.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/wizard/TopologySelector.tsx.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>main.tsx</code><br><small style="color:var(--muted)">desktop/src/main.tsx</small></td>
+  <td><code>@tauri-apps/api</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>@tauri-apps/plugin-shell</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>AiGovernance()</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small><br>+11 more</td>
+  <td>App() node in desktop/src/App.tsx.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>Badge()</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>AiGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small><br><code>BackendGrid.tsx</code><br><small style="color:var(--muted)">components/wizard/BackendGrid.tsx</small><br><code>FrontendGrid.tsx</code><br><small style="color:var(--muted)">components/wizard/FrontendGrid.tsx</small><br>+1 more</td>
+  <td>No direct outbound edge</td>
+  <td>Badge() node in components/common/Badge.tsx.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>ExecutionConsole()</code><br><small style="color:var(--muted)">components/console/ExecutionConsole.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ExecutionConsole() node in components/console/ExecutionConsole.tsx.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>FileTreePreview()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><code>filterTree()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small><br><code>TreeItem()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td>FileTreePreview() node in components/preview/FileTreePreview.tsx.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>filterTree()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>FileTreePreview()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small><br><code>filterTree()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td><code>filterTree()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td>filterTree() node in components/preview/FileTreePreview.tsx.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>getFileIcon()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>TreeItem()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>getFileIcon() node in components/preview/FileTreePreview.tsx.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>TreeItem()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>FileTreePreview()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small><br><code>TreeItem()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td><code>getFileIcon()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small><br><code>TreeItem()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td>TreeItem() node in components/preview/FileTreePreview.tsx.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>FileViewerModal()</code><br><small style="color:var(--muted)">components/preview/FileViewerModal.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>FileViewerModal() node in components/preview/FileViewerModal.tsx.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>AiGovernance()</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>AiGovernance() node in components/wizard/AiGovernance.tsx.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>BackendGrid()</code><br><small style="color:var(--muted)">components/wizard/BackendGrid.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>BackendGrid() node in components/wizard/BackendGrid.tsx.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>FrontendGrid()</code><br><small style="color:var(--muted)">components/wizard/FrontendGrid.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>FrontendGrid() node in components/wizard/FrontendGrid.tsx.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>Header()</code><br><small style="color:var(--muted)">components/wizard/Header.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>Header() node in components/wizard/Header.tsx.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>PathSelectorModal()</code><br><small style="color:var(--muted)">components/wizard/PathSelectorModal.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><code>@tauri-apps/plugin-dialog</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td>PathSelectorModal() node in components/wizard/PathSelectorModal.tsx.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>ProjectIdentity()</code><br><small style="color:var(--muted)">components/wizard/ProjectIdentity.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ProjectIdentity() node in components/wizard/ProjectIdentity.tsx.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>packages/desktop/package.json</code></td><td>43 nodes</td></tr>
+<tr><td><code>.github/workflows/ci.yml</code></td><td>28 nodes</td></tr>
+<tr><td><code>packages/cli/package.json</code></td><td>27 nodes</td></tr>
+<tr><td><code>package.json</code></td><td>21 nodes</td></tr>
+<tr><td><code>packages/core/package.json</code></td><td>21 nodes</td></tr>
+<tr><td><code>desktop/src-tauri/tauri.conf.json</code></td><td>19 nodes</td></tr>
+<tr><td><code>packages/desktop/tsconfig.json</code></td><td>14 nodes</td></tr>
+<tr><td><code>tsconfig.json</code></td><td>14 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x206, imports x49, imports x45, declares x28. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 3. Analysis & Clustering ====== -->
+<h2 id="analysis-clustering">3. Analysis &amp; Clustering</h2>
+<p>Analysis &amp; Clustering groups implementation around fsrs, packages, desktop, tauri, mostly in src/commands/fs.rs. This section covers 9 nodes and 11 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Analysis &amp; Clustering (9 nodes, 11 edges)
+    subgraph analysis_clustering_src_commands_fs_rs_455cefc6["src/commands/fs.rs"]
+        packages_desktop_src_tauri_src_commands_fs_688e57ee("fs.rs")
+        packages_desktop_src_tauri_src_commands_fs_pathv_133f3143("PathValidationResult<br/><small>src/commands/fs.rs</small>")
+        packages_desktop_src_tauri_src_commands_fs_scaff_895deb63("ScaffoldPayload<br/><small>src/commands/fs.rs</small>")
+        packages_desktop_src_tauri_src_commands_fs_virtu_5207cee9("VirtualFilePayload<br/><small>src/commands/fs.rs</small>")
+        packages_desktop_src_tauri_src_commands_fs_scaff_ec5db635("scaffold_project_files()<br/><small>src/commands/fs.rs</small>")
+        packages_desktop_src_tauri_src_commands_fs_valid_ec48dd8f("validate_target_path()<br/><small>src/commands/fs.rs</small>")
+    end
+    subgraph analysis_clustering_External_generated_9ee0240b["External / generated"]
+        deserialize_59df4159("deserialize")
+        serialize_8b98a923("serialize")
+        path_3150ecd5("path")
+    end
+    packages_desktop_src_tauri_src_commands_fs_688e57ee -->|imports| deserialize_59df4159
+    packages_desktop_src_tauri_src_commands_fs_688e57ee -->|imports| serialize_8b98a923
+    packages_desktop_src_tauri_src_commands_fs_688e57ee -->|imports| path_3150ecd5
+    class packages_desktop_src_tauri_src_commands_fs_688e57ee module;
+    class packages_desktop_src_tauri_src_commands_fs_pathv_133f3143 klass;
+    class packages_desktop_src_tauri_src_commands_fs_scaff_895deb63 klass;
+    class packages_desktop_src_tauri_src_commands_fs_virtu_5207cee9 klass;
+    class packages_desktop_src_tauri_src_commands_fs_scaff_ec5db635 function;
+    class packages_desktop_src_tauri_src_commands_fs_valid_ec48dd8f function;
+    class deserialize_59df4159 function;
+    class serialize_8b98a923 function;
+    class path_3150ecd5 function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>PathValidationResult</code><br><small style="color:var(--muted)">src/commands/fs.rs</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>PathValidationResult node in src/commands/fs.rs.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>ScaffoldPayload</code><br><small style="color:var(--muted)">src/commands/fs.rs</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>ScaffoldPayload node in src/commands/fs.rs.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>VirtualFilePayload</code><br><small style="color:var(--muted)">src/commands/fs.rs</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>VirtualFilePayload node in src/commands/fs.rs.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>fs.rs</code><br><small style="color:var(--muted)">src/commands/fs.rs</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>deserialize</code><br><code>path</code><br><code>serialize</code></td>
+  <td>fs.rs node in src/commands/fs.rs.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>scaffold_project_files()</code><br><small style="color:var(--muted)">src/commands/fs.rs</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>scaffold_project_files() node in src/commands/fs.rs.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>validate_target_path()</code><br><small style="color:var(--muted)">src/commands/fs.rs</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>validate_target_path() node in src/commands/fs.rs.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>deserialize</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>fs.rs</code><br><small style="color:var(--muted)">src/commands/fs.rs</small></td>
+  <td>No direct outbound edge</td>
+  <td>deserialize node in project.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>path</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>fs.rs</code><br><small style="color:var(--muted)">src/commands/fs.rs</small></td>
+  <td>No direct outbound edge</td>
+  <td>path node in project.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>serialize</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>fs.rs</code><br><small style="color:var(--muted)">src/commands/fs.rs</small></td>
+  <td>No direct outbound edge</td>
+  <td>serialize node in project.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>src/commands/fs.rs</code></td><td>6 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x5, references x3, imports x3. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 4. CLI & Skill Installers ====== -->
+<h2 id="cli-skills">4. CLI &amp; Skill Installers</h2>
+<p>CLI &amp; Skill Installers groups implementation around mainrs, packages, desktop, tauri, mostly in src-tauri/src/main.rs. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: CLI &amp; Skill Installers (2 nodes, 1 edges)
+    packages_desktop_src_tauri_src_main_04329094("main.rs")
+    packages_desktop_src_tauri_src_main_main_e7cc0f11("main()<br/><small>src-tauri/src/main.rs</small>")
+    packages_desktop_src_tauri_src_main_04329094 -->|contains| packages_desktop_src_tauri_src_main_main_e7cc0f11
+    class packages_desktop_src_tauri_src_main_04329094 module;
+    class packages_desktop_src_tauri_src_main_main_e7cc0f11 function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>main.rs</code><br><small style="color:var(--muted)">src-tauri/src/main.rs</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>main.rs node in src-tauri/src/main.rs.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>main()</code><br><small style="color:var(--muted)">src-tauri/src/main.rs</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>main() node in src-tauri/src/main.rs.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>src-tauri/src/main.rs</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 5. Tests & Fixtures ====== -->
+<h2 id="tests-fixtures">5. Tests &amp; Fixtures</h2>
+<p>Tests &amp; Fixtures groups implementation around packages, slices, tests, engine, mostly in src/engine/flusher.ts, src/utils/process-runner.ts, src/engine/compositor.ts. This section covers 103 nodes and 399 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Tests &amp; Fixtures (103 nodes, 399 edges)
+    subgraph tests_fixtures_src_engine_compositor_ts_ae1a6ecf["src/engine/compositor.ts"]
+        packages_core_src_engine_compositor_recipecompos_f22b10ba("RecipeCompositor<br/><small>src/engine/compositor.ts</small>")
+        packages_core_src_engine_compositor_recipecompos_fc9743ce("registerSlice()<br/><small>src/engine/compositor.ts</small>")
+        packages_core_src_engine_compositor_recipecompos_c072aaef("registerSlices()<br/><small>src/engine/compositor.ts</small>")
+        packages_core_src_engine_compositor_recipecompos_974e58c5("compose()<br/><small>src/engine/compositor.ts</small>")
+    end
+    subgraph tests_fixtures_src_vfs_vfs_ts_cab28de0["src/vfs/vfs.ts"]
+        packages_core_src_vfs_vfs_virtualfilesystem_5289c11c("VirtualFileSystem<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_coun_d4105f9d("count()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_clea_9617a13e("clear()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_clon_132621cd("clone()<br/><small>src/vfs/vfs.ts</small>")
+    end
+    subgraph tests_fixtures_src_ui_reporter_ts_81d4cd7d["src/ui/reporter.ts"]
+        packages_cli_src_ui_reporter_clireporter_061e1ee0("CliReporter<br/><small>src/ui/reporter.ts</small>")
+        packages_cli_src_ui_reporter_clireporter_printsu_df3e3371("printSummary()<br/><small>src/ui/reporter.ts</small>")
+        packages_cli_src_ui_reporter_clireporter_printba_6f3ddbd1("printBanner()<br/><small>src/ui/reporter.ts</small>")
+    end
+    packages_cli_src_cli_825c483b("cli.ts")
+    packages_core_src_slices_database_tests_mongodb_f3a2a0f4("mongodb.test.ts")
+    packages_core_src_slices_database_tests_postgres_d243e59d("postgres.test.ts")
+    packages_core_src_slices_frontend_tests_state_te_fc37df8c("state.test.ts")
+    packages_core_src_slices_frontend_tests_tailwind_4d9358e9("tailwind.test.ts")
+    packages_core_src_engine_create_pipeline_cf2611ed("create-pipeline.ts")
+    packages_core_src_engine_flusher_transactionalfl_ae2e799a("TransactionalFlusher<br/><small>src/engine/flusher.ts</small>")
+    packages_core_src_vfs_vfs_virtualfilesystem_5289c11c -->|method| packages_core_src_vfs_vfs_virtualfilesystem_coun_d4105f9d
+    packages_core_src_vfs_vfs_virtualfilesystem_5289c11c -->|method| packages_core_src_vfs_vfs_virtualfilesystem_clea_9617a13e
+    packages_core_src_vfs_vfs_virtualfilesystem_5289c11c -->|method| packages_core_src_vfs_vfs_virtualfilesystem_clon_132621cd
+    packages_cli_src_ui_reporter_clireporter_061e1ee0 -->|method| packages_cli_src_ui_reporter_clireporter_printsu_df3e3371
+    packages_cli_src_ui_reporter_clireporter_061e1ee0 -->|method| packages_cli_src_ui_reporter_clireporter_printba_6f3ddbd1
+    packages_core_src_engine_compositor_recipecompos_f22b10ba -->|method| packages_core_src_engine_compositor_recipecompos_fc9743ce
+    packages_core_src_engine_compositor_recipecompos_f22b10ba -->|method| packages_core_src_engine_compositor_recipecompos_c072aaef
+    packages_core_src_engine_compositor_recipecompos_f22b10ba -->|method| packages_core_src_engine_compositor_recipecompos_974e58c5
+    packages_core_src_engine_compositor_recipecompos_c072aaef -->|calls| packages_core_src_engine_compositor_recipecompos_fc9743ce
+    packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_engine_compositor_recipecompos_f22b10ba
+    packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
+    packages_core_src_slices_database_tests_mongodb_f3a2a0f4 -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
+    packages_core_src_slices_database_tests_postgres_d243e59d -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
+    packages_core_src_slices_frontend_tests_state_te_fc37df8c -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
+    packages_core_src_slices_frontend_tests_tailwind_4d9358e9 -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
+    packages_cli_src_cli_825c483b -->|imports| packages_cli_src_ui_reporter_clireporter_061e1ee0
+    packages_cli_src_cli_825c483b -->|imports| packages_core_src_engine_flusher_transactionalfl_ae2e799a
+    %% Omitted for readability: 85 nodes, 0 edges
+    class packages_core_src_engine_compositor_recipecompos_f22b10ba klass;
+    class packages_core_src_engine_compositor_recipecompos_fc9743ce function;
+    class packages_core_src_engine_compositor_recipecompos_c072aaef function;
+    class packages_core_src_engine_compositor_recipecompos_974e58c5 function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_5289c11c klass;
+    class packages_core_src_vfs_vfs_virtualfilesystem_coun_d4105f9d function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_clea_9617a13e function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_clon_132621cd function;
+    class packages_cli_src_ui_reporter_clireporter_061e1ee0 entry;
+    class packages_cli_src_ui_reporter_clireporter_printsu_df3e3371 function;
+    class packages_cli_src_ui_reporter_clireporter_printba_6f3ddbd1 function;
+    class packages_cli_src_cli_825c483b entry;
+    class packages_core_src_slices_database_tests_mongodb_f3a2a0f4 test;
+    class packages_core_src_slices_database_tests_postgres_d243e59d test;
+    class packages_core_src_slices_frontend_tests_state_te_fc37df8c test;
+    class packages_core_src_slices_frontend_tests_tailwind_4d9358e9 test;
+    class packages_core_src_engine_create_pipeline_cf2611ed module;
+    class packages_core_src_engine_flusher_transactionalfl_ae2e799a klass;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>FeatureSlice</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>ai-rules.ts</code><br><small style="color:var(--muted)">slices/governance/ai-rules.ts</small><br><code>clean-modular.ts</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>compositor.test.ts</code><br><small style="color:var(--muted)">engine/__tests__/compositor.test.ts</small><br>+9 more</td>
+  <td>No direct outbound edge</td>
+  <td>FeatureSlice node in src/engine/compositor.ts.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>PackageName</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>dependencies.test.ts</code><br><small style="color:var(--muted)">registry/__tests__/dependencies.test.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>PackageName node in src/registry/dependencies.ts.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>ProjectConfig</code><br><small style="color:var(--muted)">src/types/config.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>ai-rules.test.ts</code><br><small style="color:var(--muted)">governance/__tests__/ai-rules.test.ts</small><br><code>ai-rules.ts</code><br><small style="color:var(--muted)">slices/governance/ai-rules.ts</small><br><code>AiGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small><br>+33 more</td>
+  <td>No direct outbound edge</td>
+  <td>Reads, resolves, or persists project configuration.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>ai-rules.test.ts</code><br><small style="color:var(--muted)">governance/__tests__/ai-rules.test.ts</small><br><code>ai-rules.ts</code><br><small style="color:var(--muted)">slices/governance/ai-rules.ts</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br>+25 more</td>
+  <td><code>applyAction()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small><br><code>applyActions()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small><br><code>clear()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small><br>+10 more</td>
+  <td>VirtualFileSystem node in src/vfs/vfs.ts.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>.compose()</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>RecipeCompositor</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>.compose() node in src/engine/compositor.ts.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>getPinnedVersion()</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>dependencies.test.ts</code><br><small style="color:var(--muted)">registry/__tests__/dependencies.test.ts</small><br><code>resolveDependencies()</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>getPinnedVersion() node in src/registry/dependencies.ts.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>resolveDependencies()</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>dependencies.test.ts</code><br><small style="color:var(--muted)">registry/__tests__/dependencies.test.ts</small></td>
+  <td><code>getPinnedVersion()</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small></td>
+  <td>resolveDependencies() node in src/registry/dependencies.ts.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>.clear()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>.clear() node in src/vfs/vfs.ts.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>.clone()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>Turns a local path or remote repository into analysis context.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>AiGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>BackendGrid.tsx</code><br><small style="color:var(--muted)">components/wizard/BackendGrid.tsx</small><br>+6 more</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in core/src/browser.ts.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>compositor.ts</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>ai-rules.ts</code><br><small style="color:var(--muted)">slices/governance/ai-rules.ts</small><br><code>clean-modular.ts</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>compositor.test.ts</code><br><small style="color:var(--muted)">engine/__tests__/compositor.test.ts</small><br>+10 more</td>
+  <td><code>config.ts</code><br><small style="color:var(--muted)">src/types/config.ts</small><br><code>ProjectConfig</code><br><small style="color:var(--muted)">src/types/config.ts</small><br><code>vfs.ts</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small><br>+1 more</td>
+  <td>Module file in src/engine/compositor.ts.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>ai-rules.ts</code><br><small style="color:var(--muted)">slices/governance/ai-rules.ts</small><br><code>aiRulesSlice</code><br><small style="color:var(--muted)">slices/governance/ai-rules.ts</small><br><code>clean-modular.ts</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br>+25 more</td>
+  <td>Module file in src/engine/create-pipeline.ts.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>compositor.test.ts</code><br><small style="color:var(--muted)">engine/__tests__/compositor.test.ts</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>compositor.ts</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small><br><code>config.ts</code><br><small style="color:var(--muted)">src/types/config.ts</small><br><code>FeatureSlice</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small><br>+3 more</td>
+  <td>Module file in engine/__tests__/compositor.test.ts.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>core/src/index.ts</code><br><small style="color:var(--muted)">core/src/index.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>cli-matrix.test.ts</code><br><small style="color:var(--muted)">tests/e2e/cli-matrix.test.ts</small><br><code>cli.ts</code><br><small style="color:var(--muted)">cli/src/cli.ts</small><br><code>reporter.ts</code><br><small style="color:var(--muted)">src/ui/reporter.ts</small><br>+2 more</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in core/src/index.ts.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>dependencies.ts</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>clean-modular.ts</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>dependencies.test.ts</code><br><small style="color:var(--muted)">registry/__tests__/dependencies.test.ts</small><br><code>index.ts</code><br><small style="color:var(--muted)">slices/monorepo/index.ts</small><br>+7 more</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in src/registry/dependencies.ts.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>DEPENDENCY_REGISTRY</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>clean-modular.ts</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>dependencies.test.ts</code><br><small style="color:var(--muted)">registry/__tests__/dependencies.test.ts</small><br><code>index.ts</code><br><small style="color:var(--muted)">slices/monorepo/index.ts</small><br>+7 more</td>
+  <td>No direct outbound edge</td>
+  <td>Builds dependency relationships and graph data.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>dependencies.test.ts</code><br><small style="color:var(--muted)">registry/__tests__/dependencies.test.ts</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>dependencies.ts</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small><br><code>DEPENDENCY_REGISTRY</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small><br><code>getPinnedVersion()</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small><br>+3 more</td>
+  <td>Module file in registry/__tests__/dependencies.test.ts.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>clean-modular.ts</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>clean-modular.test.ts</code><br><small style="color:var(--muted)">backend/__tests__/clean-modular.test.ts</small><br><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br><code>mongodb.test.ts</code><br><small style="color:var(--muted)">database/__tests__/mongodb.test.ts</small><br>+1 more</td>
+  <td><code>compositor.ts</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small><br><code>config.ts</code><br><small style="color:var(--muted)">src/types/config.ts</small><br><code>dependencies.ts</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small><br>+5 more</td>
+  <td>Module file in slices/backend/clean-modular.ts.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>cleanModularBackendSlice</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>clean-modular.test.ts</code><br><small style="color:var(--muted)">backend/__tests__/clean-modular.test.ts</small><br><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br><code>mongodb.test.ts</code><br><small style="color:var(--muted)">database/__tests__/mongodb.test.ts</small><br>+1 more</td>
+  <td>No direct outbound edge</td>
+  <td>cleanModularBackendSlice node in slices/backend/clean-modular.ts.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>clean-modular.test.ts</code><br><small style="color:var(--muted)">backend/__tests__/clean-modular.test.ts</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>clean-modular.ts</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>cleanModularBackendSlice</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>config.ts</code><br><small style="color:var(--muted)">src/types/config.ts</small><br>+4 more</td>
+  <td>Module file in backend/__tests__/clean-modular.test.ts.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>docker.ts</code><br><small style="color:var(--muted)">slices/container/docker.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br><code>docker.test.ts</code><br><small style="color:var(--muted)">container/__tests__/docker.test.ts</small></td>
+  <td><code>compositor.ts</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small><br><code>config.ts</code><br><small style="color:var(--muted)">src/types/config.ts</small><br><code>FeatureSlice</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small><br>+3 more</td>
+  <td>Module file in slices/container/docker.ts.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>dockerSlice</code><br><small style="color:var(--muted)">slices/container/docker.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br><code>docker.test.ts</code><br><small style="color:var(--muted)">container/__tests__/docker.test.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>dockerSlice node in slices/container/docker.ts.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>docker.test.ts</code><br><small style="color:var(--muted)">container/__tests__/docker.test.ts</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>config.ts</code><br><small style="color:var(--muted)">src/types/config.ts</small><br><code>docker.ts</code><br><small style="color:var(--muted)">slices/container/docker.ts</small><br><code>dockerSlice</code><br><small style="color:var(--muted)">slices/container/docker.ts</small><br>+4 more</td>
+  <td>Module file in container/__tests__/docker.test.ts.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>mongodb.ts</code><br><small style="color:var(--muted)">slices/database/mongodb.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br><code>mongodb.test.ts</code><br><small style="color:var(--muted)">database/__tests__/mongodb.test.ts</small></td>
+  <td><code>code-patcher.ts</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>compositor.ts</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small><br>+7 more</td>
+  <td>Module file in slices/database/mongodb.ts.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>mongodbSlice</code><br><small style="color:var(--muted)">slices/database/mongodb.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br><code>mongodb.test.ts</code><br><small style="color:var(--muted)">database/__tests__/mongodb.test.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>mongodbSlice node in slices/database/mongodb.ts.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>postgres.ts</code><br><small style="color:var(--muted)">slices/database/postgres.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br><code>postgres.test.ts</code><br><small style="color:var(--muted)">database/__tests__/postgres.test.ts</small></td>
+  <td><code>code-patcher.ts</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>compositor.ts</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small><br>+7 more</td>
+  <td>Module file in slices/database/postgres.ts.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>postgresSlice</code><br><small style="color:var(--muted)">slices/database/postgres.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br><code>postgres.test.ts</code><br><small style="color:var(--muted)">database/__tests__/postgres.test.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>postgresSlice node in slices/database/postgres.ts.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>mongodb.test.ts</code><br><small style="color:var(--muted)">database/__tests__/mongodb.test.ts</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>clean-modular.ts</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>cleanModularBackendSlice</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>config.ts</code><br><small style="color:var(--muted)">src/types/config.ts</small><br>+6 more</td>
+  <td>Module file in database/__tests__/mongodb.test.ts.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>postgres.test.ts</code><br><small style="color:var(--muted)">database/__tests__/postgres.test.ts</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>clean-modular.ts</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>cleanModularBackendSlice</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>config.ts</code><br><small style="color:var(--muted)">src/types/config.ts</small><br>+6 more</td>
+  <td>Module file in database/__tests__/postgres.test.ts.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>react-vite.ts</code><br><small style="color:var(--muted)">slices/frontend/react-vite.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br><code>react-vite.test.ts</code><br><small style="color:var(--muted)">frontend/__tests__/react-vite.test.ts</small><br><code>state.test.ts</code><br><small style="color:var(--muted)">frontend/__tests__/state.test.ts</small><br>+2 more</td>
+  <td><code>compositor.ts</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small><br><code>config.ts</code><br><small style="color:var(--muted)">src/types/config.ts</small><br><code>dependencies.ts</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small><br>+5 more</td>
+  <td>Module file in slices/frontend/react-vite.ts.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>src/engine/flusher.ts</code></td><td>7 nodes</td></tr>
+<tr><td><code>src/utils/process-runner.ts</code></td><td>7 nodes</td></tr>
+<tr><td><code>src/engine/compositor.ts</code></td><td>6 nodes</td></tr>
+<tr><td><code>src/registry/dependencies.ts</code></td><td>5 nodes</td></tr>
+<tr><td><code>src/vfs/vfs.ts</code></td><td>5 nodes</td></tr>
+<tr><td><code>src/ui/reporter.ts</code></td><td>4 nodes</td></tr>
+<tr><td><code>src/engine/create-pipeline.ts</code></td><td>3 nodes</td></tr>
+<tr><td><code>src/types/config.ts</code></td><td>3 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: imports x162, imports x127, re exports x39, contains x35. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 6. Packages Desktop Components ====== -->
+<h2 id="packages-desktop-components">6. Packages Desktop Components</h2>
+<p>Packages Desktop Components groups implementation around packages, desktop, components, techiconstsx, mostly in components/common/TechIcons.tsx, components/wizard/DragDropConfigurator.tsx. This section covers 35 nodes and 87 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Packages Desktop Components (35 nodes, 87 edges)
+    subgraph packages_desktop_components_components_common_Te_da5326d4["components/common/TechIcons.tsx"]
+        packages_desktop_src_components_common_techicons_176322be("DockerIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_d38a1f1a("ReactIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_6902b576("FastifyIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_6e3a122e("TailwindIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_b365e8bf("LucideIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_f8418b95("TablerIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_7a46c856("ReactIconsIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_36a4e39c("PhosphorIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_04dc50ea("SonnerIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_bf47023c("ReactToastifyIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_2ec02d33("ReactHotToastIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_0596964a("ReactHookFormIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_72fe1bc9("TanStackFormIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_9326ac6e("TanStackQueryIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_2c350d64("ReduxIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_9f4fcc9a("ZustandIcon()<br/><small>components/common/TechIcons.tsx</small>")
+    end
+    subgraph packages_desktop_components_components_wizard_Dr_54e19242["components/wizard/DragDropConfigurator.tsx"]
+        packages_desktop_src_components_wizard_dragdropc_d9e02fa0("DragDropConfigurator.tsx")
+        packages_desktop_src_components_wizard_dragdropc_44db28e5("DragDropConfigurator()<br/><small>components/wizard/DragDropConfigurator.tsx</small>")
+    end
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_176322be
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_d38a1f1a
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_6902b576
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_6e3a122e
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_b365e8bf
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_f8418b95
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_7a46c856
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_36a4e39c
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_04dc50ea
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_bf47023c
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_2ec02d33
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_0596964a
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_72fe1bc9
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_9326ac6e
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_2c350d64
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_9f4fcc9a
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_176322be
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_6902b576
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_b365e8bf
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_36a4e39c
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_0596964a
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_2ec02d33
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_d38a1f1a
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_7a46c856
+    %% Omitted for readability: 17 nodes, 8 edges
+    class packages_desktop_src_components_common_techicons_176322be ui;
+    class packages_desktop_src_components_common_techicons_d38a1f1a ui;
+    class packages_desktop_src_components_common_techicons_6902b576 ui;
+    class packages_desktop_src_components_common_techicons_6e3a122e ui;
+    class packages_desktop_src_components_common_techicons_b365e8bf ui;
+    class packages_desktop_src_components_common_techicons_f8418b95 ui;
+    class packages_desktop_src_components_common_techicons_7a46c856 ui;
+    class packages_desktop_src_components_common_techicons_36a4e39c ui;
+    class packages_desktop_src_components_common_techicons_04dc50ea ui;
+    class packages_desktop_src_components_common_techicons_bf47023c ui;
+    class packages_desktop_src_components_common_techicons_2ec02d33 ui;
+    class packages_desktop_src_components_common_techicons_0596964a ui;
+    class packages_desktop_src_components_common_techicons_72fe1bc9 ui;
+    class packages_desktop_src_components_common_techicons_9326ac6e ui;
+    class packages_desktop_src_components_common_techicons_2c350d64 ui;
+    class packages_desktop_src_components_common_techicons_9f4fcc9a ui;
+    class packages_desktop_src_components_wizard_dragdropc_d9e02fa0 ui;
+    class packages_desktop_src_components_wizard_dragdropc_44db28e5 ui;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>IconProps</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>IconProps node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>PaletteCategory</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>PaletteCategory node in components/wizard/DragDropConfigurator.tsx.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>PaletteItem</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>PaletteItem node in components/wizard/DragDropConfigurator.tsx.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/wizard/DragDropConfigurator.tsx.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>CursorRulesIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>CursorRulesIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>DockerIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>DockerIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>DrizzleIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>DrizzleIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>ExpressIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ExpressIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>FastifyIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>FastifyIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>HonoIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>HonoIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>LucideIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>LucideIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>MongoIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>MongoIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>NestJSIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>NestJSIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>OpenSpecIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>OpenSpecIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>PhosphorIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>PhosphorIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>PnpmIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>PnpmIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>PostgresIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>PostgresIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>PrismaIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>PrismaIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>ReactHookFormIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ReactHookFormIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>ReactHotToastIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ReactHotToastIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>ReactIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ReactIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>ReactIconsIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ReactIconsIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>ReactToastifyIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ReactToastifyIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>ReduxIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ReduxIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>SonnerIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>SonnerIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>SQLiteIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>SQLiteIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>TablerIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>TablerIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>TailwindIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>TailwindIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>TanStackFormIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>TanStackFormIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>TanStackQueryIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>TanStackQueryIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>components/common/TechIcons.tsx</code></td><td>30 nodes</td></tr>
+<tr><td><code>components/wizard/DragDropConfigurator.tsx</code></td><td>5 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x33, imports x28, calls x25, imports x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 7. Packages Vfs Typests ====== -->
+<h2 id="packages-vfs-typests">7. Packages Vfs Typests</h2>
+<p>Packages Vfs Typests groups implementation around packages, vfs, typests, vfsts, mostly in src/vfs/types.ts, src/vfs/vfs.ts. This section covers 20 nodes and 22 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Packages Vfs Typests (20 nodes, 22 edges)
+    subgraph packages_vfs_typests_src_vfs_vfs_ts_eba6fd39["src/vfs/vfs.ts"]
+        packages_core_src_vfs_vfs_virtualfilesystem_appl_059bba32("applyAction()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_appl_c63cd99d("applyActions()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_dele_b640afcb("deleteFile()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_getf_38f7d1ad("getFileContent()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_hasf_57c51425("hasFile()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_totr_4b179a93("toTree()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_norm_90b64f77("normalizePath()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_defa_41a5f44a("defaultJsonMerge()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_getf_ab1e8d04("getFile()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_geta_b93bb951("getAllFiles()<br/><small>src/vfs/vfs.ts</small>")
+    end
+    subgraph packages_vfs_typests_src_vfs_types_ts_903f2478["src/vfs/types.ts"]
+        packages_core_src_vfs_types_appendfileaction_df8cb3f9("AppendFileAction<br/><small>src/vfs/types.ts</small>")
+        packages_core_src_vfs_types_createfileaction_55bd8bbf("CreateFileAction<br/><small>src/vfs/types.ts</small>")
+        packages_core_src_vfs_types_deletefileaction_6cfa27c4("DeleteFileAction<br/><small>src/vfs/types.ts</small>")
+        packages_core_src_vfs_types_fileaction_bfebf1c7("FileAction<br/><small>src/vfs/types.ts</small>")
+        packages_core_src_vfs_types_fileactiontype_ab7444be("FileActionType<br/><small>src/vfs/types.ts</small>")
+        packages_core_src_vfs_types_mergejsonaction_599d6904("MergeJsonAction<br/><small>src/vfs/types.ts</small>")
+        packages_core_src_vfs_types_overwritefileaction_b02bbef0("OverwriteFileAction<br/><small>src/vfs/types.ts</small>")
+        packages_core_src_vfs_types_patchastaction_2a5a1f35("PatchAstAction<br/><small>src/vfs/types.ts</small>")
+    end
+    packages_core_src_vfs_vfs_virtualfilesystem_appl_059bba32 -->|calls| packages_core_src_vfs_vfs_virtualfilesystem_norm_90b64f77
+    packages_core_src_vfs_vfs_virtualfilesystem_appl_059bba32 -->|calls| packages_core_src_vfs_vfs_virtualfilesystem_defa_41a5f44a
+    packages_core_src_vfs_vfs_virtualfilesystem_appl_c63cd99d -->|calls| packages_core_src_vfs_vfs_virtualfilesystem_appl_059bba32
+    packages_core_src_vfs_vfs_virtualfilesystem_defa_41a5f44a -->|calls| packages_core_src_vfs_vfs_virtualfilesystem_defa_41a5f44a
+    packages_core_src_vfs_vfs_virtualfilesystem_dele_b640afcb -->|calls| packages_core_src_vfs_vfs_virtualfilesystem_norm_90b64f77
+    packages_core_src_vfs_vfs_virtualfilesystem_getf_ab1e8d04 -->|calls| packages_core_src_vfs_vfs_virtualfilesystem_norm_90b64f77
+    packages_core_src_vfs_vfs_virtualfilesystem_getf_38f7d1ad -->|calls| packages_core_src_vfs_vfs_virtualfilesystem_getf_ab1e8d04
+    packages_core_src_vfs_vfs_virtualfilesystem_hasf_57c51425 -->|calls| packages_core_src_vfs_vfs_virtualfilesystem_norm_90b64f77
+    packages_core_src_vfs_vfs_virtualfilesystem_totr_4b179a93 -->|calls| packages_core_src_vfs_vfs_virtualfilesystem_geta_b93bb951
+    %% Omitted for readability: 2 nodes, 0 edges
+    class packages_core_src_vfs_vfs_virtualfilesystem_appl_059bba32 function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_appl_c63cd99d function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_dele_b640afcb function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_getf_38f7d1ad function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_hasf_57c51425 function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_totr_4b179a93 function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_norm_90b64f77 function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_defa_41a5f44a function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_getf_ab1e8d04 function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_geta_b93bb951 function;
+    class packages_core_src_vfs_types_appendfileaction_df8cb3f9 klass;
+    class packages_core_src_vfs_types_createfileaction_55bd8bbf klass;
+    class packages_core_src_vfs_types_deletefileaction_6cfa27c4 klass;
+    class packages_core_src_vfs_types_fileaction_bfebf1c7 klass;
+    class packages_core_src_vfs_types_fileactiontype_ab7444be klass;
+    class packages_core_src_vfs_types_mergejsonaction_599d6904 klass;
+    class packages_core_src_vfs_types_overwritefileaction_b02bbef0 klass;
+    class packages_core_src_vfs_types_patchastaction_2a5a1f35 klass;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>AppendFileAction</code><br><small style="color:var(--muted)">src/vfs/types.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>AppendFileAction node in src/vfs/types.ts.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>CreateFileAction</code><br><small style="color:var(--muted)">src/vfs/types.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>CreateFileAction node in src/vfs/types.ts.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>DeleteFileAction</code><br><small style="color:var(--muted)">src/vfs/types.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>DeleteFileAction node in src/vfs/types.ts.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>FileAction</code><br><small style="color:var(--muted)">src/vfs/types.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>vfs.ts</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>FileAction node in src/vfs/types.ts.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>FileActionType</code><br><small style="color:var(--muted)">src/vfs/types.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>FileActionType node in src/vfs/types.ts.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>MergeJsonAction</code><br><small style="color:var(--muted)">src/vfs/types.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>MergeJsonAction node in src/vfs/types.ts.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>OverwriteFileAction</code><br><small style="color:var(--muted)">src/vfs/types.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>OverwriteFileAction node in src/vfs/types.ts.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>PatchAstAction</code><br><small style="color:var(--muted)">src/vfs/types.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>PatchAstAction node in src/vfs/types.ts.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>VirtualFile</code><br><small style="color:var(--muted)">src/vfs/types.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>vfs.ts</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>VirtualFile node in src/vfs/types.ts.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>.applyAction()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>applyActions()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small><br><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><code>defaultJsonMerge()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small><br><code>normalizePath()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>.applyAction() node in src/vfs/vfs.ts.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>.applyActions()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><code>applyAction()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>.applyActions() node in src/vfs/vfs.ts.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>.defaultJsonMerge()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>applyAction()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small><br><code>defaultJsonMerge()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small><br><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><code>defaultJsonMerge()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>.defaultJsonMerge() node in src/vfs/vfs.ts.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>.deleteFile()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><code>normalizePath()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>.deleteFile() node in src/vfs/vfs.ts.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>.getAllFiles()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>flush()</code><br><small style="color:var(--muted)">src/engine/flusher.ts</small><br><code>toTree()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small><br><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>.getAllFiles() node in src/vfs/vfs.ts.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>.getFile()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>getFileContent()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small><br><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><code>normalizePath()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>.getFile() node in src/vfs/vfs.ts.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>.getFileContent()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><code>getFile()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>.getFileContent() node in src/vfs/vfs.ts.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>.hasFile()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><code>normalizePath()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>.hasFile() node in src/vfs/vfs.ts.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>.normalizePath()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>applyAction()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small><br><code>deleteFile()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small><br><code>getFile()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small><br>+2 more</td>
+  <td>No direct outbound edge</td>
+  <td>.normalizePath() node in src/vfs/vfs.ts.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>.toTree()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td><code>getAllFiles()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>.toTree() node in src/vfs/vfs.ts.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>types.ts</code><br><small style="color:var(--muted)">src/vfs/types.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>vfs.ts</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>Module file in src/vfs/types.ts.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>src/vfs/types.ts</code></td><td>10 nodes</td></tr>
+<tr><td><code>src/vfs/vfs.ts</code></td><td>10 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: calls x9, contains x9, references x4. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 8. Packages Utils Code ====== -->
+<h2 id="packages-utils-code">8. Packages Utils Code</h2>
+<p>Packages Utils Code groups implementation around packages, utils, code, patcherts, mostly in src/utils/code-patcher.ts. This section covers 6 nodes and 7 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Packages Utils Code (6 nodes, 7 edges)
+    packages_core_src_utils_code_patcher_codepatcher_8dd2d14e("CodePatcher<br/><small>src/utils/code-patcher.ts</small>")
+    packages_core_src_utils_code_patcher_codepatcher_0677dd22("addImports()<br/><small>src/utils/code-patcher.ts</small>")
+    packages_core_src_utils_code_patcher_codepatcher_2a1476c0("registerRoute()<br/><small>src/utils/code-patcher.ts</small>")
+    packages_core_src_utils_code_patcher_codepatcher_4b2d17fc("injectSlot()<br/><small>src/utils/code-patcher.ts</small>")
+    packages_core_src_utils_code_patcher_codepatcher_9ad77d2f("wrapProvider()<br/><small>src/utils/code-patcher.ts</small>")
+    packages_core_src_utils_code_patcher_codepatcher_42012216("cleanSlots()<br/><small>src/utils/code-patcher.ts</small>")
+    packages_core_src_utils_code_patcher_codepatcher_8dd2d14e -->|method| packages_core_src_utils_code_patcher_codepatcher_4b2d17fc
+    packages_core_src_utils_code_patcher_codepatcher_8dd2d14e -->|method| packages_core_src_utils_code_patcher_codepatcher_0677dd22
+    packages_core_src_utils_code_patcher_codepatcher_8dd2d14e -->|method| packages_core_src_utils_code_patcher_codepatcher_9ad77d2f
+    packages_core_src_utils_code_patcher_codepatcher_8dd2d14e -->|method| packages_core_src_utils_code_patcher_codepatcher_2a1476c0
+    packages_core_src_utils_code_patcher_codepatcher_8dd2d14e -->|method| packages_core_src_utils_code_patcher_codepatcher_42012216
+    packages_core_src_utils_code_patcher_codepatcher_0677dd22 -->|calls| packages_core_src_utils_code_patcher_codepatcher_4b2d17fc
+    packages_core_src_utils_code_patcher_codepatcher_2a1476c0 -->|calls| packages_core_src_utils_code_patcher_codepatcher_4b2d17fc
+    class packages_core_src_utils_code_patcher_codepatcher_8dd2d14e klass;
+    class packages_core_src_utils_code_patcher_codepatcher_0677dd22 function;
+    class packages_core_src_utils_code_patcher_codepatcher_2a1476c0 api;
+    class packages_core_src_utils_code_patcher_codepatcher_4b2d17fc function;
+    class packages_core_src_utils_code_patcher_codepatcher_9ad77d2f function;
+    class packages_core_src_utils_code_patcher_codepatcher_42012216 function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>code-patcher.test.ts</code><br><small style="color:var(--muted)">utils/__tests__/code-patcher.test.ts</small><br><code>mongodb.ts</code><br><small style="color:var(--muted)">slices/database/mongodb.ts</small><br><code>postgres.ts</code><br><small style="color:var(--muted)">slices/database/postgres.ts</small><br>+2 more</td>
+  <td><code>addImports()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>cleanSlots()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>injectSlot()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br>+2 more</td>
+  <td>CodePatcher node in src/utils/code-patcher.ts.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>.addImports()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td><code>injectSlot()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td>.addImports() node in src/utils/code-patcher.ts.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>.cleanSlots()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>.cleanSlots() node in src/utils/code-patcher.ts.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>.injectSlot()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>addImports()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>registerRoute()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>.injectSlot() node in src/utils/code-patcher.ts.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>.registerRoute()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td><span class="tag tag-endpoint">API</span></td>
+  <td><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td><code>injectSlot()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td>.registerRoute() node in src/utils/code-patcher.ts.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>.wrapProvider()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>.wrapProvider() node in src/utils/code-patcher.ts.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>src/utils/code-patcher.ts</code></td><td>6 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: method x5, calls x2. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 9. Cli Packages Create ====== -->
+<h2 id="cli-packages-create">9. Cli Packages Create</h2>
+<p>Cli Packages Create groups implementation around cli, packages, create, forgestack, mostly in cli/bin/create-forgestack-app.js. This section covers 4 nodes and 3 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Cli Packages Create (4 nodes, 3 edges)
+    subgraph cli_packages_create_External_generated_7917084a["External / generated"]
+        packages_cli_dist_cli_createcli_8b91e9f5("dist cli createcli")
+        packages_cli_dist_cli_ab894f4e("packages_cli_dist_cli")
+    end
+    subgraph cli_packages_create_cli_bin_create_forgestack_ap_1bea83f9["cli/bin/create-forgestack-app.js"]
+        packages_cli_bin_create_forgestack_app_f1d4d392("create-forgestack-app.js")
+        packages_cli_bin_create_forgestack_app_program_56956fd7("program<br/><small>cli/bin/create-forgestack-app.js</small>")
+    end
+    packages_cli_bin_create_forgestack_app_f1d4d392 -->|imports| packages_cli_dist_cli_createcli_8b91e9f5
+    packages_cli_bin_create_forgestack_app_f1d4d392 -->|imports| packages_cli_dist_cli_ab894f4e
+    class packages_cli_dist_cli_createcli_8b91e9f5 entry;
+    class packages_cli_dist_cli_ab894f4e entry;
+    class packages_cli_bin_create_forgestack_app_f1d4d392 module;
+    class packages_cli_bin_create_forgestack_app_program_56956fd7 function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>create-forgestack-app.js</code><br><small style="color:var(--muted)">cli/bin/create-forgestack-app.js</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>dist cli createcli</code><br><code>packages_cli_dist_cli</code></td>
+  <td>create-forgestack-app.js node in cli/bin/create-forgestack-app.js.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>program</code><br><small style="color:var(--muted)">cli/bin/create-forgestack-app.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>program node in cli/bin/create-forgestack-app.js.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>packages_cli_dist_cli</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>create-forgestack-app.js</code><br><small style="color:var(--muted)">cli/bin/create-forgestack-app.js</small></td>
+  <td>No direct outbound edge</td>
+  <td>packages_cli_dist_cli node in project.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>packages_cli_dist_cli_createcli</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>create-forgestack-app.js</code><br><small style="color:var(--muted)">cli/bin/create-forgestack-app.js</small></td>
+  <td>No direct outbound edge</td>
+  <td>packages_cli_dist_cli_createcli node in project.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>cli/bin/create-forgestack-app.js</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: imports x1, imports x1, contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 10. Librs Packages Desktop ====== -->
+<h2 id="librs-packages-desktop">10. Librs Packages Desktop</h2>
+<p>Librs Packages Desktop groups implementation around librs, packages, desktop, tauri, mostly in src-tauri/src/lib.rs. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Librs Packages Desktop (2 nodes, 1 edges)
+    packages_desktop_src_tauri_src_lib_6a48fb36("lib.rs")
+    packages_desktop_src_tauri_src_lib_run_775532ef("run()<br/><small>src-tauri/src/lib.rs</small>")
+    packages_desktop_src_tauri_src_lib_6a48fb36 -->|contains| packages_desktop_src_tauri_src_lib_run_775532ef
+    class packages_desktop_src_tauri_src_lib_6a48fb36 module;
+    class packages_desktop_src_tauri_src_lib_run_775532ef function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>lib.rs</code><br><small style="color:var(--muted)">src-tauri/src/lib.rs</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>lib.rs node in src-tauri/src/lib.rs.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>run()</code><br><small style="color:var(--muted)">src-tauri/src/lib.rs</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>run() node in src-tauri/src/lib.rs.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>src-tauri/src/lib.rs</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 11. Pnpm Workspaceyaml Packages ====== -->
+<h2 id="pnpm-workspaceyaml-packages">11. Pnpm Workspaceyaml Packages</h2>
+<p>Pnpm Workspaceyaml Packages groups implementation around pnpm, workspaceyaml, packages, mostly in pnpm-workspace.yaml. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Pnpm Workspaceyaml Packages (2 nodes, 1 edges)
+    pnpm_workspace_8934e52e("pnpm-workspace.yaml")
+    pnpm_workspace_packages_3c13d39c("packages<br/><small>pnpm-workspace.yaml</small>")
+    pnpm_workspace_8934e52e -->|contains| pnpm_workspace_packages_3c13d39c
+    class pnpm_workspace_8934e52e function;
+    class pnpm_workspace_packages_3c13d39c function;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>pnpm-workspace.yaml</code><br><small style="color:var(--muted)">pnpm-workspace.yaml</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>pnpm-workspace.yaml node in pnpm-workspace.yaml.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>packages</code><br><small style="color:var(--muted)">pnpm-workspace.yaml</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>packages node in pnpm-workspace.yaml.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>pnpm-workspace.yaml</code></td><td>2 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 12. Modrs Packages Desktop ====== -->
+<h2 id="modrs-packages-desktop">12. Modrs Packages Desktop</h2>
+<p>Modrs Packages Desktop groups implementation around modrs, packages, desktop, tauri, mostly in src/commands/mod.rs. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Modrs Packages Desktop (1 nodes, 0 edges)
+    packages_desktop_src_tauri_src_commands_mod_f3ac5166("mod.rs")
+    class packages_desktop_src_tauri_src_commands_mod_f3ac5166 module;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>mod.rs</code><br><small style="color:var(--muted)">src/commands/mod.rs</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>mod.rs node in src/commands/mod.rs.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>src/commands/mod.rs</code></td><td>1 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: No high-confidence call edges detected. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 13. Desktop Forgestack Packages ====== -->
+<h2 id="desktop-forgestack-packages">13. Desktop Forgestack Packages</h2>
+<p>Desktop Forgestack Packages groups implementation around desktop, forgestack, packages, tauri, mostly in desktop/src-tauri/Cargo.toml. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Desktop Forgestack Packages (1 nodes, 0 edges)
+    pkg_forgestack_desktop_f71beb75("forgestack-desktop<br/><small>desktop/src-tauri/Cargo.toml</small>")
+    class pkg_forgestack_desktop_f71beb75 module;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>forgestack-desktop</code><br><small style="color:var(--muted)">desktop/src-tauri/Cargo.toml</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>forgestack-desktop node in desktop/src-tauri/Cargo.toml.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>desktop/src-tauri/Cargo.toml</code></td><td>1 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: No high-confidence call edges detected. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<h2 id="stats">Project Statistics</h2>
+
+<div class="grid">
+  <div class="card">
+    <h4>Graph</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><td>Nodes</td><td>443</td></tr>
+      <tr><td>Edges</td><td>962</td></tr>
+      <tr><td>Hyperedges</td><td>0</td></tr>
+      <tr><td>Communities</td><td>28</td></tr>
+      <tr><td>Documented Sections</td><td>12</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Edge Confidence</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><td>EXTRACTED</td><td>960</td></tr>
+      <tr><td>INFERRED</td><td>2</td></tr>
+      <tr><td>AMBIGUOUS</td><td>0</td></tr>
+    </table>
+  </div>
+</div>
+
+<div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
+  <p>project-setup — Architecture Documentation</p>
+  <p>Generated: 2026-11-17 05:14 UTC · graphify callflow-html</p>
+</div>
+
+</div><!-- .container -->
+
+<script>
+(function () {
+  const mermaidConfig = {
+    startOnLoad: false,
+    theme: 'dark',
+    securityLevel: 'loose',
+    flowchart: { htmlLabels: true, useMaxWidth: true },
+    themeVariables: {
+      primaryColor: '#1e293b',
+      primaryTextColor: '#e2e8f0',
+      primaryBorderColor: '#38bdf8',
+      secondaryColor: '#0f172a',
+      tertiaryColor: '#334155',
+      lineColor: '#64748b',
+      textColor: '#e2e8f0',
+    }
+  };
+
+  mermaid.initialize(mermaidConfig);
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function enhanceMermaidDiagrams() {
+    document.querySelectorAll('.mermaid').forEach((container) => {
+      if (container.dataset.zoomReady === 'true') return;
+      const svg = container.querySelector('svg');
+      if (!svg) return;
+
+      container.dataset.zoomReady = 'true';
+      container.classList.add('is-enhanced');
+
+      const viewport = document.createElement('div');
+      viewport.className = 'mermaid-viewport';
+      svg.parentNode.insertBefore(viewport, svg);
+      viewport.appendChild(svg);
+
+      const toolbar = document.createElement('div');
+      toolbar.className = 'mermaid-toolbar';
+      toolbar.innerHTML = [
+        '<button type="button" data-action="zoom-out" title="Zoom out">-</button>',
+        '<span class="zoom-level" data-role="level">100%</span>',
+        '<button type="button" data-action="zoom-in" title="Zoom in">+</button>',
+        '<button type="button" data-action="fit" title="Fit width">Fit</button>',
+        '<button type="button" data-action="reset" title="Reset view">Reset</button>'
+      ].join('');
+      container.insertBefore(toolbar, viewport);
+
+      const state = { scale: 1, x: 0, y: 0, dragging: false, startX: 0, startY: 0, originX: 0, originY: 0 };
+      const level = toolbar.querySelector('[data-role="level"]');
+
+      function applyTransform() {
+        svg.style.transform = `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
+        level.textContent = `${Math.round(state.scale * 100)}%`;
+      }
+
+      function zoomBy(delta) {
+        state.scale = clamp(state.scale + delta, 0.25, 3);
+        applyTransform();
+      }
+
+      function reset() {
+        state.scale = 1;
+        state.x = 0;
+        state.y = 0;
+        applyTransform();
+      }
+
+      function fitWidth() {
+        const rawWidth = svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width
+          ? svg.viewBox.baseVal.width
+          : svg.getBoundingClientRect().width / state.scale;
+        if (!rawWidth) {
+          reset();
+          return;
+        }
+        state.scale = clamp((viewport.clientWidth - 48) / rawWidth, 0.25, 1.4);
+        state.x = 0;
+        state.y = 0;
+        applyTransform();
+      }
+
+      toolbar.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-action]');
+        if (!button) return;
+        const action = button.dataset.action;
+        if (action === 'zoom-in') zoomBy(0.15);
+        if (action === 'zoom-out') zoomBy(-0.15);
+        if (action === 'fit') fitWidth();
+        if (action === 'reset') reset();
+      });
+
+      viewport.addEventListener('wheel', (event) => {
+        if (!event.ctrlKey && !event.metaKey) return;
+        event.preventDefault();
+        zoomBy(event.deltaY < 0 ? 0.1 : -0.1);
+      }, { passive: false });
+
+      viewport.addEventListener('pointerdown', (event) => {
+        if (event.button !== 0) return;
+        state.dragging = true;
+        state.startX = event.clientX;
+        state.startY = event.clientY;
+        state.originX = state.x;
+        state.originY = state.y;
+        viewport.classList.add('is-dragging');
+        viewport.setPointerCapture(event.pointerId);
+      });
+
+      viewport.addEventListener('pointermove', (event) => {
+        if (!state.dragging) return;
+        state.x = state.originX + event.clientX - state.startX;
+        state.y = state.originY + event.clientY - state.startY;
+        applyTransform();
+      });
+
+      function endDrag(event) {
+        if (!state.dragging) return;
+        state.dragging = false;
+        viewport.classList.remove('is-dragging');
+        if (viewport.hasPointerCapture(event.pointerId)) {
+          viewport.releasePointerCapture(event.pointerId);
+        }
+      }
+
+      viewport.addEventListener('pointerup', endDrag);
+      viewport.addEventListener('pointercancel', endDrag);
+      applyTransform();
+    });
+  }
+
+  function renderMermaid() {
+    const result = mermaid.run
+      ? mermaid.run({ querySelector: '.mermaid' })
+      : Promise.resolve();
+    Promise.resolve(result)
+      .then(enhanceMermaidDiagrams)
+      .catch((error) => {
+        console.error('Mermaid render failed:', error);
+        enhanceMermaidDiagrams();
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderMermaid);
+  } else {
+    renderMermaid();
+  }
+})();
+</script>
+
+</body>
+</html>
