@@ -21,6 +21,7 @@ import { StepperWizard } from './components/wizard/StepperWizard.js';
 import { PathSelectorModal } from './components/wizard/PathSelectorModal.js';
 import { VsCodeWorkspace } from './components/preview/VsCodeWorkspace.js';
 import { AppSettingsPage, loadAppSettings } from './components/settings/AppSettingsPage.js';
+import { ScaffoldConsoleView } from './components/home/ScaffoldConsoleView.js';
 import { type SavedTemplate, BUILTIN_TEMPLATES } from './types/template.js';
 
 function ForgeStackAppContent() {
@@ -545,7 +546,66 @@ function ForgeStackAppContent() {
             element={<Navigate to="/new" replace />}
           />
 
-          {/* VIEW 3: APP SETTINGS PAGE */}
+          {/* VIEW 3: FAST SCAFFOLD DEDICATED CONSOLE VIEW */}
+          <Route
+            path="/scaffold"
+            element={
+              <div className="max-w-[1750px] mx-auto p-3 lg:p-5 animate-in fade-in duration-150">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+                  {/* Left Column: Scaffold Console & Blueprint */}
+                  <div
+                    className={
+                      isWorkspaceMaximized
+                        ? 'hidden'
+                        : selectedFilePath
+                        ? 'lg:col-span-5 xl:col-span-5'
+                        : 'lg:col-span-6 xl:col-span-6'
+                    }
+                  >
+                    <ScaffoldConsoleView
+                      config={config}
+                      fileCount={fileCount}
+                      isGenerating={isGenerating}
+                      isComplete={isComplete}
+                      logs={logs}
+                      onOpenFolder={handleOpenFolder}
+                      onOpenVsCode={handleOpenVsCode}
+                      onOpenAntigravity={handleOpenAntigravity}
+                    />
+                  </div>
+
+                  {/* Right Column: Integrated VS Code Studio Workspace */}
+                  <div
+                    className={
+                      isWorkspaceMaximized
+                        ? 'lg:col-span-12 h-[calc(100vh-85px)] sticky top-16'
+                        : selectedFilePath
+                        ? 'lg:col-span-7 xl:col-span-7 h-[calc(100vh-85px)] sticky top-16'
+                        : 'lg:col-span-6 xl:col-span-6 h-[calc(100vh-85px)] sticky top-16'
+                    }
+                  >
+                    <VsCodeWorkspace
+                      tree={tree}
+                      filesCount={fileCount}
+                      openTabs={openTabs}
+                      activeFilePath={selectedFilePath}
+                      activeFileContent={selectedFileContent}
+                      theme={theme}
+                      isMaximized={isWorkspaceMaximized}
+                      onSelectFile={handleSelectFile}
+                      onCloseTab={handleCloseTab}
+                      onRefresh={() => recompileVfs(config)}
+                      onAddCustomFile={handleAddCustomFile}
+                      onToggleMaximize={() => setIsWorkspaceMaximized(!isWorkspaceMaximized)}
+                      onCloseEditor={handleCloseEditor}
+                    />
+                  </div>
+                </div>
+              </div>
+            }
+          />
+
+          {/* VIEW 4: APP SETTINGS PAGE */}
           <Route
             path="/settings"
             element={
@@ -573,7 +633,7 @@ function ForgeStackAppContent() {
         onScaffold={(runConfig: ProjectConfig) => {
           setConfig(runConfig);
           handleExecuteScaffold(runConfig);
-          navigate('/new');
+          navigate('/scaffold');
         }}
         onBrowseFolder={(_curPath: string, onSelect: (p: string) => void) => {
           setBrowseCallback(() => onSelect);

@@ -383,8 +383,8 @@
     "ast_empty": true
   },
   "packages/desktop/src-tauri/src/commands/fs.rs": {
-    "mtime": 1794901944.5735924,
-    "seen": 1794902057.626147,
+    "mtime": 1794902131.458596,
+    "seen": 1794902459.843395,
     "ast_hash": "bd90cee5aa9cf6215a86b64dcf470396",
     "semantic_hash": ""
   },
@@ -395,8 +395,8 @@
     "semantic_hash": "c4810650ec6404163a933d256fe855f6"
   },
   "packages/desktop/src-tauri/src/lib.rs": {
-    "mtime": 1794901953.7726498,
-    "seen": 1794902057.6261554,
+    "mtime": 1794902131.67845,
+    "seen": 1794902459.8434172,
     "ast_hash": "e88988f501af91b974eb92cbaf3ba315",
     "semantic_hash": ""
   },
@@ -413,9 +413,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/App.tsx": {
-    "mtime": 1794902011.5470068,
-    "seen": 1794902057.6261635,
-    "ast_hash": "24021e45953d3c2b3f8c05fde2de74eb",
+    "mtime": 1794902433.7005107,
+    "seen": 1794902459.8434298,
+    "ast_hash": "f42b6d959f201fcb2d42d9721bd86a85",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/common/Badge.tsx": {
@@ -875,8 +875,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/home/FastScaffoldModal.tsx": {
-    "mtime": 1794901996.0909119,
-    "seen": 1794902057.626179,
+    "mtime": 1794902132.199388,
+    "seen": 1794902459.8434467,
     "ast_hash": "74d0986acc83b8680a1149ed3bc3283b",
     "semantic_hash": ""
   },
@@ -923,9 +923,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/layout/StudioNavbar.tsx": {
-    "mtime": 1794900585.2108307,
-    "seen": 1794902057.6261847,
-    "ast_hash": "47faa2280dce9652eb6fbd3da61b4026",
+    "mtime": 1794902382.2972133,
+    "seen": 1794902459.8434591,
+    "ast_hash": "c7162f69930d4d98dd693c6c551bb3b9",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/preview/FileEditorDrawer.tsx": {
@@ -950,6 +950,12 @@
     "mtime": 1794901386.5447679,
     "seen": 1794902057.6261246,
     "ast_hash": "8ffc7e90ad13b4e73707666a988ae493",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/home/ScaffoldConsoleView.tsx": {
+    "mtime": 1794902377.3681848,
+    "seen": 1794902459.8434553,
+    "ast_hash": "4df2b7f403f8fc02d2e5dba93f703bae",
     "semantic_hash": ""
   },
   "pnpm-lock.yaml": {

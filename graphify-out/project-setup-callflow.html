@@ -60,7 +60,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 <div class="container">
 
 <h1>project-setup — Complete Call Flow &amp; Architecture Documentation</h1>
-<p class="subtitle">Generated from graphify knowledge graph: 533 nodes, 1249 edges, 30 communities. Commit: 5084a3d</p>
+<p class="subtitle">Generated from graphify knowledge graph: 536 nodes, 1262 edges, 24 communities. Commit: 505d9c7</p>
 
 <div class="nav">
     <a href="#overview">Architecture Overview</a>
@@ -87,15 +87,15 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    BUILD_GRAPH_321CBB04("Graph Build<br/><small>301 nodes</small>")
+    BUILD_GRAPH_321CBB04("Graph Build<br/><small>334 nodes</small>")
     class BUILD_GRAPH_321CBB04 module;
     ANALYSIS_CLUSTERING_C79796DA("Analysis &amp; Clustering<br/><small>13 nodes</small>")
     class ANALYSIS_CLUSTERING_C79796DA module;
     CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>2 nodes</small>")
     class CLI_SKILLS_9964CBB8 module;
-    TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>112 nodes</small>")
+    TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>75 nodes</small>")
     class TESTS_FIXTURES_B84B1DCC module;
-    PACKAGES_DESKTOP_COMPONENTS_6AAA3929("Packages Desktop Components<br/><small>46 nodes</small>")
+    PACKAGES_DESKTOP_COMPONENTS_6AAA3929("Packages Desktop Components<br/><small>53 nodes</small>")
     class PACKAGES_DESKTOP_COMPONENTS_6AAA3929 module;
     PACKAGES_VFS_TYPESTS_B4A6B825("Packages Vfs Typests<br/><small>21 nodes</small>")
     class PACKAGES_VFS_TYPESTS_B4A6B825 module;
@@ -115,17 +115,18 @@ flowchart LR
     class MODRS_PACKAGES_DESKTOP_8A21A912 module;
     DESKTOP_FORGESTACK_PACKAGES_B23FC757("Desktop Forgestack Packages<br/><small>1 nodes</small>")
     class DESKTOP_FORGESTACK_PACKAGES_B23FC757 module;
-    BUILD_GRAPH_321CBB04 -->|imports x33| TESTS_FIXTURES_B84B1DCC
-    TESTS_FIXTURES_B84B1DCC -->|method x18| PACKAGES_VFS_TYPESTS_B4A6B825
-    BUILD_GRAPH_321CBB04 -->|calls x14| PACKAGES_DESKTOP_COMPONENTS_6AAA3929
-    TESTS_FIXTURES_B84B1DCC -->|imports x12| BUILD_GRAPH_321CBB04
+    BUILD_GRAPH_321CBB04 -->|imports x41| TESTS_FIXTURES_B84B1DCC
+    TESTS_FIXTURES_B84B1DCC -->|method x17| PACKAGES_VFS_TYPESTS_B4A6B825
+    PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|imports x16| BUILD_GRAPH_321CBB04
+    TESTS_FIXTURES_B84B1DCC -->|re exports x12| BUILD_GRAPH_321CBB04
+    PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|imports x12| TESTS_FIXTURES_B84B1DCC
+    BUILD_GRAPH_321CBB04 -->|calls x12| PACKAGES_DESKTOP_COMPONENTS_6AAA3929
     PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116 -->|imports x10| TESTS_FIXTURES_B84B1DCC
-    PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|imports x10| BUILD_GRAPH_321CBB04
     PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116 -->|imports x9| BUILD_GRAPH_321CBB04
-    PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|imports x6| TESTS_FIXTURES_B84B1DCC
     TESTS_FIXTURES_B84B1DCC -->|imports x6| PACKAGES_UTILS_CODE_BA9DD804
+    BUILD_GRAPH_321CBB04 -->|calls| PACKAGES_VFS_TYPESTS_B4A6B825
     TESTS_FIXTURES_B84B1DCC -->|contains| PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116
-    BUILD_GRAPH_321CBB04 -->|imports| PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116
+    PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|imports| PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -142,7 +143,7 @@ flowchart LR
     <h4>Architecture Layers</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>Layer</th><th>Nodes</th><th>Communities</th></tr>
-      <tr><td>Graph Build</td><td>301</td><td><code>1, 3, 5, 6, 8, 9, 10, 11, 20, 21, 16, 12, 18, 32, 33, 22</code></td></tr><tr><td>Analysis &amp; Clustering</td><td>13</td><td><code>14</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>2</td><td><code>24</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>112</td><td><code>0, 2</code></td></tr><tr><td>Packages Desktop Components</td><td>46</td><td><code>4</code></td></tr><tr><td>Packages Vfs Typests</td><td>21</td><td><code>7</code></td></tr><tr><td>Packages Desktop Components</td><td>18</td><td><code>13</code></td></tr><tr><td>Packages Utils Code</td><td>6</td><td><code>17</code></td></tr><tr><td>Openspecyaml Openspec Changes</td><td>4</td><td><code>15</code></td></tr><tr><td>Cli Packages Create</td><td>4</td><td><code>19</code></td></tr><tr><td>Librs Packages Desktop</td><td>2</td><td><code>23</code></td></tr><tr><td>Pnpm Workspaceyaml Packages</td><td>2</td><td><code>25</code></td></tr><tr><td>Modrs Packages Desktop</td><td>1</td><td><code>26</code></td></tr><tr><td>Desktop Forgestack Packages</td><td>1</td><td><code>27</code></td></tr>
+      <tr><td>Graph Build</td><td>334</td><td><code>1, 2, 3, 9, 5, 6, 8, 11, 16, 18, 22</code></td></tr><tr><td>Analysis &amp; Clustering</td><td>13</td><td><code>14</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>2</td><td><code>24</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>75</td><td><code>0</code></td></tr><tr><td>Packages Desktop Components</td><td>53</td><td><code>4</code></td></tr><tr><td>Packages Vfs Typests</td><td>21</td><td><code>7</code></td></tr><tr><td>Packages Desktop Components</td><td>18</td><td><code>13</code></td></tr><tr><td>Packages Utils Code</td><td>6</td><td><code>17</code></td></tr><tr><td>Openspecyaml Openspec Changes</td><td>4</td><td><code>15</code></td></tr><tr><td>Cli Packages Create</td><td>4</td><td><code>19</code></td></tr><tr><td>Librs Packages Desktop</td><td>2</td><td><code>23</code></td></tr><tr><td>Pnpm Workspaceyaml Packages</td><td>2</td><td><code>25</code></td></tr><tr><td>Modrs Packages Desktop</td><td>1</td><td><code>26</code></td></tr><tr><td>Desktop Forgestack Packages</td><td>1</td><td><code>27</code></td></tr>
     </table>
   </div>
   <div class="card">
@@ -154,97 +155,87 @@ flowchart LR
   <div class="card">
     <h4>Graph Report Highlights</h4>
     <ul>
-      <li>533 nodes · 1249 edges · 30 communities (22 shown, 8 thin omitted)</li>
+      <li>536 nodes · 1262 edges · 24 communities (16 shown, 8 thin omitted)</li>
       <li>Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.85)</li>
       <li>Token cost: 0 input · 0 output</li>
       <li>1. `ProjectConfig` - 64 edges</li>
       <li>2. `VirtualFileSystem` - 56 edges</li>
-      <li>3. `react` - 28 edges</li>
+      <li>3. `react` - 29 edges</li>
     </ul>
   </div>
 </div>
 <hr>
 <!-- ====== 2. Graph Build ====== -->
 <h2 id="build-graph">2. Graph Build</h2>
-<p>Graph Build groups implementation around packages, desktop, packagejson, components, mostly in packages/desktop/package.json, .github/workflows/ci.yml, packages/cli/package.json. This section covers 301 nodes and 448 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Graph Build groups implementation around packages, desktop, packagejson, components, mostly in packages/desktop/package.json, packages/cli/package.json, .github/workflows/ci.yml. This section covers 334 nodes and 516 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Graph Build (301 nodes, 448 edges)
+    %% Section: Graph Build (334 nodes, 516 edges)
+    subgraph build_graph_src_engine_flusher_ts_60ba38f7["src/engine/flusher.ts"]
+        packages_core_src_engine_flusher_transactionalfl_ae2e799a("TransactionalFlusher<br/><small>src/engine/flusher.ts</small>")
+        packages_core_src_engine_flusher_transactionalfl_39196c56("rollback()<br/><small>src/engine/flusher.ts</small>")
+        packages_core_src_engine_flusher_transactionalfl_841e8672("preflight()<br/><small>src/engine/flusher.ts</small>")
+        packages_core_src_engine_flusher_transactionalfl_c4fe92ff("flush()<br/><small>src/engine/flusher.ts</small>")
+    end
+    subgraph build_graph_src_utils_process_runner_ts_6c9e4a8b["src/utils/process-runner.ts"]
+        packages_core_src_utils_process_runner_processru_e193798f("ProcessRunner<br/><small>src/utils/process-runner.ts</small>")
+        packages_core_src_utils_process_runner_processru_b7766996("run()<br/><small>src/utils/process-runner.ts</small>")
+        packages_core_src_utils_process_runner_processru_6f53a7e4("initGit()<br/><small>src/utils/process-runner.ts</small>")
+        packages_core_src_utils_process_runner_processru_ec0122e6("installDependencies()<br/><small>src/utils/process-runner.ts</small>")
+    end
+    subgraph build_graph_src_ui_reporter_ts_838b6203["src/ui/reporter.ts"]
+        packages_cli_src_ui_reporter_clireporter_061e1ee0("CliReporter<br/><small>src/ui/reporter.ts</small>")
+        packages_cli_src_ui_reporter_clireporter_printsu_df3e3371("printSummary()<br/><small>src/ui/reporter.ts</small>")
+        packages_cli_src_ui_reporter_clireporter_printba_6f3ddbd1("printBanner()<br/><small>src/ui/reporter.ts</small>")
+    end
     subgraph build_graph_desktop_src_App_tsx_19ec034a["desktop/src/App.tsx"]
         packages_desktop_src_app_81241b1a("App.tsx")
         packages_desktop_src_app_forgestackappcontent_ff0b9680("ForgeStackAppContent()<br/><small>desktop/src/App.tsx</small>")
-        packages_desktop_src_app_app_036f02f1("App()<br/><small>desktop/src/App.tsx</small>")
     end
-    subgraph build_graph_src_engine_compositor_ts_05bac4bb["src/engine/compositor.ts"]
-        packages_core_src_engine_compositor_recipecompos_f22b10ba("RecipeCompositor<br/><small>src/engine/compositor.ts</small>")
-        packages_core_src_engine_compositor_recipecompos_fc9743ce("registerSlice()<br/><small>src/engine/compositor.ts</small>")
-        packages_core_src_engine_compositor_recipecompos_c072aaef("registerSlices()<br/><small>src/engine/compositor.ts</small>")
-    end
-    subgraph build_graph_components_home_FastScaffoldModal_ts_c552e5df["components/home/FastScaffoldModal.tsx"]
-        packages_desktop_src_components_home_fastscaffol_a92b0dd5("FastScaffoldModal.tsx")
-        packages_desktop_src_components_home_fastscaffol_df1ffd7f("FastScaffoldModal()<br/><small>components/home/FastScaffoldModal.tsx</small>")
-    end
-    subgraph build_graph_components_home_HomeTemplatesDashboa_fc954fa0["components/home/HomeTemplatesDashboard.tsx"]
-        packages_desktop_src_components_home_hometemplat_c878659e("HomeTemplatesDashboard.tsx")
-        packages_desktop_src_components_home_hometemplat_72725ac1("HomeTemplatesDashboard()<br/><small>components/home/HomeTemplatesDashboard.tsx</small>")
-    end
-    subgraph build_graph_components_preview_VsCodeWorkspace_t_ce7a26be["components/preview/VsCodeWorkspace.tsx"]
-        packages_desktop_src_components_preview_vscodewo_75c193eb("VsCodeWorkspace.tsx")
-        packages_desktop_src_components_preview_vscodewo_23c8ae15("VsCodeWorkspace()<br/><small>components/preview/VsCodeWorkspace.tsx</small>")
-    end
-    subgraph build_graph_components_settings_AppSettingsPage_50714f3c["components/settings/AppSettingsPage.tsx"]
-        packages_desktop_src_components_settings_appsett_17592a24("AppSettingsPage()<br/><small>components/settings/AppSettingsPage.tsx</small>")
-        packages_desktop_src_components_settings_appsett_8ac6a6cb("loadAppSettings()<br/><small>components/settings/AppSettingsPage.tsx</small>")
-    end
-    packages_desktop_src_components_layout_studionav_82f51c35("StudioNavbar()<br/><small>components/layout/StudioNavbar.tsx</small>")
-    packages_desktop_src_components_wizard_pathselec_b34d9880("PathSelectorModal()<br/><small>components/wizard/PathSelectorModal.tsx</small>")
-    packages_desktop_src_components_wizard_stepperwi_00b6066f("StepperWizard()<br/><small>components/wizard/StepperWizard.tsx</small>")
+    packages_cli_src_cli_825c483b("cli.ts")
+    packages_desktop_src_components_preview_vscodewo_75c193eb("VsCodeWorkspace.tsx")
     packages_desktop_package_51ae776b("desktop/package.json")
-    packages_core_src_engine_compositor_recipecompos_f22b10ba -->|method| packages_core_src_engine_compositor_recipecompos_fc9743ce
-    packages_core_src_engine_compositor_recipecompos_f22b10ba -->|method| packages_core_src_engine_compositor_recipecompos_c072aaef
-    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_app_forgestackappcontent_ff0b9680
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_layout_studionav_82f51c35
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_home_hometemplat_72725ac1
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_wizard_stepperwi_00b6066f
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_preview_vscodewo_23c8ae15
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_settings_appsett_17592a24
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_home_fastscaffol_df1ffd7f
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_wizard_pathselec_b34d9880
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_settings_appsett_8ac6a6cb
-    packages_desktop_src_components_home_fastscaffol_df1ffd7f -->|calls| packages_desktop_src_components_settings_appsett_8ac6a6cb
-    packages_desktop_src_components_settings_appsett_17592a24 -->|calls| packages_desktop_src_components_settings_appsett_8ac6a6cb
-    packages_core_src_engine_compositor_recipecompos_c072aaef -->|calls| packages_core_src_engine_compositor_recipecompos_fc9743ce
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_layout_studionav_82f51c35
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_home_hometemplat_72725ac1
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_home_fastscaffol_df1ffd7f
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_stepperwi_00b6066f
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_pathselec_b34d9880
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_preview_vscodewo_23c8ae15
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_settings_appsett_17592a24
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_settings_appsett_8ac6a6cb
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_home_hometemplat_c878659e
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_home_fastscaffol_a92b0dd5
-    %% Omitted for readability: 283 nodes, 2 edges
+    packages_desktop_vite_config_c68000dd("vite.config.ts")
+    packages_core_src_engine_compositor_recipecompos_f22b10ba("RecipeCompositor<br/><small>src/engine/compositor.ts</small>")
+    packages_cli_src_ui_reporter_clireporter_061e1ee0 -->|method| packages_cli_src_ui_reporter_clireporter_printsu_df3e3371
+    packages_cli_src_ui_reporter_clireporter_061e1ee0 -->|method| packages_cli_src_ui_reporter_clireporter_printba_6f3ddbd1
+    packages_core_src_engine_flusher_transactionalfl_ae2e799a -->|method| packages_core_src_engine_flusher_transactionalfl_39196c56
+    packages_core_src_engine_flusher_transactionalfl_ae2e799a -->|method| packages_core_src_engine_flusher_transactionalfl_841e8672
+    packages_core_src_engine_flusher_transactionalfl_ae2e799a -->|method| packages_core_src_engine_flusher_transactionalfl_c4fe92ff
+    packages_core_src_utils_process_runner_processru_e193798f -->|method| packages_core_src_utils_process_runner_processru_b7766996
+    packages_core_src_utils_process_runner_processru_e193798f -->|method| packages_core_src_utils_process_runner_processru_6f53a7e4
+    packages_core_src_utils_process_runner_processru_e193798f -->|method| packages_core_src_utils_process_runner_processru_ec0122e6
+    packages_core_src_engine_flusher_transactionalfl_c4fe92ff -->|calls| packages_core_src_engine_flusher_transactionalfl_39196c56
+    packages_core_src_engine_flusher_transactionalfl_c4fe92ff -->|calls| packages_core_src_engine_flusher_transactionalfl_841e8672
+    packages_core_src_utils_process_runner_processru_6f53a7e4 -->|calls| packages_core_src_utils_process_runner_processru_b7766996
+    packages_core_src_utils_process_runner_processru_ec0122e6 -->|calls| packages_core_src_utils_process_runner_processru_b7766996
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_preview_vscodewo_75c193eb
+    packages_cli_src_cli_825c483b -->|imports| packages_cli_src_ui_reporter_clireporter_061e1ee0
+    packages_cli_src_cli_825c483b -->|imports| packages_core_src_engine_flusher_transactionalfl_ae2e799a
+    packages_cli_src_cli_825c483b -->|imports| packages_core_src_utils_process_runner_processru_e193798f
+    packages_desktop_vite_config_c68000dd -->|imports| packages_core_src_engine_flusher_transactionalfl_ae2e799a
+    packages_desktop_vite_config_c68000dd -->|imports| packages_core_src_utils_process_runner_processru_e193798f
+    %% Omitted for readability: 316 nodes, 0 edges
+    class packages_core_src_engine_flusher_transactionalfl_ae2e799a klass;
+    class packages_core_src_engine_flusher_transactionalfl_39196c56 function;
+    class packages_core_src_engine_flusher_transactionalfl_841e8672 function;
+    class packages_core_src_engine_flusher_transactionalfl_c4fe92ff function;
+    class packages_core_src_utils_process_runner_processru_e193798f klass;
+    class packages_core_src_utils_process_runner_processru_b7766996 function;
+    class packages_core_src_utils_process_runner_processru_6f53a7e4 function;
+    class packages_core_src_utils_process_runner_processru_ec0122e6 function;
+    class packages_cli_src_ui_reporter_clireporter_061e1ee0 entry;
+    class packages_cli_src_ui_reporter_clireporter_printsu_df3e3371 function;
+    class packages_cli_src_ui_reporter_clireporter_printba_6f3ddbd1 function;
     class packages_desktop_src_app_81241b1a ui;
     class packages_desktop_src_app_forgestackappcontent_ff0b9680 ui;
-    class packages_desktop_src_app_app_036f02f1 ui;
-    class packages_core_src_engine_compositor_recipecompos_f22b10ba klass;
-    class packages_core_src_engine_compositor_recipecompos_fc9743ce function;
-    class packages_core_src_engine_compositor_recipecompos_c072aaef function;
-    class packages_desktop_src_components_home_fastscaffol_a92b0dd5 ui;
-    class packages_desktop_src_components_home_fastscaffol_df1ffd7f ui;
-    class packages_desktop_src_components_home_hometemplat_c878659e ui;
-    class packages_desktop_src_components_home_hometemplat_72725ac1 ui;
+    class packages_cli_src_cli_825c483b entry;
     class packages_desktop_src_components_preview_vscodewo_75c193eb ui;
-    class packages_desktop_src_components_preview_vscodewo_23c8ae15 ui;
-    class packages_desktop_src_components_settings_appsett_17592a24 ui;
-    class packages_desktop_src_components_settings_appsett_8ac6a6cb ui;
-    class packages_desktop_src_components_layout_studionav_82f51c35 ui;
-    class packages_desktop_src_components_wizard_pathselec_b34d9880 ui;
-    class packages_desktop_src_components_wizard_stepperwi_00b6066f ui;
     class packages_desktop_package_51ae776b function;
+    class packages_desktop_vite_config_c68000dd module;
+    class packages_core_src_engine_compositor_recipecompos_f22b10ba klass;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -292,6 +283,14 @@ flowchart LR
 </tr>
 <tr>
   <td>4</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/home/ScaffoldConsoleView.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/home/ScaffoldConsoleView.tsx.</td>
+</tr>
+<tr>
+  <td>5</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/layout/StudioNavbar.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -299,7 +298,7 @@ flowchart LR
   <td>Props node in components/layout/StudioNavbar.tsx.</td>
 </tr>
 <tr>
-  <td>5</td>
+  <td>6</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/preview/FileEditorDrawer.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -307,7 +306,7 @@ flowchart LR
   <td>Props node in components/preview/FileEditorDrawer.tsx.</td>
 </tr>
 <tr>
-  <td>6</td>
+  <td>7</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -315,7 +314,7 @@ flowchart LR
   <td>Props node in components/preview/FileTreePreview.tsx.</td>
 </tr>
 <tr>
-  <td>7</td>
+  <td>8</td>
   <td><code>TreeItemProps</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -323,7 +322,7 @@ flowchart LR
   <td>TreeItemProps node in components/preview/FileTreePreview.tsx.</td>
 </tr>
 <tr>
-  <td>8</td>
+  <td>9</td>
   <td><code>FileViewerModalProps</code><br><small style="color:var(--muted)">components/preview/FileViewerModal.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -331,7 +330,7 @@ flowchart LR
   <td>FileViewerModalProps node in components/preview/FileViewerModal.tsx.</td>
 </tr>
 <tr>
-  <td>9</td>
+  <td>10</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/preview/VsCodeWorkspace.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -339,7 +338,7 @@ flowchart LR
   <td>Props node in components/preview/VsCodeWorkspace.tsx.</td>
 </tr>
 <tr>
-  <td>10</td>
+  <td>11</td>
   <td><code>AppSettings</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -347,7 +346,7 @@ flowchart LR
   <td>AppSettings node in components/settings/AppSettingsPage.tsx.</td>
 </tr>
 <tr>
-  <td>11</td>
+  <td>12</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -355,7 +354,7 @@ flowchart LR
   <td>Props node in components/settings/AppSettingsPage.tsx.</td>
 </tr>
 <tr>
-  <td>12</td>
+  <td>13</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/Header.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -363,7 +362,7 @@ flowchart LR
   <td>Props node in components/wizard/Header.tsx.</td>
 </tr>
 <tr>
-  <td>13</td>
+  <td>14</td>
   <td><code>ThemeId</code><br><small style="color:var(--muted)">components/wizard/Header.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>AppSettingsPage.tsx</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br><code>FileEditorDrawer.tsx</code><br><small style="color:var(--muted)">components/preview/FileEditorDrawer.tsx</small><br>+2 more</td>
@@ -371,7 +370,7 @@ flowchart LR
   <td>ThemeId node in components/wizard/Header.tsx.</td>
 </tr>
 <tr>
-  <td>14</td>
+  <td>15</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/PathSelectorModal.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -379,20 +378,12 @@ flowchart LR
   <td>Props node in components/wizard/PathSelectorModal.tsx.</td>
 </tr>
 <tr>
-  <td>15</td>
+  <td>16</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/ProjectIdentity.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
   <td>Props node in components/wizard/ProjectIdentity.tsx.</td>
-</tr>
-<tr>
-  <td>16</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/Step1IdentityArchetype.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/wizard/Step1IdentityArchetype.tsx.</td>
 </tr>
 <tr>
   <td>17</td>
@@ -404,14 +395,6 @@ flowchart LR
 </tr>
 <tr>
   <td>18</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/StepperWizard.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/wizard/StepperWizard.tsx.</td>
-</tr>
-<tr>
-  <td>19</td>
   <td><code>SavedTemplate</code><br><small style="color:var(--muted)">src/types/template.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>FastScaffoldModal.tsx</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small><br><code>HomeTemplatesDashboard.tsx</code><br><small style="color:var(--muted)">components/home/HomeTemplatesDashboard.tsx</small></td>
@@ -419,7 +402,7 @@ flowchart LR
   <td>SavedTemplate node in src/types/template.ts.</td>
 </tr>
 <tr>
-  <td>20</td>
+  <td>19</td>
   <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>main.tsx</code><br><small style="color:var(--muted)">desktop/src/main.tsx</small></td>
@@ -427,31 +410,23 @@ flowchart LR
   <td>App() node in desktop/src/App.tsx.</td>
 </tr>
 <tr>
-  <td>21</td>
+  <td>20</td>
   <td><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
-  <td><code>@tauri-apps/api</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>@tauri-apps/plugin-shell</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>AppSettingsPage()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br>+7 more</td>
+  <td><code>@tauri-apps/api</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>@tauri-apps/plugin-shell</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>AppSettingsPage()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br>+8 more</td>
   <td>ForgeStackAppContent() node in desktop/src/App.tsx.</td>
 </tr>
 <tr>
-  <td>22</td>
-  <td><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>FileEditorDrawer()</code><br><small style="color:var(--muted)">components/preview/FileEditorDrawer.tsx</small><br><code>FileEditorDrawer.tsx</code><br><small style="color:var(--muted)">components/preview/FileEditorDrawer.tsx</small><br><code>FileTreePreview.tsx</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small><br>+3 more</td>
-  <td><code>ClaudeIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small><br><code>DockerIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small><br><code>JsonIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small><br>+2 more</td>
-  <td>getFileIcon() node in components/common/TechIcons.tsx.</td>
-</tr>
-<tr>
-  <td>23</td>
+  <td>21</td>
   <td><code>ExecutionConsole()</code><br><small style="color:var(--muted)">components/console/ExecutionConsole.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
-  <td><code>Step4ReviewScaffold()</code><br><small style="color:var(--muted)">components/wizard/Step4ReviewScaffold.tsx</small><br><code>Step4ReviewScaffold.tsx</code><br><small style="color:var(--muted)">components/wizard/Step4ReviewScaffold.tsx</small></td>
+  <td><code>ScaffoldConsoleView()</code><br><small style="color:var(--muted)">components/home/ScaffoldConsoleView.tsx</small><br><code>ScaffoldConsoleView.tsx</code><br><small style="color:var(--muted)">components/home/ScaffoldConsoleView.tsx</small><br><code>Step4ReviewScaffold()</code><br><small style="color:var(--muted)">components/wizard/Step4ReviewScaffold.tsx</small><br>+1 more</td>
   <td>No direct outbound edge</td>
   <td>ExecutionConsole() node in components/console/ExecutionConsole.tsx.</td>
 </tr>
 <tr>
-  <td>24</td>
+  <td>22</td>
   <td><code>FastScaffoldModal()</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
@@ -459,7 +434,7 @@ flowchart LR
   <td>FastScaffoldModal() node in components/home/FastScaffoldModal.tsx.</td>
 </tr>
 <tr>
-  <td>25</td>
+  <td>23</td>
   <td><code>HomeTemplatesDashboard()</code><br><small style="color:var(--muted)">components/home/HomeTemplatesDashboard.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
@@ -467,7 +442,15 @@ flowchart LR
   <td>HomeTemplatesDashboard() node in components/home/HomeTemplatesDashboard.tsx.</td>
 </tr>
 <tr>
-  <td>26</td>
+  <td>24</td>
+  <td><code>ScaffoldConsoleView()</code><br><small style="color:var(--muted)">components/home/ScaffoldConsoleView.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><code>ExecutionConsole()</code><br><small style="color:var(--muted)">components/console/ExecutionConsole.tsx</small></td>
+  <td>ScaffoldConsoleView() node in components/home/ScaffoldConsoleView.tsx.</td>
+</tr>
+<tr>
+  <td>25</td>
   <td><code>StudioNavbar()</code><br><small style="color:var(--muted)">components/layout/StudioNavbar.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
@@ -475,7 +458,7 @@ flowchart LR
   <td>StudioNavbar() node in components/layout/StudioNavbar.tsx.</td>
 </tr>
 <tr>
-  <td>27</td>
+  <td>26</td>
   <td><code>FileEditorDrawer()</code><br><small style="color:var(--muted)">components/preview/FileEditorDrawer.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>VsCodeWorkspace()</code><br><small style="color:var(--muted)">components/preview/VsCodeWorkspace.tsx</small><br><code>VsCodeWorkspace.tsx</code><br><small style="color:var(--muted)">components/preview/VsCodeWorkspace.tsx</small></td>
@@ -483,7 +466,7 @@ flowchart LR
   <td>FileEditorDrawer() node in components/preview/FileEditorDrawer.tsx.</td>
 </tr>
 <tr>
-  <td>28</td>
+  <td>27</td>
   <td><code>getMonacoLanguage()</code><br><small style="color:var(--muted)">components/preview/FileEditorDrawer.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>FileEditorDrawer()</code><br><small style="color:var(--muted)">components/preview/FileEditorDrawer.tsx</small></td>
@@ -491,7 +474,7 @@ flowchart LR
   <td>getMonacoLanguage() node in components/preview/FileEditorDrawer.tsx.</td>
 </tr>
 <tr>
-  <td>29</td>
+  <td>28</td>
   <td><code>FileTreePreview()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>VsCodeWorkspace()</code><br><small style="color:var(--muted)">components/preview/VsCodeWorkspace.tsx</small><br><code>VsCodeWorkspace.tsx</code><br><small style="color:var(--muted)">components/preview/VsCodeWorkspace.tsx</small></td>
@@ -499,12 +482,20 @@ flowchart LR
   <td>FileTreePreview() node in components/preview/FileTreePreview.tsx.</td>
 </tr>
 <tr>
-  <td>30</td>
+  <td>29</td>
   <td><code>filterTree()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>FileTreePreview()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small><br><code>filterTree()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
   <td><code>filterTree()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
   <td>filterTree() node in components/preview/FileTreePreview.tsx.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>TreeItem()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>FileTreePreview()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small><br><code>TreeItem()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small><br><code>TreeItem()</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
+  <td>TreeItem() node in components/preview/FileTreePreview.tsx.</td>
 </tr>
 </table>
 
@@ -514,8 +505,8 @@ flowchart LR
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
       <tr><td><code>packages/desktop/package.json</code></td><td>49 nodes</td></tr>
+<tr><td><code>packages/cli/package.json</code></td><td>29 nodes</td></tr>
 <tr><td><code>.github/workflows/ci.yml</code></td><td>28 nodes</td></tr>
-<tr><td><code>packages/cli/package.json</code></td><td>27 nodes</td></tr>
 <tr><td><code>package.json</code></td><td>21 nodes</td></tr>
 <tr><td><code>packages/core/package.json</code></td><td>21 nodes</td></tr>
 <tr><td><code>desktop/src-tauri/tauri.conf.json</code></td><td>19 nodes</td></tr>
@@ -525,7 +516,7 @@ flowchart LR
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: contains x229, imports x69, imports x68, calls x37. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x236, imports x97, imports x81, calls x44. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -782,74 +773,79 @@ flowchart LR
 
 <!-- ====== 5. Tests & Fixtures ====== -->
 <h2 id="tests-fixtures">5. Tests &amp; Fixtures</h2>
-<p>Tests &amp; Fixtures groups implementation around packages, slices, tests, frontend, mostly in src/engine/flusher.ts, src/utils/process-runner.ts, src/registry/dependencies.ts. This section covers 112 nodes and 477 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Tests &amp; Fixtures groups implementation around packages, slices, tests, frontend, mostly in src/registry/dependencies.ts, src/vfs/vfs.ts, src/engine/compositor.ts. This section covers 75 nodes and 385 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Tests &amp; Fixtures (112 nodes, 477 edges)
-    subgraph tests_fixtures_src_engine_flusher_ts_eb90d3b3["src/engine/flusher.ts"]
-        packages_core_src_engine_flusher_transactionalfl_ae2e799a("TransactionalFlusher<br/><small>src/engine/flusher.ts</small>")
-        packages_core_src_engine_flusher_transactionalfl_39196c56("rollback()<br/><small>src/engine/flusher.ts</small>")
-        packages_core_src_engine_flusher_transactionalfl_841e8672("preflight()<br/><small>src/engine/flusher.ts</small>")
-        packages_core_src_engine_flusher_transactionalfl_c4fe92ff("flush()<br/><small>src/engine/flusher.ts</small>")
-    end
+    %% Section: Tests &amp; Fixtures (75 nodes, 385 edges)
     subgraph tests_fixtures_src_vfs_vfs_ts_cab28de0["src/vfs/vfs.ts"]
         packages_core_src_vfs_vfs_virtualfilesystem_5289c11c("VirtualFileSystem<br/><small>src/vfs/vfs.ts</small>")
-        packages_core_src_vfs_vfs_virtualfilesystem_coun_d4105f9d("count()<br/><small>src/vfs/vfs.ts</small>")
         packages_core_src_vfs_vfs_virtualfilesystem_clea_9617a13e("clear()<br/><small>src/vfs/vfs.ts</small>")
         packages_core_src_vfs_vfs_virtualfilesystem_clon_132621cd("clone()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_b8406957("vfs.ts")
     end
-    subgraph tests_fixtures_src_ui_reporter_ts_81d4cd7d["src/ui/reporter.ts"]
-        packages_cli_src_ui_reporter_clireporter_061e1ee0("CliReporter<br/><small>src/ui/reporter.ts</small>")
-        packages_cli_src_ui_reporter_clireporter_printsu_df3e3371("printSummary()<br/><small>src/ui/reporter.ts</small>")
-        packages_cli_src_ui_reporter_clireporter_printba_6f3ddbd1("printBanner()<br/><small>src/ui/reporter.ts</small>")
+    subgraph tests_fixtures_src_registry_dependencies_ts_c7169d10["src/registry/dependencies.ts"]
+        packages_core_src_registry_dependencies_resolved_8253cc44("resolveDependencies()<br/><small>src/registry/dependencies.ts</small>")
+        packages_core_src_registry_dependencies_getpinne_de040387("getPinnedVersion()<br/><small>src/registry/dependencies.ts</small>")
     end
-    packages_cli_src_cli_825c483b("cli.ts")
+    subgraph tests_fixtures_src_types_config_ts_638ae83c["src/types/config.ts"]
+        packages_core_src_types_config_projectconfig_acf54710("ProjectConfig<br/><small>src/types/config.ts</small>")
+        packages_core_src_types_config_a9407c63("config.ts")
+    end
     packages_core_src_slices_database_tests_mongodb_f3a2a0f4("mongodb.test.ts")
     packages_core_src_slices_database_tests_postgres_d243e59d("postgres.test.ts")
     packages_core_src_slices_frontend_tests_state_te_fc37df8c("state.test.ts")
     packages_core_src_slices_frontend_tests_tailwind_4d9358e9("tailwind.test.ts")
+    packages_core_src_slices_frontend_tests_ui_extra_24206046("ui-extras.test.ts")
+    packages_core_src_slices_backend_clean_modular_c_5109f4bf("cleanModularBackendSlice<br/><small>slices/backend/clean-modular.ts</small>")
+    packages_core_src_slices_backend_pm2_pm2slice_6a4a907f("pm2Slice<br/><small>slices/backend/pm2.ts</small>")
+    packages_core_src_slices_database_postgres_postg_f400c16f("postgresSlice<br/><small>slices/database/postgres.ts</small>")
+    packages_core_src_engine_compositor_c201d904("compositor.ts")
     packages_core_src_engine_create_pipeline_cf2611ed("create-pipeline.ts")
-    packages_core_src_utils_process_runner_processru_e193798f("ProcessRunner<br/><small>src/utils/process-runner.ts</small>")
-    packages_core_src_vfs_vfs_virtualfilesystem_5289c11c -->|method| packages_core_src_vfs_vfs_virtualfilesystem_coun_d4105f9d
     packages_core_src_vfs_vfs_virtualfilesystem_5289c11c -->|method| packages_core_src_vfs_vfs_virtualfilesystem_clea_9617a13e
     packages_core_src_vfs_vfs_virtualfilesystem_5289c11c -->|method| packages_core_src_vfs_vfs_virtualfilesystem_clon_132621cd
-    packages_cli_src_ui_reporter_clireporter_061e1ee0 -->|method| packages_cli_src_ui_reporter_clireporter_printsu_df3e3371
-    packages_cli_src_ui_reporter_clireporter_061e1ee0 -->|method| packages_cli_src_ui_reporter_clireporter_printba_6f3ddbd1
-    packages_core_src_engine_flusher_transactionalfl_ae2e799a -->|method| packages_core_src_engine_flusher_transactionalfl_39196c56
-    packages_core_src_engine_flusher_transactionalfl_ae2e799a -->|method| packages_core_src_engine_flusher_transactionalfl_841e8672
-    packages_core_src_engine_flusher_transactionalfl_ae2e799a -->|method| packages_core_src_engine_flusher_transactionalfl_c4fe92ff
-    packages_core_src_engine_flusher_transactionalfl_c4fe92ff -->|calls| packages_core_src_engine_flusher_transactionalfl_39196c56
-    packages_core_src_engine_flusher_transactionalfl_c4fe92ff -->|calls| packages_core_src_engine_flusher_transactionalfl_841e8672
+    packages_core_src_registry_dependencies_resolved_8253cc44 -->|calls| packages_core_src_registry_dependencies_getpinne_de040387
+    packages_core_src_engine_compositor_c201d904 -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
+    packages_core_src_engine_compositor_c201d904 -->|imports| packages_core_src_types_config_projectconfig_acf54710
+    packages_core_src_engine_compositor_c201d904 -->|imports| packages_core_src_vfs_vfs_b8406957
+    packages_core_src_engine_compositor_c201d904 -->|imports| packages_core_src_types_config_a9407c63
+    packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_slices_backend_clean_modular_c_5109f4bf
+    packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_slices_backend_pm2_pm2slice_6a4a907f
+    packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_slices_database_postgres_postg_f400c16f
+    packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_types_config_projectconfig_acf54710
     packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
+    packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_engine_compositor_c201d904
+    packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_types_config_a9407c63
+    packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_vfs_vfs_b8406957
     packages_core_src_slices_database_tests_mongodb_f3a2a0f4 -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
+    packages_core_src_slices_database_tests_mongodb_f3a2a0f4 -->|imports| packages_core_src_slices_backend_clean_modular_c_5109f4bf
+    packages_core_src_slices_database_tests_mongodb_f3a2a0f4 -->|imports| packages_core_src_types_config_projectconfig_acf54710
+    packages_core_src_slices_database_tests_mongodb_f3a2a0f4 -->|imports| packages_core_src_vfs_vfs_b8406957
+    packages_core_src_slices_database_tests_mongodb_f3a2a0f4 -->|imports| packages_core_src_types_config_a9407c63
     packages_core_src_slices_database_tests_postgres_d243e59d -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
-    packages_core_src_slices_frontend_tests_state_te_fc37df8c -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
-    packages_core_src_slices_frontend_tests_tailwind_4d9358e9 -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
-    packages_cli_src_cli_825c483b -->|imports| packages_cli_src_ui_reporter_clireporter_061e1ee0
-    packages_cli_src_cli_825c483b -->|imports| packages_core_src_engine_flusher_transactionalfl_ae2e799a
-    packages_cli_src_cli_825c483b -->|imports| packages_core_src_utils_process_runner_processru_e193798f
-    packages_core_src_engine_flusher_transactionalfl_c4fe92ff -->|calls| packages_core_src_vfs_vfs_virtualfilesystem_coun_d4105f9d
-    %% Omitted for readability: 94 nodes, 0 edges
-    class packages_core_src_engine_flusher_transactionalfl_ae2e799a klass;
-    class packages_core_src_engine_flusher_transactionalfl_39196c56 function;
-    class packages_core_src_engine_flusher_transactionalfl_841e8672 function;
-    class packages_core_src_engine_flusher_transactionalfl_c4fe92ff function;
+    packages_core_src_slices_database_tests_postgres_d243e59d -->|imports| packages_core_src_slices_backend_clean_modular_c_5109f4bf
+    packages_core_src_slices_database_tests_postgres_d243e59d -->|imports| packages_core_src_slices_database_postgres_postg_f400c16f
+    packages_core_src_slices_database_tests_postgres_d243e59d -->|imports| packages_core_src_types_config_projectconfig_acf54710
+    %% Omitted for readability: 57 nodes, 14 edges
     class packages_core_src_vfs_vfs_virtualfilesystem_5289c11c klass;
-    class packages_core_src_vfs_vfs_virtualfilesystem_coun_d4105f9d function;
     class packages_core_src_vfs_vfs_virtualfilesystem_clea_9617a13e function;
     class packages_core_src_vfs_vfs_virtualfilesystem_clon_132621cd function;
-    class packages_cli_src_ui_reporter_clireporter_061e1ee0 entry;
-    class packages_cli_src_ui_reporter_clireporter_printsu_df3e3371 function;
-    class packages_cli_src_ui_reporter_clireporter_printba_6f3ddbd1 function;
-    class packages_cli_src_cli_825c483b entry;
+    class packages_core_src_vfs_vfs_b8406957 module;
+    class packages_core_src_registry_dependencies_resolved_8253cc44 function;
+    class packages_core_src_registry_dependencies_getpinne_de040387 function;
+    class packages_core_src_types_config_projectconfig_acf54710 klass;
+    class packages_core_src_types_config_a9407c63 module;
     class packages_core_src_slices_database_tests_mongodb_f3a2a0f4 test;
     class packages_core_src_slices_database_tests_postgres_d243e59d test;
     class packages_core_src_slices_frontend_tests_state_te_fc37df8c test;
     class packages_core_src_slices_frontend_tests_tailwind_4d9358e9 test;
+    class packages_core_src_slices_frontend_tests_ui_extra_24206046 test;
+    class packages_core_src_slices_backend_clean_modular_c_5109f4bf function;
+    class packages_core_src_slices_backend_pm2_pm2slice_6a4a907f function;
+    class packages_core_src_slices_database_postgres_postg_f400c16f function;
+    class packages_core_src_engine_compositor_c201d904 module;
     class packages_core_src_engine_create_pipeline_cf2611ed module;
-    class packages_core_src_utils_process_runner_processru_e193798f klass;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -947,7 +943,7 @@ flowchart LR
   <td>10</td>
   <td><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small></td>
   <td><span class="tag tag-class">Module</span></td>
-  <td><code>AiGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>BackendGrid.tsx</code><br><small style="color:var(--muted)">components/wizard/BackendGrid.tsx</small><br>+15 more</td>
+  <td><code>AiGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>BackendGrid.tsx</code><br><small style="color:var(--muted)">components/wizard/BackendGrid.tsx</small><br>+16 more</td>
   <td>No direct outbound edge</td>
   <td>Module file in core/src/browser.ts.</td>
 </tr>
@@ -1118,34 +1114,38 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>src/engine/flusher.ts</code></td><td>7 nodes</td></tr>
-<tr><td><code>src/utils/process-runner.ts</code></td><td>7 nodes</td></tr>
-<tr><td><code>src/registry/dependencies.ts</code></td><td>5 nodes</td></tr>
-<tr><td><code>src/vfs/vfs.ts</code></td><td>5 nodes</td></tr>
-<tr><td><code>src/ui/reporter.ts</code></td><td>4 nodes</td></tr>
+      <tr><td><code>src/registry/dependencies.ts</code></td><td>5 nodes</td></tr>
+<tr><td><code>src/vfs/vfs.ts</code></td><td>4 nodes</td></tr>
 <tr><td><code>src/engine/compositor.ts</code></td><td>3 nodes</td></tr>
-<tr><td><code>src/types/config.ts</code></td><td>3 nodes</td></tr>
-<tr><td><code>packages/cli/package.json</code></td><td>2 nodes</td></tr>
+<tr><td><code>slices/backend/clean-modular.ts</code></td><td>2 nodes</td></tr>
+<tr><td><code>slices/backend/pm2.ts</code></td><td>2 nodes</td></tr>
+<tr><td><code>slices/container/docker.ts</code></td><td>2 nodes</td></tr>
+<tr><td><code>slices/database/mongodb.ts</code></td><td>2 nodes</td></tr>
+<tr><td><code>slices/database/postgres.ts</code></td><td>2 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: imports x206, imports x162, re exports x45, contains x36. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: imports x166, imports x146, re exports x40, contains x26. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
 
 <!-- ====== 6. Packages Desktop Components ====== -->
 <h2 id="packages-desktop-components">6. Packages Desktop Components</h2>
-<p>Packages Desktop Components groups implementation around packages, desktop, components, techiconstsx, mostly in components/common/TechIcons.tsx, components/wizard/DragDropConfigurator.tsx, components/wizard/Step2StackEcosystem.tsx. This section covers 46 nodes and 127 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Packages Desktop Components groups implementation around packages, desktop, components, techiconstsx, mostly in components/common/TechIcons.tsx, components/wizard/DragDropConfigurator.tsx, components/wizard/Step1IdentityArchetype.tsx. This section covers 53 nodes and 146 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Packages Desktop Components (46 nodes, 127 edges)
+    %% Section: Packages Desktop Components (53 nodes, 146 edges)
     subgraph packages_desktop_components_components_common_Te_da5326d4["components/common/TechIcons.tsx"]
-        packages_desktop_src_components_common_techicons_176322be("DockerIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_90619e5a("getFileIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_7604c2f8("ClaudeIcon()<br/><small>components/common/TechIcons.tsx</small>")
         packages_desktop_src_components_common_techicons_d38a1f1a("ReactIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_c4edf879("JsonIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_176322be("DockerIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_4f9d8e63("PnpmIcon()<br/><small>components/common/TechIcons.tsx</small>")
         packages_desktop_src_components_common_techicons_6902b576("FastifyIcon()<br/><small>components/common/TechIcons.tsx</small>")
         packages_desktop_src_components_common_techicons_6e3a122e("TailwindIcon()<br/><small>components/common/TechIcons.tsx</small>")
         packages_desktop_src_components_common_techicons_b365e8bf("LucideIcon()<br/><small>components/common/TechIcons.tsx</small>")
@@ -1153,9 +1153,6 @@ flowchart LR
         packages_desktop_src_components_common_techicons_7a46c856("ReactIconsIcon()<br/><small>components/common/TechIcons.tsx</small>")
         packages_desktop_src_components_common_techicons_36a4e39c("PhosphorIcon()<br/><small>components/common/TechIcons.tsx</small>")
         packages_desktop_src_components_common_techicons_04dc50ea("SonnerIcon()<br/><small>components/common/TechIcons.tsx</small>")
-        packages_desktop_src_components_common_techicons_bf47023c("ReactToastifyIcon()<br/><small>components/common/TechIcons.tsx</small>")
-        packages_desktop_src_components_common_techicons_2ec02d33("ReactHotToastIcon()<br/><small>components/common/TechIcons.tsx</small>")
-        packages_desktop_src_components_common_techicons_0596964a("ReactHookFormIcon()<br/><small>components/common/TechIcons.tsx</small>")
     end
     subgraph packages_desktop_components_components_wizard_Dr_54e19242["components/wizard/DragDropConfigurator.tsx"]
         packages_desktop_src_components_wizard_dragdropc_d9e02fa0("DragDropConfigurator.tsx")
@@ -1165,10 +1162,12 @@ flowchart LR
         packages_desktop_src_components_wizard_step2stac_8af49020("Step2StackEcosystem.tsx")
         packages_desktop_src_components_wizard_step2stac_cd8ff1dc("Step2StackEcosystem()<br/><small>components/wizard/Step2StackEcosystem.tsx</small>")
     end
-    subgraph packages_desktop_components_components_wizard_St_c37240ec["components/wizard/Step3ToolingGovernance.tsx"]
-        packages_desktop_src_components_wizard_step3tool_0592a50f("Step3ToolingGovernance.tsx")
-        packages_desktop_src_components_wizard_step3tool_770fa0c8("Step3ToolingGovernance()<br/><small>components/wizard/Step3ToolingGovernance.tsx</small>")
-    end
+    packages_desktop_src_components_wizard_stepperwi_8abfef04("StepperWizard.tsx")
+    packages_desktop_src_components_common_techicons_90619e5a -->|calls| packages_desktop_src_components_common_techicons_7604c2f8
+    packages_desktop_src_components_common_techicons_90619e5a -->|calls| packages_desktop_src_components_common_techicons_d38a1f1a
+    packages_desktop_src_components_common_techicons_90619e5a -->|calls| packages_desktop_src_components_common_techicons_c4edf879
+    packages_desktop_src_components_common_techicons_90619e5a -->|calls| packages_desktop_src_components_common_techicons_176322be
+    packages_desktop_src_components_common_techicons_90619e5a -->|calls| packages_desktop_src_components_common_techicons_4f9d8e63
     packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_176322be
     packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_d38a1f1a
     packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_6902b576
@@ -1178,24 +1177,23 @@ flowchart LR
     packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_7a46c856
     packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_36a4e39c
     packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_04dc50ea
-    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_bf47023c
-    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_2ec02d33
-    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_0596964a
     packages_desktop_src_components_wizard_step2stac_cd8ff1dc -->|calls| packages_desktop_src_components_common_techicons_6902b576
-    packages_desktop_src_components_wizard_step3tool_770fa0c8 -->|calls| packages_desktop_src_components_common_techicons_176322be
     packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_176322be
     packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_6902b576
     packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_b365e8bf
     packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_36a4e39c
-    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_0596964a
-    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_2ec02d33
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_4f9d8e63
     packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_d38a1f1a
     packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_7a46c856
-    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_bf47023c
     packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_04dc50ea
-    %% Omitted for readability: 28 nodes, 6 edges
-    class packages_desktop_src_components_common_techicons_176322be ui;
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_f8418b95
+    %% Omitted for readability: 35 nodes, 6 edges
+    class packages_desktop_src_components_common_techicons_90619e5a ui;
+    class packages_desktop_src_components_common_techicons_7604c2f8 ui;
     class packages_desktop_src_components_common_techicons_d38a1f1a ui;
+    class packages_desktop_src_components_common_techicons_c4edf879 ui;
+    class packages_desktop_src_components_common_techicons_176322be ui;
+    class packages_desktop_src_components_common_techicons_4f9d8e63 ui;
     class packages_desktop_src_components_common_techicons_6902b576 ui;
     class packages_desktop_src_components_common_techicons_6e3a122e ui;
     class packages_desktop_src_components_common_techicons_b365e8bf ui;
@@ -1203,15 +1201,11 @@ flowchart LR
     class packages_desktop_src_components_common_techicons_7a46c856 ui;
     class packages_desktop_src_components_common_techicons_36a4e39c ui;
     class packages_desktop_src_components_common_techicons_04dc50ea ui;
-    class packages_desktop_src_components_common_techicons_bf47023c ui;
-    class packages_desktop_src_components_common_techicons_2ec02d33 ui;
-    class packages_desktop_src_components_common_techicons_0596964a ui;
     class packages_desktop_src_components_wizard_dragdropc_d9e02fa0 ui;
     class packages_desktop_src_components_wizard_dragdropc_44db28e5 ui;
     class packages_desktop_src_components_wizard_step2stac_8af49020 ui;
     class packages_desktop_src_components_wizard_step2stac_cd8ff1dc ui;
-    class packages_desktop_src_components_wizard_step3tool_0592a50f ui;
-    class packages_desktop_src_components_wizard_step3tool_770fa0c8 ui;
+    class packages_desktop_src_components_wizard_stepperwi_8abfef04 ui;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -1267,6 +1261,14 @@ flowchart LR
 </tr>
 <tr>
   <td>5</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/Step1IdentityArchetype.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/wizard/Step1IdentityArchetype.tsx.</td>
+</tr>
+<tr>
+  <td>6</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -1274,7 +1276,7 @@ flowchart LR
   <td>Props node in components/wizard/Step2StackEcosystem.tsx.</td>
 </tr>
 <tr>
-  <td>6</td>
+  <td>7</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/Step3ToolingGovernance.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -1282,7 +1284,15 @@ flowchart LR
   <td>Props node in components/wizard/Step3ToolingGovernance.tsx.</td>
 </tr>
 <tr>
-  <td>7</td>
+  <td>8</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/StepperWizard.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/wizard/StepperWizard.tsx.</td>
+</tr>
+<tr>
+  <td>9</td>
   <td><code>ClaudeIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small><br><code>Step3ToolingGovernance()</code><br><small style="color:var(--muted)">components/wizard/Step3ToolingGovernance.tsx</small><br><code>Step3ToolingGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/Step3ToolingGovernance.tsx</small></td>
@@ -1290,7 +1300,7 @@ flowchart LR
   <td>ClaudeIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>8</td>
+  <td>10</td>
   <td><code>CursorRulesIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step3ToolingGovernance()</code><br><small style="color:var(--muted)">components/wizard/Step3ToolingGovernance.tsx</small><br>+1 more</td>
@@ -1298,7 +1308,7 @@ flowchart LR
   <td>CursorRulesIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>9</td>
+  <td>11</td>
   <td><code>DockerIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small><br>+2 more</td>
@@ -1306,7 +1316,7 @@ flowchart LR
   <td>DockerIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>10</td>
+  <td>12</td>
   <td><code>DrizzleIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br><code>Step2StackEcosystem.tsx</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small></td>
@@ -1314,7 +1324,7 @@ flowchart LR
   <td>DrizzleIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>11</td>
+  <td>13</td>
   <td><code>ElectronIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>Step2StackEcosystem.tsx</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small></td>
@@ -1322,7 +1332,7 @@ flowchart LR
   <td>ElectronIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>12</td>
+  <td>14</td>
   <td><code>ExpressIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br>+1 more</td>
@@ -1330,7 +1340,7 @@ flowchart LR
   <td>ExpressIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>13</td>
+  <td>15</td>
   <td><code>FastifyIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br>+1 more</td>
@@ -1338,7 +1348,15 @@ flowchart LR
   <td>FastifyIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>14</td>
+  <td>16</td>
+  <td><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>FileEditorDrawer()</code><br><small style="color:var(--muted)">components/preview/FileEditorDrawer.tsx</small><br><code>FileEditorDrawer.tsx</code><br><small style="color:var(--muted)">components/preview/FileEditorDrawer.tsx</small><br><code>FileTreePreview.tsx</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small><br>+3 more</td>
+  <td><code>ClaudeIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small><br><code>DockerIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small><br><code>JsonIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small><br>+2 more</td>
+  <td>getFileIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>17</td>
   <td><code>HonoIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br>+1 more</td>
@@ -1346,7 +1364,7 @@ flowchart LR
   <td>HonoIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>15</td>
+  <td>18</td>
   <td><code>JsonIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
@@ -1354,7 +1372,7 @@ flowchart LR
   <td>JsonIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>16</td>
+  <td>19</td>
   <td><code>LucideIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
@@ -1362,7 +1380,7 @@ flowchart LR
   <td>LucideIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>17</td>
+  <td>20</td>
   <td><code>MongoIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br>+1 more</td>
@@ -1370,7 +1388,7 @@ flowchart LR
   <td>MongoIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>18</td>
+  <td>21</td>
   <td><code>NestJSIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
@@ -1378,7 +1396,7 @@ flowchart LR
   <td>NestJSIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>19</td>
+  <td>22</td>
   <td><code>NextJsIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>Step2StackEcosystem.tsx</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small></td>
@@ -1386,7 +1404,7 @@ flowchart LR
   <td>NextJsIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>20</td>
+  <td>23</td>
   <td><code>OpenSpecIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step3ToolingGovernance()</code><br><small style="color:var(--muted)">components/wizard/Step3ToolingGovernance.tsx</small><br>+1 more</td>
@@ -1394,7 +1412,7 @@ flowchart LR
   <td>OpenSpecIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>21</td>
+  <td>24</td>
   <td><code>PhosphorIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
@@ -1402,7 +1420,7 @@ flowchart LR
   <td>PhosphorIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>22</td>
+  <td>25</td>
   <td><code>PnpmIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
@@ -1410,7 +1428,7 @@ flowchart LR
   <td>PnpmIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>23</td>
+  <td>26</td>
   <td><code>PostgresIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br>+1 more</td>
@@ -1418,7 +1436,7 @@ flowchart LR
   <td>PostgresIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>24</td>
+  <td>27</td>
   <td><code>PrismaIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br>+1 more</td>
@@ -1426,7 +1444,7 @@ flowchart LR
   <td>PrismaIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>25</td>
+  <td>28</td>
   <td><code>ReactHookFormIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
@@ -1434,7 +1452,7 @@ flowchart LR
   <td>ReactHookFormIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>26</td>
+  <td>29</td>
   <td><code>ReactHotToastIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
@@ -1442,36 +1460,12 @@ flowchart LR
   <td>ReactHotToastIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>27</td>
+  <td>30</td>
   <td><code>ReactIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small><br>+1 more</td>
   <td>No direct outbound edge</td>
   <td>ReactIcon() node in components/common/TechIcons.tsx.</td>
-</tr>
-<tr>
-  <td>28</td>
-  <td><code>ReactIconsIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
-  <td>No direct outbound edge</td>
-  <td>ReactIconsIcon() node in components/common/TechIcons.tsx.</td>
-</tr>
-<tr>
-  <td>29</td>
-  <td><code>ReactToastifyIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
-  <td>No direct outbound edge</td>
-  <td>ReactToastifyIcon() node in components/common/TechIcons.tsx.</td>
-</tr>
-<tr>
-  <td>30</td>
-  <td><code>ReduxIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
-  <td>No direct outbound edge</td>
-  <td>ReduxIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 </table>
 
@@ -1480,15 +1474,17 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>components/common/TechIcons.tsx</code></td><td>35 nodes</td></tr>
+      <tr><td><code>components/common/TechIcons.tsx</code></td><td>36 nodes</td></tr>
 <tr><td><code>components/wizard/DragDropConfigurator.tsx</code></td><td>5 nodes</td></tr>
+<tr><td><code>components/wizard/Step1IdentityArchetype.tsx</code></td><td>3 nodes</td></tr>
 <tr><td><code>components/wizard/Step2StackEcosystem.tsx</code></td><td>3 nodes</td></tr>
 <tr><td><code>components/wizard/Step3ToolingGovernance.tsx</code></td><td>3 nodes</td></tr>
+<tr><td><code>components/wizard/StepperWizard.tsx</code></td><td>3 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: imports x45, contains x42, calls x37, imports x3. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: imports x48, contains x47, calls x45, imports x6. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -2554,17 +2550,17 @@ flowchart LR
   <div class="card">
     <h4>Graph</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>Nodes</td><td>533</td></tr>
-      <tr><td>Edges</td><td>1249</td></tr>
+      <tr><td>Nodes</td><td>536</td></tr>
+      <tr><td>Edges</td><td>1262</td></tr>
       <tr><td>Hyperedges</td><td>0</td></tr>
-      <tr><td>Communities</td><td>30</td></tr>
+      <tr><td>Communities</td><td>24</td></tr>
       <tr><td>Documented Sections</td><td>14</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Edge Confidence</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>EXTRACTED</td><td>1247</td></tr>
+      <tr><td>EXTRACTED</td><td>1260</td></tr>
       <tr><td>INFERRED</td><td>2</td></tr>
       <tr><td>AMBIGUOUS</td><td>0</td></tr>
     </table>
@@ -2573,7 +2569,7 @@ flowchart LR
 
 <div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
   <p>project-setup — Architecture Documentation</p>
-  <p>Generated: 2026-11-17 07:54 UTC · graphify callflow-html</p>
+  <p>Generated: 2026-11-17 08:01 UTC · graphify callflow-html</p>
 </div>
 
 </div><!-- .container -->
