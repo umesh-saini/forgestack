@@ -31,13 +31,13 @@ export const AiGovernance: React.FC<Props> = ({ aiGovernance, onChange }) => {
     },
     {
       key: 'skills',
-      title: 'Antigravity & Gemini Clean Code Skills',
+      title: 'Agentic Awesome Skills (AAS Playbooks)',
       path: '.agents/skills/**/SKILL.md',
-      desc: 'Reusable engineering guidelines for accessible UI design and clean modular services.',
+      desc: '17 battle-tested agent playbooks curated from sickn33/agentic-awesome-skills for Antigravity, Claude, and Cursor.',
       bulletPoints: [
-        'Modern UI: WCAG AA, Radix primitives, Tailwind tokens',
-        'Clean Coding: Service boundaries & repository decoupling',
-        'Contracts: Automatic schema synchronization between FE & BE',
+        'Clean Code Guard: Anti-defect, SOLID, and defensive error handling',
+        'Anti UI Slop & React Patterns: React 19, Tailwind v4 design tokens, WCAG AA',
+        'Database & API Mastery: Drizzle ORM, Postgres performance, REST & contracts',
       ],
       active: aiGovernance.skills,
     },

@@ -1,6 +1,7 @@
 import type { FeatureSlice } from '../../engine/compositor.js';
 import type { ProjectConfig } from '../../types/config.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { AAS_SKILLS } from './aas-skills-data.js';
 
 export const aiRulesSlice: FeatureSlice = {
   id: 'gov-ai-rules',
@@ -78,75 +79,16 @@ Act as a brutally honest, rigorous principal software engineer and systems archi
 `,
     });
 
-    // 4. .agents/skills/modern-ui-engineering/SKILL.md
-    vfs.applyAction({
-      type: 'CREATE',
-      path: '.agents/skills/modern-ui-engineering/SKILL.md',
-      content: `---
-name: modern-ui-engineering
-description: Expert guidelines and best practices for building world-class, accessible, and high-performance user interfaces using modern React 19, Tailwind CSS v4, Radix UI primitives, Lucide icons, and responsive design systems.
----
-
-# Modern UI Engineering & Frontend Craftsmanship
-
-## Principles
-1. **Design System Tokens**: Use Tailwind CSS v4 CSS variables for colors, spacing, and typography. No arbitrary hex codes.
-2. **Headless Primitives**: Compose complex widgets over Radix UI primitives with WCAG 2.1 AA keyboard accessibility.
-3. **Zero-CLS**: Always define aspect ratios and skeleton loaders for async content.
-4. **Style Utilities**: Use \`cn(...inputs: ClassValue[]): string\` via \`clsx\` and \`tailwind-merge\`.
-`,
-    });
-
-    // 5. .agents/skills/clean-code-craftsmanship/SKILL.md
-    vfs.applyAction({
-      type: 'CREATE',
-      path: '.agents/skills/clean-code-craftsmanship/SKILL.md',
-      content: `---
-name: clean-code-craftsmanship
-description: Engineering guidelines for clean code architecture, strict TypeScript standards, defensive programming, resilient error handling, and robust test-driven development.
----
-
-# Clean Code Craftsmanship & Software Architecture
-
-## Principles
-1. **Layered Isolation**: Routes -> Controllers -> Services -> Repositories -> Models.
-2. **Zero-any Discipline**: Strict TypeScript with Zod runtime validation.
-3. **Resilient Persistence**: Connection pooling, \`SELECT 1\` health check ping, exponential backoff, and graceful shutdown signal handlers (\`SIGINT\`/\`SIGTERM\`).
-4. **AAA Testing**: Arrange-Act-Assert testing with Vitest.
-`,
-    });
-
-    // 6. .agents/skills/db-migration/SKILL.md
-    vfs.applyAction({
-      type: 'CREATE',
-      path: '.agents/skills/db-migration/SKILL.md',
-      content: `---
-name: db-migration
-description: Instructions and guidelines for executing and rolling back database schema migrations safely.
----
-
-# Database Migration Guide
-- Always inspect generated SQL before applying migrations.
-- Test both migration up and migration rollback in local development before committing.
-- In production, migrations must run in a dedicated pre-deployment step.
-`,
-    });
-
-    // 7. .agents/skills/api-contract-sync/SKILL.md
-    vfs.applyAction({
-      type: 'CREATE',
-      path: '.agents/skills/api-contract-sync/SKILL.md',
-      content: `---
-name: api-contract-sync
-description: Verifies that @repo/contracts schemas match backend routes and frontend query hooks.
----
-
-# API Contract Synchronization Guide
-- When updating API routes, modify the corresponding contract schema in \`packages/contracts\` first.
-- Ensure backend controllers parse incoming requests using the contract schema.
-- Ensure frontend data-fetching hooks type their return values using the inferred DTO type.
-`,
-    });
+    // 4. Curated Agentic Awesome Skills (.agents/skills/**/SKILL.md)
+    if (config.aiGovernance.skills) {
+      for (const [skillPath, skillContent] of Object.entries(AAS_SKILLS)) {
+        vfs.applyAction({
+          type: 'CREATE',
+          path: skillPath,
+          content: skillContent,
+        });
+      }
+    }
 
     // 8. .agents/workflows/
     vfs.applyAction({

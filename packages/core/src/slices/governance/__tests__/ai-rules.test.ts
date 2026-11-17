@@ -33,10 +33,15 @@ describe('AI Rules & Governance Slice', () => {
     expect(vfs.hasFile('.cursor/rules/01-architecture-boundaries.mdc')).toBe(true);
     expect(vfs.hasFile('.cursor/rules/02-typescript-strict.mdc')).toBe(true);
     expect(vfs.hasFile('.cursor/rules/03-brutally-honest-reviewer.mdc')).toBe(true);
-    expect(vfs.hasFile('.agents/skills/modern-ui-engineering/SKILL.md')).toBe(true);
-    expect(vfs.hasFile('.agents/skills/clean-code-craftsmanship/SKILL.md')).toBe(true);
-    expect(vfs.hasFile('.agents/skills/db-migration/SKILL.md')).toBe(true);
-    expect(vfs.hasFile('.agents/skills/api-contract-sync/SKILL.md')).toBe(true);
+    expect(vfs.hasFile('.agents/skills/clean-code-guard/SKILL.md')).toBe(true);
+    expect(vfs.hasFile('.agents/skills/anti-ui-slop/SKILL.md')).toBe(true);
+    expect(vfs.hasFile('.agents/skills/react-patterns/SKILL.md')).toBe(true);
+    expect(vfs.hasFile('.agents/skills/tailwind-patterns/SKILL.md')).toBe(true);
+    expect(vfs.hasFile('.agents/skills/typescript-pro/SKILL.md')).toBe(true);
+    expect(vfs.hasFile('.agents/skills/drizzle-orm-expert/SKILL.md')).toBe(true);
+    expect(vfs.hasFile('.agents/skills/postgres-best-practices/SKILL.md')).toBe(true);
+    expect(vfs.hasFile('.agents/skills/docker-expert/SKILL.md')).toBe(true);
+    expect(vfs.hasFile('.agents/skills/ask-sonner/SKILL.md')).toBe(true);
     expect(vfs.hasFile('.agents/workflows/opsx-propose.md')).toBe(true);
     expect(vfs.hasFile('.github/copilot-instructions.md')).toBe(true);
     expect(vfs.hasFile('openspec/config.yaml')).toBe(true);
@@ -45,10 +50,10 @@ describe('AI Rules & Governance Slice', () => {
     expect(brutalReviewer).toContain('Brutally Honest Engineering Reviewer');
     expect(brutalReviewer).toContain('Zero Fake Praise');
 
-    const uiSkill = vfs.getFileContent('.agents/skills/modern-ui-engineering/SKILL.md')!;
-    expect(uiSkill).toContain('name: modern-ui-engineering');
+    const uiSkill = vfs.getFileContent('.agents/skills/anti-ui-slop/SKILL.md')!;
+    expect(uiSkill).toContain('name: anti-ui-slop');
 
-    const cleanCodeSkill = vfs.getFileContent('.agents/skills/clean-code-craftsmanship/SKILL.md')!;
-    expect(cleanCodeSkill).toContain('name: clean-code-craftsmanship');
+    const cleanCodeSkill = vfs.getFileContent('.agents/skills/clean-code-guard/SKILL.md')!;
+    expect(cleanCodeSkill).toContain('name: "clean-code-guard"');
   });
 });

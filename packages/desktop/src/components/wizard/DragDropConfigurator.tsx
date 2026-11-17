@@ -474,8 +474,8 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
     {
       id: 'ai-skills',
       category: 'ai',
-      name: 'Modern UI & Clean Code Skills',
-      tag: '.agents/skills/**/SKILL.md Agent Guidance',
+      name: 'Agentic Awesome Skills (AAS)',
+      tag: '.agents/skills/**/SKILL.md 17 Playbooks',
       icon: <Sparkles className="w-5 h-5 text-amber-500" />,
       targetZone: 'ai',
       action: (prev) => ({
@@ -1195,9 +1195,9 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
               {
                 id: 'skills',
                 key: 'skills' as const,
-                name: 'Modern UI & Clean Code Skills',
+                name: 'Agentic Awesome Skills (AAS)',
                 path: '.agents/skills/**/SKILL.md',
-                desc: 'Defensive pooling, WCAG AA contrast, Radix primitives and modular service decoupling',
+                desc: '17 battle-tested agent playbooks from sickn33/agentic-awesome-skills for clean code, anti-ui-slop, and DB mastery',
                 icon: <Sparkles className="w-5 h-5 text-amber-500" />,
               },
               {
