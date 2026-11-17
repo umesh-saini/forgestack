@@ -363,11 +363,10 @@
     "ast_empty": true
   },
   "packages/desktop/src-tauri/gen/schemas/capabilities.json": {
-    "mtime": 1794827009.413008,
-    "seen": 1794892396.4607918,
-    "ast_hash": "99914b932bd37a50b983c5e7c90ae93b",
-    "semantic_hash": "99914b932bd37a50b983c5e7c90ae93b",
-    "ast_empty": true
+    "mtime": 1794901396.0798414,
+    "seen": 1794902057.6261318,
+    "ast_hash": "f30f131c9bc2bca8b676b1b9a5ed8467",
+    "semantic_hash": ""
   },
   "packages/desktop/src-tauri/gen/schemas/desktop-schema.json": {
     "mtime": 1794827009.413008,
@@ -384,10 +383,10 @@
     "ast_empty": true
   },
   "packages/desktop/src-tauri/src/commands/fs.rs": {
-    "mtime": 1794830433.7857583,
-    "seen": 1794892396.4607966,
-    "ast_hash": "5b3bd8a6e28f9e6a5f1576277862f341",
-    "semantic_hash": "5b3bd8a6e28f9e6a5f1576277862f341"
+    "mtime": 1794901944.5735924,
+    "seen": 1794902057.626147,
+    "ast_hash": "bd90cee5aa9cf6215a86b64dcf470396",
+    "semantic_hash": ""
   },
   "packages/desktop/src-tauri/src/commands/mod.rs": {
     "mtime": 1794826633.2839577,
@@ -396,10 +395,10 @@
     "semantic_hash": "c4810650ec6404163a933d256fe855f6"
   },
   "packages/desktop/src-tauri/src/lib.rs": {
-    "mtime": 1794830443.160804,
-    "seen": 1794892396.4608803,
-    "ast_hash": "bbcbc54f53564f3c587c88b2b196486c",
-    "semantic_hash": "bbcbc54f53564f3c587c88b2b196486c"
+    "mtime": 1794901953.7726498,
+    "seen": 1794902057.6261554,
+    "ast_hash": "e88988f501af91b974eb92cbaf3ba315",
+    "semantic_hash": ""
   },
   "packages/desktop/src-tauri/src/main.rs": {
     "mtime": 1794829083.5020273,
@@ -408,15 +407,15 @@
     "semantic_hash": "fd41b550e9b255c615bdcfc90df8f280"
   },
   "packages/desktop/src-tauri/tauri.conf.json": {
-    "mtime": 1794827016.2281997,
-    "seen": 1794892396.4609578,
-    "ast_hash": "2c3b4f18681d57cf915a749771529b53",
-    "semantic_hash": "2c3b4f18681d57cf915a749771529b53"
+    "mtime": 1794901394.7438312,
+    "seen": 1794902057.6261609,
+    "ast_hash": "e186f3ba3b94d620c94c5c0b64cc2292",
+    "semantic_hash": ""
   },
   "packages/desktop/src/App.tsx": {
-    "mtime": 1794900481.6604266,
-    "seen": 1794900523.3079169,
-    "ast_hash": "d1a372e92f133d9c9ea8c6712de6c63d",
+    "mtime": 1794902011.5470068,
+    "seen": 1794902057.6261635,
+    "ast_hash": "24021e45953d3c2b3f8c05fde2de74eb",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/common/Badge.tsx": {
@@ -480,10 +479,10 @@
     "semantic_hash": "a28363797940b8c3362fa2de6677be7c"
   },
   "packages/desktop/src/components/wizard/PathSelectorModal.tsx": {
-    "mtime": 1794890950.4145517,
-    "seen": 1794892396.4614549,
-    "ast_hash": "c410818c057759f94357d073d1be0f6d",
-    "semantic_hash": "c410818c057759f94357d073d1be0f6d"
+    "mtime": 1794901630.7834392,
+    "seen": 1794902057.6262207,
+    "ast_hash": "c780a4d9ef0f651efe2b60225e9b0a22",
+    "semantic_hash": ""
   },
   "packages/desktop/src/components/wizard/ProjectIdentity.tsx": {
     "mtime": 1794832438.1833277,
@@ -876,9 +875,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/home/FastScaffoldModal.tsx": {
-    "mtime": 1794895382.028691,
-    "seen": 1794896368.4204817,
-    "ast_hash": "6c664506f30ac7eb421e22cb9436661d",
+    "mtime": 1794901996.0909119,
+    "seen": 1794902057.626179,
+    "ast_hash": "74d0986acc83b8680a1149ed3bc3283b",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/home/HomeTemplatesDashboard.tsx": {
@@ -924,8 +923,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/layout/StudioNavbar.tsx": {
-    "mtime": 1794900465.7143645,
-    "seen": 1794900523.3079305,
+    "mtime": 1794900585.2108307,
+    "seen": 1794902057.6261847,
     "ast_hash": "47faa2280dce9652eb6fbd3da61b4026",
     "semantic_hash": ""
   },
@@ -945,6 +944,12 @@
     "mtime": 1794899044.7742362,
     "seen": 1794899878.0805442,
     "ast_hash": "28816bb56191b9d1f9211da356669f32",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src-tauri/capabilities/default.json": {
+    "mtime": 1794901386.5447679,
+    "seen": 1794902057.6261246,
+    "ast_hash": "8ffc7e90ad13b4e73707666a988ae493",
     "semantic_hash": ""
   },
   "pnpm-lock.yaml": {

@@ -80,38 +80,75 @@ pub fn validate_target_path(target_path: String) -> Result<PathValidationResult,
 }
 
 #[tauri::command]
-pub fn scaffold_project_files(payload: ScaffoldPayload) -> Result<usize, String> {
-    let target = Path::new(&payload.target_path);
-    if !target.exists() {
-        fs::create_dir_all(target).map_err(|e| format!("Failed to create destination dir: {}", e))?;
-    }
-
-    for file in &payload.files {
-        let full_path = target.join(&file.path);
-        if let Some(parent) = full_path.parent() {
-            fs::create_dir_all(parent).map_err(|e| format!("Failed to create parent dir: {}", e))?;
+pub async fn scaffold_project_files(payload: ScaffoldPayload) -> Result<usize, String> {
+    tauri::async_runtime::spawn_blocking(move || {
+        let target = Path::new(&payload.target_path);
+        if !target.exists() {
+            fs::create_dir_all(target).map_err(|e| format!("Failed to create destination dir: {}", e))?;
         }
-        fs::write(&full_path, &file.content).map_err(|e| format!("Failed to write file {}: {}", file.path, e))?;
 
-        #[cfg(unix)]
-        if file.executable.unwrap_or(false) {
-            use std::os::unix::fs::PermissionsExt;
-            let _ = fs::set_permissions(&full_path, fs::Permissions::from_mode(0o755));
+        for file in &payload.files {
+            let full_path = target.join(&file.path);
+            if let Some(parent) = full_path.parent() {
+                fs::create_dir_all(parent).map_err(|e| format!("Failed to create parent dir: {}", e))?;
+            }
+            fs::write(&full_path, &file.content).map_err(|e| format!("Failed to write file {}: {}", file.path, e))?;
+
+            #[cfg(unix)]
+            if file.executable.unwrap_or(false) {
+                use std::os::unix::fs::PermissionsExt;
+                let _ = fs::set_permissions(&full_path, fs::Permissions::from_mode(0o755));
+            }
+        }
+
+        if payload.git_init {
+            let _ = std::process::Command::new("git").arg("init").current_dir(target).output();
+            let _ = std::process::Command::new("git").args(["add", "-A"]).current_dir(target).output();
+            let _ = std::process::Command::new("git").args(["commit", "-m", "feat: initial scaffold by ForgeStack"]).current_dir(target).output();
+        }
+
+        if payload.run_install {
+            let pm = if payload.package_manager.is_empty() { "pnpm" } else { &payload.package_manager };
+            let _ = std::process::Command::new(pm).arg("install").current_dir(target).output();
+        }
+
+        Ok(payload.files.len())
+    })
+    .await
+    .map_err(|e| format!("Scaffold task failed: {}", e))?
+}
+
+#[tauri::command]
+pub fn open_in_vscode(path: String) -> Result<(), String> {
+    #[cfg(target_os = "windows")]
+    {
+        let _ = std::process::Command::new("cmd").args(["/C", "code", &path]).spawn();
+    }
+    #[cfg(not(target_os = "windows"))]
+    {
+        let status = std::process::Command::new("code").arg(&path).spawn();
+        if status.is_err() {
+            let _ = std::process::Command::new("cursor").arg(&path).spawn();
         }
     }
+    Ok(())
+}
 
-    if payload.git_init {
-        let _ = std::process::Command::new("git").arg("init").current_dir(target).output();
-        let _ = std::process::Command::new("git").args(["add", "-A"]).current_dir(target).output();
-        let _ = std::process::Command::new("git").args(["commit", "-m", "feat: initial scaffold by ForgeStack"]).current_dir(target).output();
+#[tauri::command]
+pub fn open_in_folder(path: String) -> Result<(), String> {
+    #[cfg(target_os = "windows")]
+    {
+        let _ = std::process::Command::new("explorer").arg(&path).spawn();
     }
-
-    if payload.run_install {
-        let pm = if payload.package_manager.is_empty() { "pnpm" } else { &payload.package_manager };
-        let _ = std::process::Command::new(pm).arg("install").current_dir(target).output();
+    #[cfg(target_os = "macos")]
+    {
+        let _ = std::process::Command::new("open").arg(&path).spawn();
     }
-
-    Ok(payload.files.len())
+    #[cfg(target_os = "linux")]
+    {
+        let _ = std::process::Command::new("xdg-open").arg(&path).spawn();
+    }
+    Ok(())
 }
 
 #[tauri::command]
