@@ -373,13 +373,30 @@ function ForgeStackAppContent() {
   };
 
   const handleEditTemplate = (template: SavedTemplate) => {
-    setConfig({ ...template.config });
+    const userSettings = loadAppSettings();
+    const base = userSettings.defaultTargetPath || '/home/dev/Documents';
+    const rebasedPath = `${base.replace(/\/+$/, '')}/${template.config.name}`;
+    setConfig({
+      ...template.config,
+      targetPath: rebasedPath,
+      git: userSettings.defaultGitInit ?? template.config.git,
+      install: userSettings.defaultAutoInstall ?? template.config.install,
+      packageManager: userSettings.defaultPackageManager || template.config.packageManager,
+    });
     navigate('/new');
   };
 
   // External Action Handlers
   const handleOpenVsCode = async () => {
     try {
+      const isTauri =
+        typeof window !== 'undefined' &&
+        ('__TAURI_INTERNALS__' in window || '__TAURI__' in window);
+      if (isTauri) {
+        const { invoke } = await import('@tauri-apps/api/core');
+        await invoke('open_in_vscode', { path: config.targetPath });
+        return;
+      }
       const { Command } = await import('@tauri-apps/plugin-shell');
       await Command.create('code', [config.targetPath]).execute();
     } catch {
@@ -389,6 +406,14 @@ function ForgeStackAppContent() {
 
   const handleOpenFolder = async () => {
     try {
+      const isTauri =
+        typeof window !== 'undefined' &&
+        ('__TAURI_INTERNALS__' in window || '__TAURI__' in window);
+      if (isTauri) {
+        const { invoke } = await import('@tauri-apps/api/core');
+        await invoke('open_in_folder', { path: config.targetPath });
+        return;
+      }
       const { open } = await import('@tauri-apps/plugin-shell');
       await open(config.targetPath);
     } catch {
@@ -398,6 +423,14 @@ function ForgeStackAppContent() {
 
   const handleOpenAntigravity = async () => {
     try {
+      const isTauri =
+        typeof window !== 'undefined' &&
+        ('__TAURI_INTERNALS__' in window || '__TAURI__' in window);
+      if (isTauri) {
+        const { invoke } = await import('@tauri-apps/api/core');
+        await invoke('open_in_vscode', { path: config.targetPath });
+        return;
+      }
       const { Command } = await import('@tauri-apps/plugin-shell');
       await Command.create('cursor', [config.targetPath]).execute();
     } catch {

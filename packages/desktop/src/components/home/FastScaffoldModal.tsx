@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FolderOpen, Rocket, X, Check, Loader2, Sparkles } from 'lucide-react';
 import type { SavedTemplate } from '../../types/template.js';
 import type { ProjectConfig } from '@forgestack/core/browser';
+import { loadAppSettings } from '../settings/AppSettingsPage.js';
 
 interface Props {
   template: SavedTemplate | null;
@@ -18,17 +19,36 @@ export const FastScaffoldModal: React.FC<Props> = ({
   onScaffold,
   onBrowseFolder,
 }) => {
-  if (!isOpen || !template) return null;
+  const userSettings = loadAppSettings();
+  const getInitialPath = (tpl: SavedTemplate) => {
+    const base = userSettings.defaultTargetPath || '/home/dev/Documents';
+    return `${base.replace(/\/+$/, '')}/${tpl.config.name}`;
+  };
 
-  const [projectName, setProjectName] = useState(template.config.name);
-  const [targetPath, setTargetPath] = useState(template.config.targetPath);
-  const [gitInit, setGitInit] = useState(template.config.git);
-  const [autoInstall, setAutoInstall] = useState(template.config.install);
+  const [projectName, setProjectName] = useState(() => (template ? template.config.name : ''));
+  const [targetPath, setTargetPath] = useState(() => (template ? getInitialPath(template) : ''));
+  const [gitInit, setGitInit] = useState(() => userSettings.defaultGitInit ?? (template?.config.git ?? true));
+  const [autoInstall, setAutoInstall] = useState(() => userSettings.defaultAutoInstall ?? (template?.config.install ?? true));
+
+  useEffect(() => {
+    if (template && isOpen) {
+      const freshSettings = loadAppSettings();
+      const base = freshSettings.defaultTargetPath || '/home/dev/Documents';
+      setProjectName(template.config.name);
+      setTargetPath(`${base.replace(/\/+$/, '')}/${template.config.name}`);
+      setGitInit(freshSettings.defaultGitInit ?? template.config.git);
+      setAutoInstall(freshSettings.defaultAutoInstall ?? template.config.install);
+    }
+  }, [template, isOpen]);
+
+  if (!isOpen || !template) return null;
 
   const handleNameChange = (val: string) => {
     const slug = val.toLowerCase().replace(/[^a-z0-9-_]/g, '-');
     setProjectName(slug);
-    setTargetPath((prev) => prev.replace(/[^/]+$/, slug));
+    const freshSettings = loadAppSettings();
+    const base = freshSettings.defaultTargetPath || '/home/dev/Documents';
+    setTargetPath(`${base.replace(/\/+$/, '')}/${slug}`);
   };
 
   const handleConfirm = () => {
