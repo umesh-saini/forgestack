@@ -17,6 +17,8 @@ export const postgresSlice: FeatureSlice = {
         ? 'apps/api'
         : config.topology === 'separate-folders'
         ? 'backend'
+        : config.topology === 'electron-desktop' || config.topology === 'nextjs-fullstack'
+        ? 'server'
         : '';
     const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
 

@@ -44,6 +44,16 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
         hint: 'Recommended: apps/web, apps/api, @repo/contracts, @repo/ui',
       },
       {
+        value: 'nextjs-fullstack',
+        label: 'Next.js 15 Full-Stack (App Router + Server Actions)',
+        hint: 'Modern SSR/RSC with Tailwind CSS v4 & Route Handlers',
+      },
+      {
+        value: 'electron-desktop',
+        label: 'Electron Desktop App (electron-vite + React 19)',
+        hint: 'Secure IPC contextBridge with profile:create & log:getAll',
+      },
+      {
         value: 'standalone-fe',
         label: 'Standalone Frontend Only',
         hint: 'Single-package React 19 client application',
@@ -62,9 +72,17 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
     process.exit(0);
   }
 
-  const selectedTopology = topology as 'monorepo' | 'standalone-fe' | 'standalone-be';
+  const selectedTopology = topology as
+    | 'monorepo'
+    | 'standalone-fe'
+    | 'standalone-be'
+    | 'electron-desktop'
+    | 'nextjs-fullstack';
   const includeFrontend = selectedTopology !== 'standalone-be';
-  const includeBackend = selectedTopology !== 'standalone-fe';
+  const includeBackend =
+    selectedTopology !== 'standalone-fe' &&
+    selectedTopology !== 'electron-desktop' &&
+    selectedTopology !== 'nextjs-fullstack';
 
   // 3. Frontend Features (if FE included)
   let feStyling: 'tailwind' | 'none' = 'tailwind';
@@ -228,10 +246,16 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
     targetPath,
     topology: selectedTopology,
     frontend: {
-      framework: includeFrontend ? 'react-vite' : 'none',
+      framework:
+        selectedTopology === 'nextjs-fullstack'
+          ? 'nextjs'
+          : includeFrontend
+          ? 'react-vite'
+          : 'none',
       styling: feStyling,
       state: feState,
       uiExtras: feExtras,
+      dateLib: 'none',
     },
     backend: {
       framework: beFramework,
@@ -239,10 +263,15 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
       orm: beOrm,
       container: beContainer,
     },
+    utilities: {
+      frontendHelpers: true,
+      backendHelpers: includeBackend,
+    },
     aiGovernance: {
       rules: selectedAi.includes('rules'),
       skills: selectedAi.includes('skills'),
       openSpec: selectedAi.includes('openspec'),
+      engine: 'openspec',
     },
     packageManager: 'pnpm',
     git: Boolean(gitChoice),

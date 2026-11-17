@@ -1,0 +1,319 @@
+import React from 'react';
+import {
+  Bot,
+  Container,
+  Cpu,
+  FileCode,
+  Shield,
+  Sparkles,
+  Wrench,
+  Check,
+  Zap,
+} from 'lucide-react';
+import type { ProjectConfig } from '@forgestack/core/browser';
+import { DockerIcon, CursorRulesIcon, OpenSpecIcon, ClaudeIcon } from '../common/TechIcons.js';
+
+interface Props {
+  config: ProjectConfig;
+  onChange: (updater: (prev: ProjectConfig) => ProjectConfig) => void;
+}
+
+export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) => {
+  const governanceEngines: {
+    id: 'openspec' | 'gsd' | 'speckit' | 'all';
+    title: string;
+    tag: string;
+    desc: string;
+  }[] = [
+    {
+      id: 'openspec',
+      title: 'OpenSpec Governance',
+      tag: 'openspec/ & opsx-*',
+      desc: 'Spec-driven change proposals, delta specs, and continuous architectural synchronization.',
+    },
+    {
+      id: 'gsd',
+      title: 'Open-GSD (gsd-core)',
+      tag: 'gsd/ & milestones',
+      desc: 'Get Stuff Done framework with prioritized requirements [P0/P1], roadmap, and live task queue.',
+    },
+    {
+      id: 'speckit',
+      title: 'GitHub Spec-Kit',
+      tag: '.spec-kit/ constitution',
+      desc: 'Formal constitution ground rules, Gherkin acceptance criteria, and agent prompts.',
+    },
+    {
+      id: 'all',
+      title: 'All Governance Engines',
+      tag: 'Multi-Engine Suite',
+      desc: 'Scaffolds OpenSpec, Open-GSD, and GitHub Spec-Kit simultaneously for total agent compatibility.',
+    },
+  ];
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="space-y-1">
+        <h3 className="font-bold text-base tracking-tight flex items-center gap-2">
+          <span>Step 3: Tooling, Utilities & AI Governance</span>
+        </h3>
+        <p className="text-xs opacity-70">
+          Configure production process management, utility helper packs, and AI specification frameworks.
+        </p>
+      </div>
+
+      {/* Process Management: Docker vs PM2 vs None */}
+      <div className="ui-panel rounded-2xl p-5 border space-y-4">
+        <div className="flex items-center gap-2">
+          <Container className="w-4 h-4 text-blue-500" />
+          <h4 className="font-bold text-xs uppercase tracking-wider">
+            Process Manager & Containerization
+          </h4>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {[
+            {
+              id: 'docker',
+              title: 'Docker & Compose',
+              desc: 'Multi-stage Dockerfiles and docker-compose.yml for local database services',
+              icon: <DockerIcon className="w-5 h-5 text-blue-400" />,
+            },
+            {
+              id: 'pm2',
+              title: 'PM2 Cluster Manager',
+              desc: 'Production ecosystem.config.cjs with cluster mode, auto-restart, and memory cap',
+              icon: <Cpu className="w-5 h-5 text-purple-400" />,
+            },
+            {
+              id: 'none',
+              title: 'None (Direct Node)',
+              desc: 'Standard tsx/node processes without container or process manager wraps',
+              icon: <Wrench className="w-5 h-5 text-slate-400" />,
+            },
+          ].map((pm) => {
+            const isSelected = (config.backend.processManager || 'docker') === pm.id;
+            return (
+              <div
+                key={pm.id}
+                onClick={() =>
+                  onChange((prev) => ({
+                    ...prev,
+                    backend: {
+                      ...prev.backend,
+                      processManager: pm.id as any,
+                      container: pm.id === 'docker',
+                    },
+                  }))
+                }
+                className={`p-4 rounded-xl border text-left cursor-pointer transition-all flex flex-col justify-between space-y-2 ${
+                  isSelected ? 'ui-active-ring' : 'ui-card-subtle opacity-70 hover:opacity-100'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    {pm.icon}
+                    <h5 className="font-bold text-xs">{pm.title}</h5>
+                  </div>
+                  {isSelected && <Check className="w-3.5 h-3.5 text-blue-500" />}
+                </div>
+                <p className="text-xs opacity-70 leading-relaxed">{pm.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Production Utilities: Frontend & Backend Helper Packs */}
+      <div className="ui-panel rounded-2xl p-5 border space-y-4">
+        <div className="flex items-center justify-between border-b pb-3">
+          <div className="flex items-center gap-2">
+            <Zap className="w-4 h-4 text-amber-500" />
+            <h4 className="font-bold text-xs uppercase tracking-wider">
+              Production Utility Helper Packs
+            </h4>
+          </div>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
+            Modular & Barrel Exported
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Frontend Helpers */}
+          <div
+            onClick={() =>
+              onChange((prev) => ({
+                ...prev,
+                utilities: {
+                  frontendHelpers: !prev.utilities?.frontendHelpers,
+                  backendHelpers: Boolean(prev.utilities?.backendHelpers),
+                },
+              }))
+            }
+            className={`p-4 rounded-xl border text-left cursor-pointer transition-all space-y-2.5 ${
+              config.utilities?.frontendHelpers
+                ? 'ui-active-ring'
+                : 'ui-card-subtle opacity-70 hover:opacity-100'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-cyan-400" />
+                <h5 className="font-bold text-xs">Frontend API & Token Suite</h5>
+              </div>
+              <input
+                type="checkbox"
+                checked={Boolean(config.utilities?.frontendHelpers)}
+                onChange={() => {}}
+                className="rounded accent-blue-600"
+              />
+            </div>
+            <p className="text-xs opacity-70 leading-relaxed">
+              Synthesizes <code className="text-cyan-400">src/lib/axios-client.ts</code> (Bearer token injection, 401 refresh queue, retry), <code className="text-cyan-400">token-manager.ts</code>, and <code className="text-cyan-400">api-gateway.ts</code> with barrel <code className="text-cyan-400">src/lib/index.ts</code> export.
+            </p>
+          </div>
+
+          {/* Backend Helpers */}
+          <div
+            onClick={() =>
+              onChange((prev) => ({
+                ...prev,
+                utilities: {
+                  frontendHelpers: Boolean(prev.utilities?.frontendHelpers),
+                  backendHelpers: !prev.utilities?.backendHelpers,
+                },
+              }))
+            }
+            className={`p-4 rounded-xl border text-left cursor-pointer transition-all space-y-2.5 ${
+              config.utilities?.backendHelpers
+                ? 'ui-active-ring'
+                : 'ui-card-subtle opacity-70 hover:opacity-100'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Shield className="w-4 h-4 text-purple-400" />
+                <h5 className="font-bold text-xs">Backend Auth & Crypto Suite</h5>
+              </div>
+              <input
+                type="checkbox"
+                checked={Boolean(config.utilities?.backendHelpers)}
+                onChange={() => {}}
+                className="rounded accent-blue-600"
+              />
+            </div>
+            <p className="text-xs opacity-70 leading-relaxed">
+              Synthesizes <code className="text-purple-400">src/utils/token-generator.ts</code> (rotating JWT access/refresh pairs), <code className="text-purple-400">password-hasher.ts</code> (scrypt crypto salt), and standardized <code className="text-purple-400">api-response.ts</code> envelopes.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* AI Governance Engine Alternative Selector */}
+      <div className="ui-panel rounded-2xl p-5 border space-y-4">
+        <div className="flex items-center justify-between border-b pb-3">
+          <div className="flex items-center gap-2">
+            <Bot className="w-4 h-4 text-emerald-500" />
+            <h4 className="font-bold text-xs uppercase tracking-wider">
+              AI Governance Framework Alternative
+            </h4>
+          </div>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            OpenSpec • Open-GSD • GitHub Spec-Kit
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {governanceEngines.map((gov) => {
+            const isSelected = (config.aiGovernance.engine || 'openspec') === gov.id;
+            return (
+              <div
+                key={gov.id}
+                onClick={() =>
+                  onChange((prev) => ({
+                    ...prev,
+                    aiGovernance: {
+                      ...prev.aiGovernance,
+                      openSpec: true,
+                      engine: gov.id,
+                    },
+                  }))
+                }
+                className={`p-4 rounded-xl border text-left cursor-pointer transition-all flex flex-col justify-between space-y-2 ${
+                  isSelected ? 'ui-active-ring' : 'ui-card-subtle opacity-70 hover:opacity-100'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <OpenSpecIcon className="w-4 h-4 text-emerald-400" />
+                    <h5 className="font-bold text-xs">{gov.title}</h5>
+                  </div>
+                  <span className="text-[10px] font-mono opacity-60">{gov.tag}</span>
+                </div>
+                <p className="text-xs opacity-70 leading-relaxed">{gov.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* AI Agent Rules, Claude, and Skills Checkboxes */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+          <label className="p-3 rounded-xl ui-card-subtle border flex items-center justify-between text-xs cursor-pointer select-none">
+            <div className="flex items-center gap-2">
+              <CursorRulesIcon className="w-4 h-4" />
+              <span className="font-semibold">Cursor Rules</span>
+            </div>
+            <input
+              type="checkbox"
+              checked={config.aiGovernance.rules}
+              onChange={(e) =>
+                onChange((prev) => ({
+                  ...prev,
+                  aiGovernance: { ...prev.aiGovernance, rules: e.target.checked },
+                }))
+              }
+              className="rounded accent-blue-600"
+            />
+          </label>
+
+          <label className="p-3 rounded-xl ui-card-subtle border flex items-center justify-between text-xs cursor-pointer select-none">
+            <div className="flex items-center gap-2">
+              <ClaudeIcon className="w-4 h-4" />
+              <span className="font-semibold">Claude Code (CLAUDE.md)</span>
+            </div>
+            <input
+              type="checkbox"
+              checked={config.aiGovernance.claude ?? true}
+              onChange={(e) =>
+                onChange((prev) => ({
+                  ...prev,
+                  aiGovernance: { ...prev.aiGovernance, claude: e.target.checked },
+                }))
+              }
+              className="rounded accent-blue-600"
+            />
+          </label>
+
+          <label className="p-3 rounded-xl ui-card-subtle border flex items-center justify-between text-xs cursor-pointer select-none">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-amber-500" />
+              <span className="font-semibold">AAS Skills (17 Playbooks)</span>
+            </div>
+            <input
+              type="checkbox"
+              checked={config.aiGovernance.skills}
+              onChange={(e) =>
+                onChange((prev) => ({
+                  ...prev,
+                  aiGovernance: { ...prev.aiGovernance, skills: e.target.checked },
+                }))
+              }
+              className="rounded accent-blue-600"
+            />
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+};

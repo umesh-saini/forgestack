@@ -1,24 +1,33 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
+  HashRouter,
+  Routes,
+  Route,
+  Navigate,
+  useNavigate,
+  useLocation,
+} from 'react-router-dom';
+import {
   generateProjectVfs,
   type ProjectConfig,
   type TreeNode,
   type VirtualFileSystem,
 } from '@forgestack/core/browser';
-import { Header, type ThemeId } from './components/wizard/Header.js';
-import { ProjectIdentity } from './components/wizard/ProjectIdentity.js';
-import { DragDropConfigurator } from './components/wizard/DragDropConfigurator.js';
+import type { ThemeId } from './components/wizard/Header.js';
+import { StudioNavbar } from './components/layout/StudioNavbar.js';
+import { HomeTemplatesDashboard } from './components/home/HomeTemplatesDashboard.js';
+import { FastScaffoldModal } from './components/home/FastScaffoldModal.js';
+import { StepperWizard } from './components/wizard/StepperWizard.js';
 import { PathSelectorModal } from './components/wizard/PathSelectorModal.js';
-import { TopologySelector } from './components/wizard/TopologySelector.js';
-import { FrontendGrid } from './components/wizard/FrontendGrid.js';
-import { BackendGrid } from './components/wizard/BackendGrid.js';
-import { AiGovernance } from './components/wizard/AiGovernance.js';
-import { FileTreePreview } from './components/preview/FileTreePreview.js';
-import { FileViewerModal } from './components/preview/FileViewerModal.js';
-import { ExecutionConsole } from './components/console/ExecutionConsole.js';
-import { Sparkles, LayoutGrid, Layers, FolderTree } from 'lucide-react';
+import { VsCodeWorkspace } from './components/preview/VsCodeWorkspace.js';
+import { AppSettingsPage, loadAppSettings } from './components/settings/AppSettingsPage.js';
+import { type SavedTemplate, BUILTIN_TEMPLATES } from './types/template.js';
 
-export function App() {
+function ForgeStackAppContent() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Load User Preferences & Theme
   const [theme, setTheme] = useState<ThemeId>(() => {
     return (localStorage.getItem('forgestack-theme') as ThemeId) || 'theme-dark';
   });
@@ -28,209 +37,196 @@ export function App() {
     localStorage.setItem('forgestack-theme', theme);
   }, [theme]);
 
-  const [config, setConfig] = useState<ProjectConfig>({
-    name: 'enterprise-app',
-    targetPath: '/home/dev/Documents/enterprise-app',
-    topology: 'monorepo',
-    frontend: {
-      framework: 'react-vite',
-      styling: 'tailwind',
-      state: 'query',
-      icons: 'lucide',
-      toast: 'sonner',
-      forms: 'rhf-zod',
-      uiExtras: { toast: true, icons: true, forms: true },
-    },
-    backend: {
-      framework: 'fastify',
-      database: 'postgres',
-      orm: 'drizzle',
-      container: true,
-    },
-    aiGovernance: { rules: true, skills: true, openSpec: true },
-    packageManager: 'pnpm',
-    git: true,
-    install: true,
+  // Templates Management State (localStorage with BUILTIN_TEMPLATES fallback)
+  const [templates, setTemplates] = useState<SavedTemplate[]>(() => {
+    try {
+      const stored = localStorage.getItem('forgestack-templates');
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          return parsed;
+        }
+      }
+    } catch {
+      // ignore
+    }
+    return BUILTIN_TEMPLATES;
   });
 
-  const [viewMode, setViewMode] = useState<'canvas' | 'form'>('canvas');
-  const [activeTab, setActiveTab] = useState<'architecture' | 'frontend' | 'backend' | 'ai'>('architecture');
-  const [currentVfs, setCurrentVfs] = useState<VirtualFileSystem | null>(null);
-  const [tree, setTree] = useState<TreeNode[]>([]);
-  const [fileCount, setFileCount] = useState(0);
-  const [selectedFilePath, setSelectedFilePath] = useState<string | null>(null);
-  const [selectedFileContent, setSelectedFileContent] = useState<string | null>(null);
-  const [isPathModalOpen, setIsPathModalOpen] = useState(false);
-
-  const [logs, setLogs] = useState<string[]>([]);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [isComplete, setIsComplete] = useState(false);
-
-  // Update in-memory file tree dynamically whenever configuration changes
-  useEffect(() => {
-    let active = true;
-    generateProjectVfs(config)
-      .then((vfs) => {
-        if (active) {
-          setCurrentVfs(vfs);
-          setTree(vfs.toTree());
-          setFileCount(vfs.count());
-        }
-      })
-      .catch((err) => {
-        console.error('VFS Compilation Error:', err);
-      });
-    return () => {
-      active = false;
-    };
-  }, [config]);
-
-  // Inspect staged file content
-  const handleSelectFile = useCallback((filePath: string) => {
-    if (!currentVfs) return;
-    const content = currentVfs.getFileContent(filePath);
-    if (content !== undefined) {
-      setSelectedFilePath(filePath);
-      setSelectedFileContent(content);
-    }
-  }, [currentVfs]);
-
-  // Presets
-  const handleApplyPreset = (presetKey: 'monorepo' | 'separate' | 'spa' | 'fastify-api' | 'mongo-api') => {
-    switch (presetKey) {
-      case 'monorepo':
-        setConfig((prev) => ({
-          ...prev,
-          topology: 'monorepo',
-          frontend: {
-            framework: 'react-vite',
-            styling: 'tailwind',
-            state: 'query',
-            icons: 'lucide',
-            toast: 'sonner',
-            forms: 'rhf-zod',
-            uiExtras: { toast: true, icons: true, forms: true },
-          },
-          backend: {
-            framework: 'fastify',
-            database: 'postgres',
-            orm: 'drizzle',
-            container: true,
-          },
-          aiGovernance: { rules: true, skills: true, openSpec: true },
-          packageManager: 'pnpm',
-        }));
-        break;
-      case 'separate':
-        setConfig((prev) => ({
-          ...prev,
-          topology: 'separate-folders',
-          frontend: {
-            framework: 'react-vite',
-            styling: 'tailwind',
-            state: 'query',
-            icons: 'lucide',
-            toast: 'sonner',
-            forms: 'rhf-zod',
-            uiExtras: { toast: true, icons: true, forms: true },
-          },
-          backend: {
-            framework: 'fastify',
-            database: 'postgres',
-            orm: 'drizzle',
-            container: true,
-          },
-          aiGovernance: { rules: true, skills: true, openSpec: true },
-          packageManager: 'pnpm',
-        }));
-        break;
-      case 'spa':
-        setConfig((prev) => ({
-          ...prev,
-          topology: 'standalone-fe',
-          frontend: {
-            framework: 'react-vite',
-            styling: 'tailwind',
-            state: 'redux',
-            icons: 'tabler',
-            toast: 'sonner',
-            forms: 'rhf-zod',
-            uiExtras: { toast: true, icons: true, forms: true },
-          },
-          backend: {
-            framework: 'none',
-            database: 'none',
-            orm: 'none',
-            container: false,
-          },
-          aiGovernance: { rules: true, skills: true, openSpec: true },
-          packageManager: 'pnpm',
-        }));
-        break;
-      case 'fastify-api':
-        setConfig((prev) => ({
-          ...prev,
-          topology: 'standalone-be',
-          frontend: {
-            framework: 'none',
-            styling: 'none',
-            state: 'none',
-            uiExtras: { toast: false, icons: false, forms: false },
-          },
-          backend: {
-            framework: 'fastify',
-            database: 'postgres',
-            orm: 'drizzle',
-            container: true,
-          },
-          aiGovernance: { rules: true, skills: true, openSpec: true },
-          packageManager: 'pnpm',
-        }));
-        break;
-      case 'mongo-api':
-        setConfig((prev) => ({
-          ...prev,
-          topology: 'standalone-be',
-          frontend: {
-            framework: 'none',
-            styling: 'none',
-            state: 'none',
-            uiExtras: { toast: false, icons: false, forms: false },
-          },
-          backend: {
-            framework: 'express',
-            database: 'mongodb',
-            orm: 'mongoose',
-            container: true,
-          },
-          aiGovernance: { rules: true, skills: true, openSpec: true },
-          packageManager: 'pnpm',
-        }));
-        break;
+  const saveTemplatesToStorage = (updated: SavedTemplate[]) => {
+    setTemplates(updated);
+    try {
+      localStorage.setItem('forgestack-templates', JSON.stringify(updated));
+    } catch {
+      // ignore
     }
   };
 
-  const handleScaffold = async () => {
+  // Active Project Configuration
+  const [config, setConfig] = useState<ProjectConfig>(() => {
+    const userSettings = loadAppSettings();
+    return {
+      name: 'enterprise-app',
+      targetPath: `${userSettings.defaultTargetPath}/enterprise-app`,
+      topology: 'monorepo',
+      frontend: {
+        framework: 'react-vite',
+        styling: 'tailwind',
+        state: 'query',
+        icons: 'lucide',
+        toast: 'sonner',
+        forms: 'rhf-zod',
+        dateLib: 'none',
+        uiExtras: { toast: true, icons: true, forms: true },
+      },
+      backend: {
+        framework: 'fastify',
+        database: 'postgres',
+        orm: 'drizzle',
+        container: true,
+        processManager: 'docker',
+      },
+      utilities: {
+        frontendHelpers: false,
+        backendHelpers: false,
+      },
+      aiGovernance: {
+        rules: userSettings.defaultCursorRules,
+        claude: true,
+        skills: userSettings.defaultAasSkills,
+        openSpec: true,
+        engine: userSettings.defaultAiEngine,
+      },
+      packageManager: userSettings.defaultPackageManager,
+      git: userSettings.defaultGitInit,
+      install: userSettings.defaultAutoInstall,
+    };
+  });
+
+  // Fast Scaffold Modal State
+  const [fastScaffoldTemplate, setFastScaffoldTemplate] = useState<SavedTemplate | null>(null);
+
+  // VFS & Staging Preview State
+  const [currentVfs, setCurrentVfs] = useState<VirtualFileSystem | null>(null);
+  const [tree, setTree] = useState<TreeNode[]>([]);
+  const [fileCount, setFileCount] = useState(0);
+
+  // Tab-based File Preview in VS Code Workspace
+  const [openTabs, setOpenTabs] = useState<string[]>([]);
+  const [selectedFilePath, setSelectedFilePath] = useState<string | null>(null);
+  const [selectedFileContent, setSelectedFileContent] = useState<string | null>(null);
+  const [isWorkspaceMaximized, setIsWorkspaceMaximized] = useState(false);
+
+  // Path Selector Modal
+  const [isPathModalOpen, setIsPathModalOpen] = useState(false);
+  const [browseCallback, setBrowseCallback] = useState<((p: string) => void) | null>(null);
+
+  // Execution & Live Scaffolding Status
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+  const [logs, setLogs] = useState<string[]>([]);
+
+  // Recompile Virtual File System whenever Config changes
+  const recompileVfs = useCallback(async (cfgToCompile: ProjectConfig) => {
+    try {
+      const vfs = await generateProjectVfs(cfgToCompile);
+      setCurrentVfs(vfs);
+      setTree(vfs.toTree());
+      setFileCount(vfs.count());
+
+      // Live reload active file content if currently open in Monaco editor
+      if (selectedFilePath) {
+        const file = vfs.getFile(selectedFilePath);
+        if (file) {
+          setSelectedFileContent(file.content);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to compile VFS for preview:', err);
+    }
+  }, [selectedFilePath]);
+
+  useEffect(() => {
+    recompileVfs(config);
+  }, [config, recompileVfs]);
+
+  // Handle File Selection with Tab Support
+  const handleSelectFile = (filePath: string) => {
+    if (!currentVfs) return;
+    const file = currentVfs.getFile(filePath);
+    if (file) {
+      setOpenTabs((prev) => (prev.includes(filePath) ? prev : [...prev, filePath]));
+      setSelectedFilePath(filePath);
+      setSelectedFileContent(file.content);
+    }
+  };
+
+  // Close specific tab
+  const handleCloseTab = (filePath: string) => {
+    const nextTabs = openTabs.filter((p) => p !== filePath);
+    setOpenTabs(nextTabs);
+    if (selectedFilePath === filePath) {
+      if (nextTabs.length > 0) {
+        const nextActive = nextTabs[nextTabs.length - 1];
+        setSelectedFilePath(nextActive);
+        const file = currentVfs?.getFile(nextActive);
+        setSelectedFileContent(file ? file.content : null);
+      } else {
+        setSelectedFilePath(null);
+        setSelectedFileContent(null);
+        setIsWorkspaceMaximized(false);
+      }
+    }
+  };
+
+  // Close full editor pane
+  const handleCloseEditor = () => {
+    setSelectedFilePath(null);
+    setSelectedFileContent(null);
+    setOpenTabs([]);
+    setIsWorkspaceMaximized(false);
+  };
+
+  // Add Custom File In-Memory
+  const handleAddCustomFile = (customPath: string, customContent: string) => {
+    if (!currentVfs) return;
+    currentVfs.applyAction({
+      type: 'CREATE',
+      path: customPath,
+      content: customContent,
+    });
+    setTree(currentVfs.toTree());
+    setFileCount(currentVfs.count());
+    handleSelectFile(customPath);
+  };
+
+  // Scaffolding Execution Pipeline
+  const handleExecuteScaffold = async (cfgToScaffold: ProjectConfig) => {
     setIsGenerating(true);
     setIsComplete(false);
     setLogs([
-      `[ForgeStack] Initializing synthesis for project: ${config.name}...`,
-      `[ForgeStack] Target Directory: ${config.targetPath}`,
-      `[ForgeStack] Architecture Topology: ${config.topology}`,
+      `[ForgeStack] Initializing synthesis for project: ${cfgToScaffold.name}...`,
+      `[ForgeStack] Target Directory: ${cfgToScaffold.targetPath}`,
+      `[ForgeStack] Architecture Topology: ${cfgToScaffold.topology}`,
     ]);
 
     try {
-      const vfs = await generateProjectVfs(config);
+      const vfs = await generateProjectVfs(cfgToScaffold);
       setLogs((prev) => [
         ...prev,
         `[ForgeStack VFS] Compiled in-memory file system (${vfs.count()} files staged).`,
         `[ForgeStack PRE-FLIGHT] Verifying target directory write permissions...`,
       ]);
 
-      const isTauri = typeof window !== 'undefined' && ('__TAURI_INTERNALS__' in window || '__TAURI__' in window);
+      const isTauri =
+        typeof window !== 'undefined' &&
+        ('__TAURI_INTERNALS__' in window || '__TAURI__' in window);
 
       if (isTauri) {
-        setLogs((prev) => [...prev, `[ForgeStack TAURI] Writing files natively via Tauri Rust engine...`]);
+        setLogs((prev) => [
+          ...prev,
+          `[ForgeStack TAURI] Writing files natively via Tauri Rust engine...`,
+        ]);
         const { invoke } = await import('@tauri-apps/api/core');
         const files = vfs.getAllFiles().map((f) => ({
           path: f.path,
@@ -239,30 +235,35 @@ export function App() {
         }));
         const writtenCount = await invoke<number>('scaffold_project_files', {
           payload: {
-            target_path: config.targetPath,
+            target_path: cfgToScaffold.targetPath,
             files,
-            git_init: config.git,
-            run_install: config.install,
-            package_manager: config.packageManager,
+            git_init: cfgToScaffold.git,
+            run_install: cfgToScaffold.install,
+            package_manager: cfgToScaffold.packageManager,
           },
         });
         setLogs((prev) => [
           ...prev,
-          `[ForgeStack TAURI] Wrote ${writtenCount} files atomically to ${config.targetPath}`,
+          `[ForgeStack TAURI] Wrote ${writtenCount} files atomically to ${cfgToScaffold.targetPath}`,
         ]);
       } else {
-        setLogs((prev) => [...prev, `[ForgeStack FLUSH] Writing files atomically via Vite scaffold API...`]);
+        setLogs((prev) => [
+          ...prev,
+          `[ForgeStack FLUSH] Writing files atomically via Vite scaffold API...`,
+        ]);
         const response = await fetch('/api/scaffold', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(config),
+          body: JSON.stringify(cfgToScaffold),
         });
 
         if (!response.ok) {
           const errData = await response.json().catch(() => ({}));
-          throw new Error(errData.error || `Scaffolding failed with HTTP status ${response.status}`);
+          throw new Error(
+            errData.error || `Scaffolding failed with HTTP status ${response.status}`
+          );
         }
         const result = await response.json();
         setLogs((prev) => [
@@ -273,8 +274,12 @@ export function App() {
 
       setLogs((prev) => [
         ...prev,
-        ...(config.git ? ['[ForgeStack GIT] Local git repository initialized & staged.'] : []),
-        ...(config.install ? [`[ForgeStack INSTALL] Dependencies installed via ${config.packageManager}.`] : []),
+        ...(cfgToScaffold.git
+          ? ['[ForgeStack GIT] Local git repository initialized & staged.']
+          : []),
+        ...(cfgToScaffold.install
+          ? [`[ForgeStack INSTALL] Dependencies installed via ${cfgToScaffold.packageManager}.`]
+          : []),
         `[ForgeStack SUCCESS] Project scaffolded cleanly on physical disk with Day-One AI Governance!`,
       ]);
       setIsComplete(true);
@@ -288,21 +293,91 @@ export function App() {
     }
   };
 
-  // Keyboard shortcut: Ctrl+Enter or Cmd+Enter to scaffold
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
-        e.preventDefault();
-        if (!isGenerating) {
-          handleScaffold();
-        }
-      }
+  // Template Lifecycle Handlers
+  const handleSaveAsTemplate = (name: string, description: string) => {
+    const newTemplate: SavedTemplate = {
+      id: `template-${Date.now()}`,
+      name,
+      description,
+      isBuiltIn: false,
+      config: { ...config },
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [config, isGenerating]);
+    saveTemplatesToStorage([newTemplate, ...templates]);
+  };
 
-  // Post generation actions
+  const handleDuplicateTemplate = (templateId: string) => {
+    const target = templates.find((t) => t.id === templateId);
+    if (!target) return;
+    const cloned: SavedTemplate = {
+      ...target,
+      id: `template-${Date.now()}`,
+      name: `${target.name} (Copy)`,
+      isBuiltIn: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    saveTemplatesToStorage([cloned, ...templates]);
+  };
+
+  const handleDeleteTemplate = (templateId: string) => {
+    saveTemplatesToStorage(templates.filter((t) => t.id !== templateId));
+  };
+
+  const handleRenameTemplate = (templateId: string, newName: string) => {
+    saveTemplatesToStorage(
+      templates.map((t) => (t.id === templateId ? { ...t, name: newName } : t))
+    );
+  };
+
+  const handleNewStack = () => {
+    const userSettings = loadAppSettings();
+    setConfig({
+      name: 'my-custom-stack',
+      targetPath: `${userSettings.defaultTargetPath}/my-custom-stack`,
+      topology: 'monorepo',
+      frontend: {
+        framework: 'react-vite',
+        styling: 'tailwind',
+        state: 'query',
+        icons: 'lucide',
+        toast: 'sonner',
+        forms: 'rhf-zod',
+        dateLib: 'none',
+        uiExtras: { toast: true, icons: true, forms: true },
+      },
+      backend: {
+        framework: 'fastify',
+        database: 'postgres',
+        orm: 'drizzle',
+        container: true,
+        processManager: 'docker',
+      },
+      utilities: {
+        frontendHelpers: false,
+        backendHelpers: false,
+      },
+      aiGovernance: {
+        rules: userSettings.defaultCursorRules,
+        claude: true,
+        skills: userSettings.defaultAasSkills,
+        openSpec: true,
+        engine: userSettings.defaultAiEngine,
+      },
+      packageManager: userSettings.defaultPackageManager,
+      git: userSettings.defaultGitInit,
+      install: userSettings.defaultAutoInstall,
+    });
+    navigate('/new');
+  };
+
+  const handleEditTemplate = (template: SavedTemplate) => {
+    setConfig({ ...template.config });
+    navigate('/new');
+  };
+
+  // External Action Handlers
   const handleOpenVsCode = async () => {
     try {
       const { Command } = await import('@tauri-apps/plugin-shell');
@@ -310,10 +385,6 @@ export function App() {
     } catch {
       alert(`To open in VS Code, run in terminal:\ncode "${config.targetPath}"`);
     }
-  };
-
-  const handleOpenAntigravity = async () => {
-    alert(`To open in Antigravity, open folder:\n${config.targetPath}`);
   };
 
   const handleOpenFolder = async () => {
@@ -325,236 +396,189 @@ export function App() {
     }
   };
 
-  return (
-    <div className={`min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col font-sans selection:bg-blue-500/30 selection:text-white transition-colors`}>
-      {/* Background Subtle Grid Pattern */}
-      <div className="fixed inset-0 pointer-events-none bg-grid-pattern -z-10 opacity-70" />
+  const handleOpenAntigravity = async () => {
+    try {
+      const { Command } = await import('@tauri-apps/plugin-shell');
+      await Command.create('cursor', [config.targetPath]).execute();
+    } catch {
+      alert(`Project directory ready for Antigravity at:\n${config.targetPath}`);
+    }
+  };
 
-      {/* Top Header */}
-      <Header
-        config={config}
-        fileCount={fileCount}
-        isGenerating={isGenerating}
-        theme={theme}
-        onThemeChange={setTheme}
-        onApplyPreset={handleApplyPreset}
-        onScaffold={handleScaffold}
+  return (
+    <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col font-sans transition-colors selection:bg-blue-500/20">
+      {/* Top Universal Navbar with React Router links */}
+      <StudioNavbar
+        targetPath={config.targetPath}
+        onBrowsePath={() => {
+          setBrowseCallback(() => (selected: string) => {
+            setConfig((prev) => ({
+              ...prev,
+              targetPath: selected.endsWith(prev.name) ? selected : `${selected}/${prev.name}`,
+            }));
+          });
+          setIsPathModalOpen(true);
+        }}
       />
 
-      {/* Main Studio Grid */}
-      <main className="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 p-6 overflow-hidden max-w-[1700px] w-full mx-auto">
-        {/* Left Column: Configuration Workbench */}
-        <div className="lg:col-span-7 xl:col-span-7 space-y-5 overflow-y-auto pr-1">
-          {/* Section 1: Project Identity & Target Directory */}
-          <div className="ui-panel rounded-2xl p-5 shadow-sm space-y-3">
-            <h2 className="text-xs font-bold uppercase tracking-wider flex items-center gap-2 opacity-80">
-              <span className="w-5 h-5 rounded-md bg-blue-500/20 text-blue-500 flex items-center justify-center font-mono text-[11px]">
-                1
-              </span>
-              <span>Project Identity & Environment</span>
-            </h2>
-            <ProjectIdentity
-              config={config}
-              onChange={setConfig}
-              onBrowseFolder={() => setIsPathModalOpen(true)}
-            />
-          </div>
+      {/* Main View Router */}
+      <main className="flex-1">
+        <Routes>
+          {/* VIEW 1: HOME TEMPLATES DASHBOARD */}
+          <Route
+            path="/"
+            element={
+              <HomeTemplatesDashboard
+                templates={templates}
+                onNewStack={handleNewStack}
+                onEditTemplate={handleEditTemplate}
+                onFastScaffold={(tpl) => setFastScaffoldTemplate(tpl)}
+                onDuplicateTemplate={handleDuplicateTemplate}
+                onDeleteTemplate={handleDeleteTemplate}
+                onRenameTemplate={handleRenameTemplate}
+              />
+            }
+          />
 
-          {/* Section 2: Architecture Studio View Mode Switcher */}
-          <div className="ui-panel rounded-2xl p-5 shadow-sm space-y-4">
-            <div className="flex items-center justify-between border-b pb-3 flex-wrap gap-2">
-              <div className="flex items-center gap-2">
-                <span className="w-5 h-5 rounded-md bg-indigo-500/20 text-indigo-500 flex items-center justify-center font-mono text-[11px]">
-                  2
-                </span>
-                <span className="text-xs font-bold uppercase tracking-wider opacity-80">
-                  Stack Architecture & Slices
-                </span>
-              </div>
-
-              {/* View Mode Toggle: Interactive Canvas vs Detail Grids */}
-              <div className="flex rounded-xl ui-card-subtle p-0.5 border">
-                <button
-                  type="button"
-                  onClick={() => setViewMode('canvas')}
-                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center gap-1.5 ${
-                    viewMode === 'canvas'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Drag & Drop Canvas</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setViewMode('form')}
-                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center gap-1.5 ${
-                    viewMode === 'form'
-                      ? 'bg-blue-600 text-white shadow-sm'
-                      : 'opacity-70 hover:opacity-100'
-                  }`}
-                >
-                  <LayoutGrid className="w-3.5 h-3.5" />
-                  <span>Detail Grids</span>
-                </button>
-              </div>
-            </div>
-
-            {/* View Mode 1: Drag & Drop Configurator */}
-            {viewMode === 'canvas' ? (
-              <DragDropConfigurator config={config} onChange={setConfig} />
-            ) : (
-              /* View Mode 2: Classical Detail Grids */
-              <div className="space-y-4">
-                <div className="flex rounded-xl ui-card-subtle p-0.5 border">
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab('architecture')}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                      activeTab === 'architecture'
-                        ? 'bg-blue-600 text-white shadow-sm'
-                        : 'opacity-70 hover:opacity-100'
-                    }`}
+          {/* VIEW 2: 4-STEP STEPPER STUDIO (/new or /studio) */}
+          <Route
+            path="/new"
+            element={
+              <div className="max-w-[1750px] mx-auto p-3 lg:p-5 animate-in fade-in duration-150">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+                  {/* Left Column: 4-Step Progressive Stepper */}
+                  <div
+                    className={
+                      isWorkspaceMaximized
+                        ? 'hidden'
+                        : selectedFilePath
+                        ? 'lg:col-span-5 xl:col-span-4'
+                        : 'lg:col-span-7 xl:col-span-7'
+                    }
                   >
-                    Topology
-                  </button>
-                  {config.topology !== 'standalone-be' && (
-                    <button
-                      type="button"
-                      onClick={() => setActiveTab('frontend')}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                        activeTab === 'frontend'
-                          ? 'bg-blue-600 text-white shadow-sm'
-                          : 'opacity-70 hover:opacity-100'
-                      }`}
-                    >
-                      Frontend
-                    </button>
-                  )}
-                  {config.topology !== 'standalone-fe' && (
-                    <button
-                      type="button"
-                      onClick={() => setActiveTab('backend')}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                        activeTab === 'backend'
-                          ? 'bg-blue-600 text-white shadow-sm'
-                          : 'opacity-70 hover:opacity-100'
-                      }`}
-                    >
-                      Backend
-                    </button>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab('ai')}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                      activeTab === 'ai'
-                        ? 'bg-blue-600 text-white shadow-sm'
-                        : 'opacity-70 hover:opacity-100'
-                    }`}
+                    <StepperWizard
+                      config={config}
+                      fileCount={fileCount}
+                      isGenerating={isGenerating}
+                      isComplete={isComplete}
+                      logs={logs}
+                      onChange={setConfig}
+                      onBrowseFolder={() => {
+                        setBrowseCallback(null);
+                        setIsPathModalOpen(true);
+                      }}
+                      onScaffold={() => handleExecuteScaffold(config)}
+                      onSaveAsTemplate={handleSaveAsTemplate}
+                      onOpenFolder={handleOpenFolder}
+                      onOpenVsCode={handleOpenVsCode}
+                      onOpenAntigravity={handleOpenAntigravity}
+                      onBackToHome={() => navigate('/')}
+                    />
+                  </div>
+
+                  {/* Right Column: Integrated VS Code Studio Workspace */}
+                  <div
+                    className={
+                      isWorkspaceMaximized
+                        ? 'lg:col-span-12 h-[calc(100vh-85px)] sticky top-16'
+                        : selectedFilePath
+                        ? 'lg:col-span-7 xl:col-span-8 h-[calc(100vh-85px)] sticky top-16'
+                        : 'lg:col-span-5 xl:col-span-5 h-[calc(100vh-85px)] sticky top-16'
+                    }
                   >
-                    AI Governance
-                  </button>
+                    <VsCodeWorkspace
+                      tree={tree}
+                      filesCount={fileCount}
+                      openTabs={openTabs}
+                      activeFilePath={selectedFilePath}
+                      activeFileContent={selectedFileContent}
+                      theme={theme}
+                      isMaximized={isWorkspaceMaximized}
+                      onSelectFile={handleSelectFile}
+                      onCloseTab={handleCloseTab}
+                      onRefresh={() => recompileVfs(config)}
+                      onAddCustomFile={handleAddCustomFile}
+                      onToggleMaximize={() => setIsWorkspaceMaximized(!isWorkspaceMaximized)}
+                      onCloseEditor={handleCloseEditor}
+                    />
+                  </div>
                 </div>
-
-                {activeTab === 'architecture' && (
-                  <TopologySelector
-                    value={config.topology}
-                    onChange={(topology) =>
-                      setConfig((prev) => ({
-                        ...prev,
-                        topology,
-                        frontend: {
-                          ...prev.frontend,
-                          framework: topology !== 'standalone-be' ? 'react-vite' : 'none',
-                        },
-                        backend: {
-                          ...prev.backend,
-                          framework:
-                            topology !== 'standalone-fe'
-                              ? prev.backend.framework === 'none'
-                                ? 'fastify'
-                                : prev.backend.framework
-                              : 'none',
-                        },
-                      }))
-                    }
-                  />
-                )}
-
-                {activeTab === 'frontend' && (
-                  <FrontendGrid
-                    frontend={config.frontend}
-                    onChange={(frontend) =>
-                      setConfig((prev) => ({ ...prev, frontend }))
-                    }
-                  />
-                )}
-
-                {activeTab === 'backend' && (
-                  <BackendGrid
-                    backend={config.backend}
-                    onChange={(backend) =>
-                      setConfig((prev) => ({ ...prev, backend }))
-                    }
-                  />
-                )}
-
-                {activeTab === 'ai' && (
-                  <AiGovernance
-                    aiGovernance={config.aiGovernance}
-                    onChange={(aiGovernance) =>
-                      setConfig((prev) => ({ ...prev, aiGovernance }))
-                    }
-                  />
-                )}
               </div>
-            )}
-          </div>
-
-          {/* Section 3: Execution Streaming Console */}
-          <ExecutionConsole
-            isGenerating={isGenerating}
-            isComplete={isComplete}
-            logs={logs}
-            targetPath={config.targetPath}
-            onOpenVsCode={handleOpenVsCode}
-            onOpenAntigravity={handleOpenAntigravity}
-            onOpenFolder={handleOpenFolder}
+            }
           />
-        </div>
 
-        {/* Right Column: Virtual File Tree Explorer & Live Inspector */}
-        <div className="lg:col-span-5 xl:col-span-5 h-[calc(100vh-100px)] sticky top-20">
-          <FileTreePreview
-            tree={tree}
-            filesCount={fileCount}
-            onSelectFile={handleSelectFile}
+          <Route
+            path="/studio"
+            element={<Navigate to="/new" replace />}
           />
-        </div>
+
+          {/* VIEW 3: APP SETTINGS PAGE */}
+          <Route
+            path="/settings"
+            element={
+              <AppSettingsPage
+                currentTheme={theme}
+                onThemeChange={setTheme}
+                onBrowseFolder={(callback) => {
+                  setBrowseCallback(() => callback);
+                  setIsPathModalOpen(true);
+                }}
+              />
+            }
+          />
+
+          {/* Fallback to Home */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </main>
 
-      {/* Path Selector Modal */}
+      {/* Fast Scaffold Modal */}
+      <FastScaffoldModal
+        isOpen={Boolean(fastScaffoldTemplate)}
+        template={fastScaffoldTemplate}
+        onClose={() => setFastScaffoldTemplate(null)}
+        onScaffold={(runConfig: ProjectConfig) => {
+          setConfig(runConfig);
+          handleExecuteScaffold(runConfig);
+          navigate('/new');
+        }}
+        onBrowseFolder={(_curPath: string, onSelect: (p: string) => void) => {
+          setBrowseCallback(() => onSelect);
+          setIsPathModalOpen(true);
+        }}
+      />
+
+      {/* Directory Browser Modal */}
       <PathSelectorModal
         isOpen={isPathModalOpen}
         currentPath={config.targetPath}
         projectName={config.name}
-        onClose={() => setIsPathModalOpen(false)}
-        onSelectPath={(newPath) =>
-          setConfig((prev) => ({ ...prev, targetPath: newPath }))
-        }
-      />
-
-      {/* Code Inspector Modal */}
-      <FileViewerModal
-        filePath={selectedFilePath}
-        content={selectedFileContent}
+        onSelectPath={(selected: string) => {
+          if (browseCallback) {
+            browseCallback(selected);
+          } else {
+            setConfig((prev) => ({
+              ...prev,
+              targetPath: selected.endsWith(prev.name) ? selected : `${selected}/${prev.name}`,
+            }));
+          }
+          setIsPathModalOpen(false);
+          setBrowseCallback(null);
+        }}
         onClose={() => {
-          setSelectedFilePath(null);
-          setSelectedFileContent(null);
+          setIsPathModalOpen(false);
+          setBrowseCallback(null);
         }}
       />
     </div>
   );
 }
+
+export function App() {
+  return (
+    <HashRouter>
+      <ForgeStackAppContent />
+    </HashRouter>
+  );
+}
+export default App;

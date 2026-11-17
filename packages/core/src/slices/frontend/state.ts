@@ -8,7 +8,12 @@ export const stateSlice: FeatureSlice = {
   id: 'fe-state',
   name: 'Frontend State Management (TanStack Query, Redux Toolkit, Zustand)',
   apply: (vfs: VirtualFileSystem, config: ProjectConfig) => {
-    if (config.frontend.framework !== 'react-vite' || config.frontend.state === 'none') {
+    if (
+      config.frontend.framework !== 'react-vite' ||
+      config.frontend.state === 'none' ||
+      config.topology === 'electron-desktop' ||
+      config.topology === 'nextjs-fullstack'
+    ) {
       return;
     }
 

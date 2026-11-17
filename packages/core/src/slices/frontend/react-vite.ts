@@ -7,7 +7,11 @@ export const reactViteSlice: FeatureSlice = {
   id: 'fe-react-vite',
   name: 'React 19 + TypeScript + Vite Frontend',
   apply: (vfs: VirtualFileSystem, config: ProjectConfig) => {
-    if (config.frontend.framework !== 'react-vite') {
+    if (
+      config.frontend.framework !== 'react-vite' ||
+      config.topology === 'electron-desktop' ||
+      config.topology === 'nextjs-fullstack'
+    ) {
       return;
     }
 
@@ -39,6 +43,13 @@ export const reactViteSlice: FeatureSlice = {
       dependencies: {
         react: DEPENDENCY_REGISTRY.react,
         'react-dom': DEPENDENCY_REGISTRY['react-dom'],
+        ...(config.frontend.dateLib === 'dayjs'
+          ? { dayjs: DEPENDENCY_REGISTRY.dayjs }
+          : config.frontend.dateLib === 'date-fns'
+          ? { 'date-fns': DEPENDENCY_REGISTRY['date-fns'] }
+          : config.frontend.dateLib === 'moment'
+          ? { moment: DEPENDENCY_REGISTRY.moment }
+          : {}),
         ...(config.topology === 'monorepo'
           ? {
               '@repo/contracts': 'workspace:*',

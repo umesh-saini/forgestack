@@ -55,11 +55,11 @@
     --bg-surface: #ffffff;
     --bg-card: #ffffff;
     --bg-card-subtle: #f1f5f9;
-    --bg-input: #f8fafc;
-    --border-color: #e2e8f0;
-    --border-hover: #cbd5e1;
+    --bg-input: #ffffff;
+    --border-color: #cbd5e1;
+    --border-hover: #94a3b8;
     --text-main: #0f172a;
-    --text-muted: #64748b;
+    --text-muted: #334155;
     --accent: #2563eb;
     --accent-bg: rgba(37, 99, 235, 0.08);
     --accent-border: rgba(37, 99, 235, 0.35);
@@ -121,6 +121,29 @@
   border-color: var(--accent) !important;
   background-color: var(--accent-bg) !important;
   box-shadow: 0 0 0 1px var(--accent-border), 0 0 12px var(--accent-bg);
+}
+
+/* High-contrast tree overrides for light mode */
+.staging-title {
+  color: var(--text-main) !important;
+}
+
+.theme-light .staging-title {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+}
+
+.theme-light .tree-dir-text {
+  color: #0f172a !important;
+  font-weight: 600;
+}
+
+.theme-light .tree-file-text {
+  color: #334155 !important;
+}
+
+.theme-light .tree-file-text:hover {
+  color: #0284c7 !important;
 }
 
 /* Custom dark/light scrollbar */

@@ -2,19 +2,21 @@ import React, { useState } from 'react';
 import { Check, Copy, FileCode, X } from 'lucide-react';
 
 interface FileViewerModalProps {
+  isOpen?: boolean;
   filePath: string | null;
   content: string | null;
   onClose: () => void;
 }
 
 export const FileViewerModal: React.FC<FileViewerModalProps> = ({
+  isOpen,
   filePath,
   content,
   onClose,
 }) => {
   const [copied, setCopied] = useState(false);
 
-  if (!filePath || content === null) {
+  if ((isOpen !== undefined && !isOpen) || !filePath || content === null) {
     return null;
   }
 
