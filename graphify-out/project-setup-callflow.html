@@ -60,7 +60,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 <div class="container">
 
 <h1>project-setup — Complete Call Flow &amp; Architecture Documentation</h1>
-<p class="subtitle">Generated from graphify knowledge graph: 443 nodes, 962 edges, 28 communities. Commit: 22dd938</p>
+<p class="subtitle">Generated from graphify knowledge graph: 447 nodes, 965 edges, 29 communities. Commit: 606a69f</p>
 
 <div class="nav">
     <a href="#overview">Architecture Overview</a>
@@ -71,6 +71,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
     <a href="#packages-desktop-components">Packages Desktop Components</a>
     <a href="#packages-vfs-typests">Packages Vfs Typests</a>
     <a href="#packages-utils-code">Packages Utils Code</a>
+    <a href="#openspecyaml-openspec-changes">Openspecyaml Openspec Changes</a>
     <a href="#cli-packages-create">Cli Packages Create</a>
     <a href="#librs-packages-desktop">Librs Packages Desktop</a>
     <a href="#pnpm-workspaceyaml-packages">Pnpm Workspaceyaml Packages</a>
@@ -85,13 +86,13 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    BUILD_GRAPH_321CBB04("Graph Build<br/><small>258 nodes</small>")
+    BUILD_GRAPH_321CBB04("Graph Build<br/><small>262 nodes</small>")
     class BUILD_GRAPH_321CBB04 module;
     ANALYSIS_CLUSTERING_C79796DA("Analysis &amp; Clustering<br/><small>9 nodes</small>")
     class ANALYSIS_CLUSTERING_C79796DA module;
     CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>2 nodes</small>")
     class CLI_SKILLS_9964CBB8 module;
-    TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>103 nodes</small>")
+    TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>99 nodes</small>")
     class TESTS_FIXTURES_B84B1DCC module;
     PACKAGES_DESKTOP_COMPONENTS_6AAA3929("Packages Desktop Components<br/><small>35 nodes</small>")
     class PACKAGES_DESKTOP_COMPONENTS_6AAA3929 module;
@@ -99,6 +100,8 @@ flowchart LR
     class PACKAGES_VFS_TYPESTS_B4A6B825 module;
     PACKAGES_UTILS_CODE_BA9DD804("Packages Utils Code<br/><small>6 nodes</small>")
     class PACKAGES_UTILS_CODE_BA9DD804 module;
+    OPENSPECYAML_OPENSPEC_CHANGES_9B833405("Openspecyaml Openspec Changes<br/><small>4 nodes</small>")
+    class OPENSPECYAML_OPENSPEC_CHANGES_9B833405 module;
     CLI_PACKAGES_CREATE_5CFCA687("Cli Packages Create<br/><small>4 nodes</small>")
     class CLI_PACKAGES_CREATE_5CFCA687 module;
     LIBRS_PACKAGES_DESKTOP_AC87268D("Librs Packages Desktop<br/><small>2 nodes</small>")
@@ -109,9 +112,9 @@ flowchart LR
     class MODRS_PACKAGES_DESKTOP_8A21A912 module;
     DESKTOP_FORGESTACK_PACKAGES_B23FC757("Desktop Forgestack Packages<br/><small>1 nodes</small>")
     class DESKTOP_FORGESTACK_PACKAGES_B23FC757 module;
-    BUILD_GRAPH_321CBB04 -->|imports x27| TESTS_FIXTURES_B84B1DCC
+    BUILD_GRAPH_321CBB04 -->|imports x30| TESTS_FIXTURES_B84B1DCC
     TESTS_FIXTURES_B84B1DCC -->|method x17| PACKAGES_VFS_TYPESTS_B4A6B825
-    TESTS_FIXTURES_B84B1DCC -->|imports x9| BUILD_GRAPH_321CBB04
+    TESTS_FIXTURES_B84B1DCC -->|contains x14| BUILD_GRAPH_321CBB04
     TESTS_FIXTURES_B84B1DCC -->|imports x6| PACKAGES_UTILS_CODE_BA9DD804
     PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|references x4| TESTS_FIXTURES_B84B1DCC
     BUILD_GRAPH_321CBB04 -->|calls x3| PACKAGES_DESKTOP_COMPONENTS_6AAA3929
@@ -133,7 +136,7 @@ flowchart LR
     <h4>Architecture Layers</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>Layer</th><th>Nodes</th><th>Communities</th></tr>
-      <tr><td>Graph Build</td><td>258</td><td><code>1, 3, 5, 6, 8, 9, 10, 11, 12, 13, 15, 16, 18, 20, 21, 22</code></td></tr><tr><td>Analysis &amp; Clustering</td><td>9</td><td><code>14</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>2</td><td><code>24</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>103</td><td><code>0, 2</code></td></tr><tr><td>Packages Desktop Components</td><td>35</td><td><code>4</code></td></tr><tr><td>Packages Vfs Typests</td><td>20</td><td><code>7</code></td></tr><tr><td>Packages Utils Code</td><td>6</td><td><code>17</code></td></tr><tr><td>Cli Packages Create</td><td>4</td><td><code>19</code></td></tr><tr><td>Librs Packages Desktop</td><td>2</td><td><code>23</code></td></tr><tr><td>Pnpm Workspaceyaml Packages</td><td>2</td><td><code>25</code></td></tr><tr><td>Modrs Packages Desktop</td><td>1</td><td><code>26</code></td></tr><tr><td>Desktop Forgestack Packages</td><td>1</td><td><code>27</code></td></tr>
+      <tr><td>Graph Build</td><td>262</td><td><code>1, 3, 5, 6, 8, 11, 9, 10, 12, 13, 16, 18, 20, 21, 28, 22</code></td></tr><tr><td>Analysis &amp; Clustering</td><td>9</td><td><code>14</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>2</td><td><code>24</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>99</td><td><code>0, 2</code></td></tr><tr><td>Packages Desktop Components</td><td>35</td><td><code>4</code></td></tr><tr><td>Packages Vfs Typests</td><td>20</td><td><code>7</code></td></tr><tr><td>Packages Utils Code</td><td>6</td><td><code>17</code></td></tr><tr><td>Openspecyaml Openspec Changes</td><td>4</td><td><code>15</code></td></tr><tr><td>Cli Packages Create</td><td>4</td><td><code>19</code></td></tr><tr><td>Librs Packages Desktop</td><td>2</td><td><code>23</code></td></tr><tr><td>Pnpm Workspaceyaml Packages</td><td>2</td><td><code>25</code></td></tr><tr><td>Modrs Packages Desktop</td><td>1</td><td><code>26</code></td></tr><tr><td>Desktop Forgestack Packages</td><td>1</td><td><code>27</code></td></tr>
     </table>
   </div>
   <div class="card">
@@ -145,7 +148,7 @@ flowchart LR
   <div class="card">
     <h4>Graph Report Highlights</h4>
     <ul>
-      <li>443 nodes · 962 edges · 28 communities (20 shown, 8 thin omitted)</li>
+      <li>447 nodes · 965 edges · 29 communities (21 shown, 8 thin omitted)</li>
       <li>Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.85)</li>
       <li>Token cost: 0 input · 0 output</li>
       <li>1. `ProjectConfig` - 47 edges</li>
@@ -157,16 +160,16 @@ flowchart LR
 <hr>
 <!-- ====== 2. Graph Build ====== -->
 <h2 id="build-graph">2. Graph Build</h2>
-<p>Graph Build groups implementation around packages, desktop, packagejson, tsconfigjson, mostly in packages/desktop/package.json, .github/workflows/ci.yml, packages/cli/package.json. This section covers 258 nodes and 359 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Graph Build groups implementation around packages, desktop, packagejson, tsconfigjson, mostly in packages/desktop/package.json, .github/workflows/ci.yml, packages/cli/package.json. This section covers 262 nodes and 367 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Graph Build (258 nodes, 359 edges)
-    subgraph build_graph_components_preview_FileTreePreview_t_9a28128c["components/preview/FileTreePreview.tsx"]
-        packages_desktop_src_components_preview_filetree_2b119f15("FileTreePreview()<br/><small>components/preview/FileTreePreview.tsx</small>")
-        packages_desktop_src_components_preview_filetree_1ddd805c("TreeItem()<br/><small>components/preview/FileTreePreview.tsx</small>")
-        packages_desktop_src_components_preview_filetree_e3b435bb("filterTree()<br/><small>components/preview/FileTreePreview.tsx</small>")
+    %% Section: Graph Build (262 nodes, 367 edges)
+    subgraph build_graph_src_engine_compositor_ts_05bac4bb["src/engine/compositor.ts"]
+        packages_core_src_engine_compositor_recipecompos_f22b10ba("RecipeCompositor<br/><small>src/engine/compositor.ts</small>")
+        packages_core_src_engine_compositor_recipecompos_fc9743ce("registerSlice()<br/><small>src/engine/compositor.ts</small>")
+        packages_core_src_engine_compositor_recipecompos_c072aaef("registerSlices()<br/><small>src/engine/compositor.ts</small>")
     end
     subgraph build_graph_components_wizard_TopologySelector_t_c6febf3a["components/wizard/TopologySelector.tsx"]
         packages_desktop_src_components_wizard_topologys_c495d504("TopologySelector.tsx")
@@ -177,7 +180,7 @@ flowchart LR
         packages_desktop_src_app_app_036f02f1("App()<br/><small>desktop/src/App.tsx</small>")
     end
     packages_desktop_src_components_console_executio_b6aea39f("ExecutionConsole()<br/><small>components/console/ExecutionConsole.tsx</small>")
-    packages_desktop_src_components_preview_fileview_a1d972f3("FileViewerModal()<br/><small>components/preview/FileViewerModal.tsx</small>")
+    packages_desktop_src_components_preview_filetree_2b119f15("FileTreePreview()<br/><small>components/preview/FileTreePreview.tsx</small>")
     packages_desktop_src_components_wizard_aigoverna_735479fe("AiGovernance()<br/><small>components/wizard/AiGovernance.tsx</small>")
     packages_desktop_src_components_wizard_backendgr_594bb769("BackendGrid()<br/><small>components/wizard/BackendGrid.tsx</small>")
     packages_desktop_src_components_wizard_frontendg_57a859a2("FrontendGrid()<br/><small>components/wizard/FrontendGrid.tsx</small>")
@@ -185,8 +188,10 @@ flowchart LR
     packages_desktop_src_components_wizard_pathselec_b34d9880("PathSelectorModal()<br/><small>components/wizard/PathSelectorModal.tsx</small>")
     packages_desktop_src_components_wizard_projectid_6df39944("ProjectIdentity()<br/><small>components/wizard/ProjectIdentity.tsx</small>")
     packages_desktop_src_main_6fe932e8("main.tsx")
-    packages_cli_package_b336a4de("cli/package.json")
     packages_desktop_package_51ae776b("desktop/package.json")
+    packages_desktop_vite_config_c68000dd("vite.config.ts")
+    packages_core_src_engine_compositor_recipecompos_f22b10ba -->|method| packages_core_src_engine_compositor_recipecompos_fc9743ce
+    packages_core_src_engine_compositor_recipecompos_f22b10ba -->|method| packages_core_src_engine_compositor_recipecompos_c072aaef
     packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_wizard_header_he_944e4b2c
     packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_wizard_projectid_6df39944
     packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_wizard_topologys_8ab080b7
@@ -196,31 +201,29 @@ flowchart LR
     packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_console_executio_b6aea39f
     packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_preview_filetree_2b119f15
     packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_wizard_pathselec_b34d9880
-    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_components_preview_fileview_a1d972f3
-    packages_desktop_src_components_preview_filetree_2b119f15 -->|calls| packages_desktop_src_components_preview_filetree_1ddd805c
-    packages_desktop_src_components_preview_filetree_2b119f15 -->|calls| packages_desktop_src_components_preview_filetree_e3b435bb
-    packages_desktop_src_components_preview_filetree_e3b435bb -->|calls| packages_desktop_src_components_preview_filetree_e3b435bb
-    packages_desktop_src_components_preview_filetree_1ddd805c -->|calls| packages_desktop_src_components_preview_filetree_1ddd805c
+    packages_core_src_engine_compositor_recipecompos_c072aaef -->|calls| packages_core_src_engine_compositor_recipecompos_fc9743ce
     packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_pathselec_b34d9880
     packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_topologys_8ab080b7
     packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_frontendg_57a859a2
     packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_backendgr_594bb769
     packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_aigoverna_735479fe
     packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_preview_filetree_2b119f15
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_preview_fileview_a1d972f3
     packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_console_executio_b6aea39f
     packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_header_he_944e4b2c
     packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_projectid_6df39944
-    %% Omitted for readability: 240 nodes, 3 edges
-    class packages_desktop_src_components_preview_filetree_2b119f15 ui;
-    class packages_desktop_src_components_preview_filetree_1ddd805c ui;
-    class packages_desktop_src_components_preview_filetree_e3b435bb ui;
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_topologys_c495d504
+    packages_desktop_src_main_6fe932e8 -->|imports| packages_desktop_src_app_app_036f02f1
+    packages_desktop_src_main_6fe932e8 -->|imports| packages_desktop_src_app_81241b1a
+    %% Omitted for readability: 244 nodes, 0 edges
+    class packages_core_src_engine_compositor_recipecompos_f22b10ba klass;
+    class packages_core_src_engine_compositor_recipecompos_fc9743ce function;
+    class packages_core_src_engine_compositor_recipecompos_c072aaef function;
     class packages_desktop_src_components_wizard_topologys_c495d504 ui;
     class packages_desktop_src_components_wizard_topologys_8ab080b7 ui;
     class packages_desktop_src_app_81241b1a ui;
     class packages_desktop_src_app_app_036f02f1 ui;
     class packages_desktop_src_components_console_executio_b6aea39f ui;
-    class packages_desktop_src_components_preview_fileview_a1d972f3 ui;
+    class packages_desktop_src_components_preview_filetree_2b119f15 ui;
     class packages_desktop_src_components_wizard_aigoverna_735479fe ui;
     class packages_desktop_src_components_wizard_backendgr_594bb769 ui;
     class packages_desktop_src_components_wizard_frontendg_57a859a2 ui;
@@ -228,8 +231,8 @@ flowchart LR
     class packages_desktop_src_components_wizard_pathselec_b34d9880 ui;
     class packages_desktop_src_components_wizard_projectid_6df39944 ui;
     class packages_desktop_src_main_6fe932e8 ui;
-    class packages_cli_package_b336a4de entry;
     class packages_desktop_package_51ae776b function;
+    class packages_desktop_vite_config_c68000dd module;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -500,7 +503,7 @@ flowchart LR
       <tr><th>File</th><th>Coverage</th></tr>
       <tr><td><code>packages/desktop/package.json</code></td><td>43 nodes</td></tr>
 <tr><td><code>.github/workflows/ci.yml</code></td><td>28 nodes</td></tr>
-<tr><td><code>packages/cli/package.json</code></td><td>27 nodes</td></tr>
+<tr><td><code>packages/cli/package.json</code></td><td>22 nodes</td></tr>
 <tr><td><code>package.json</code></td><td>21 nodes</td></tr>
 <tr><td><code>packages/core/package.json</code></td><td>21 nodes</td></tr>
 <tr><td><code>desktop/src-tauri/tauri.conf.json</code></td><td>19 nodes</td></tr>
@@ -510,7 +513,7 @@ flowchart LR
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: contains x206, imports x49, imports x45, declares x28. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x203, imports x50, imports x49, calls x27. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -727,17 +730,17 @@ flowchart LR
 
 <!-- ====== 5. Tests & Fixtures ====== -->
 <h2 id="tests-fixtures">5. Tests &amp; Fixtures</h2>
-<p>Tests &amp; Fixtures groups implementation around packages, slices, tests, engine, mostly in src/engine/flusher.ts, src/utils/process-runner.ts, src/engine/compositor.ts. This section covers 103 nodes and 399 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Tests &amp; Fixtures groups implementation around packages, slices, cli, tests, mostly in src/engine/flusher.ts, src/utils/process-runner.ts, packages/cli/package.json. This section covers 99 nodes and 383 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Tests &amp; Fixtures (103 nodes, 399 edges)
-    subgraph tests_fixtures_src_engine_compositor_ts_ae1a6ecf["src/engine/compositor.ts"]
-        packages_core_src_engine_compositor_recipecompos_f22b10ba("RecipeCompositor<br/><small>src/engine/compositor.ts</small>")
-        packages_core_src_engine_compositor_recipecompos_fc9743ce("registerSlice()<br/><small>src/engine/compositor.ts</small>")
-        packages_core_src_engine_compositor_recipecompos_c072aaef("registerSlices()<br/><small>src/engine/compositor.ts</small>")
-        packages_core_src_engine_compositor_recipecompos_974e58c5("compose()<br/><small>src/engine/compositor.ts</small>")
+    %% Section: Tests &amp; Fixtures (99 nodes, 383 edges)
+    subgraph tests_fixtures_src_engine_flusher_ts_eb90d3b3["src/engine/flusher.ts"]
+        packages_core_src_engine_flusher_transactionalfl_ae2e799a("TransactionalFlusher<br/><small>src/engine/flusher.ts</small>")
+        packages_core_src_engine_flusher_transactionalfl_39196c56("rollback()<br/><small>src/engine/flusher.ts</small>")
+        packages_core_src_engine_flusher_transactionalfl_841e8672("preflight()<br/><small>src/engine/flusher.ts</small>")
+        packages_core_src_engine_flusher_transactionalfl_c4fe92ff("flush()<br/><small>src/engine/flusher.ts</small>")
     end
     subgraph tests_fixtures_src_vfs_vfs_ts_cab28de0["src/vfs/vfs.ts"]
         packages_core_src_vfs_vfs_virtualfilesystem_5289c11c("VirtualFileSystem<br/><small>src/vfs/vfs.ts</small>")
@@ -756,17 +759,17 @@ flowchart LR
     packages_core_src_slices_frontend_tests_state_te_fc37df8c("state.test.ts")
     packages_core_src_slices_frontend_tests_tailwind_4d9358e9("tailwind.test.ts")
     packages_core_src_engine_create_pipeline_cf2611ed("create-pipeline.ts")
-    packages_core_src_engine_flusher_transactionalfl_ae2e799a("TransactionalFlusher<br/><small>src/engine/flusher.ts</small>")
+    packages_core_src_utils_process_runner_processru_e193798f("ProcessRunner<br/><small>src/utils/process-runner.ts</small>")
     packages_core_src_vfs_vfs_virtualfilesystem_5289c11c -->|method| packages_core_src_vfs_vfs_virtualfilesystem_coun_d4105f9d
     packages_core_src_vfs_vfs_virtualfilesystem_5289c11c -->|method| packages_core_src_vfs_vfs_virtualfilesystem_clea_9617a13e
     packages_core_src_vfs_vfs_virtualfilesystem_5289c11c -->|method| packages_core_src_vfs_vfs_virtualfilesystem_clon_132621cd
     packages_cli_src_ui_reporter_clireporter_061e1ee0 -->|method| packages_cli_src_ui_reporter_clireporter_printsu_df3e3371
     packages_cli_src_ui_reporter_clireporter_061e1ee0 -->|method| packages_cli_src_ui_reporter_clireporter_printba_6f3ddbd1
-    packages_core_src_engine_compositor_recipecompos_f22b10ba -->|method| packages_core_src_engine_compositor_recipecompos_fc9743ce
-    packages_core_src_engine_compositor_recipecompos_f22b10ba -->|method| packages_core_src_engine_compositor_recipecompos_c072aaef
-    packages_core_src_engine_compositor_recipecompos_f22b10ba -->|method| packages_core_src_engine_compositor_recipecompos_974e58c5
-    packages_core_src_engine_compositor_recipecompos_c072aaef -->|calls| packages_core_src_engine_compositor_recipecompos_fc9743ce
-    packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_engine_compositor_recipecompos_f22b10ba
+    packages_core_src_engine_flusher_transactionalfl_ae2e799a -->|method| packages_core_src_engine_flusher_transactionalfl_39196c56
+    packages_core_src_engine_flusher_transactionalfl_ae2e799a -->|method| packages_core_src_engine_flusher_transactionalfl_841e8672
+    packages_core_src_engine_flusher_transactionalfl_ae2e799a -->|method| packages_core_src_engine_flusher_transactionalfl_c4fe92ff
+    packages_core_src_engine_flusher_transactionalfl_c4fe92ff -->|calls| packages_core_src_engine_flusher_transactionalfl_39196c56
+    packages_core_src_engine_flusher_transactionalfl_c4fe92ff -->|calls| packages_core_src_engine_flusher_transactionalfl_841e8672
     packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
     packages_core_src_slices_database_tests_mongodb_f3a2a0f4 -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
     packages_core_src_slices_database_tests_postgres_d243e59d -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
@@ -774,11 +777,13 @@ flowchart LR
     packages_core_src_slices_frontend_tests_tailwind_4d9358e9 -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
     packages_cli_src_cli_825c483b -->|imports| packages_cli_src_ui_reporter_clireporter_061e1ee0
     packages_cli_src_cli_825c483b -->|imports| packages_core_src_engine_flusher_transactionalfl_ae2e799a
-    %% Omitted for readability: 85 nodes, 0 edges
-    class packages_core_src_engine_compositor_recipecompos_f22b10ba klass;
-    class packages_core_src_engine_compositor_recipecompos_fc9743ce function;
-    class packages_core_src_engine_compositor_recipecompos_c072aaef function;
-    class packages_core_src_engine_compositor_recipecompos_974e58c5 function;
+    packages_cli_src_cli_825c483b -->|imports| packages_core_src_utils_process_runner_processru_e193798f
+    packages_core_src_engine_flusher_transactionalfl_c4fe92ff -->|calls| packages_core_src_vfs_vfs_virtualfilesystem_coun_d4105f9d
+    %% Omitted for readability: 81 nodes, 0 edges
+    class packages_core_src_engine_flusher_transactionalfl_ae2e799a klass;
+    class packages_core_src_engine_flusher_transactionalfl_39196c56 function;
+    class packages_core_src_engine_flusher_transactionalfl_841e8672 function;
+    class packages_core_src_engine_flusher_transactionalfl_c4fe92ff function;
     class packages_core_src_vfs_vfs_virtualfilesystem_5289c11c klass;
     class packages_core_src_vfs_vfs_virtualfilesystem_coun_d4105f9d function;
     class packages_core_src_vfs_vfs_virtualfilesystem_clea_9617a13e function;
@@ -792,7 +797,7 @@ flowchart LR
     class packages_core_src_slices_frontend_tests_state_te_fc37df8c test;
     class packages_core_src_slices_frontend_tests_tailwind_4d9358e9 test;
     class packages_core_src_engine_create_pipeline_cf2611ed module;
-    class packages_core_src_engine_flusher_transactionalfl_ae2e799a klass;
+    class packages_core_src_utils_process_runner_processru_e193798f klass;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -930,7 +935,7 @@ flowchart LR
   <td>15</td>
   <td><code>dependencies.ts</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small></td>
   <td><span class="tag tag-class">Module</span></td>
-  <td><code>clean-modular.ts</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>dependencies.test.ts</code><br><small style="color:var(--muted)">registry/__tests__/dependencies.test.ts</small><br><code>index.ts</code><br><small style="color:var(--muted)">slices/monorepo/index.ts</small><br>+7 more</td>
+  <td><code>clean-modular.ts</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>dependencies.test.ts</code><br><small style="color:var(--muted)">registry/__tests__/dependencies.test.ts</small><br><code>index.ts</code><br><small style="color:var(--muted)">slices/shared-packages/index.ts</small><br>+7 more</td>
   <td>No direct outbound edge</td>
   <td>Module file in src/registry/dependencies.ts.</td>
 </tr>
@@ -938,7 +943,7 @@ flowchart LR
   <td>16</td>
   <td><code>DEPENDENCY_REGISTRY</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
-  <td><code>clean-modular.ts</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>dependencies.test.ts</code><br><small style="color:var(--muted)">registry/__tests__/dependencies.test.ts</small><br><code>index.ts</code><br><small style="color:var(--muted)">slices/monorepo/index.ts</small><br>+7 more</td>
+  <td><code>clean-modular.ts</code><br><small style="color:var(--muted)">slices/backend/clean-modular.ts</small><br><code>dependencies.test.ts</code><br><small style="color:var(--muted)">registry/__tests__/dependencies.test.ts</small><br><code>index.ts</code><br><small style="color:var(--muted)">slices/shared-packages/index.ts</small><br>+7 more</td>
   <td>No direct outbound edge</td>
   <td>Builds dependency relationships and graph data.</td>
 </tr>
@@ -1061,19 +1066,19 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>src/engine/flusher.ts</code></td><td>7 nodes</td></tr>
+      <tr><td><code>packages/cli/package.json</code></td><td>7 nodes</td></tr>
+<tr><td><code>src/engine/flusher.ts</code></td><td>7 nodes</td></tr>
 <tr><td><code>src/utils/process-runner.ts</code></td><td>7 nodes</td></tr>
-<tr><td><code>src/engine/compositor.ts</code></td><td>6 nodes</td></tr>
 <tr><td><code>src/registry/dependencies.ts</code></td><td>5 nodes</td></tr>
 <tr><td><code>src/vfs/vfs.ts</code></td><td>5 nodes</td></tr>
 <tr><td><code>src/ui/reporter.ts</code></td><td>4 nodes</td></tr>
-<tr><td><code>src/engine/create-pipeline.ts</code></td><td>3 nodes</td></tr>
+<tr><td><code>src/engine/compositor.ts</code></td><td>3 nodes</td></tr>
 <tr><td><code>src/types/config.ts</code></td><td>3 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: imports x162, imports x127, re exports x39, contains x35. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: imports x160, imports x120, re exports x39, contains x33. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -1800,8 +1805,97 @@ flowchart LR
 </div>
 <hr>
 
-<!-- ====== 9. Cli Packages Create ====== -->
-<h2 id="cli-packages-create">9. Cli Packages Create</h2>
+<!-- ====== 9. Openspecyaml Openspec Changes ====== -->
+<h2 id="openspecyaml-openspec-changes">9. Openspecyaml Openspec Changes</h2>
+<p>Openspecyaml Openspec Changes groups implementation around openspecyaml, openspec, changes, 2026, mostly in changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml. This section covers 4 nodes and 3 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Openspecyaml Openspec Changes (4 nodes, 3 edges)
+    openspec_changes_2026_11_17_multi_framework_spec_14faeed6(".openspec.yaml")
+    openspec_changes_2026_11_17_multi_framework_spec_aa221417("schema<br/><small>changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml</small>")
+    openspec_changes_2026_11_17_multi_framework_spec_7e7a5e0c("name<br/><small>changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml</small>")
+    openspec_changes_2026_11_17_multi_framework_spec_8cf4ec19("date<br/><small>changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml</small>")
+    openspec_changes_2026_11_17_multi_framework_spec_14faeed6 -->|contains| openspec_changes_2026_11_17_multi_framework_spec_aa221417
+    openspec_changes_2026_11_17_multi_framework_spec_14faeed6 -->|contains| openspec_changes_2026_11_17_multi_framework_spec_7e7a5e0c
+    openspec_changes_2026_11_17_multi_framework_spec_14faeed6 -->|contains| openspec_changes_2026_11_17_multi_framework_spec_8cf4ec19
+    class openspec_changes_2026_11_17_multi_framework_spec_14faeed6 test;
+    class openspec_changes_2026_11_17_multi_framework_spec_aa221417 test;
+    class openspec_changes_2026_11_17_multi_framework_spec_7e7a5e0c test;
+    class openspec_changes_2026_11_17_multi_framework_spec_8cf4ec19 test;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>.openspec.yaml</code><br><small style="color:var(--muted)">changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>.openspec.yaml node in changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>date</code><br><small style="color:var(--muted)">changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>date node in changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>name</code><br><small style="color:var(--muted)">changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>name node in changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>schema</code><br><small style="color:var(--muted)">changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>schema node in changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml</code></td><td>4 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x3. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 10. Cli Packages Create ====== -->
+<h2 id="cli-packages-create">10. Cli Packages Create</h2>
 <p>Cli Packages Create groups implementation around cli, packages, create, forgestack, mostly in cli/bin/create-forgestack-app.js. This section covers 4 nodes and 3 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
@@ -1892,8 +1986,8 @@ flowchart LR
 </div>
 <hr>
 
-<!-- ====== 10. Librs Packages Desktop ====== -->
-<h2 id="librs-packages-desktop">10. Librs Packages Desktop</h2>
+<!-- ====== 11. Librs Packages Desktop ====== -->
+<h2 id="librs-packages-desktop">11. Librs Packages Desktop</h2>
 <p>Librs Packages Desktop groups implementation around librs, packages, desktop, tauri, mostly in src-tauri/src/lib.rs. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
@@ -1959,8 +2053,8 @@ flowchart LR
 </div>
 <hr>
 
-<!-- ====== 11. Pnpm Workspaceyaml Packages ====== -->
-<h2 id="pnpm-workspaceyaml-packages">11. Pnpm Workspaceyaml Packages</h2>
+<!-- ====== 12. Pnpm Workspaceyaml Packages ====== -->
+<h2 id="pnpm-workspaceyaml-packages">12. Pnpm Workspaceyaml Packages</h2>
 <p>Pnpm Workspaceyaml Packages groups implementation around pnpm, workspaceyaml, packages, mostly in pnpm-workspace.yaml. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
@@ -2026,8 +2120,8 @@ flowchart LR
 </div>
 <hr>
 
-<!-- ====== 12. Modrs Packages Desktop ====== -->
-<h2 id="modrs-packages-desktop">12. Modrs Packages Desktop</h2>
+<!-- ====== 13. Modrs Packages Desktop ====== -->
+<h2 id="modrs-packages-desktop">13. Modrs Packages Desktop</h2>
 <p>Modrs Packages Desktop groups implementation around modrs, packages, desktop, tauri, mostly in src/commands/mod.rs. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
@@ -2082,8 +2176,8 @@ flowchart LR
 </div>
 <hr>
 
-<!-- ====== 13. Desktop Forgestack Packages ====== -->
-<h2 id="desktop-forgestack-packages">13. Desktop Forgestack Packages</h2>
+<!-- ====== 14. Desktop Forgestack Packages ====== -->
+<h2 id="desktop-forgestack-packages">14. Desktop Forgestack Packages</h2>
 <p>Desktop Forgestack Packages groups implementation around desktop, forgestack, packages, tauri, mostly in desktop/src-tauri/Cargo.toml. This section covers 1 nodes and 0 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
@@ -2144,17 +2238,17 @@ flowchart LR
   <div class="card">
     <h4>Graph</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>Nodes</td><td>443</td></tr>
-      <tr><td>Edges</td><td>962</td></tr>
+      <tr><td>Nodes</td><td>447</td></tr>
+      <tr><td>Edges</td><td>965</td></tr>
       <tr><td>Hyperedges</td><td>0</td></tr>
-      <tr><td>Communities</td><td>28</td></tr>
-      <tr><td>Documented Sections</td><td>12</td></tr>
+      <tr><td>Communities</td><td>29</td></tr>
+      <tr><td>Documented Sections</td><td>13</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Edge Confidence</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>EXTRACTED</td><td>960</td></tr>
+      <tr><td>EXTRACTED</td><td>963</td></tr>
       <tr><td>INFERRED</td><td>2</td></tr>
       <tr><td>AMBIGUOUS</td><td>0</td></tr>
     </table>
@@ -2163,7 +2257,7 @@ flowchart LR
 
 <div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
   <p>project-setup — Architecture Documentation</p>
-  <p>Generated: 2026-11-17 05:14 UTC · graphify callflow-html</p>
+  <p>Generated: 2026-11-17 05:39 UTC · graphify callflow-html</p>
 </div>
 
 </div><!-- .container -->
