@@ -113,3 +113,53 @@ pub fn scaffold_project_files(payload: ScaffoldPayload) -> Result<usize, String>
 
     Ok(payload.files.len())
 }
+
+#[tauri::command]
+pub async fn pick_directory(
+    app: tauri::AppHandle,
+    title: Option<String>,
+    default_path: Option<String>,
+) -> Result<Option<String>, String> {
+    use tauri_plugin_dialog::DialogExt;
+
+    // 1. Try native dialog via tauri_plugin_dialog
+    let mut builder = app.dialog().file();
+    if let Some(ref t) = title {
+        builder = builder.set_title(t);
+    }
+    if let Some(ref d) = default_path {
+        builder = builder.set_directory(Path::new(d));
+    }
+
+    if let Some(folder) = builder.blocking_pick_folder() {
+        if let Ok(path) = folder.into_path() {
+            return Ok(Some(path.to_string_lossy().to_string()));
+        }
+    }
+
+    // 2. Fallback on Linux: zenity --file-selection --directory
+    #[cfg(target_os = "linux")]
+    {
+        let mut cmd = std::process::Command::new("zenity");
+        cmd.arg("--file-selection").arg("--directory");
+        if let Some(ref t) = title {
+            cmd.arg(format!("--title={}", t));
+        }
+        if let Some(ref d) = default_path {
+            if Path::new(d).exists() {
+                cmd.arg(format!("--filename={}/", d.trim_end_matches('/')));
+            }
+        }
+
+        if let Ok(output) = cmd.output() {
+            if output.status.success() {
+                let chosen = String::from_utf8_lossy(&output.stdout).trim().to_string();
+                if !chosen.is_empty() {
+                    return Ok(Some(chosen));
+                }
+            }
+        }
+    }
+
+    Ok(None)
+}
