@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build artifacts
+dist/
+build/
+*.tsbuildinfo
+
+# Tauri & Rust
+target/
+**/src-tauri/target/
+
+# Logs & Environment
+*.log
+.env
+.env.*
+!.env.example
+
+# OS Files
+.DS_Store
+Thumbs.db
