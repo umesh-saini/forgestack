@@ -32,7 +32,7 @@ export const StudioNavbar: React.FC<Props> = ({
             <img
               src="/app-icon.png"
               alt="ForgeStack"
-              className="w-7 h-7 rounded-lg shadow-sm shadow-orange-500/25 shrink-0 object-contain"
+              className="w-7 h-7 shrink-0 object-contain drop-shadow-[0_2px_6px_rgba(251,92,11,0.25)]"
             />
             <div className="flex items-center gap-1.5">
               <span className="font-extrabold text-[var(--text-main)]">ForgeStack</span>
