@@ -54,7 +54,7 @@ export const Header: React.FC<Props> = ({
       {/* Brand & Stack Badges */}
       <div className="flex items-center gap-3">
         <img
-          src="/app-icon.png"
+          src="/app-icon.svg"
           alt="ForgeStack"
           className="w-9 h-9 rounded-xl shadow-md shadow-orange-500/25 object-contain"
         />
