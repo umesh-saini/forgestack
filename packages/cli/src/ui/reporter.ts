@@ -1,4 +1,5 @@
 import * as p from '@clack/prompts';
+import path from 'node:path';
 import color from 'picocolors';
 import type { ProjectConfig } from '@forgestack/core';
 
@@ -16,27 +17,41 @@ export class CliReporter {
     );
   }
 
-  public static printSummary(config: ProjectConfig, targetDir: string): void {
-    const isMonorepo = config.topology === 'monorepo';
+  public static printSummary(config: ProjectConfig, targetDir: string, fileCount?: number): void {
+    const isMonorepo =
+      config.topology === 'monorepo' ||
+      config.topology === 'ai-agent-rag' ||
+      config.topology === 'micro-frontend';
+    const isCurrentDir = targetDir === process.cwd();
+
+    const primitives: string[] = [];
+    if (config.auth === 'better-auth') primitives.push('Better-Auth');
+    if (config.rpc === 'trpc') primitives.push('tRPC v11');
+    if (config.testing?.e2e === 'playwright') primitives.push('Playwright E2E');
+    if (config.ci === 'github-actions') primitives.push('GitHub Actions CI');
+    if (config.aiGovernance.mcp) primitives.push('Model Context Protocol (@repo/mcp-server)');
+
+    const countBadge = fileCount ? color.green(` (${fileCount} files staged & written)`) : '';
 
     p.note(
-      `Project Name:   ${color.green(config.name)}
+      `Project Name:   ${color.green(color.bold(config.name))}${countBadge}
 Topology:       ${color.yellow(config.topology)}
 Frontend:       ${color.cyan(config.frontend.framework)} (${config.frontend.state}, ${config.frontend.styling})
 Backend:        ${color.magenta(config.backend.framework)} (${config.backend.database} + ${config.backend.orm})
-AI Governance:  ${color.blue('Cursor Rules + OpenSpec + Clean Architecture Skills')}
+Primitives:     ${color.blue(primitives.length > 0 ? primitives.join(' • ') : 'Standard')}
+AI Governance:  ${color.cyan('Cursor Rules + OpenSpec Workflows + Clean Code Skills')}
 Location:       ${color.dim(targetDir)}`,
-      'ForgeStack Configuration Summary'
+      'ForgeStack Architecture Summary'
     );
 
     const steps = [
-      `cd ${config.name}`,
+      ...(isCurrentDir ? [] : [`cd ${path.basename(targetDir)}`]),
       ...(config.install ? [] : [`${config.packageManager} install`]),
       isMonorepo ? `${config.packageManager} dev` : `${config.packageManager} run dev`,
     ];
 
     p.outro(
-      `${color.green('✔')} Project setup complete! Next steps:\n\n` +
+      `${color.green('✔')} Architecture synthesis complete! Quick start:\n\n` +
         steps.map((s) => `  ${color.cyan('$')} ${color.bold(s)}`).join('\n')
     );
   }

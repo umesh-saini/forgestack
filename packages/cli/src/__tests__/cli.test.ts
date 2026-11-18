@@ -98,4 +98,50 @@ describe('ForgeStack CLI', () => {
       ])
     ).resolves.toBeDefined();
   });
+
+  it('should successfully dry-run scaffold with --yes flag', async () => {
+    const cli = createCli();
+    cli.exitOverride();
+
+    await expect(
+      cli.parseAsync([
+        'node',
+        'create-forgestack-app',
+        'test-yes-app',
+        '--yes',
+        '--dry-run',
+      ])
+    ).resolves.toBeDefined();
+  });
+
+  it('should successfully dry-run scaffold into current directory with "." and --force', async () => {
+    const cli = createCli();
+    cli.exitOverride();
+
+    await expect(
+      cli.parseAsync([
+        'node',
+        'create-forgestack-app',
+        '.',
+        '--yes',
+        '--force',
+        '--dry-run',
+      ])
+    ).resolves.toBeDefined();
+  });
+
+  it('should throw error when non-empty directory is targeted without --force in non-interactive mode', async () => {
+    const cli = createCli();
+    cli.exitOverride();
+
+    await expect(
+      cli.parseAsync([
+        'node',
+        'create-forgestack-app',
+        '.',
+        '--yes',
+        '--dry-run',
+      ])
+    ).rejects.toThrow(/is not empty/);
+  });
 });
