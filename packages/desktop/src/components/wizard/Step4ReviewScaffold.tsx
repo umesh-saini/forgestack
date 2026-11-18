@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import type { ProjectConfig } from '@forgestack/core/browser';
 import { ExecutionConsole } from '../console/ExecutionConsole.js';
+import { TopologyVisualizer } from './TopologyVisualizer.js';
 
 interface Props {
   config: ProjectConfig;
@@ -143,6 +144,9 @@ export const Step4ReviewScaffold: React.FC<Props> = ({
           </div>
         </div>
       </div>
+
+      {/* Interactive Topology Visualizer */}
+      <TopologyVisualizer config={config} />
 
       {/* Save as Custom Template Preset Section */}
       <div className="ui-panel rounded-2xl p-5 border space-y-4">

@@ -22,6 +22,7 @@ interface Props {
   onOpenFolder: () => void;
   onOpenVsCode: () => void;
   onOpenAntigravity?: () => void;
+  onStartDevStack?: () => void;
 }
 
 export const ScaffoldConsoleView: React.FC<Props> = ({
@@ -33,6 +34,7 @@ export const ScaffoldConsoleView: React.FC<Props> = ({
   onOpenFolder,
   onOpenVsCode,
   onOpenAntigravity,
+  onStartDevStack,
 }) => {
   const navigate = useNavigate();
 
@@ -125,6 +127,7 @@ export const ScaffoldConsoleView: React.FC<Props> = ({
             alert(`Project ready for Antigravity at:\n${config.targetPath}`);
           })
         }
+        onStartDevStack={onStartDevStack}
       />
     </div>
   );
