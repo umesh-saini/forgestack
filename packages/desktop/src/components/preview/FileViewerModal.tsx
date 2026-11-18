@@ -34,7 +34,7 @@ export const FileViewerModal: React.FC<FileViewerModalProps> = ({
         {/* Header */}
         <div className="px-5 py-3.5 border-b ui-card-subtle flex items-center justify-between">
           <div className="flex items-center gap-2.5 overflow-hidden">
-            <div className="w-7 h-7 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-500 shrink-0">
+            <div className="w-7 h-7 rounded-lg bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-500 shrink-0">
               <FileCode className="w-4 h-4" />
             </div>
             <div className="truncate">

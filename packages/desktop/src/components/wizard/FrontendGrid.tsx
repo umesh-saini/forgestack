@@ -111,19 +111,19 @@ export const FrontendGrid: React.FC<Props> = ({ frontend, onChange }) => {
                       <h4 className="font-semibold text-xs flex items-center gap-1.5">
                         {item.name}
                         {item.recommended && (
-                          <span className="text-[9px] px-1.5 py-0.2 rounded ui-card-subtle text-blue-500 font-mono">
+                          <span className="text-[9px] px-1.5 py-0.2 rounded ui-card-subtle text-orange-500 font-mono">
                             Recommended
                           </span>
                         )}
                       </h4>
-                      <p className="text-[10px] text-blue-500 font-mono">{item.tag}</p>
+                      <p className="text-[10px] text-orange-500 font-mono">{item.tag}</p>
                     </div>
                   </div>
 
                   <div
                     className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
                       isSelected
-                        ? 'bg-blue-600 border-blue-500 text-white'
+                        ? 'bg-orange-600 border-orange-500 text-white'
                         : 'ui-card-subtle opacity-50'
                     }`}
                   >

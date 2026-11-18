@@ -118,12 +118,12 @@ export const FileTreePreview: React.FC<Props> = ({
       <div className="p-3 border-b flex items-center justify-between gap-2 flex-wrap shrink-0">
         <div className="flex items-center gap-2 select-none">
           <div className="p-1.5 rounded-lg ui-card-subtle border shrink-0">
-            <Layers className="w-4 h-4 text-blue-500" />
+            <Layers className="w-4 h-4 text-orange-500" />
           </div>
           <div>
             <h3 className="text-xs font-bold uppercase tracking-wider text-[var(--text-main)] flex items-center gap-1.5 select-none">
               <span className="font-bold text-[var(--text-main)] staging-title">Virtual Staging</span>
-              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30">
+              <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-orange-500/15 text-orange-600 dark:text-orange-400 border border-orange-500/30">
                 {filesCount} ready
               </span>
             </h3>
@@ -160,7 +160,7 @@ export const FileTreePreview: React.FC<Props> = ({
             type="button"
             onClick={handleRefreshClick}
             className={`p-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors cursor-pointer ${
-              isRefreshing ? 'animate-spin text-blue-500' : ''
+              isRefreshing ? 'animate-spin text-orange-500' : ''
             }`}
             title="Refresh Synthesis Tree"
           >
@@ -186,12 +186,12 @@ export const FileTreePreview: React.FC<Props> = ({
       {(isCreatingFile || isCreatingFolder) && (
         <form
           onSubmit={isCreatingFile ? handleConfirmAddFile : handleConfirmAddFolder}
-          className="p-2.5 bg-blue-500/10 border-b border-blue-500/20 flex items-center gap-2 animate-in fade-in duration-100"
+          className="p-2.5 bg-orange-500/10 border-b border-orange-500/20 flex items-center gap-2 animate-in fade-in duration-100"
         >
           {isCreatingFile ? (
-            <FilePlus className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+            <FilePlus className="w-3.5 h-3.5 text-orange-400 shrink-0" />
           ) : (
-            <FolderPlus className="w-3.5 h-3.5 text-blue-400 shrink-0" />
+            <FolderPlus className="w-3.5 h-3.5 text-orange-400 shrink-0" />
           )}
           <input
             type="text"
@@ -207,7 +207,7 @@ export const FileTreePreview: React.FC<Props> = ({
           />
           <button
             type="submit"
-            className="p-1 rounded bg-blue-600 text-white hover:bg-blue-500 cursor-pointer"
+            className="p-1 rounded bg-orange-600 text-white hover:bg-orange-500 cursor-pointer"
           >
             <Check className="w-3 h-3" />
           </button>
@@ -332,9 +332,9 @@ const TreeItem: React.FC<TreeItemProps> = ({
               )}
             </span>
             {isOpen ? (
-              <FolderOpen className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+              <FolderOpen className="w-3.5 h-3.5 text-orange-500 shrink-0" />
             ) : (
-              <Folder className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+              <Folder className="w-3.5 h-3.5 text-orange-500 shrink-0" />
             )}
             <span className="truncate tree-dir-text">{node.name}</span>
           </>

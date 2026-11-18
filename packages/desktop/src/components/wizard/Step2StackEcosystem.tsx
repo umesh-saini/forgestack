@@ -101,7 +101,7 @@ export const Step2StackEcosystem: React.FC<Props> = ({ config, onChange }) => {
             {/* Date Library Selection */}
             <div className="space-y-2">
               <label className="text-[11px] font-bold uppercase tracking-wider opacity-70 flex items-center gap-1.5">
-                <Calendar className="w-3.5 h-3.5 text-blue-500" />
+                <Calendar className="w-3.5 h-3.5 text-orange-500" />
                 <span>Date & Time Library</span>
               </label>
               <div className="grid grid-cols-2 gap-2">
@@ -290,7 +290,7 @@ export const Step2StackEcosystem: React.FC<Props> = ({ config, onChange }) => {
                       {fw.icon}
                       <span>{fw.label}</span>
                     </div>
-                    {config.backend.framework === fw.id && <Check className="w-3.5 h-3.5 text-blue-500" />}
+                    {config.backend.framework === fw.id && <Check className="w-3.5 h-3.5 text-orange-500" />}
                   </button>
                 ))}
               </div>
@@ -308,7 +308,7 @@ export const Step2StackEcosystem: React.FC<Props> = ({ config, onChange }) => {
                     : 'No Dedicated Backend Process'}
                 </p>
                 <p className="text-[11px] text-[var(--text-muted)] max-w-sm">
-                  Click Fastify, Express, or Hono to synthesize an independent, decoupled backend server in <code className="text-blue-400">server/</code>.
+                  Click Fastify, Express, or Hono to synthesize an independent, decoupled backend server in <code className="text-orange-400">server/</code>.
                 </p>
               </div>
             ) : (
@@ -362,7 +362,7 @@ export const Step2StackEcosystem: React.FC<Props> = ({ config, onChange }) => {
                           {db.icon}
                           <span>{db.label}</span>
                         </div>
-                        {config.backend.database === db.id && <Check className="w-3.5 h-3.5 text-blue-500" />}
+                        {config.backend.database === db.id && <Check className="w-3.5 h-3.5 text-orange-500" />}
                       </button>
                     ))}
                   </div>
@@ -383,7 +383,7 @@ export const Step2StackEcosystem: React.FC<Props> = ({ config, onChange }) => {
                           <MongoIcon className="w-4 h-4 text-emerald-400" />
                           <span>Mongoose ODM</span>
                         </div>
-                        <Check className="w-3.5 h-3.5 text-blue-500" />
+                        <Check className="w-3.5 h-3.5 text-orange-500" />
                       </button>
                     ) : (
                       [
@@ -409,7 +409,7 @@ export const Step2StackEcosystem: React.FC<Props> = ({ config, onChange }) => {
                             {orm.icon}
                             <span>{orm.label}</span>
                           </div>
-                          {config.backend.orm === orm.id && <Check className="w-3.5 h-3.5 text-blue-500" />}
+                          {config.backend.orm === orm.id && <Check className="w-3.5 h-3.5 text-orange-500" />}
                         </button>
                       ))
                     )}

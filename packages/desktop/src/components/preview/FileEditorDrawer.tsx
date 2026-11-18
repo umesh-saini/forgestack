@@ -81,7 +81,7 @@ export const FileEditorDrawer: React.FC<Props> = ({
         {/* Top Header / Action Toolbar matching user screenshot */}
         <div className="px-4 py-3 border-b flex items-center justify-between gap-3 bg-[var(--bg-card-subtle)] shrink-0">
           <div className="flex items-center gap-2.5 min-w-0">
-            <span className="shrink-0 flex items-center justify-center w-6 h-6 rounded-md bg-blue-500/10 border border-blue-500/20">
+            <span className="shrink-0 flex items-center justify-center w-6 h-6 rounded-md bg-orange-500/10 border border-orange-500/20">
               {getFileIcon(filePath)}
             </span>
             <div className="truncate">
@@ -151,7 +151,7 @@ export const FileEditorDrawer: React.FC<Props> = ({
             theme={monacoTheme}
             loading={
               <div className="h-full w-full flex items-center justify-center gap-2 text-xs opacity-60">
-                <Loader2 className="w-4 h-4 animate-spin text-blue-500" />
+                <Loader2 className="w-4 h-4 animate-spin text-orange-500" />
                 <span>Loading Monaco Editor...</span>
               </div>
             }

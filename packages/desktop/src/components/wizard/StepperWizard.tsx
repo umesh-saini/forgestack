@@ -71,7 +71,7 @@ export const StepperWizard: React.FC<Props> = ({
             <span>Back to Templates</span>
           </button>
 
-          <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-semibold">
+          <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20 font-semibold">
             Step {currentStep} of 4: {steps[currentStep - 1].title}
           </span>
         </div>
@@ -98,7 +98,7 @@ export const StepperWizard: React.FC<Props> = ({
                 <div
                   className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold shrink-0 ${
                     isCurrent
-                      ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                      ? 'bg-orange-600 text-white shadow-md shadow-orange-600/30'
                       : isCompleted
                       ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
                       : 'ui-card border'
@@ -163,7 +163,7 @@ export const StepperWizard: React.FC<Props> = ({
           <button
             type="button"
             onClick={() => setCurrentStep((prev) => Math.min(4, prev + 1) as any)}
-            className="px-5 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md shadow-blue-600/25 active:scale-95"
+            className="px-5 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md shadow-orange-600/25 active:scale-95"
           >
             <span>Next: {steps[currentStep].title}</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -173,7 +173,7 @@ export const StepperWizard: React.FC<Props> = ({
             type="button"
             onClick={onScaffold}
             disabled={isGenerating}
-            className="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md shadow-blue-600/30"
+            className="px-5 py-2 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md shadow-orange-600/30"
           >
             <Rocket className="w-3.5 h-3.5" />
             <span>Scaffold Project ({fileCount} files)</span>

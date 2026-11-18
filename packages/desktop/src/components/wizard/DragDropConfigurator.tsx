@@ -529,7 +529,7 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
       <div className="ui-panel rounded-2xl p-4 shadow-sm space-y-3">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2">
-            <Sparkles className="w-4 h-4 text-blue-500" />
+            <Sparkles className="w-4 h-4 text-orange-500" />
             <h3 className="text-xs font-bold uppercase tracking-wider">
               Component & Architecture Palette
             </h3>
@@ -547,7 +547,7 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
                 onClick={() => setActiveCategory(cat.id)}
                 className={`px-2.5 py-1 rounded-lg text-xs font-medium whitespace-nowrap transition-all cursor-pointer flex items-center gap-1.5 ${
                   activeCategory === cat.id
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-orange-600 text-white shadow-sm'
                     : 'opacity-70 hover:opacity-100 hover:bg-black/5 dark:hover:bg-white/5'
                 }`}
               >
@@ -589,7 +589,7 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
                     <div className="flex items-center justify-between gap-1">
                       <h4 className="text-xs font-semibold truncate">{item.name}</h4>
                       {active && (
-                        <span className="w-3.5 h-3.5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[9px] font-bold shrink-0">
+                        <span className="w-3.5 h-3.5 rounded-full bg-orange-600 text-white flex items-center justify-center text-[9px] font-bold shrink-0">
                           ✓
                         </span>
                       )}
@@ -613,12 +613,12 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
           onDragLeave={() => setDragOverZone(null)}
           onDrop={() => handleDrop('topology')}
           className={`ui-panel rounded-2xl p-5 shadow-sm space-y-3 transition-all ${
-            dragOverZone === 'topology' ? 'ring-2 ring-blue-500 bg-blue-500/10 border-dashed' : ''
+            dragOverZone === 'topology' ? 'ring-2 ring-orange-500 bg-orange-500/10 border-dashed' : ''
           }`}
         >
           <div className="flex items-center justify-between flex-wrap gap-2 border-b pb-2.5">
             <div className="flex items-center gap-2">
-              <span className="w-6 h-6 rounded-lg bg-blue-500/20 text-blue-500 flex items-center justify-center text-xs font-mono font-bold">
+              <span className="w-6 h-6 rounded-lg bg-orange-500/20 text-orange-500 flex items-center justify-center text-xs font-mono font-bold">
                 1
               </span>
               <div>
@@ -630,7 +630,7 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
                 </p>
               </div>
             </div>
-            <span className="text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-lg ui-card-subtle border text-blue-500">
+            <span className="text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-lg ui-card-subtle border text-orange-500">
               {config.topology}
             </span>
           </div>
@@ -697,13 +697,13 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
                     }))
                   }
                   className={`p-3.5 rounded-xl border text-left cursor-pointer transition-all flex flex-col justify-between ${
-                    isSelected ? 'ui-active-ring' : 'ui-card hover:border-blue-400'
+                    isSelected ? 'ui-active-ring' : 'ui-card hover:border-orange-400'
                   }`}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="p-2 rounded-lg ui-card-subtle border">{topo.icon}</div>
                     {isSelected && (
-                      <span className="w-4 h-4 rounded-full bg-blue-600 text-white flex items-center justify-center text-[10px] font-bold">
+                      <span className="w-4 h-4 rounded-full bg-orange-600 text-white flex items-center justify-center text-[10px] font-bold">
                         ✓
                       </span>
                     )}
@@ -1031,7 +1031,7 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
                       <div className="flex items-center justify-between">
                         <div className="p-1.5 rounded-lg ui-card-subtle border">{fw.icon}</div>
                         {isSelected && (
-                          <span className="w-3.5 h-3.5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[9px] font-bold">
+                          <span className="w-3.5 h-3.5 rounded-full bg-orange-600 text-white flex items-center justify-center text-[9px] font-bold">
                             ✓
                           </span>
                         )}
@@ -1049,7 +1049,7 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
             {/* 3B: Database & ORM Selection */}
             <div className="space-y-2">
               <label className="text-[11px] font-bold uppercase tracking-wider opacity-70 flex items-center gap-1.5">
-                <Database className="w-3.5 h-3.5 text-blue-500" />
+                <Database className="w-3.5 h-3.5 text-orange-500" />
                 <span>Database & ORM Layer:</span>
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
@@ -1106,7 +1106,7 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
                       <div className="flex items-center justify-between">
                         <div className="p-1.5 rounded-lg ui-card-subtle border">{d.icon}</div>
                         {isSelected && (
-                          <span className="w-3.5 h-3.5 rounded-full bg-blue-600 text-white flex items-center justify-center text-[9px] font-bold">
+                          <span className="w-3.5 h-3.5 rounded-full bg-orange-600 text-white flex items-center justify-center text-[9px] font-bold">
                             ✓
                           </span>
                         )}
@@ -1123,7 +1123,7 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
 
             {/* 3C: Docker Containerization Toggle */}
             <div className="pt-1">
-              <label className="p-3 rounded-xl ui-card-subtle flex items-center justify-between cursor-pointer border hover:border-blue-400 transition-colors">
+              <label className="p-3 rounded-xl ui-card-subtle flex items-center justify-between cursor-pointer border hover:border-orange-400 transition-colors">
                 <div className="flex items-center gap-3">
                   <div className="p-1.5 rounded-lg ui-panel border">
                     <DockerIcon className="w-5 h-5" />
@@ -1144,7 +1144,7 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
                       backend: { ...prev.backend, container: e.target.checked },
                     }))
                   }
-                  className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 accent-blue-600 cursor-pointer"
+                  className="w-4 h-4 rounded text-orange-600 focus:ring-orange-500 accent-orange-600 cursor-pointer"
                 />
               </label>
             </div>
@@ -1232,13 +1232,13 @@ export const DragDropConfigurator: React.FC<Props> = ({ config, onChange }) => {
                       type="checkbox"
                       checked={isEnabled}
                       onChange={() => {}}
-                      className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 accent-blue-600 cursor-pointer"
+                      className="w-4 h-4 rounded text-orange-600 focus:ring-orange-500 accent-orange-600 cursor-pointer"
                     />
                   </div>
 
                   <div className="mt-2.5">
                     <h4 className="text-xs font-bold">{ai.name}</h4>
-                    <span className="inline-block font-mono text-[10px] text-blue-500 mt-0.5">
+                    <span className="inline-block font-mono text-[10px] text-orange-500 mt-0.5">
                       {ai.path}
                     </span>
                     <p className="text-[11px] opacity-60 mt-1 leading-snug">{ai.desc}</p>

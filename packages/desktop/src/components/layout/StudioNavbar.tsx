@@ -3,7 +3,6 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   FolderOpen,
   Settings,
-  Zap,
 } from 'lucide-react';
 
 interface Props {
@@ -30,12 +29,14 @@ export const StudioNavbar: React.FC<Props> = ({
             to="/"
             className="flex items-center gap-2.5 font-bold tracking-tight text-sm text-[var(--text-main)] hover:opacity-90 shrink-0"
           >
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-500 flex items-center justify-center text-white shadow-md shadow-blue-500/20">
-              <Zap className="w-4 h-4 fill-white" />
-            </div>
+            <img
+              src="/app-icon.png"
+              alt="ForgeStack"
+              className="w-7 h-7 rounded-lg shadow-sm shadow-orange-500/25 shrink-0 object-contain"
+            />
             <div className="flex items-center gap-1.5">
               <span className="font-extrabold text-[var(--text-main)]">ForgeStack</span>
-              <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded-md bg-blue-500/10 text-blue-500 border border-blue-500/20 font-semibold">
+              <span className="text-[10px] font-mono font-medium px-1.5 py-0.5 rounded-md bg-orange-500/10 text-orange-500 border border-orange-500/20 font-semibold">
                 Studio
               </span>
             </div>
@@ -50,7 +51,7 @@ export const StudioNavbar: React.FC<Props> = ({
               className={({ isActive }) =>
                 `transition-colors ${
                   isActive
-                    ? 'text-blue-500 font-bold'
+                    ? 'text-orange-500 font-bold'
                     : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
                 }`
               }
@@ -63,7 +64,7 @@ export const StudioNavbar: React.FC<Props> = ({
               className={({ isActive }) =>
                 `transition-colors ${
                   isActive
-                    ? 'text-blue-500 font-bold'
+                    ? 'text-orange-500 font-bold'
                     : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
                 }`
               }
@@ -83,7 +84,7 @@ export const StudioNavbar: React.FC<Props> = ({
               className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl ui-card-subtle border text-xs font-mono text-[var(--text-muted)] hover:text-[var(--text-main)] hover:border-[var(--border-hover)] transition-all cursor-pointer max-w-[320px] truncate"
               title={`Destination Path: ${targetPath}`}
             >
-              <FolderOpen className="w-3.5 h-3.5 text-blue-500 shrink-0" />
+              <FolderOpen className="w-3.5 h-3.5 text-orange-500 shrink-0" />
               <span className="truncate">{targetPath}</span>
             </button>
           )}
@@ -94,7 +95,7 @@ export const StudioNavbar: React.FC<Props> = ({
             className={({ isActive }) =>
               `p-2 rounded-xl ui-card-subtle border transition-colors ${
                 isActive
-                  ? 'text-blue-500 border-blue-500/40 bg-blue-500/10'
+                  ? 'text-orange-500 border-orange-500/40 bg-orange-500/10'
                   : 'text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-[var(--bg-surface)]'
               }`
             }

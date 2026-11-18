@@ -127,7 +127,7 @@ export const BackendGrid: React.FC<Props> = ({ backend, onChange }) => {
                   <div
                     className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
                       isSelected
-                        ? 'bg-blue-600 border-blue-500 text-white'
+                        ? 'bg-orange-600 border-orange-500 text-white'
                         : 'ui-card-subtle opacity-50'
                     }`}
                   >
@@ -179,7 +179,7 @@ export const BackendGrid: React.FC<Props> = ({ backend, onChange }) => {
                     </div>
                     <div>
                       <h4 className="font-semibold text-xs">{item.name}</h4>
-                      <p className="text-[10px] text-blue-500 font-mono">
+                      <p className="text-[10px] text-orange-500 font-mono">
                         ORM: {item.compatibleOrm}
                       </p>
                     </div>
@@ -188,7 +188,7 @@ export const BackendGrid: React.FC<Props> = ({ backend, onChange }) => {
                   <div
                     className={`w-4 h-4 rounded-full border flex items-center justify-center shrink-0 mt-0.5 ${
                       isSelected
-                        ? 'bg-blue-600 border-blue-500 text-white'
+                        ? 'bg-orange-600 border-orange-500 text-white'
                         : 'ui-card-subtle opacity-50'
                     }`}
                   >

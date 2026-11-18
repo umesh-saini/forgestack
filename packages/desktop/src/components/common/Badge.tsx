@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type BadgeVariant = 'default' | 'blue' | 'emerald' | 'amber' | 'purple' | 'rose' | 'cyan';
+export type BadgeVariant = 'default' | 'orange' | 'blue' | 'emerald' | 'amber' | 'purple' | 'rose' | 'cyan';
 
 interface BadgeProps {
   children: React.ReactNode;
@@ -14,7 +14,13 @@ const variantStyles: Record<BadgeVariant, { bg: string; text: string; border: st
     bg: 'ui-card-subtle',
     text: 'opacity-80',
     border: 'border',
-    dot: 'bg-blue-500',
+    dot: 'bg-orange-500',
+  },
+  orange: {
+    bg: 'bg-orange-500/10',
+    text: 'text-orange-600 dark:text-orange-400',
+    border: 'border-orange-500/30',
+    dot: 'bg-orange-500',
   },
   blue: {
     bg: 'bg-blue-500/10',

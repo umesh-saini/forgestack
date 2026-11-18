@@ -74,7 +74,7 @@ export const ProjectIdentity: React.FC<Props> = ({
               onClick={onBrowseFolder}
               className="px-3 py-2 ui-card-subtle hover:opacity-100 rounded-xl text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 shadow-sm border"
             >
-              <FolderOpen className="w-3.5 h-3.5 text-blue-500" />
+              <FolderOpen className="w-3.5 h-3.5 text-orange-500" />
               <span>Browse</span>
             </button>
           </div>
@@ -86,7 +86,7 @@ export const ProjectIdentity: React.FC<Props> = ({
         {/* Package Manager Buttons */}
         <div className="flex items-center gap-2 flex-wrap">
           <span className="text-xs font-medium opacity-70 flex items-center gap-1">
-            <Package className="w-3.5 h-3.5 text-blue-500" />
+            <Package className="w-3.5 h-3.5 text-orange-500" />
             Manager:
           </span>
           <div className="flex rounded-lg ui-panel p-0.5 border">
@@ -101,13 +101,13 @@ export const ProjectIdentity: React.FC<Props> = ({
                   }
                   className={`px-3 py-1 rounded-md text-xs font-mono font-medium transition-all cursor-pointer flex items-center gap-1 ${
                     isSelected
-                      ? 'bg-blue-600 text-white shadow-sm'
+                      ? 'bg-orange-600 text-white shadow-sm'
                       : 'opacity-70 hover:opacity-100'
                   }`}
                 >
                   <span>{pm.name}</span>
                   {pm.tag && !isSelected && (
-                    <span className="text-[9px] text-blue-400 hidden sm:inline">
+                    <span className="text-[9px] text-orange-400 hidden sm:inline">
                       ★
                     </span>
                   )}
@@ -126,7 +126,7 @@ export const ProjectIdentity: React.FC<Props> = ({
               onChange={(e) =>
                 onChange((prev) => ({ ...prev, git: e.target.checked }))
               }
-              className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 accent-blue-600"
+              className="w-4 h-4 rounded text-orange-600 focus:ring-orange-500 accent-orange-600"
             />
             <span className="flex items-center gap-1 font-medium">
               <GitBranch className="w-3.5 h-3.5 text-emerald-500" />
@@ -141,7 +141,7 @@ export const ProjectIdentity: React.FC<Props> = ({
               onChange={(e) =>
                 onChange((prev) => ({ ...prev, install: e.target.checked }))
               }
-              className="w-4 h-4 rounded text-blue-600 focus:ring-blue-500 accent-blue-600"
+              className="w-4 h-4 rounded text-orange-600 focus:ring-orange-500 accent-orange-600"
             />
             <span className="flex items-center gap-1 font-medium">
               <Wrench className="w-3.5 h-3.5 text-amber-500" />
