@@ -70,14 +70,14 @@ export const HomeTemplatesDashboard: React.FC<Props> = ({
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col font-sans selection:bg-blue-500/30 selection:text-white transition-colors">
+    <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col font-sans selection:bg-orange-500/30 selection:text-white transition-colors">
       {/* Main Content Area with Integrated Search & CTA */}
       <main className="flex-1 max-w-[1750px] w-full mx-auto p-4 lg:p-8 space-y-8">
         {/* Banner Section with Integrated Search & Launch CTA */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b pb-6">
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20 font-bold uppercase tracking-wider">
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-500 border border-orange-500/20 font-bold uppercase tracking-wider">
                 Production Foundations
               </span>
               <span className="text-xs opacity-50 font-mono">v1.2.0</span>
@@ -104,7 +104,7 @@ export const HomeTemplatesDashboard: React.FC<Props> = ({
             </div>
             <button
               onClick={onNewStack}
-              className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-md shadow-blue-600/20 active:scale-95 shrink-0"
+              className="px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-md shadow-orange-600/20 active:scale-95 shrink-0"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Launch Studio Wizard</span>
@@ -117,20 +117,20 @@ export const HomeTemplatesDashboard: React.FC<Props> = ({
           {/* CARD 0: Hero + Create New Stack */}
           <div
             onClick={onNewStack}
-            className="group relative rounded-2xl p-6 border-2 border-dashed border-blue-500/30 hover:border-blue-500/80 bg-blue-500/5 hover:bg-blue-500/10 transition-all duration-200 cursor-pointer flex flex-col items-center justify-center text-center space-y-4 min-h-[260px] shadow-sm hover:shadow-xl hover:shadow-blue-500/10 active:scale-[0.99]"
+            className="group relative rounded-2xl p-6 border-2 border-dashed border-orange-500/30 hover:border-orange-500/80 bg-orange-500/5 hover:bg-orange-500/10 transition-all duration-200 cursor-pointer flex flex-col items-center justify-center text-center space-y-4 min-h-[260px] shadow-sm hover:shadow-xl hover:shadow-orange-500/10 active:scale-[0.99]"
           >
-            <div className="w-14 h-14 rounded-2xl bg-blue-500/20 text-blue-500 border border-blue-500/40 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+            <div className="w-14 h-14 rounded-2xl bg-orange-500/20 text-orange-500 border border-orange-500/40 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
               <Plus className="w-7 h-7" />
             </div>
             <div className="space-y-1">
-              <h3 className="font-bold text-base tracking-tight text-blue-400 group-hover:text-blue-300">
+              <h3 className="font-bold text-base tracking-tight text-orange-400 group-hover:text-orange-300">
                 Create New Stack
               </h3>
               <p className="text-xs opacity-70 max-w-[220px]">
                 Start with empty slots and configure a tailored architecture step-by-step
               </p>
             </div>
-            <span className="px-3 py-1 rounded-full text-[11px] font-mono font-medium bg-blue-600 text-white shadow-sm">
+            <span className="px-3 py-1 rounded-full text-[11px] font-mono font-medium bg-orange-600 text-white shadow-sm">
               Launch 4-Step Studio →
             </span>
           </div>
@@ -172,7 +172,7 @@ export const HomeTemplatesDashboard: React.FC<Props> = ({
                       <div className="flex items-center gap-2">
                         <h3 className="font-bold text-sm tracking-tight">{template.name}</h3>
                         {template.isBuiltIn && (
-                          <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                          <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 font-semibold">
                             Curated
                           </span>
                         )}
@@ -214,7 +214,7 @@ export const HomeTemplatesDashboard: React.FC<Props> = ({
 
                 {/* Stack Tags */}
                 <div className="flex flex-wrap gap-1.5 py-1">
-                  <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium ui-card-subtle border text-blue-400">
+                  <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium ui-card-subtle border text-orange-400">
                     {config.topology}
                   </span>
                   {config.frontend.framework !== 'none' && (
@@ -250,7 +250,7 @@ export const HomeTemplatesDashboard: React.FC<Props> = ({
 
                   <button
                     onClick={() => onFastScaffold(template)}
-                    className="px-4 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md shadow-blue-600/20 active:scale-95"
+                    className="px-4 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md shadow-orange-600/20 active:scale-95"
                   >
                     <Rocket className="w-3.5 h-3.5" />
                     <span>Fast Scaffold</span>

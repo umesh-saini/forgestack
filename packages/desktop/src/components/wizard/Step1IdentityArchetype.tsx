@@ -42,7 +42,7 @@ export const Step1IdentityArchetype: React.FC<Props> = ({
       id: 'monorepo',
       title: 'Enterprise Monorepo',
       desc: 'Turborepo + pnpm workspaces with shared @repo/contracts, @repo/ui, and decoupled apps/',
-      icon: <Rocket className="w-5 h-5 text-blue-500" />,
+      icon: <Rocket className="w-5 h-5 text-orange-500" />,
       tag: 'Scale-Ready',
       apply: (prev) => ({
         ...prev,
@@ -231,7 +231,7 @@ export const Step1IdentityArchetype: React.FC<Props> = ({
                 onClick={onBrowseFolder}
                 className="px-3 py-2 ui-card-subtle hover:opacity-100 rounded-xl text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer shrink-0 shadow-sm border"
               >
-                <FolderOpen className="w-3.5 h-3.5 text-blue-500" />
+                <FolderOpen className="w-3.5 h-3.5 text-orange-500" />
                 <span>Browse</span>
               </button>
             </div>
@@ -241,7 +241,7 @@ export const Step1IdentityArchetype: React.FC<Props> = ({
         {/* Package Manager Selector */}
         <div className="flex items-center justify-between gap-3 pt-3 border-t flex-wrap">
           <span className="text-xs font-medium opacity-70 flex items-center gap-1.5">
-            <Package className="w-3.5 h-3.5 text-blue-500" />
+            <Package className="w-3.5 h-3.5 text-orange-500" />
             <span>Package Manager:</span>
           </span>
           <div className="flex rounded-xl ui-panel p-0.5 border">
@@ -254,7 +254,7 @@ export const Step1IdentityArchetype: React.FC<Props> = ({
                   onClick={() => onChange((prev) => ({ ...prev, packageManager: pm.id }))}
                   className={`px-3 py-1 rounded-lg text-xs font-mono transition-all cursor-pointer flex items-center gap-1 ${
                     isSelected
-                      ? 'bg-blue-600 text-white font-bold shadow-sm'
+                      ? 'bg-orange-600 text-white font-bold shadow-sm'
                       : 'opacity-70 hover:opacity-100'
                   }`}
                 >
@@ -287,19 +287,19 @@ export const Step1IdentityArchetype: React.FC<Props> = ({
                 className={`p-4 rounded-2xl border text-left cursor-pointer transition-all flex flex-col justify-between space-y-3 ${
                   isSelected
                     ? 'ui-active-ring shadow-md'
-                    : 'ui-panel opacity-70 hover:opacity-100 hover:border-blue-500/40'
+                    : 'ui-panel opacity-70 hover:opacity-100 hover:border-orange-500/40'
                 }`}
               >
                 <div className="space-y-2">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <div className="p-2 rounded-xl bg-blue-500/10 border border-blue-500/20">
+                      <div className="p-2 rounded-xl bg-orange-500/10 border border-orange-500/20">
                         {arch.icon}
                       </div>
                       <h4 className="font-bold text-xs">{arch.title}</h4>
                     </div>
                     {isSelected ? (
-                      <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center shrink-0">
+                      <span className="w-5 h-5 rounded-full bg-orange-600 text-white flex items-center justify-center shrink-0">
                         <Check className="w-3 h-3" />
                       </span>
                     ) : (

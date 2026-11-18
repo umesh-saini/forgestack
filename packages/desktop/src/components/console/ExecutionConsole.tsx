@@ -71,14 +71,14 @@ export const ExecutionConsole: React.FC<Props> = ({
               isComplete
                 ? 'bg-emerald-500/15 border-emerald-500/30 text-emerald-500'
                 : isGenerating
-                ? 'bg-blue-500/15 border-blue-500/30 text-blue-500'
+                ? 'bg-orange-500/15 border-orange-500/30 text-orange-500'
                 : 'ui-card-subtle opacity-70'
             }`}
           >
             {isComplete ? (
               <CheckCircle2 className="w-5 h-5 text-emerald-500" />
             ) : isGenerating ? (
-              <Sparkles className="w-5 h-5 animate-spin text-blue-500" />
+              <Sparkles className="w-5 h-5 animate-spin text-orange-500" />
             ) : (
               <Terminal className="w-4 h-4 opacity-70" />
             )}
@@ -88,8 +88,8 @@ export const ExecutionConsole: React.FC<Props> = ({
               <span>Scaffolding Engine Console</span>
               {isGenerating && (
                 <span className="flex h-2 w-2 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-orange-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-orange-500" />
                 </span>
               )}
             </h3>
@@ -117,7 +117,7 @@ export const ExecutionConsole: React.FC<Props> = ({
             <button
               type="button"
               onClick={onOpenVsCode}
-              className="px-3 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
+              className="px-3 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
             >
               <Code2 className="w-3.5 h-3.5" />
               <span>Open in VS Code</span>
@@ -127,7 +127,7 @@ export const ExecutionConsole: React.FC<Props> = ({
               onClick={onOpenFolder}
               className="px-3 py-1.5 rounded-xl ui-card-subtle hover:opacity-100 text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer border"
             >
-              <Folder className="w-3.5 h-3.5 text-blue-500" />
+              <Folder className="w-3.5 h-3.5 text-orange-500" />
               <span>Open Folder</span>
             </button>
           </div>
@@ -183,7 +183,7 @@ export const ExecutionConsole: React.FC<Props> = ({
                       : isSuccess
                       ? 'text-emerald-400 font-semibold'
                       : isFlush
-                      ? 'text-blue-400'
+                      ? 'text-orange-400'
                       : 'opacity-80'
                   }`}
                 >

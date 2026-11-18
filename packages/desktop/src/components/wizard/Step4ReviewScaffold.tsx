@@ -76,12 +76,12 @@ export const Step4ReviewScaffold: React.FC<Props> = ({
       <div className="ui-panel rounded-2xl p-5 border space-y-4">
         <div className="flex items-center justify-between border-b pb-3">
           <div className="flex items-center gap-2">
-            <Layers className="w-4 h-4 text-blue-500" />
+            <Layers className="w-4 h-4 text-orange-500" />
             <h4 className="font-bold text-xs uppercase tracking-wider">
               Selected Architecture Blueprint
             </h4>
           </div>
-          <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
+          <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20 font-semibold">
             {fileCount} Files Staged
           </span>
         </div>
@@ -89,7 +89,7 @@ export const Step4ReviewScaffold: React.FC<Props> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs font-mono">
           <div className="p-3 rounded-xl ui-card-subtle border space-y-1">
             <span className="opacity-60 text-[10px] uppercase block">Target Project</span>
-            <div className="font-bold text-sm text-blue-400">{config.name}</div>
+            <div className="font-bold text-sm text-orange-400">{config.name}</div>
             <div className="text-[11px] opacity-70 truncate">{config.targetPath}</div>
           </div>
 
@@ -231,7 +231,7 @@ export const Step4ReviewScaffold: React.FC<Props> = ({
       </div>
 
       {/* Synthesis Trigger Button */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-blue-600/10 via-indigo-600/10 to-purple-600/10 border border-blue-500/20">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-orange-600/10 via-amber-600/10 to-rose-600/10 border border-orange-500/20">
         <div className="min-w-0 flex-1 space-y-1">
           <h4 className="font-bold text-sm tracking-tight text-[var(--text-main)]">
             Ready to Synthesize Architecture
@@ -245,7 +245,7 @@ export const Step4ReviewScaffold: React.FC<Props> = ({
           type="button"
           onClick={onScaffold}
           disabled={isGenerating}
-          className="shrink-0 whitespace-nowrap px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white text-xs md:text-sm font-semibold flex items-center justify-center gap-2 shadow-md shadow-blue-600/20 transition-all cursor-pointer active:scale-98 disabled:opacity-50"
+          className="shrink-0 whitespace-nowrap px-6 py-3 rounded-xl bg-orange-600 hover:bg-orange-500 active:bg-orange-700 text-white text-xs md:text-sm font-semibold flex items-center justify-center gap-2 shadow-md shadow-orange-600/20 transition-all cursor-pointer active:scale-98 disabled:opacity-50"
         >
           {isGenerating ? (
             <>

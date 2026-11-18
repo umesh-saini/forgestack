@@ -147,8 +147,8 @@ export const VsCodeWorkspace: React.FC<Props> = ({
                   className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer relative"
                   title="Expand Explorer (Ctrl+B)"
                 >
-                  <Layers className="w-4 h-4 text-blue-500" />
-                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-blue-500" />
+                  <Layers className="w-4 h-4 text-orange-500" />
+                  <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-orange-500" />
                 </button>
               </div>
             )}
@@ -170,7 +170,7 @@ export const VsCodeWorkspace: React.FC<Props> = ({
                         onClick={() => onSelectFile(tabPath)}
                         className={`group flex items-center gap-2 px-3.5 py-2 text-xs font-mono cursor-pointer transition-colors border-r shrink-0 select-none ${
                           isActive
-                            ? 'bg-[var(--bg-surface)] text-[var(--text-main)] border-t-2 border-t-blue-500 font-semibold shadow-xs'
+                            ? 'bg-[var(--bg-surface)] text-[var(--text-main)] border-t-2 border-t-orange-500 font-semibold shadow-xs'
                             : 'bg-[var(--bg-card-subtle)] text-[var(--text-muted)] hover:bg-[var(--bg-surface)]/70 hover:text-[var(--text-main)]'
                         }`}
                       >
@@ -206,7 +206,7 @@ export const VsCodeWorkspace: React.FC<Props> = ({
                     {isExplorerVisible ? (
                       <PanelLeftClose className="w-4 h-4" />
                     ) : (
-                      <PanelLeftOpen className="w-4 h-4 text-blue-500" />
+                      <PanelLeftOpen className="w-4 h-4 text-orange-500" />
                     )}
                   </button>
 
@@ -236,7 +236,7 @@ export const VsCodeWorkspace: React.FC<Props> = ({
                       onClick={onToggleMaximize}
                       className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
                         isMaximized
-                          ? 'text-blue-500 bg-blue-500/15'
+                          ? 'text-orange-500 bg-orange-500/15'
                           : 'text-slate-400 hover:text-[var(--text-main)] hover:bg-slate-500/15'
                       }`}
                       title={isMaximized ? 'Restore Split Studio View' : 'Maximize Workspace (Zen Mode)'}
@@ -284,7 +284,7 @@ export const VsCodeWorkspace: React.FC<Props> = ({
                 </div>
 
                 <div className="flex items-center gap-3 shrink-0 text-[10px]">
-                  <span className="px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-500 font-bold border border-blue-500/20 uppercase">
+                  <span className="px-1.5 py-0.5 rounded bg-orange-500/10 text-orange-500 font-bold border border-orange-500/20 uppercase">
                     {language}
                   </span>
                   <span>{linesCount} lines</span>

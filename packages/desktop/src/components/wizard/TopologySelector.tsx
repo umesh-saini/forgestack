@@ -23,7 +23,7 @@ export const TopologySelector: React.FC<Props> = ({ value, onChange }) => {
       tagline: 'Turborepo + pnpm Workspaces',
       desc: 'Shared contracts (@repo/contracts), UI library (@repo/ui), React 19 web app, and Fastify/Express backend.',
       badges: ['apps/web', 'apps/api', 'packages/contracts', 'turbo.json'],
-      icon: <Layers className="w-5 h-5 text-blue-500" />,
+      icon: <Layers className="w-5 h-5 text-orange-500" />,
     },
     {
       id: 'separate-folders',
@@ -119,7 +119,7 @@ export const TopologySelector: React.FC<Props> = ({ value, onChange }) => {
                   {t.icon}
                 </div>
                 {isSelected && (
-                  <span className="w-5 h-5 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs font-bold shadow-sm">
+                  <span className="w-5 h-5 rounded-full bg-orange-600 text-white flex items-center justify-center text-xs font-bold shadow-sm">
                     ✓
                   </span>
                 )}
@@ -128,7 +128,7 @@ export const TopologySelector: React.FC<Props> = ({ value, onChange }) => {
               <h3 className="font-semibold text-xs tracking-tight mb-1">
                 {t.title}
               </h3>
-              <p className="text-[11px] font-mono text-blue-500 mb-2">
+              <p className="text-[11px] font-mono text-orange-500 mb-2">
                 {t.tagline}
               </p>
               <p className="text-xs opacity-70 leading-relaxed mb-3">

@@ -66,7 +66,7 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
       {/* Process Management: Docker vs PM2 vs None */}
       <div className="ui-panel rounded-2xl p-5 border space-y-4">
         <div className="flex items-center gap-2">
-          <Container className="w-4 h-4 text-blue-500" />
+          <Container className="w-4 h-4 text-orange-500" />
           <h4 className="font-bold text-xs uppercase tracking-wider">
             Process Manager & Containerization
           </h4>
@@ -116,7 +116,7 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
                     {pm.icon}
                     <h5 className="font-bold text-xs">{pm.title}</h5>
                   </div>
-                  {isSelected && <Check className="w-3.5 h-3.5 text-blue-500" />}
+                  {isSelected && <Check className="w-3.5 h-3.5 text-orange-500" />}
                 </div>
                 <p className="text-xs opacity-70 leading-relaxed">{pm.desc}</p>
               </div>
@@ -166,7 +166,7 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
                 type="checkbox"
                 checked={Boolean(config.utilities?.frontendHelpers)}
                 onChange={() => {}}
-                className="rounded accent-blue-600"
+                className="rounded accent-orange-600"
               />
             </div>
             <p className="text-xs opacity-70 leading-relaxed">
@@ -200,7 +200,7 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
                 type="checkbox"
                 checked={Boolean(config.utilities?.backendHelpers)}
                 onChange={() => {}}
-                className="rounded accent-blue-600"
+                className="rounded accent-orange-600"
               />
             </div>
             <p className="text-xs opacity-70 leading-relaxed">
@@ -248,7 +248,7 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
                 type="checkbox"
                 checked={config.auth === 'better-auth'}
                 onChange={() => {}}
-                className="rounded accent-blue-600"
+                className="rounded accent-orange-600"
               />
             </div>
             <p className="text-xs opacity-70 leading-relaxed">
@@ -279,7 +279,7 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
                 type="checkbox"
                 checked={config.rpc === 'trpc'}
                 onChange={() => {}}
-                className="rounded accent-blue-600"
+                className="rounded accent-orange-600"
               />
             </div>
             <p className="text-xs opacity-70 leading-relaxed">
@@ -313,7 +313,7 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
                 type="checkbox"
                 checked={config.testing?.e2e === 'playwright'}
                 onChange={() => {}}
-                className="rounded accent-blue-600"
+                className="rounded accent-orange-600"
               />
             </div>
             <p className="text-xs opacity-70 leading-relaxed">
@@ -337,18 +337,18 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-blue-400" />
+                <Sparkles className="w-4 h-4 text-orange-400" />
                 <h5 className="font-bold text-xs">GitHub Actions CI/CD</h5>
               </div>
               <input
                 type="checkbox"
                 checked={config.ci === 'github-actions'}
                 onChange={() => {}}
-                className="rounded accent-blue-600"
+                className="rounded accent-orange-600"
               />
             </div>
             <p className="text-xs opacity-70 leading-relaxed">
-              Synthesizes <code className="text-blue-400">.github/workflows/ci.yml</code> with Node.js 20 & 22 matrix, linting, typechecks, and test runs.
+              Synthesizes <code className="text-orange-400">.github/workflows/ci.yml</code> with Node.js 20 & 22 matrix, linting, typechecks, and test runs.
             </p>
           </div>
         </div>
@@ -555,7 +555,7 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
                   aiGovernance: { ...prev.aiGovernance, rules: e.target.checked },
                 }))
               }
-              className="rounded accent-blue-600"
+              className="rounded accent-orange-600"
             />
           </label>
 
@@ -573,7 +573,7 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
                   aiGovernance: { ...prev.aiGovernance, claude: e.target.checked },
                 }))
               }
-              className="rounded accent-blue-600"
+              className="rounded accent-orange-600"
             />
           </label>
 
@@ -591,7 +591,7 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
                   aiGovernance: { ...prev.aiGovernance, skills: e.target.checked },
                 }))
               }
-              className="rounded accent-blue-600"
+              className="rounded accent-orange-600"
             />
           </label>
 
@@ -609,7 +609,7 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
                   aiGovernance: { ...prev.aiGovernance, mcp: e.target.checked },
                 }))
               }
-              className="rounded accent-blue-600"
+              className="rounded accent-orange-600"
             />
           </label>
         </div>

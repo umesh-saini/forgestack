@@ -383,7 +383,7 @@ export const TopologyVisualizer: React.FC<Props> = ({ config }) => {
         </div>
 
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20 font-semibold">
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20 font-semibold">
             {config.topology}
           </span>
           {config.auth === 'better-auth' && (
@@ -416,7 +416,7 @@ export const TopologyVisualizer: React.FC<Props> = ({ config }) => {
                   <div className="p-1.5 rounded-lg ui-panel border">{node.icon}</div>
                   <div>
                     <h5 className="font-bold text-xs">{node.name}</h5>
-                    <p className="text-[10px] text-blue-400 font-mono">{node.tag}</p>
+                    <p className="text-[10px] text-orange-400 font-mono">{node.tag}</p>
                   </div>
                 </div>
                 {node.port && (
@@ -447,14 +447,14 @@ export const TopologyVisualizer: React.FC<Props> = ({ config }) => {
                 key={idx}
                 className="p-2 rounded-lg ui-card border flex items-center justify-between text-[11px]"
               >
-                <div className="flex items-center gap-1.5 font-semibold text-blue-400">
+                <div className="flex items-center gap-1.5 font-semibold text-orange-400">
                   <span>{ch.from}</span>
                   <ArrowRight className="w-3 h-3 text-white/40" />
                   <span>{ch.to}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="opacity-75">{ch.label}</span>
-                  <span className="px-1.5 py-0.2 rounded text-[9px] bg-blue-500/15 text-blue-400 border border-blue-500/30">
+                  <span className="px-1.5 py-0.2 rounded text-[9px] bg-orange-500/15 text-orange-400 border border-orange-500/30">
                     {ch.protocol}
                   </span>
                 </div>

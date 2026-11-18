@@ -59,7 +59,7 @@ export const AiGovernance: React.FC<Props> = ({ aiGovernance, onChange }) => {
     <div className="space-y-3">
       <div className="p-3 rounded-xl ui-card-subtle flex items-center justify-between text-xs border">
         <div className="flex items-center gap-2">
-          <Bot className="w-4 h-4 text-blue-500 shrink-0" />
+          <Bot className="w-4 h-4 text-orange-500 shrink-0" />
           <span className="opacity-80">
             <strong>Day-One AI Alignment:</strong> Pre-configures Agent rules, prompt skills, and OpenSpec workflows directly inside the repository.
           </span>
@@ -99,7 +99,7 @@ export const AiGovernance: React.FC<Props> = ({ aiGovernance, onChange }) => {
                       key={i}
                       className="text-[11px] font-mono opacity-60 flex items-center gap-1.5"
                     >
-                      <span className="text-blue-500">›</span>
+                      <span className="text-orange-500">›</span>
                       <span>{bp}</span>
                     </li>
                   ))}
@@ -109,7 +109,7 @@ export const AiGovernance: React.FC<Props> = ({ aiGovernance, onChange }) => {
               <div
                 className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0 mt-0.5 ${
                   item.active
-                    ? 'bg-blue-600 border-blue-500 text-white'
+                    ? 'bg-orange-600 border-orange-500 text-white'
                     : 'ui-card-subtle opacity-50'
                 }`}
               >

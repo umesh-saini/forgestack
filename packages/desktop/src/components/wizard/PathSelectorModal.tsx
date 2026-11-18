@@ -28,7 +28,7 @@ export const PathSelectorModal: React.FC<Props> = ({
 
   const suffix = projectName ? `/${projectName}` : '';
   const quickBookmarks = [
-    { label: 'Documents', path: `/home/dev/Documents${suffix}`, icon: <Folder className="w-4 h-4 text-blue-500" /> },
+    { label: 'Documents', path: `/home/dev/Documents${suffix}`, icon: <Folder className="w-4 h-4 text-orange-500" /> },
     { label: 'Desktop', path: `/home/dev/Desktop${suffix}`, icon: <Monitor className="w-4 h-4 text-cyan-500" /> },
     { label: 'Home Projects', path: `/home/dev/Projects${suffix}`, icon: <Laptop className="w-4 h-4 text-purple-500" /> },
     { label: 'Temp Live Test', path: `/tmp${suffix}`, icon: <Sparkles className="w-4 h-4 text-amber-500" /> },
@@ -124,7 +124,7 @@ export const PathSelectorModal: React.FC<Props> = ({
       <div className="w-full max-w-lg ui-panel rounded-2xl shadow-2xl p-6 space-y-5 border">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-500">
+            <div className="w-8 h-8 rounded-lg bg-orange-500/10 border border-orange-500/30 flex items-center justify-center text-orange-500">
               <FolderOpen className="w-4 h-4" />
             </div>
             <div>
@@ -158,8 +158,8 @@ export const PathSelectorModal: React.FC<Props> = ({
                 onClick={() => setCustomPath(b.path)}
                 className={`p-2.5 rounded-xl border text-left text-xs transition-all flex items-center gap-2.5 cursor-pointer ${
                   customPath === b.path
-                    ? 'border-blue-500 bg-blue-500/15 font-semibold text-blue-500'
-                    : 'ui-card hover:border-blue-400'
+                    ? 'border-orange-500 bg-orange-500/15 font-semibold text-orange-500'
+                    : 'ui-card hover:border-orange-400'
                 }`}
               >
                 {b.icon}
@@ -187,7 +187,7 @@ export const PathSelectorModal: React.FC<Props> = ({
               onClick={handlePickNative}
               className="px-3.5 py-2 ui-card-subtle hover:opacity-100 rounded-xl text-xs font-medium shrink-0 cursor-pointer flex items-center gap-1.5 border"
             >
-              <FolderOpen className="w-3.5 h-3.5 text-blue-500" />
+              <FolderOpen className="w-3.5 h-3.5 text-orange-500" />
               <span>OS Picker</span>
             </button>
           </div>
@@ -205,7 +205,7 @@ export const PathSelectorModal: React.FC<Props> = ({
           <button
             type="button"
             onClick={handleApply}
-            className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-500 text-xs font-medium text-white transition-colors cursor-pointer flex items-center gap-1.5 shadow-md shadow-blue-600/20"
+            className="px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-xs font-medium text-white transition-colors cursor-pointer flex items-center gap-1.5 shadow-md shadow-orange-600/20"
           >
             <Check className="w-3.5 h-3.5" />
             <span>Confirm Target Path</span>

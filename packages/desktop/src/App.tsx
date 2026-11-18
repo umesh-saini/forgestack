@@ -440,7 +440,7 @@ function ForgeStackAppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col font-sans transition-colors selection:bg-blue-500/20">
+    <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col font-sans transition-colors selection:bg-orange-500/30 selection:text-white">
       {/* Top Universal Navbar with React Router links */}
       <StudioNavbar
         targetPath={config.targetPath}

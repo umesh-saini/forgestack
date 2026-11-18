@@ -54,7 +54,7 @@ export const ScaffoldConsoleView: React.FC<Props> = ({
         <button
           type="button"
           onClick={() => navigate('/new')}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl ui-card-subtle border text-xs font-semibold hover:border-blue-500/40 text-[var(--text-muted)] hover:text-blue-500 transition-all cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl ui-card-subtle border text-xs font-semibold hover:border-orange-500/40 text-[var(--text-muted)] hover:text-orange-500 transition-all cursor-pointer"
         >
           <Sliders className="w-3.5 h-3.5" />
           <span>Customize in Studio Wizard</span>
@@ -65,7 +65,7 @@ export const ScaffoldConsoleView: React.FC<Props> = ({
       <div className="ui-panel rounded-2xl p-5 border space-y-4">
         <div className="flex items-center justify-between border-b pb-3">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-blue-500/10 text-blue-500 flex items-center justify-center border border-blue-500/20">
+            <div className="w-7 h-7 rounded-lg bg-orange-500/10 text-orange-500 flex items-center justify-center border border-orange-500/20">
               <Zap className="w-4 h-4" />
             </div>
             <div>
@@ -78,7 +78,7 @@ export const ScaffoldConsoleView: React.FC<Props> = ({
             </div>
           </div>
 
-          <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20 font-semibold">
+          <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-orange-500/10 text-orange-500 border border-orange-500/20 font-semibold">
             {fileCount} Files Generated
           </span>
         </div>
@@ -86,7 +86,7 @@ export const ScaffoldConsoleView: React.FC<Props> = ({
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs font-mono">
           <div className="p-3 rounded-xl ui-card-subtle border space-y-1">
             <span className="opacity-60 text-[10px] uppercase block">Target Project</span>
-            <div className="font-bold text-sm text-blue-500 truncate">{config.name}</div>
+            <div className="font-bold text-sm text-orange-500 truncate">{config.name}</div>
             <div className="text-[11px] opacity-70 truncate" title={config.targetPath}>
               {config.targetPath}
             </div>
