@@ -8,7 +8,7 @@
   "6": "compilerOptions",
   "7": "types.ts",
   "8": "tauri.conf.json",
-  "9": "scripts",
+  "9": "updaterService.ts",
   "10": "cli/package.json",
   "11": "compilerOptions",
   "12": "steps",
@@ -27,7 +27,7 @@
   "25": "pnpm-workspace.yaml",
   "26": "mod.rs",
   "27": "forgestack-desktop",
-  "28": "bin",
+  "28": "Header.tsx",
   "29": "VsCodeWorkspace.tsx",
   "30": "StepperWizard.tsx",
   "31": "dependencies",
@@ -35,7 +35,7 @@
   "33": "2026-11-17-nextgen-archetypes-primitives-and-ai-mcp-enhancements/.openspec.yaml",
   "34": "core/package.json",
   "35": "2026-11-18-cli-openspec-ui-templates-and-nextjs-ux/.openspec.yaml",
-  "36": "ScaffoldConsoleView.tsx",
+  "36": "./browser",
   "37": "scripts",
   "38": "CodePatcher"
 }

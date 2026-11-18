@@ -233,3 +233,52 @@ pub async fn start_dev_stack(target_path: String, package_manager: Option<String
     .await
     .map_err(|e| format!("Task execution error: {}", e))?
 }
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct AppEnvironment {
+    pub current_version: String,
+    pub platform: String,
+    pub is_appimage: bool,
+    pub is_deb_or_system: bool,
+    pub supports_in_place_update: bool,
+    pub install_location: String,
+}
+
+#[tauri::command]
+pub fn get_app_environment(app: tauri::AppHandle) -> AppEnvironment {
+    let current_version = app.package_info().version.to_string();
+    let current_exe = std::env::current_exe().unwrap_or_default();
+    let current_exe_str = current_exe.to_string_lossy().to_string();
+
+    let is_appimage = std::env::var("APPIMAGE").is_ok();
+
+    #[cfg(target_os = "linux")]
+    let platform = "linux".to_string();
+    #[cfg(target_os = "windows")]
+    let platform = "windows".to_string();
+    #[cfg(target_os = "macos")]
+    let platform = "macos".to_string();
+    #[cfg(not(any(target_os = "linux", target_os = "windows", target_os = "macos")))]
+    let platform = "unknown".to_string();
+
+    #[cfg(target_os = "linux")]
+    let is_deb_or_system = !is_appimage
+        && (current_exe_str.starts_with("/usr") || current_exe_str.starts_with("/opt"));
+    #[cfg(not(target_os = "linux"))]
+    let is_deb_or_system = false;
+
+    let supports_in_place_update = if platform == "linux" {
+        is_appimage
+    } else {
+        platform == "windows" || platform == "macos"
+    };
+
+    AppEnvironment {
+        current_version,
+        platform,
+        is_appimage,
+        is_deb_or_system,
+        supports_in_place_update,
+        install_location: current_exe_str,
+    }
+}
