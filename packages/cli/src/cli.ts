@@ -41,6 +41,8 @@ export function createCli(): Command {
     .option('--testing <framework>', 'E2E testing framework (playwright, none)')
     .option('--e2e <framework>', 'Alias for --testing (playwright, none)')
     .option('--ci <provider>', 'CI/CD pipeline (github-actions, none)')
+    .option('--linter <type>', 'Linter & formatter (eslint, biome, none)', 'eslint')
+    .option('--deploy <target>', 'Deployment target descriptor (docker, vercel, cloudflare, railway, fly, none)', 'docker')
     .option('--mcp', 'Include Model Context Protocol server', true)
     .option('--no-mcp', 'Skip Model Context Protocol server')
     .option('--rules', 'Include Cursor AI rules', true)
@@ -125,6 +127,8 @@ export function createCli(): Command {
             ...(options.rpc !== undefined ? { rpc: options.rpc } : {}),
             ...(options.queue !== undefined ? { queue: options.queue } : {}),
             ...(options.ci !== undefined ? { ci: options.ci } : {}),
+            ...(options.linter ? { linter: options.linter } : {}),
+            ...(options.deploy ? { deployment: options.deploy } : {}),
             ...(options.container !== undefined ? { backend: { ...tCfg.backend, container: options.container !== false } } : {}),
             ...(options.rules !== undefined || options.skills !== undefined || options.openspec !== undefined || options.mcp !== undefined || options.claude !== undefined
               ? {
@@ -217,6 +221,8 @@ export function createCli(): Command {
               e2e: ((options.testing || options.e2e || defaultTesting) as any),
             },
             ci: (options.ci as any) || defaultCi,
+            linter: (options.linter as any) || 'eslint',
+            deployment: (options.deploy as any) || (options.container === false ? 'none' : 'docker'),
             aiGovernance: {
               rules: options.rules !== false,
               skills: options.skills !== false,

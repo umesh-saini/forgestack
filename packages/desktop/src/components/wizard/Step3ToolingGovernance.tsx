@@ -354,6 +354,144 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
         </div>
       </div>
 
+      {/* Linter & Formatter Foundation: ESLint vs Biome vs None */}
+      <div className="ui-panel rounded-2xl p-5 border space-y-4">
+        <div className="flex items-center justify-between border-b pb-3">
+          <div className="flex items-center gap-2">
+            <Wrench className="w-4 h-4 text-cyan-500" />
+            <h4 className="font-bold text-xs uppercase tracking-wider">
+              Linter & Code Formatter
+            </h4>
+          </div>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+            Static Analysis & Formatting
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {[
+            {
+              id: 'eslint',
+              title: 'ESLint + Prettier',
+              tag: 'Industry Standard',
+              desc: 'Comprehensive AST rules, wide plugin ecosystem, and Prettier code formatting.',
+            },
+            {
+              id: 'biome',
+              title: 'Biome.js',
+              tag: 'Rust • 35x Faster',
+              desc: 'Ultra-fast Rust-based linter and formatter in a single zero-dependency tool with biome.json.',
+            },
+            {
+              id: 'none',
+              title: 'None',
+              tag: 'Minimalist',
+              desc: 'Skip automated linting and formatting tooling configs.',
+            },
+          ].map((l) => {
+            const isSelected = (config.linter || 'eslint') === l.id;
+            return (
+              <div
+                key={l.id}
+                onClick={() =>
+                  onChange((prev) => ({
+                    ...prev,
+                    linter: l.id as any,
+                  }))
+                }
+                className={`p-4 rounded-xl border text-left cursor-pointer transition-all flex flex-col justify-between space-y-2 ${
+                  isSelected ? 'ui-active-ring' : 'ui-card-subtle opacity-70 hover:opacity-100'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <h5 className="font-bold text-xs">{l.title}</h5>
+                  <span className="text-[10px] font-mono opacity-60">{l.tag}</span>
+                </div>
+                <p className="text-xs opacity-70 leading-relaxed">{l.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Cloud Deployment Targets: Docker vs Vercel vs Cloudflare vs Railway vs Fly */}
+      <div className="ui-panel rounded-2xl p-5 border space-y-4">
+        <div className="flex items-center justify-between border-b pb-3">
+          <div className="flex items-center gap-2">
+            <Container className="w-4 h-4 text-emerald-500" />
+            <h4 className="font-bold text-xs uppercase tracking-wider">
+              Cloud Deployment Descriptors
+            </h4>
+          </div>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            Multi-Cloud Ready
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+          {[
+            {
+              id: 'docker',
+              title: 'Docker & Compose',
+              tag: 'Dockerfile',
+              desc: 'Multi-stage production Dockerfile and compose for local/remote container engines.',
+            },
+            {
+              id: 'vercel',
+              title: 'Vercel',
+              tag: 'vercel.json',
+              desc: 'Optimized deployment config for Next.js, Vite SPA rewrites, and edge routing.',
+            },
+            {
+              id: 'cloudflare',
+              title: 'Cloudflare Pages / Workers',
+              tag: 'wrangler.jsonc',
+              desc: 'Wrangler configuration for Cloudflare Pages static assets or edge worker APIs.',
+            },
+            {
+              id: 'railway',
+              title: 'Railway',
+              tag: 'railway.json',
+              desc: 'Nixpacks-based build with custom start commands and automatic restarts.',
+            },
+            {
+              id: 'fly',
+              title: 'Fly.io',
+              tag: 'fly.toml',
+              desc: 'Micro-VM orchestration configuration targeting any global Fly region.',
+            },
+            {
+              id: 'none',
+              title: 'None',
+              tag: 'Unconfigured',
+              desc: 'Do not generate cloud deployment descriptors.',
+            },
+          ].map((d) => {
+            const isSelected = (config.deployment || 'docker') === d.id;
+            return (
+              <div
+                key={d.id}
+                onClick={() =>
+                  onChange((prev) => ({
+                    ...prev,
+                    deployment: d.id as any,
+                  }))
+                }
+                className={`p-4 rounded-xl border text-left cursor-pointer transition-all flex flex-col justify-between space-y-2 ${
+                  isSelected ? 'ui-active-ring' : 'ui-card-subtle opacity-70 hover:opacity-100'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <h5 className="font-bold text-xs">{d.title}</h5>
+                  <span className="text-[10px] font-mono opacity-60">{d.tag}</span>
+                </div>
+                <p className="text-xs opacity-70 leading-relaxed">{d.desc}</p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
       {/* AI Governance Engine Alternative Selector */}
       <div className="ui-panel rounded-2xl p-5 border space-y-4">
         <div className="flex items-center justify-between border-b pb-3">

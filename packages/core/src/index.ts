@@ -32,3 +32,5 @@ export * from './slices/governance/mcp-server.js';
 export * from './slices/container/docker.js';
 export * from './slices/testing/playwright.js';
 export * from './slices/devops/ci-workflows.js';
+export * from './slices/tooling/biome.js';
+export * from './slices/devops/deployment-targets.js';

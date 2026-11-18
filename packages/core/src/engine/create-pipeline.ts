@@ -26,6 +26,8 @@ import { dockerSlice } from '../slices/container/docker.js';
 import { bullmqWorkerSlice } from '../slices/backend/bullmq-worker.js';
 import { playwrightSlice } from '../slices/testing/playwright.js';
 import { ciWorkflowsSlice } from '../slices/devops/ci-workflows.js';
+import { biomeSlice } from '../slices/tooling/biome.js';
+import { deploymentTargetsSlice } from '../slices/devops/deployment-targets.js';
 import type { ProjectConfig } from '../types/config.js';
 import type { VirtualFileSystem } from '../vfs/vfs.js';
 
@@ -60,7 +62,9 @@ export function createProjectPipeline(): RecipeCompositor {
     .registerSlice(dockerSlice)
     .registerSlice(bullmqWorkerSlice)
     .registerSlice(playwrightSlice)
-    .registerSlice(ciWorkflowsSlice);
+    .registerSlice(ciWorkflowsSlice)
+    .registerSlice(biomeSlice)
+    .registerSlice(deploymentTargetsSlice);
 }
 
 /**

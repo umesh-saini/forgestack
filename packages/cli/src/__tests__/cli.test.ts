@@ -17,6 +17,8 @@ describe('ForgeStack CLI', () => {
     expect(optionNames).toContain('queue');
     expect(optionNames).toContain('testing');
     expect(optionNames).toContain('ci');
+    expect(optionNames).toContain('linter');
+    expect(optionNames).toContain('deploy');
     expect(optionNames).toContain('mcp');
     expect(optionNames).toContain('dryRun');
   });
@@ -143,5 +145,26 @@ describe('ForgeStack CLI', () => {
         '--dry-run',
       ])
     ).rejects.toThrow(/is not empty/);
+  });
+
+  it('should accept --linter biome and --deploy vercel options in dry-run mode', async () => {
+    const cli = createCli();
+    cli.exitOverride();
+
+    await expect(
+      cli.parseAsync([
+        'node',
+        'create-forgestack-app',
+        'test-biome-vercel',
+        '--topology',
+        'standalone-fe',
+        '--linter',
+        'biome',
+        '--deploy',
+        'vercel',
+        '--force',
+        '--dry-run',
+      ])
+    ).resolves.toBeDefined();
   });
 });

@@ -66,6 +66,22 @@ export const TopologySelector: React.FC<Props> = ({ value, onChange }) => {
       icon: <Cpu className="w-5 h-5 text-cyan-500" />,
     },
     {
+      id: 'nextjs-fullstack',
+      title: 'Next.js 15 Full-Stack',
+      tagline: 'App Router + Turbopack + Server Actions',
+      desc: 'Modern unified React full-stack app with React 19, Tailwind v4, Drizzle ORM, and optimized server routes.',
+      badges: ['Next.js 15', 'App Router', 'Tailwind v4', 'Full-Stack'],
+      icon: <Layers className="w-5 h-5 text-sky-500" />,
+    },
+    {
+      id: 'electron-desktop',
+      title: 'Hardened Electron Studio',
+      tagline: 'Electron + React 19 + ContextBridge',
+      desc: 'Secure cross-platform desktop application using strict ContextBridge isolation and modern React 19 UI.',
+      badges: ['Electron', 'React 19', 'ContextBridge', 'Hardened'],
+      icon: <Monitor className="w-5 h-5 text-emerald-500" />,
+    },
+    {
       id: 'standalone-fe',
       title: 'Modern Frontend SPA',
       tagline: 'React 19 + TypeScript + Vite',
