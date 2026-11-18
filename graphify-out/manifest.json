@@ -338,9 +338,9 @@
     "semantic_hash": "d42baab1a0137a702df62d3507ba190d"
   },
   "packages/desktop/package.json": {
-    "mtime": 1794999534.4672003,
-    "seen": 1795000290.6149962,
-    "ast_hash": "11e690ba5905a9fcf721dc51d086b2a3",
+    "mtime": 1795001127.459343,
+    "seen": 1795003120.463296,
+    "ast_hash": "97b101b2a60dbced6caba8ff25a799a3",
     "semantic_hash": ""
   },
   "packages/desktop/src-tauri/Cargo.toml": {
@@ -410,8 +410,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/App.tsx": {
-    "mtime": 1795000040.1601453,
-    "seen": 1795000290.615031,
+    "mtime": 1795000393.7125967,
+    "seen": 1795003120.4633634,
     "ast_hash": "bc565442682517572c77307e1253cec6",
     "semantic_hash": ""
   },
@@ -428,8 +428,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/console/ExecutionConsole.tsx": {
-    "mtime": 1795000175.297009,
-    "seen": 1795000290.6150384,
+    "mtime": 1795000393.9903007,
+    "seen": 1795003120.463375,
     "ast_hash": "60e3a454fe7087fc8caccc7eb9fdae03",
     "semantic_hash": ""
   },
@@ -872,14 +872,14 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/home/FastScaffoldModal.tsx": {
-    "mtime": 1795000105.1503823,
-    "seen": 1795000290.6150408,
+    "mtime": 1795000394.2032042,
+    "seen": 1795003120.4633787,
     "ast_hash": "f474166bc3545fa0282cded5529b152a",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/home/HomeTemplatesDashboard.tsx": {
-    "mtime": 1794991545.4380171,
-    "seen": 1794992120.3051128,
+    "mtime": 1795002351.8233624,
+    "seen": 1795003120.463382,
     "ast_hash": "f0f2246b2b52d5c0bdccb358bfeaf097",
     "semantic_hash": ""
   },
@@ -902,8 +902,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/wizard/Step4ReviewScaffold.tsx": {
-    "mtime": 1795000134.724755,
-    "seen": 1795000290.615089,
+    "mtime": 1795000394.8238702,
+    "seen": 1795003120.4635205,
     "ast_hash": "110295a042aa7ac556e2fc298b554ac8",
     "semantic_hash": ""
   },
@@ -920,8 +920,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/layout/StudioNavbar.tsx": {
-    "mtime": 1795000064.6213057,
-    "seen": 1795000290.615064,
+    "mtime": 1795000394.6796043,
+    "seen": 1795003120.4634502,
     "ast_hash": "b67363b2f02048c03b6c95ff4c1e22f2",
     "semantic_hash": ""
   },
@@ -1706,8 +1706,8 @@
     "semantic_hash": ""
   },
   "packages/core/src/skills/targets.ts": {
-    "mtime": 1794999923.456351,
-    "seen": 1795000290.6148508,
+    "mtime": 1795000393.5060568,
+    "seen": 1795003120.4628918,
     "ast_hash": "be30ba2cc15fc13bde54d41e4fb8f5a9",
     "semantic_hash": ""
   },
@@ -1724,8 +1724,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/DesktopAppShowcase.tsx": {
-    "mtime": 1795000196.4331393,
-    "seen": 1795000290.615051,
+    "mtime": 1795000394.3845878,
+    "seen": 1795003120.463402,
     "ast_hash": "6e06da2fec94e2165f307c03305648c3",
     "semantic_hash": ""
   },
@@ -1742,9 +1742,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/HeroKinetic.tsx": {
-    "mtime": 1795000080.5634093,
-    "seen": 1795000290.615056,
-    "ast_hash": "b64a55a198dbb56c74d779dd49b22ea6",
+    "mtime": 1795002351.823553,
+    "seen": 1795003120.4634163,
+    "ast_hash": "ccd87f50612be8324b2a053f185b659a",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/InteractiveStackSimulator.tsx": {
@@ -1760,9 +1760,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/LandingPage.tsx": {
-    "mtime": 1794998881.7130456,
-    "seen": 1794999012.7235954,
-    "ast_hash": "f7fbbc2fe0aacd590fcd55891e3e9833",
+    "mtime": 1795002935.1308973,
+    "seen": 1795003120.4634352,
+    "ast_hash": "f075b90e15456266ed385b6ce4daac34",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/VelocityMarquee.tsx": {
@@ -1831,10 +1831,52 @@
     "ast_hash": "bc047fe95b2c89bd5dfab59cf14ade5b",
     "semantic_hash": ""
   },
+  "packages/desktop/src/components/landing/ArchitecturalBlueprints.tsx": {
+    "mtime": 1795002903.0328374,
+    "seen": 1795003120.4633899,
+    "ast_hash": "287cc77ad77e96bf076fabf5f78b093b",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/Interactive3DHero.tsx": {
+    "mtime": 1795002782.0866234,
+    "seen": 1795003120.4634197,
+    "ast_hash": "cb828488376e2c810d643ecb5b8e94b8",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/Interactive3DLaboratory.tsx": {
+    "mtime": 1795002856.2637525,
+    "seen": 1795003120.4634233,
+    "ast_hash": "f7cc59ee647167b8ed9e299cc1a0e285",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/ScrollProgress.tsx": {
+    "mtime": 1795001183.0081158,
+    "seen": 1795003120.4634385,
+    "ast_hash": "fab8229c9781908c2ff4ee8cd36ddad7",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/ThreeFigureShowcase.tsx": {
+    "mtime": 1795001310.0648577,
+    "seen": 1795003120.463442,
+    "ast_hash": "cb91199c3c53fbd0d50e4eddc7ce779e",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/lib/motion.tsx": {
+    "mtime": 1795001317.7044635,
+    "seen": 1795003120.463536,
+    "ast_hash": "e35cd278875fb1b1f113b8f2af8f55d4",
+    "semantic_hash": ""
+  },
+  ".agents/skills/ui-update/SKILL.md": {
+    "mtime": 1795001168.163533,
+    "seen": 1795003120.4636817,
+    "ast_hash": "104ead7a6d4dccb9efa45c873afe889e",
+    "semantic_hash": ""
+  },
   "pnpm-lock.yaml": {
-    "mtime": 1794999534.1312847,
-    "seen": 1795000290.6153657,
-    "ast_hash": "07aee7742972ed2c64b8a9512f2b9e55",
+    "mtime": 1795001127.1010728,
+    "seen": 1795003120.4638803,
+    "ast_hash": "9d505d890409679d1758ede837d535a8",
     "semantic_hash": ""
   }
 }
