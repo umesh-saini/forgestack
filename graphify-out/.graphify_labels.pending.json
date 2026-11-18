@@ -28,9 +28,14 @@
   "26": "mod.rs",
   "27": "forgestack-desktop",
   "28": "bin",
+  "29": "VsCodeWorkspace.tsx",
+  "30": "StepperWizard.tsx",
+  "31": "dependencies",
   "32": "typescript",
   "33": "2026-11-17-nextgen-archetypes-primitives-and-ai-mcp-enhancements/.openspec.yaml",
   "34": "core/package.json",
   "35": "2026-11-18-cli-openspec-ui-templates-and-nextjs-ux/.openspec.yaml",
-  "37": "scripts"
+  "36": "ScaffoldConsoleView.tsx",
+  "37": "scripts",
+  "38": "CodePatcher"
 }

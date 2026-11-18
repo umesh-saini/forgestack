@@ -60,7 +60,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 <div class="container">
 
 <h1>project-setup — Complete Call Flow &amp; Architecture Documentation</h1>
-<p class="subtitle">Generated from graphify knowledge graph: 665 nodes, 1671 edges, 34 communities. Commit: 25b35a6</p>
+<p class="subtitle">Generated from graphify knowledge graph: 668 nodes, 1659 edges, 39 communities. Commit: e52cdf6</p>
 
 <div class="nav">
     <a href="#overview">Architecture Overview</a>
@@ -88,21 +88,21 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    BUILD_GRAPH_321CBB04("Graph Build<br/><small>265 nodes</small>")
+    BUILD_GRAPH_321CBB04("Graph Build<br/><small>319 nodes</small>")
     class BUILD_GRAPH_321CBB04 module;
     ANALYSIS_CLUSTERING_C79796DA("Analysis &amp; Clustering<br/><small>14 nodes</small>")
     class ANALYSIS_CLUSTERING_C79796DA module;
-    CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>2 nodes</small>")
+    CLI_SKILLS_9964CBB8("CLI &amp; Skill Installers<br/><small>27 nodes</small>")
     class CLI_SKILLS_9964CBB8 module;
-    SERVE_API_35EC8E86("Serving API<br/><small>44 nodes</small>")
+    SERVE_API_35EC8E86("Serving API<br/><small>9 nodes</small>")
     class SERVE_API_35EC8E86 module;
-    TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>193 nodes</small>")
+    TESTS_FIXTURES_B84B1DCC("Tests &amp; Fixtures<br/><small>194 nodes</small>")
     class TESTS_FIXTURES_B84B1DCC module;
-    PACKAGES_DESKTOP_COMPONENTS_6AAA3929("Packages Desktop Components<br/><small>86 nodes</small>")
+    PACKAGES_DESKTOP_COMPONENTS_6AAA3929("Packages Desktop Components<br/><small>47 nodes</small>")
     class PACKAGES_DESKTOP_COMPONENTS_6AAA3929 module;
     PACKAGES_VFS_TYPESTS_B4A6B825("Packages Vfs Typests<br/><small>21 nodes</small>")
     class PACKAGES_VFS_TYPESTS_B4A6B825 module;
-    PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116("Packages Desktop Components<br/><small>18 nodes</small>")
+    PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116("Packages Desktop Components<br/><small>15 nodes</small>")
     class PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116 module;
     SECTION_2026_MULTI_FRAMEWORK_F1005358("2026 Multi Framework<br/><small>4 nodes</small>")
     class SECTION_2026_MULTI_FRAMEWORK_F1005358 module;
@@ -118,18 +118,18 @@ flowchart LR
     class PNPM_WORKSPACEYAML_PACKAGES_65667B11 module;
     OTHER_D0941E68("Other<br/><small>2 nodes</small>")
     class OTHER_D0941E68 module;
-    PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|imports x28| TESTS_FIXTURES_B84B1DCC
-    SERVE_API_35EC8E86 -->|imports x26| PACKAGES_DESKTOP_COMPONENTS_6AAA3929
+    CLI_SKILLS_9964CBB8 -->|imports x27| BUILD_GRAPH_321CBB04
+    BUILD_GRAPH_321CBB04 -->|imports x25| TESTS_FIXTURES_B84B1DCC
     TESTS_FIXTURES_B84B1DCC -->|method x18| PACKAGES_VFS_TYPESTS_B4A6B825
-    BUILD_GRAPH_321CBB04 -->|imports x17| TESTS_FIXTURES_B84B1DCC
-    PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116 -->|imports x10| TESTS_FIXTURES_B84B1DCC
-    SERVE_API_35EC8E86 -->|imports x9| TESTS_FIXTURES_B84B1DCC
-    PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|imports x9| SERVE_API_35EC8E86
-    PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116 -->|imports x9| PACKAGES_DESKTOP_COMPONENTS_6AAA3929
-    BUILD_GRAPH_321CBB04 -->|imports x6| PACKAGES_DESKTOP_COMPONENTS_6AAA3929
+    BUILD_GRAPH_321CBB04 -->|calls x9| PACKAGES_DESKTOP_COMPONENTS_6AAA3929
+    PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116 -->|imports x8| BUILD_GRAPH_321CBB04
+    PACKAGES_DESKTOP_COMPONENTS_6AAA3929 -->|imports x7| BUILD_GRAPH_321CBB04
+    CLI_SKILLS_9964CBB8 -->|imports x6| TESTS_FIXTURES_B84B1DCC
+    PACKAGES_DESKTOP_COMPONENTS_A93736_1AACB116 -->|calls x6| PACKAGES_DESKTOP_COMPONENTS_6AAA3929
+    BUILD_GRAPH_321CBB04 -->|imports x6| CLI_SKILLS_9964CBB8
+    CLI_SKILLS_9964CBB8 -->|imports x5| SERVE_API_35EC8E86
+    SERVE_API_35EC8E86 -->|imports x5| BUILD_GRAPH_321CBB04
     TESTS_FIXTURES_B84B1DCC -->|re exports x4| BUILD_GRAPH_321CBB04
-    BUILD_GRAPH_321CBB04 -->|imports x4| SERVE_API_35EC8E86
-    SERVE_API_35EC8E86 -->|imports x3| BUILD_GRAPH_321CBB04
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -146,7 +146,7 @@ flowchart LR
     <h4>Architecture Layers</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>Layer</th><th>Nodes</th><th>Communities</th></tr>
-      <tr><td>Graph Build</td><td>265</td><td><code>3, 5, 6, 12, 8, 17, 10, 20, 11, 34, 32, 9, 16, 18, 21, 37, 28, 22</code></td></tr><tr><td>Analysis &amp; Clustering</td><td>14</td><td><code>14</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>2</td><td><code>24</code></td></tr><tr><td>Serving API</td><td>44</td><td><code>1</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>193</td><td><code>0, 2</code></td></tr><tr><td>Packages Desktop Components</td><td>86</td><td><code>4</code></td></tr><tr><td>Packages Vfs Typests</td><td>21</td><td><code>7</code></td></tr><tr><td>Packages Desktop Components</td><td>18</td><td><code>13</code></td></tr><tr><td>2026 Multi Framework</td><td>4</td><td><code>15</code></td></tr><tr><td>Cli Packages Create</td><td>4</td><td><code>19</code></td></tr><tr><td>2026 Nextgen Archetypes</td><td>4</td><td><code>33</code></td></tr><tr><td>Openspec 2026 Cli</td><td>4</td><td><code>35</code></td></tr><tr><td>Librs Packages Desktop</td><td>2</td><td><code>23</code></td></tr><tr><td>Pnpm Workspaceyaml Packages</td><td>2</td><td><code>25</code></td></tr><tr><td>Other</td><td>2</td><td><code>26, 27</code></td></tr>
+      <tr><td>Graph Build</td><td>319</td><td><code>3, 5, 13, 6, 12, 29, 8, 17, 10, 20, 31, 11, 34, 32, 9, 16, 18, 21, 37, 28, 22</code></td></tr><tr><td>Analysis &amp; Clustering</td><td>14</td><td><code>14</code></td></tr><tr><td>CLI &amp; Skill Installers</td><td>27</td><td><code>1, 24</code></td></tr><tr><td>Serving API</td><td>9</td><td><code>36</code></td></tr><tr><td>Tests &amp; Fixtures</td><td>194</td><td><code>0, 2, 38</code></td></tr><tr><td>Packages Desktop Components</td><td>47</td><td><code>4</code></td></tr><tr><td>Packages Vfs Typests</td><td>21</td><td><code>7</code></td></tr><tr><td>Packages Desktop Components</td><td>15</td><td><code>30</code></td></tr><tr><td>2026 Multi Framework</td><td>4</td><td><code>15</code></td></tr><tr><td>Cli Packages Create</td><td>4</td><td><code>19</code></td></tr><tr><td>2026 Nextgen Archetypes</td><td>4</td><td><code>33</code></td></tr><tr><td>Openspec 2026 Cli</td><td>4</td><td><code>35</code></td></tr><tr><td>Librs Packages Desktop</td><td>2</td><td><code>23</code></td></tr><tr><td>Pnpm Workspaceyaml Packages</td><td>2</td><td><code>25</code></td></tr><tr><td>Other</td><td>2</td><td><code>26, 27</code></td></tr>
     </table>
   </div>
   <div class="card">
@@ -158,11 +158,11 @@ flowchart LR
   <div class="card">
     <h4>Graph Report Highlights</h4>
     <ul>
-      <li>665 nodes · 1671 edges · 34 communities (27 shown, 7 thin omitted)</li>
+      <li>668 nodes · 1659 edges · 39 communities (31 shown, 8 thin omitted)</li>
       <li>Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.85)</li>
       <li>Token cost: 0 input · 0 output</li>
-      <li>1. `ProjectConfig` - 92 edges</li>
-      <li>2. `VirtualFileSystem` - 71 edges</li>
+      <li>1. `VirtualFileSystem` - 71 edges</li>
+      <li>2. `ProjectConfig` - 67 edges</li>
       <li>3. `vitest` - 47 edges</li>
     </ul>
   </div>
@@ -170,38 +170,38 @@ flowchart LR
 <hr>
 <!-- ====== 2. Graph Build ====== -->
 <h2 id="build-graph">2. Graph Build</h2>
-<p>Graph Build groups implementation around packages, packagejson, desktop, github, mostly in packages/desktop/package.json, .github/workflows/ci.yml, package.json. This section covers 265 nodes and 299 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Graph Build groups implementation around packages, desktop, packagejson, github, mostly in packages/desktop/package.json, .github/workflows/ci.yml, package.json. This section covers 319 nodes and 400 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Graph Build (265 nodes, 299 edges)
+    %% Section: Graph Build (319 nodes, 400 edges)
     subgraph build_graph_src_utils_json_merge_ts_54dfd484["src/utils/json-merge.ts"]
         packages_core_src_utils_json_merge_deepequals_ab2c8706("deepEquals()<br/><small>src/utils/json-merge.ts</small>")
         packages_core_src_utils_json_merge_deepmergejson_aa9a2297("deepMergeJson()<br/><small>src/utils/json-merge.ts</small>")
         packages_core_src_utils_json_merge_isplainobject_aefc2415("isPlainObject()<br/><small>src/utils/json-merge.ts</small>")
         packages_core_src_utils_json_merge_mergepackagej_0f608c03("mergePackageJson()<br/><small>src/utils/json-merge.ts</small>")
         packages_core_src_utils_json_merge_sortkeys_8b35cbde("sortKeys()<br/><small>src/utils/json-merge.ts</small>")
-        packages_core_src_utils_json_merge_a0da38a4("json-merge.ts")
     end
-    subgraph build_graph_package_json_4e40bfbd["package.json"]
-        package_582681c2("package.json")
-        ref_typescript_d5a01309("typescript<br/><small>package.json</small>")
-        ref_eslint_js_d5412ee4("@eslint/js<br/><small>package.json</small>")
+    subgraph build_graph_components_preview_FileEditorDrawer_25fda94f["components/preview/FileEditorDrawer.tsx"]
+        packages_desktop_src_components_preview_fileedit_c9e9fcf7("FileEditorDrawer.tsx")
+        packages_desktop_src_components_preview_fileedit_d4fddfc1("FileEditorDrawer()<br/><small>components/preview/FileEditorDrawer.tsx</small>")
+        packages_desktop_src_components_preview_fileedit_af5c7a39("getMonacoLanguage()<br/><small>components/preview/FileEditorDrawer.tsx</small>")
     end
-    subgraph build_graph_packages_cli_package_json_9a8b8078["packages/cli/package.json"]
-        packages_cli_package_b336a4de("cli/package.json")
-        ref_forgestack_core_d2bacd28("@forgestack/core<br/><small>packages/cli/package.json</small>")
-        ref_commander_077e8001("commander<br/><small>packages/cli/package.json</small>")
+    subgraph build_graph_components_preview_FileTreePreview_t_9a28128c["components/preview/FileTreePreview.tsx"]
+        packages_desktop_src_components_preview_filetree_2b119f15("FileTreePreview()<br/><small>components/preview/FileTreePreview.tsx</small>")
+        packages_desktop_src_components_preview_filetree_1ddd805c("TreeItem()<br/><small>components/preview/FileTreePreview.tsx</small>")
+        packages_desktop_src_components_preview_filetree_e3b435bb("filterTree()<br/><small>components/preview/FileTreePreview.tsx</small>")
     end
-    subgraph build_graph_packages_core_package_json_bd3d5abc["packages/core/package.json"]
-        packages_core_package_e9f389e2("core/package.json")
-        ref_types_node_4b20becf("@types/node<br/><small>packages/core/package.json</small>")
+    subgraph build_graph_components_preview_VsCodeWorkspace_t_ce7a26be["components/preview/VsCodeWorkspace.tsx"]
+        packages_desktop_src_components_preview_vscodewo_75c193eb("VsCodeWorkspace.tsx")
+        packages_desktop_src_components_preview_vscodewo_23c8ae15("VsCodeWorkspace()<br/><small>components/preview/VsCodeWorkspace.tsx</small>")
+        packages_desktop_src_components_preview_vscodewo_1f24d393("getMonacoLanguage()<br/><small>components/preview/VsCodeWorkspace.tsx</small>")
     end
-    eslint_config_80901414("eslint.config.js")
+    packages_desktop_src_components_wizard_aigoverna_40178dab("AiGovernance.tsx")
+    package_582681c2("package.json")
+    packages_cli_package_b336a4de("cli/package.json")
     packages_desktop_package_51ae776b("desktop/package.json")
-    packages_desktop_vite_config_c68000dd("vite.config.ts")
-    packages_core_src_utils_tests_json_merge_test_40de4de7("json-merge.test.ts")
     packages_core_src_utils_json_merge_deepequals_ab2c8706 -->|calls| packages_core_src_utils_json_merge_deepequals_ab2c8706
     packages_core_src_utils_json_merge_deepmergejson_aa9a2297 -->|calls| packages_core_src_utils_json_merge_isplainobject_aefc2415
     packages_core_src_utils_json_merge_deepmergejson_aa9a2297 -->|calls| packages_core_src_utils_json_merge_deepmergejson_aa9a2297
@@ -209,39 +209,36 @@ flowchart LR
     packages_core_src_utils_json_merge_mergepackagej_0f608c03 -->|calls| packages_core_src_utils_json_merge_deepmergejson_aa9a2297
     packages_core_src_utils_json_merge_mergepackagej_0f608c03 -->|calls| packages_core_src_utils_json_merge_isplainobject_aefc2415
     packages_core_src_utils_json_merge_mergepackagej_0f608c03 -->|calls| packages_core_src_utils_json_merge_sortkeys_8b35cbde
-    packages_cli_package_b336a4de -->|imports| ref_forgestack_core_d2bacd28
-    packages_cli_package_b336a4de -->|imports| ref_commander_077e8001
-    packages_cli_package_b336a4de -->|imports| ref_typescript_d5a01309
-    packages_cli_package_b336a4de -->|imports| ref_types_node_4b20becf
-    packages_core_src_utils_tests_json_merge_test_40de4de7 -->|imports| packages_core_src_utils_json_merge_deepmergejson_aa9a2297
-    packages_core_src_utils_tests_json_merge_test_40de4de7 -->|imports| packages_core_src_utils_json_merge_mergepackagej_0f608c03
-    packages_core_src_utils_tests_json_merge_test_40de4de7 -->|imports| packages_core_src_utils_json_merge_a0da38a4
-    eslint_config_80901414 -->|imports| ref_eslint_js_d5412ee4
-    package_582681c2 -->|imports| ref_eslint_js_d5412ee4
-    package_582681c2 -->|imports| ref_typescript_d5a01309
-    packages_desktop_package_51ae776b -->|imports| ref_forgestack_core_d2bacd28
-    packages_desktop_package_51ae776b -->|imports| ref_typescript_d5a01309
-    packages_core_package_e9f389e2 -->|imports| ref_typescript_d5a01309
-    packages_core_package_e9f389e2 -->|imports| ref_types_node_4b20becf
-    %% Omitted for readability: 247 nodes, 0 edges
+    packages_desktop_src_components_preview_fileedit_d4fddfc1 -->|calls| packages_desktop_src_components_preview_fileedit_af5c7a39
+    packages_desktop_src_components_preview_filetree_2b119f15 -->|calls| packages_desktop_src_components_preview_filetree_1ddd805c
+    packages_desktop_src_components_preview_filetree_2b119f15 -->|calls| packages_desktop_src_components_preview_filetree_e3b435bb
+    packages_desktop_src_components_preview_filetree_e3b435bb -->|calls| packages_desktop_src_components_preview_filetree_e3b435bb
+    packages_desktop_src_components_preview_filetree_1ddd805c -->|calls| packages_desktop_src_components_preview_filetree_1ddd805c
+    packages_desktop_src_components_preview_vscodewo_23c8ae15 -->|calls| packages_desktop_src_components_preview_filetree_2b119f15
+    packages_desktop_src_components_preview_vscodewo_23c8ae15 -->|calls| packages_desktop_src_components_preview_fileedit_d4fddfc1
+    packages_desktop_src_components_preview_vscodewo_23c8ae15 -->|calls| packages_desktop_src_components_preview_vscodewo_1f24d393
+    packages_desktop_src_components_preview_vscodewo_75c193eb -->|imports| packages_desktop_src_components_preview_filetree_2b119f15
+    packages_desktop_src_components_preview_vscodewo_75c193eb -->|imports| packages_desktop_src_components_preview_fileedit_d4fddfc1
+    packages_desktop_src_components_preview_vscodewo_75c193eb -->|imports| packages_desktop_src_components_preview_fileedit_c9e9fcf7
+    %% Omitted for readability: 301 nodes, 0 edges
     class packages_core_src_utils_json_merge_deepequals_ab2c8706 function;
     class packages_core_src_utils_json_merge_deepmergejson_aa9a2297 function;
     class packages_core_src_utils_json_merge_isplainobject_aefc2415 function;
     class packages_core_src_utils_json_merge_mergepackagej_0f608c03 function;
     class packages_core_src_utils_json_merge_sortkeys_8b35cbde function;
-    class packages_core_src_utils_json_merge_a0da38a4 module;
+    class packages_desktop_src_components_preview_fileedit_c9e9fcf7 ui;
+    class packages_desktop_src_components_preview_fileedit_d4fddfc1 ui;
+    class packages_desktop_src_components_preview_fileedit_af5c7a39 ui;
+    class packages_desktop_src_components_preview_filetree_2b119f15 ui;
+    class packages_desktop_src_components_preview_filetree_1ddd805c ui;
+    class packages_desktop_src_components_preview_filetree_e3b435bb ui;
+    class packages_desktop_src_components_preview_vscodewo_75c193eb ui;
+    class packages_desktop_src_components_preview_vscodewo_23c8ae15 ui;
+    class packages_desktop_src_components_preview_vscodewo_1f24d393 ui;
+    class packages_desktop_src_components_wizard_aigoverna_40178dab ui;
     class package_582681c2 function;
-    class ref_typescript_d5a01309 function;
-    class ref_eslint_js_d5412ee4 function;
     class packages_cli_package_b336a4de entry;
-    class ref_forgestack_core_d2bacd28 function;
-    class ref_commander_077e8001 entry;
-    class packages_core_package_e9f389e2 function;
-    class ref_types_node_4b20becf function;
-    class eslint_config_80901414 module;
     class packages_desktop_package_51ae776b function;
-    class packages_desktop_vite_config_c68000dd module;
-    class packages_core_src_utils_tests_json_merge_test_40de4de7 test;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -281,14 +278,6 @@ flowchart LR
 </tr>
 <tr>
   <td>3</td>
-  <td><code>dependencies</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>dependencies node in packages/desktop/package.json.</td>
-</tr>
-<tr>
-  <td>4</td>
   <td><code>clsx@^2.1.1</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -296,47 +285,7 @@ flowchart LR
   <td>clsx@^2.1.1 node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>5</td>
-  <td><code>lucide-react@^0.475.0</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>lucide-react@^0.475.0 node in packages/desktop/package.json.</td>
-</tr>
-<tr>
-  <td>6</td>
-  <td><code>@monaco-editor/react@^4.7.0</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>@monaco-editor/react@^4.7.0 node in packages/desktop/package.json.</td>
-</tr>
-<tr>
-  <td>7</td>
-  <td><code>react@^19.0.0</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>react@^19.0.0 node in packages/desktop/package.json.</td>
-</tr>
-<tr>
-  <td>8</td>
-  <td><code>react-dom@^19.0.0</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>react-dom@^19.0.0 node in packages/desktop/package.json.</td>
-</tr>
-<tr>
-  <td>9</td>
-  <td><code>react-router-dom@^7.18.5</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
-  <td><span class="tag tag-endpoint">API</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>react-router-dom@^7.18.5 node in packages/desktop/package.json.</td>
-</tr>
-<tr>
-  <td>10</td>
+  <td>4</td>
   <td><code>tailwind-merge@^3.0.1</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -344,31 +293,7 @@ flowchart LR
   <td>tailwind-merge@^3.0.1 node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>11</td>
-  <td><code>@tauri-apps/api@^2.2.0</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
-  <td><span class="tag tag-endpoint">API</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>@tauri-apps/api@^2.2.0 node in packages/desktop/package.json.</td>
-</tr>
-<tr>
-  <td>12</td>
-  <td><code>@tauri-apps/plugin-dialog@^2.2.0</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>@tauri-apps/plugin-dialog@^2.2.0 node in packages/desktop/package.json.</td>
-</tr>
-<tr>
-  <td>13</td>
-  <td><code>@tauri-apps/plugin-shell@^2.2.0</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>@tauri-apps/plugin-shell@^2.2.0 node in packages/desktop/package.json.</td>
-</tr>
-<tr>
-  <td>14</td>
+  <td>5</td>
   <td><code>devDependencies</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -376,7 +301,7 @@ flowchart LR
   <td>devDependencies node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>15</td>
+  <td>6</td>
   <td><code>tailwindcss@^4.0.0</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -384,7 +309,7 @@ flowchart LR
   <td>tailwindcss@^4.0.0 node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>16</td>
+  <td>7</td>
   <td><code>@tailwindcss/vite@^4.0.0</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -392,7 +317,7 @@ flowchart LR
   <td>@tailwindcss/vite@^4.0.0 node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>17</td>
+  <td>8</td>
   <td><code>@tauri-apps/cli@^2.2.0</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-cmd">Entry</span></td>
   <td>External entry / no inbound edge</td>
@@ -400,7 +325,7 @@ flowchart LR
   <td>@tauri-apps/cli@^2.2.0 node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>18</td>
+  <td>9</td>
   <td><code>@types/react@^19.0.8</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -408,7 +333,7 @@ flowchart LR
   <td>@types/react@^19.0.8 node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>19</td>
+  <td>10</td>
   <td><code>@types/react-dom@^19.0.3</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -416,15 +341,7 @@ flowchart LR
   <td>@types/react-dom@^19.0.3 node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>20</td>
-  <td><code>typescript@^5.7.3</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>typescript@^5.7.3 node in packages/desktop/package.json.</td>
-</tr>
-<tr>
-  <td>21</td>
+  <td>11</td>
   <td><code>vite@^6.1.0</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -432,7 +349,7 @@ flowchart LR
   <td>vite@^6.1.0 node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>22</td>
+  <td>12</td>
   <td><code>@vitejs/plugin-react@^4.3.4</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -440,7 +357,7 @@ flowchart LR
   <td>@vitejs/plugin-react@^4.3.4 node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>23</td>
+  <td>13</td>
   <td><code>name</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -448,7 +365,7 @@ flowchart LR
   <td>name node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>24</td>
+  <td>14</td>
   <td><code>private</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -456,7 +373,7 @@ flowchart LR
   <td>private node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>25</td>
+  <td>15</td>
   <td><code>scripts</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -464,7 +381,7 @@ flowchart LR
   <td>scripts node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>26</td>
+  <td>16</td>
   <td><code>build</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -472,7 +389,7 @@ flowchart LR
   <td>build node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>27</td>
+  <td>17</td>
   <td><code>dev</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -480,7 +397,7 @@ flowchart LR
   <td>dev node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>28</td>
+  <td>18</td>
   <td><code>tauri</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -488,7 +405,7 @@ flowchart LR
   <td>tauri node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>29</td>
+  <td>19</td>
   <td><code>type</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -496,12 +413,92 @@ flowchart LR
   <td>type node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>30</td>
+  <td>20</td>
   <td><code>version</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
   <td>version node in packages/desktop/package.json.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>vite.config.ts</code><br><small style="color:var(--muted)">packages/desktop/vite.config.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>@tailwindcss/vite</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>@vitejs/plugin-react</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>generateProjectVfs()</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br>+6 more</td>
+  <td>Module file in packages/desktop/vite.config.ts.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>__dirname</code><br><small style="color:var(--muted)">packages/desktop/vite.config.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>__dirname node in packages/desktop/vite.config.ts.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>clsx</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>desktop/package.json</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td>No direct outbound edge</td>
+  <td>clsx node in packages/desktop/package.json.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>tailwind-merge</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>desktop/package.json</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td>No direct outbound edge</td>
+  <td>tailwind-merge node in packages/desktop/package.json.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>tailwindcss</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>desktop/package.json</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td>No direct outbound edge</td>
+  <td>tailwindcss node in packages/desktop/package.json.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>@tailwindcss/vite</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>desktop/package.json</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>vite.config.ts</code><br><small style="color:var(--muted)">packages/desktop/vite.config.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>@tailwindcss/vite node in packages/desktop/package.json.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>@tauri-apps/cli</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td><code>desktop/package.json</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td>No direct outbound edge</td>
+  <td>@tauri-apps/cli node in packages/desktop/package.json.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>@types/react</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>desktop/package.json</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td>No direct outbound edge</td>
+  <td>@types/react node in packages/desktop/package.json.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>@types/react-dom</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>desktop/package.json</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td>No direct outbound edge</td>
+  <td>@types/react-dom node in packages/desktop/package.json.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>vite</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>desktop/package.json</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>vite.config.ts</code><br><small style="color:var(--muted)">packages/desktop/vite.config.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>vite node in packages/desktop/package.json.</td>
 </tr>
 </table>
 
@@ -510,19 +507,19 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>packages/desktop/package.json</code></td><td>42 nodes</td></tr>
+      <tr><td><code>packages/desktop/package.json</code></td><td>45 nodes</td></tr>
 <tr><td><code>.github/workflows/ci.yml</code></td><td>28 nodes</td></tr>
 <tr><td><code>package.json</code></td><td>28 nodes</td></tr>
 <tr><td><code>packages/cli/package.json</code></td><td>26 nodes</td></tr>
 <tr><td><code>.github/workflows/publish.yml</code></td><td>23 nodes</td></tr>
 <tr><td><code>packages/core/package.json</code></td><td>23 nodes</td></tr>
-<tr><td><code>desktop/src-tauri/tauri.conf.json</code></td><td>19 nodes</td></tr>
+<tr><td><code>desktop/src-tauri/tauri.conf.json</code></td><td>21 nodes</td></tr>
 <tr><td><code>turbo.json</code></td><td>15 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: contains x228, imports x28, declares x26, calls x7. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x262, imports x44, imports x42, declares x30. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -722,17 +719,85 @@ flowchart LR
 
 <!-- ====== 4. CLI & Skill Installers ====== -->
 <h2 id="cli-skills">4. CLI &amp; Skill Installers</h2>
-<p>CLI &amp; Skill Installers groups implementation around mainrs, packages, desktop, tauri, mostly in src-tauri/src/main.rs. This section covers 2 nodes and 1 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>CLI &amp; Skill Installers groups implementation around packages, desktop, components, settings, mostly in components/settings/AppSettingsPage.tsx, components/home/FastScaffoldModal.tsx, components/home/HomeTemplatesDashboard.tsx. This section covers 27 nodes and 51 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: CLI &amp; Skill Installers (2 nodes, 1 edges)
-    packages_desktop_src_tauri_src_main_04329094("main.rs")
-    packages_desktop_src_tauri_src_main_main_e7cc0f11("main()<br/><small>src-tauri/src/main.rs</small>")
-    packages_desktop_src_tauri_src_main_04329094 -->|contains| packages_desktop_src_tauri_src_main_main_e7cc0f11
-    class packages_desktop_src_tauri_src_main_04329094 module;
-    class packages_desktop_src_tauri_src_main_main_e7cc0f11 function;
+    %% Section: CLI &amp; Skill Installers (27 nodes, 51 edges)
+    subgraph cli_skills_components_settings_AppSettingsPage_t_611bf33d["components/settings/AppSettingsPage.tsx"]
+        packages_desktop_src_components_settings_appsett_17592a24("AppSettingsPage()<br/><small>components/settings/AppSettingsPage.tsx</small>")
+        packages_desktop_src_components_settings_appsett_8ac6a6cb("loadAppSettings()<br/><small>components/settings/AppSettingsPage.tsx</small>")
+        packages_desktop_src_components_settings_appsett_660fdcd3("saveAppSettings()<br/><small>components/settings/AppSettingsPage.tsx</small>")
+        packages_desktop_src_components_settings_appsett_075a9882("AppSettingsPage.tsx")
+    end
+    subgraph cli_skills_External_generated_0c226fa1["External / generated"]
+        packages_core_src_browser_generateprojectvfs_4e39675e("src browser generateprojectvfs")
+        packages_core_src_browser_projectconfig_680a11a7("src browser projectconfig")
+        packages_core_src_browser_virtualfilesystem_4e481385("src browser virtualfilesystem")
+    end
+    subgraph cli_skills_desktop_src_App_tsx_b01dfe12["desktop/src/App.tsx"]
+        packages_desktop_src_app_81241b1a("App.tsx")
+        packages_desktop_src_app_forgestackappcontent_ff0b9680("ForgeStackAppContent()<br/><small>desktop/src/App.tsx</small>")
+        packages_desktop_src_app_app_036f02f1("App()<br/><small>desktop/src/App.tsx</small>")
+    end
+    subgraph cli_skills_components_home_FastScaffoldModal_tsx_d794af08["components/home/FastScaffoldModal.tsx"]
+        packages_desktop_src_components_home_fastscaffol_a92b0dd5("FastScaffoldModal.tsx")
+        packages_desktop_src_components_home_fastscaffol_df1ffd7f("FastScaffoldModal()<br/><small>components/home/FastScaffoldModal.tsx</small>")
+    end
+    subgraph cli_skills_components_home_HomeTemplatesDashboar_8f58b283["components/home/HomeTemplatesDashboard.tsx"]
+        packages_desktop_src_components_home_hometemplat_c878659e("HomeTemplatesDashboard.tsx")
+        packages_desktop_src_components_home_hometemplat_72725ac1("HomeTemplatesDashboard()<br/><small>components/home/HomeTemplatesDashboard.tsx</small>")
+    end
+    subgraph cli_skills_src_types_template_ts_85324518["src/types/template.ts"]
+        packages_desktop_src_types_template_builtin_temp_060c01df("BUILTIN_TEMPLATES<br/><small>src/types/template.ts</small>")
+        packages_desktop_src_types_template_savedtemplat_df7c6d3b("SavedTemplate<br/><small>src/types/template.ts</small>")
+    end
+    packages_desktop_src_components_layout_studionav_82f51c35("StudioNavbar()<br/><small>components/layout/StudioNavbar.tsx</small>")
+    packages_desktop_src_main_6fe932e8("main.tsx")
+    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_app_forgestackappcontent_ff0b9680
+    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_layout_studionav_82f51c35
+    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_home_hometemplat_72725ac1
+    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_settings_appsett_17592a24
+    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_home_fastscaffol_df1ffd7f
+    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_settings_appsett_8ac6a6cb
+    packages_desktop_src_components_home_fastscaffol_df1ffd7f -->|calls| packages_desktop_src_components_settings_appsett_8ac6a6cb
+    packages_desktop_src_components_settings_appsett_17592a24 -->|calls| packages_desktop_src_components_settings_appsett_8ac6a6cb
+    packages_desktop_src_components_settings_appsett_17592a24 -->|calls| packages_desktop_src_components_settings_appsett_660fdcd3
+    packages_desktop_src_app_81241b1a -->|imports| packages_core_src_browser_generateprojectvfs_4e39675e
+    packages_desktop_src_app_81241b1a -->|imports| packages_core_src_browser_projectconfig_680a11a7
+    packages_desktop_src_app_81241b1a -->|imports| packages_core_src_browser_virtualfilesystem_4e481385
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_layout_studionav_82f51c35
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_home_hometemplat_72725ac1
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_home_fastscaffol_df1ffd7f
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_settings_appsett_17592a24
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_settings_appsett_8ac6a6cb
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_types_template_builtin_temp_060c01df
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_types_template_savedtemplat_df7c6d3b
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_home_hometemplat_c878659e
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_home_fastscaffol_a92b0dd5
+    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_settings_appsett_075a9882
+    packages_desktop_src_components_home_fastscaffol_a92b0dd5 -->|imports| packages_desktop_src_types_template_savedtemplat_df7c6d3b
+    packages_desktop_src_components_home_fastscaffol_a92b0dd5 -->|imports| packages_core_src_browser_projectconfig_680a11a7
+    %% Omitted for readability: 9 nodes, 6 edges
+    class packages_desktop_src_components_settings_appsett_17592a24 ui;
+    class packages_desktop_src_components_settings_appsett_8ac6a6cb ui;
+    class packages_desktop_src_components_settings_appsett_660fdcd3 ui;
+    class packages_desktop_src_components_settings_appsett_075a9882 ui;
+    class packages_core_src_browser_generateprojectvfs_4e39675e function;
+    class packages_core_src_browser_projectconfig_680a11a7 function;
+    class packages_core_src_browser_virtualfilesystem_4e481385 function;
+    class packages_desktop_src_app_81241b1a ui;
+    class packages_desktop_src_app_forgestackappcontent_ff0b9680 ui;
+    class packages_desktop_src_app_app_036f02f1 ui;
+    class packages_desktop_src_components_home_fastscaffol_a92b0dd5 ui;
+    class packages_desktop_src_components_home_fastscaffol_df1ffd7f ui;
+    class packages_desktop_src_components_home_hometemplat_c878659e ui;
+    class packages_desktop_src_components_home_hometemplat_72725ac1 ui;
+    class packages_desktop_src_types_template_builtin_temp_060c01df klass;
+    class packages_desktop_src_types_template_savedtemplat_df7c6d3b klass;
+    class packages_desktop_src_components_layout_studionav_82f51c35 ui;
+    class packages_desktop_src_main_6fe932e8 ui;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -756,6 +821,206 @@ flowchart LR
 </tr>
 <tr>
   <td>1</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/home/FastScaffoldModal.tsx.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/home/HomeTemplatesDashboard.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Props node in components/home/HomeTemplatesDashboard.tsx.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>AppSettings</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>AppSettings node in components/settings/AppSettingsPage.tsx.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>SavedTemplate</code><br><small style="color:var(--muted)">src/types/template.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>FastScaffoldModal.tsx</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small><br><code>HomeTemplatesDashboard.tsx</code><br><small style="color:var(--muted)">components/home/HomeTemplatesDashboard.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>SavedTemplate node in src/types/template.ts.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>main.tsx</code><br><small style="color:var(--muted)">desktop/src/main.tsx</small></td>
+  <td><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>App() node in desktop/src/App.tsx.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><code>@tauri-apps/api</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>@tauri-apps/plugin-shell</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>AppSettingsPage()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br>+8 more</td>
+  <td>ForgeStackAppContent() node in desktop/src/App.tsx.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>FastScaffoldModal()</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><code>loadAppSettings()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
+  <td>FastScaffoldModal() node in components/home/FastScaffoldModal.tsx.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>HomeTemplatesDashboard()</code><br><small style="color:var(--muted)">components/home/HomeTemplatesDashboard.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>HomeTemplatesDashboard() node in components/home/HomeTemplatesDashboard.tsx.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>StudioNavbar()</code><br><small style="color:var(--muted)">components/layout/StudioNavbar.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>StudioNavbar() node in components/layout/StudioNavbar.tsx.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>AppSettingsPage()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><code>loadAppSettings()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br><code>saveAppSettings()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
+  <td>Organizes documentation pages, navigation, or content lookup.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>loadAppSettings()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>AppSettingsPage()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br><code>FastScaffoldModal()</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small><br>+2 more</td>
+  <td>No direct outbound edge</td>
+  <td>loadAppSettings() node in components/settings/AppSettingsPage.tsx.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>saveAppSettings()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>AppSettingsPage()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>saveAppSettings() node in components/settings/AppSettingsPage.tsx.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>@tauri-apps/plugin-shell</code><br><small style="color:var(--muted)">@tauri-apps/plugin-shell</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>@tauri-apps/plugin-shell node in @tauri-apps/plugin-shell.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>main.tsx</code><br><small style="color:var(--muted)">desktop/src/main.tsx</small></td>
+  <td><code>AppSettingsPage()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br><code>AppSettingsPage.tsx</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br>+26 more</td>
+  <td>Module file in desktop/src/App.tsx.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>FastScaffoldModal.tsx</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><code>AppSettingsPage.tsx</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br><code>loadAppSettings()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br>+5 more</td>
+  <td>Module file in components/home/FastScaffoldModal.tsx.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>HomeTemplatesDashboard.tsx</code><br><small style="color:var(--muted)">components/home/HomeTemplatesDashboard.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br><code>Header.tsx</code><br><small style="color:var(--muted)">components/wizard/Header.tsx</small><br><code>lucide-react</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br>+5 more</td>
+  <td>Module file in components/home/HomeTemplatesDashboard.tsx.</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>AppSettingsPage.tsx</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>FastScaffoldModal.tsx</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small></td>
+  <td><code>Header.tsx</code><br><small style="color:var(--muted)">components/wizard/Header.tsx</small><br><code>lucide-react</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>react</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br>+1 more</td>
+  <td>Module file in components/settings/AppSettingsPage.tsx.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>DEFAULT_APP_SETTINGS</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>DEFAULT_APP_SETTINGS node in components/settings/AppSettingsPage.tsx.</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>main.tsx</code><br><small style="color:var(--muted)">desktop/src/main.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>packages_desktop_src_index</code><br>+2 more</td>
+  <td>Module file in desktop/src/main.tsx.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>template.ts</code><br><small style="color:var(--muted)">src/types/template.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>FastScaffoldModal.tsx</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small><br><code>HomeTemplatesDashboard.tsx</code><br><small style="color:var(--muted)">components/home/HomeTemplatesDashboard.tsx</small></td>
+  <td><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br><code>ProjectConfig</code><br><small style="color:var(--muted)">src/types/config.ts</small></td>
+  <td>Module file in src/types/template.ts.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>BUILTIN_TEMPLATES</code><br><small style="color:var(--muted)">src/types/template.ts</small></td>
+  <td><span class="tag tag-class">Class</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>BUILTIN_TEMPLATES node in src/types/template.ts.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>packages_core_src_browser_generateprojectvfs</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>packages_core_src_browser_generateprojectvfs node in project.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>packages_core_src_browser_projectconfig</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>AiGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>BackendGrid.tsx</code><br><small style="color:var(--muted)">components/wizard/BackendGrid.tsx</small><br>+13 more</td>
+  <td>No direct outbound edge</td>
+  <td>Reads, resolves, or persists project configuration.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>packages_core_src_browser_virtualfilesystem</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>packages_core_src_browser_virtualfilesystem node in project.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>packages_desktop_src_index</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>main.tsx</code><br><small style="color:var(--muted)">desktop/src/main.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>packages_desktop_src_index node in project.</td>
+</tr>
+<tr>
+  <td>26</td>
   <td><code>main.rs</code><br><small style="color:var(--muted)">src-tauri/src/main.rs</small></td>
   <td><span class="tag tag-class">Module</span></td>
   <td>External entry / no inbound edge</td>
@@ -763,7 +1028,7 @@ flowchart LR
   <td>main.rs node in src-tauri/src/main.rs.</td>
 </tr>
 <tr>
-  <td>2</td>
+  <td>27</td>
   <td><code>main()</code><br><small style="color:var(--muted)">src-tauri/src/main.rs</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td>External entry / no inbound edge</td>
@@ -777,95 +1042,59 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>src-tauri/src/main.rs</code></td><td>2 nodes</td></tr>
+      <tr><td><code>components/settings/AppSettingsPage.tsx</code></td><td>6 nodes</td></tr>
+<tr><td><code>desktop/src/App.tsx</code></td><td>3 nodes</td></tr>
+<tr><td><code>components/home/FastScaffoldModal.tsx</code></td><td>3 nodes</td></tr>
+<tr><td><code>components/home/HomeTemplatesDashboard.tsx</code></td><td>3 nodes</td></tr>
+<tr><td><code>src/types/template.ts</code></td><td>3 nodes</td></tr>
+<tr><td><code>src-tauri/src/main.rs</code></td><td>2 nodes</td></tr>
+<tr><td><code>@tauri-apps/plugin-shell</code></td><td>1 nodes</td></tr>
+<tr><td><code>components/layout/StudioNavbar.tsx</code></td><td>1 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: contains x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: imports x16, contains x14, calls x9, imports x9. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
 
 <!-- ====== 5. Serving API ====== -->
 <h2 id="serve-api">5. Serving API</h2>
-<p>Serving API groups implementation around packages, desktop, components, props, mostly in components/settings/AppSettingsPage.tsx, components/console/ExecutionConsole.tsx, components/home/FastScaffoldModal.tsx. This section covers 44 nodes and 86 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Serving API groups implementation around packages, desktop, components, executionconsoletsx, mostly in components/console/ExecutionConsole.tsx, components/home/ScaffoldConsoleView.tsx, packages/desktop/package.json. This section covers 9 nodes and 10 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Serving API (44 nodes, 86 edges)
-    subgraph serve_api_components_settings_AppSettingsPage_ts_43a1c9f5["components/settings/AppSettingsPage.tsx"]
-        packages_desktop_src_components_settings_appsett_17592a24("AppSettingsPage()<br/><small>components/settings/AppSettingsPage.tsx</small>")
-        packages_desktop_src_components_settings_appsett_8ac6a6cb("loadAppSettings()<br/><small>components/settings/AppSettingsPage.tsx</small>")
-        packages_desktop_src_components_settings_appsett_660fdcd3("saveAppSettings()<br/><small>components/settings/AppSettingsPage.tsx</small>")
-    end
-    subgraph serve_api_desktop_src_App_tsx_6006d9a2["desktop/src/App.tsx"]
-        packages_desktop_src_app_81241b1a("App.tsx")
-        packages_desktop_src_app_forgestackappcontent_ff0b9680("ForgeStackAppContent()<br/><small>desktop/src/App.tsx</small>")
-        packages_desktop_src_app_app_036f02f1("App()<br/><small>desktop/src/App.tsx</small>")
-    end
-    subgraph serve_api_components_home_FastScaffoldModal_tsx_1acad7ee["components/home/FastScaffoldModal.tsx"]
-        packages_desktop_src_components_home_fastscaffol_a92b0dd5("FastScaffoldModal.tsx")
-        packages_desktop_src_components_home_fastscaffol_df1ffd7f("FastScaffoldModal()<br/><small>components/home/FastScaffoldModal.tsx</small>")
-    end
-    subgraph serve_api_components_home_HomeTemplatesDashboard_cd9594ac["components/home/HomeTemplatesDashboard.tsx"]
-        packages_desktop_src_components_home_hometemplat_c878659e("HomeTemplatesDashboard.tsx")
-        packages_desktop_src_components_home_hometemplat_72725ac1("HomeTemplatesDashboard()<br/><small>components/home/HomeTemplatesDashboard.tsx</small>")
+    %% Section: Serving API (9 nodes, 10 edges)
+    subgraph serve_api_components_console_ExecutionConsole_ts_44156405["components/console/ExecutionConsole.tsx"]
+        packages_desktop_src_components_console_executio_b6aea39f("ExecutionConsole()<br/><small>components/console/ExecutionConsole.tsx</small>")
+        packages_desktop_src_components_console_executio_27ac2bc2("ExecutionConsole.tsx")
+        packages_desktop_src_components_console_executio_67b9773f("Props<br/><small>components/console/ExecutionConsole.tsx</small>")
     end
     subgraph serve_api_components_home_ScaffoldConsoleView_ts_cfe83f40["components/home/ScaffoldConsoleView.tsx"]
         packages_desktop_src_components_home_scaffoldcon_c5cab30a("ScaffoldConsoleView.tsx")
         packages_desktop_src_components_home_scaffoldcon_e38f163a("ScaffoldConsoleView()<br/><small>components/home/ScaffoldConsoleView.tsx</small>")
+        packages_desktop_src_components_home_scaffoldcon_dd159cbd("Props<br/><small>components/home/ScaffoldConsoleView.tsx</small>")
     end
-    packages_core_src_browser_generateprojectvfs_4e39675e("src browser generateprojectvfs")
-    packages_desktop_src_components_console_executio_b6aea39f("ExecutionConsole()<br/><small>components/console/ExecutionConsole.tsx</small>")
-    packages_desktop_src_components_layout_studionav_82f51c35("StudioNavbar()<br/><small>components/layout/StudioNavbar.tsx</small>")
-    packages_desktop_src_components_wizard_pathselec_b34d9880("PathSelectorModal()<br/><small>components/wizard/PathSelectorModal.tsx</small>")
-    packages_desktop_src_main_6fe932e8("main.tsx")
-    ref_tauri_apps_api_8059606b("@tauri-apps/api<br/><small>packages/desktop/package.json</small>")
-    packages_desktop_src_app_app_036f02f1 -->|calls| packages_desktop_src_app_forgestackappcontent_ff0b9680
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_layout_studionav_82f51c35
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_home_hometemplat_72725ac1
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_home_scaffoldcon_e38f163a
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_settings_appsett_17592a24
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_home_fastscaffol_df1ffd7f
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_wizard_pathselec_b34d9880
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|calls| packages_desktop_src_components_settings_appsett_8ac6a6cb
-    packages_desktop_src_components_home_fastscaffol_df1ffd7f -->|calls| packages_desktop_src_components_settings_appsett_8ac6a6cb
+    subgraph serve_api_packages_desktop_package_json_055f93af["packages/desktop/package.json"]
+        ref_react_router_dom_c1b488e2("react-router-dom<br/><small>packages/desktop/package.json</small>")
+        packages_desktop_package_dependencies_react_rout_8af5fcf9("react-router-dom@^7.18.5<br/><small>packages/desktop/package.json</small>")
+    end
+    tauri_apps_api_56ab2b1e("@tauri-apps/api")
     packages_desktop_src_components_home_scaffoldcon_e38f163a -->|calls| packages_desktop_src_components_console_executio_b6aea39f
-    packages_desktop_src_components_settings_appsett_17592a24 -->|calls| packages_desktop_src_components_settings_appsett_8ac6a6cb
-    packages_desktop_src_components_settings_appsett_17592a24 -->|calls| packages_desktop_src_components_settings_appsett_660fdcd3
-    packages_desktop_src_app_forgestackappcontent_ff0b9680 -->|imports| ref_tauri_apps_api_8059606b
-    packages_desktop_src_components_console_executio_b6aea39f -->|imports| ref_tauri_apps_api_8059606b
-    packages_desktop_src_components_wizard_pathselec_b34d9880 -->|imports| ref_tauri_apps_api_8059606b
-    packages_desktop_src_app_81241b1a -->|imports| packages_core_src_browser_generateprojectvfs_4e39675e
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_layout_studionav_82f51c35
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_home_hometemplat_72725ac1
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_home_fastscaffol_df1ffd7f
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_wizard_pathselec_b34d9880
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_settings_appsett_17592a24
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_settings_appsett_8ac6a6cb
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_home_scaffoldcon_e38f163a
-    packages_desktop_src_app_81241b1a -->|imports| packages_desktop_src_components_home_hometemplat_c878659e
-    %% Omitted for readability: 26 nodes, 6 edges
-    class packages_desktop_src_components_settings_appsett_17592a24 ui;
-    class packages_desktop_src_components_settings_appsett_8ac6a6cb ui;
-    class packages_desktop_src_components_settings_appsett_660fdcd3 ui;
-    class packages_desktop_src_app_81241b1a ui;
-    class packages_desktop_src_app_forgestackappcontent_ff0b9680 ui;
-    class packages_desktop_src_app_app_036f02f1 ui;
-    class packages_desktop_src_components_home_fastscaffol_a92b0dd5 ui;
-    class packages_desktop_src_components_home_fastscaffol_df1ffd7f ui;
-    class packages_desktop_src_components_home_hometemplat_c878659e ui;
-    class packages_desktop_src_components_home_hometemplat_72725ac1 ui;
+    packages_desktop_src_components_home_scaffoldcon_c5cab30a -->|imports| packages_desktop_src_components_console_executio_b6aea39f
+    packages_desktop_src_components_home_scaffoldcon_c5cab30a -->|imports| ref_react_router_dom_c1b488e2
+    packages_desktop_src_components_home_scaffoldcon_c5cab30a -->|imports| packages_desktop_src_components_console_executio_27ac2bc2
+    class packages_desktop_src_components_console_executio_b6aea39f ui;
+    class packages_desktop_src_components_console_executio_27ac2bc2 ui;
+    class packages_desktop_src_components_console_executio_67b9773f ui;
     class packages_desktop_src_components_home_scaffoldcon_c5cab30a ui;
     class packages_desktop_src_components_home_scaffoldcon_e38f163a ui;
-    class packages_core_src_browser_generateprojectvfs_4e39675e function;
-    class packages_desktop_src_components_console_executio_b6aea39f ui;
-    class packages_desktop_src_components_layout_studionav_82f51c35 ui;
-    class packages_desktop_src_components_wizard_pathselec_b34d9880 ui;
-    class packages_desktop_src_main_6fe932e8 ui;
-    class ref_tauri_apps_api_8059606b api;
+    class packages_desktop_src_components_home_scaffoldcon_dd159cbd ui;
+    class ref_react_router_dom_c1b488e2 api;
+    class packages_desktop_package_dependencies_react_rout_8af5fcf9 api;
+    class tauri_apps_api_56ab2b1e module;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -897,22 +1126,6 @@ flowchart LR
 </tr>
 <tr>
   <td>2</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/home/FastScaffoldModal.tsx.</td>
-</tr>
-<tr>
-  <td>3</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/home/HomeTemplatesDashboard.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/home/HomeTemplatesDashboard.tsx.</td>
-</tr>
-<tr>
-  <td>4</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/home/ScaffoldConsoleView.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -920,87 +1133,7 @@ flowchart LR
   <td>Props node in components/home/ScaffoldConsoleView.tsx.</td>
 </tr>
 <tr>
-  <td>5</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/layout/StudioNavbar.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/layout/StudioNavbar.tsx.</td>
-</tr>
-<tr>
-  <td>6</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/preview/FileEditorDrawer.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/preview/FileEditorDrawer.tsx.</td>
-</tr>
-<tr>
-  <td>7</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/preview/VsCodeWorkspace.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/preview/VsCodeWorkspace.tsx.</td>
-</tr>
-<tr>
-  <td>8</td>
-  <td><code>AppSettings</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>AppSettings node in components/settings/AppSettingsPage.tsx.</td>
-</tr>
-<tr>
-  <td>9</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/settings/AppSettingsPage.tsx.</td>
-</tr>
-<tr>
-  <td>10</td>
-  <td><code>ThemeId</code><br><small style="color:var(--muted)">components/wizard/Header.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>AppSettingsPage.tsx</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br><code>FileEditorDrawer.tsx</code><br><small style="color:var(--muted)">components/preview/FileEditorDrawer.tsx</small><br>+2 more</td>
-  <td>No direct outbound edge</td>
-  <td>ThemeId node in components/wizard/Header.tsx.</td>
-</tr>
-<tr>
-  <td>11</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/PathSelectorModal.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/wizard/PathSelectorModal.tsx.</td>
-</tr>
-<tr>
-  <td>12</td>
-  <td><code>SavedTemplate</code><br><small style="color:var(--muted)">src/types/template.ts</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>FastScaffoldModal.tsx</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small><br><code>HomeTemplatesDashboard.tsx</code><br><small style="color:var(--muted)">components/home/HomeTemplatesDashboard.tsx</small></td>
-  <td>No direct outbound edge</td>
-  <td>SavedTemplate node in src/types/template.ts.</td>
-</tr>
-<tr>
-  <td>13</td>
-  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>main.tsx</code><br><small style="color:var(--muted)">desktop/src/main.tsx</small></td>
-  <td><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
-  <td>App() node in desktop/src/App.tsx.</td>
-</tr>
-<tr>
-  <td>14</td>
-  <td><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>App()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
-  <td><code>@tauri-apps/api</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>@tauri-apps/plugin-shell</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>AppSettingsPage()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br>+8 more</td>
-  <td>ForgeStackAppContent() node in desktop/src/App.tsx.</td>
-</tr>
-<tr>
-  <td>15</td>
+  <td>3</td>
   <td><code>ExecutionConsole()</code><br><small style="color:var(--muted)">components/console/ExecutionConsole.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>ScaffoldConsoleView()</code><br><small style="color:var(--muted)">components/home/ScaffoldConsoleView.tsx</small><br><code>ScaffoldConsoleView.tsx</code><br><small style="color:var(--muted)">components/home/ScaffoldConsoleView.tsx</small><br><code>Step4ReviewScaffold()</code><br><small style="color:var(--muted)">components/wizard/Step4ReviewScaffold.tsx</small><br>+1 more</td>
@@ -1008,23 +1141,7 @@ flowchart LR
   <td>ExecutionConsole() node in components/console/ExecutionConsole.tsx.</td>
 </tr>
 <tr>
-  <td>16</td>
-  <td><code>FastScaffoldModal()</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
-  <td><code>loadAppSettings()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
-  <td>FastScaffoldModal() node in components/home/FastScaffoldModal.tsx.</td>
-</tr>
-<tr>
-  <td>17</td>
-  <td><code>HomeTemplatesDashboard()</code><br><small style="color:var(--muted)">components/home/HomeTemplatesDashboard.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
-  <td>No direct outbound edge</td>
-  <td>HomeTemplatesDashboard() node in components/home/HomeTemplatesDashboard.tsx.</td>
-</tr>
-<tr>
-  <td>18</td>
+  <td>4</td>
   <td><code>ScaffoldConsoleView()</code><br><small style="color:var(--muted)">components/home/ScaffoldConsoleView.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
@@ -1032,47 +1149,7 @@ flowchart LR
   <td>ScaffoldConsoleView() node in components/home/ScaffoldConsoleView.tsx.</td>
 </tr>
 <tr>
-  <td>19</td>
-  <td><code>StudioNavbar()</code><br><small style="color:var(--muted)">components/layout/StudioNavbar.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
-  <td>No direct outbound edge</td>
-  <td>StudioNavbar() node in components/layout/StudioNavbar.tsx.</td>
-</tr>
-<tr>
-  <td>20</td>
-  <td><code>AppSettingsPage()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
-  <td><code>loadAppSettings()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br><code>saveAppSettings()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
-  <td>Organizes documentation pages, navigation, or content lookup.</td>
-</tr>
-<tr>
-  <td>21</td>
-  <td><code>loadAppSettings()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>AppSettingsPage()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br><code>FastScaffoldModal()</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small><br>+2 more</td>
-  <td>No direct outbound edge</td>
-  <td>loadAppSettings() node in components/settings/AppSettingsPage.tsx.</td>
-</tr>
-<tr>
-  <td>22</td>
-  <td><code>saveAppSettings()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>AppSettingsPage()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small></td>
-  <td>No direct outbound edge</td>
-  <td>saveAppSettings() node in components/settings/AppSettingsPage.tsx.</td>
-</tr>
-<tr>
-  <td>23</td>
-  <td><code>PathSelectorModal()</code><br><small style="color:var(--muted)">components/wizard/PathSelectorModal.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
-  <td><code>@tauri-apps/api</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>@tauri-apps/plugin-dialog</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
-  <td>PathSelectorModal() node in components/wizard/PathSelectorModal.tsx.</td>
-</tr>
-<tr>
-  <td>24</td>
+  <td>5</td>
   <td><code>@tauri-apps/api</code><br><small style="color:var(--muted)">@tauri-apps/api</small></td>
   <td><span class="tag tag-class">Module</span></td>
   <td>External entry / no inbound edge</td>
@@ -1080,31 +1157,15 @@ flowchart LR
   <td>@tauri-apps/api node in @tauri-apps/api.</td>
 </tr>
 <tr>
-  <td>25</td>
-  <td><code>@tauri-apps/plugin-dialog</code><br><small style="color:var(--muted)">@tauri-apps/plugin-dialog</small></td>
-  <td><span class="tag tag-class">Module</span></td>
+  <td>6</td>
+  <td><code>react-router-dom@^7.18.5</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td><span class="tag tag-endpoint">API</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>@tauri-apps/plugin-dialog node in @tauri-apps/plugin-dialog.</td>
+  <td>react-router-dom@^7.18.5 node in packages/desktop/package.json.</td>
 </tr>
 <tr>
-  <td>26</td>
-  <td><code>@tauri-apps/plugin-shell</code><br><small style="color:var(--muted)">@tauri-apps/plugin-shell</small></td>
-  <td><span class="tag tag-class">Module</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>@tauri-apps/plugin-shell node in @tauri-apps/plugin-shell.</td>
-</tr>
-<tr>
-  <td>27</td>
-  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>main.tsx</code><br><small style="color:var(--muted)">desktop/src/main.tsx</small></td>
-  <td><code>AppSettingsPage()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br><code>AppSettingsPage.tsx</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br>+26 more</td>
-  <td>Module file in desktop/src/App.tsx.</td>
-</tr>
-<tr>
-  <td>28</td>
+  <td>7</td>
   <td><code>ExecutionConsole.tsx</code><br><small style="color:var(--muted)">components/console/ExecutionConsole.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>ScaffoldConsoleView.tsx</code><br><small style="color:var(--muted)">components/home/ScaffoldConsoleView.tsx</small><br><code>Step4ReviewScaffold.tsx</code><br><small style="color:var(--muted)">components/wizard/Step4ReviewScaffold.tsx</small></td>
@@ -1112,20 +1173,20 @@ flowchart LR
   <td>Module file in components/console/ExecutionConsole.tsx.</td>
 </tr>
 <tr>
-  <td>29</td>
-  <td><code>FastScaffoldModal.tsx</code><br><small style="color:var(--muted)">components/home/FastScaffoldModal.tsx</small></td>
+  <td>8</td>
+  <td><code>ScaffoldConsoleView.tsx</code><br><small style="color:var(--muted)">components/home/ScaffoldConsoleView.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
-  <td><code>AppSettingsPage.tsx</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br><code>loadAppSettings()</code><br><small style="color:var(--muted)">components/settings/AppSettingsPage.tsx</small><br>+5 more</td>
-  <td>Module file in components/home/FastScaffoldModal.tsx.</td>
+  <td><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br><code>ExecutionConsole()</code><br><small style="color:var(--muted)">components/console/ExecutionConsole.tsx</small><br><code>ExecutionConsole.tsx</code><br><small style="color:var(--muted)">components/console/ExecutionConsole.tsx</small><br>+4 more</td>
+  <td>Module file in components/home/ScaffoldConsoleView.tsx.</td>
 </tr>
 <tr>
-  <td>30</td>
-  <td><code>HomeTemplatesDashboard.tsx</code><br><small style="color:var(--muted)">components/home/HomeTemplatesDashboard.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
-  <td><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br><code>Header.tsx</code><br><small style="color:var(--muted)">components/wizard/Header.tsx</small><br><code>lucide-react</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br>+5 more</td>
-  <td>Module file in components/home/HomeTemplatesDashboard.tsx.</td>
+  <td>9</td>
+  <td><code>react-router-dom</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
+  <td><span class="tag tag-endpoint">API</span></td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>desktop/package.json</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>ScaffoldConsoleView.tsx</code><br><small style="color:var(--muted)">components/home/ScaffoldConsoleView.tsx</small><br>+1 more</td>
+  <td>No direct outbound edge</td>
+  <td>react-router-dom node in packages/desktop/package.json.</td>
 </tr>
 </table>
 
@@ -1134,52 +1195,48 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>components/settings/AppSettingsPage.tsx</code></td><td>7 nodes</td></tr>
-<tr><td><code>desktop/src/App.tsx</code></td><td>3 nodes</td></tr>
-<tr><td><code>components/console/ExecutionConsole.tsx</code></td><td>3 nodes</td></tr>
-<tr><td><code>components/home/FastScaffoldModal.tsx</code></td><td>3 nodes</td></tr>
-<tr><td><code>components/home/HomeTemplatesDashboard.tsx</code></td><td>3 nodes</td></tr>
+      <tr><td><code>components/console/ExecutionConsole.tsx</code></td><td>3 nodes</td></tr>
 <tr><td><code>components/home/ScaffoldConsoleView.tsx</code></td><td>3 nodes</td></tr>
-<tr><td><code>components/layout/StudioNavbar.tsx</code></td><td>3 nodes</td></tr>
-<tr><td><code>components/wizard/PathSelectorModal.tsx</code></td><td>3 nodes</td></tr>
+<tr><td><code>packages/desktop/package.json</code></td><td>2 nodes</td></tr>
+<tr><td><code>@tauri-apps/api</code></td><td>1 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: imports x22, contains x22, imports x19, calls x12. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x4, imports x2, calls x1, declares x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
 
 <!-- ====== 6. Tests & Fixtures ====== -->
 <h2 id="tests-fixtures">6. Tests &amp; Fixtures</h2>
-<p>Tests &amp; Fixtures groups implementation around packages, slices, cli, tests, mostly in src/templates/store.ts, src/utils/code-patcher.ts, src/engine/flusher.ts. This section covers 193 nodes and 837 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Tests &amp; Fixtures groups implementation around packages, slices, cli, tests, mostly in src/templates/store.ts, src/utils/code-patcher.ts, src/engine/flusher.ts. This section covers 194 nodes and 838 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Tests &amp; Fixtures (193 nodes, 837 edges)
-    subgraph tests_fixtures_src_utils_code_patcher_ts_911517d3["src/utils/code-patcher.ts"]
-        packages_core_src_utils_code_patcher_codepatcher_8dd2d14e("CodePatcher<br/><small>src/utils/code-patcher.ts</small>")
-        packages_core_src_utils_code_patcher_codepatcher_4b2d17fc("injectSlot()<br/><small>src/utils/code-patcher.ts</small>")
-        packages_core_src_utils_code_patcher_codepatcher_0677dd22("addImports()<br/><small>src/utils/code-patcher.ts</small>")
-        packages_core_src_utils_code_patcher_codepatcher_9ad77d2f("wrapProvider()<br/><small>src/utils/code-patcher.ts</small>")
-        packages_core_src_utils_code_patcher_codepatcher_2a1476c0("registerRoute()<br/><small>src/utils/code-patcher.ts</small>")
-        packages_core_src_utils_code_patcher_codepatcher_42012216("cleanSlots()<br/><small>src/utils/code-patcher.ts</small>")
-    end
+    %% Section: Tests &amp; Fixtures (194 nodes, 838 edges)
     subgraph tests_fixtures_src_engine_compositor_ts_ae1a6ecf["src/engine/compositor.ts"]
         packages_core_src_engine_compositor_recipecompos_f22b10ba("RecipeCompositor<br/><small>src/engine/compositor.ts</small>")
         packages_core_src_engine_compositor_recipecompos_fc9743ce("registerSlice()<br/><small>src/engine/compositor.ts</small>")
         packages_core_src_engine_compositor_recipecompos_c072aaef("registerSlices()<br/><small>src/engine/compositor.ts</small>")
         packages_core_src_engine_compositor_recipecompos_974e58c5("compose()<br/><small>src/engine/compositor.ts</small>")
     end
-    subgraph tests_fixtures_cli_src_cli_ts_0e6a26ff["cli/src/cli.ts"]
-        packages_cli_src_cli_825c483b("cli.ts")
-        packages_cli_src_cli_createcli_7e482f5c("createCli()<br/><small>cli/src/cli.ts</small>")
+    subgraph tests_fixtures_src_templates_store_ts_912044fc["src/templates/store.ts"]
+        packages_cli_src_templates_store_templatestore_3545533f("TemplateStore<br/><small>src/templates/store.ts</small>")
+        packages_cli_src_templates_store_templatestore_f_9b43bb4f("findCustomTemplate()<br/><small>src/templates/store.ts</small>")
+        packages_cli_src_templates_store_templatestore_r_7bfe648d("resolveAnyTemplate()<br/><small>src/templates/store.ts</small>")
+        packages_cli_src_templates_store_templatestore_g_05e5691d("getTemplatesFilePath()<br/><small>src/templates/store.ts</small>")
     end
     subgraph tests_fixtures_src_vfs_vfs_ts_cab28de0["src/vfs/vfs.ts"]
         packages_core_src_vfs_vfs_virtualfilesystem_5289c11c("VirtualFileSystem<br/><small>src/vfs/vfs.ts</small>")
         packages_core_src_vfs_vfs_virtualfilesystem_coun_d4105f9d("count()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_clea_9617a13e("clear()<br/><small>src/vfs/vfs.ts</small>")
+        packages_core_src_vfs_vfs_virtualfilesystem_clon_132621cd("clone()<br/><small>src/vfs/vfs.ts</small>")
+    end
+    subgraph tests_fixtures_cli_src_cli_ts_0e6a26ff["cli/src/cli.ts"]
+        packages_cli_src_cli_825c483b("cli.ts")
+        packages_cli_src_cli_createcli_7e482f5c("createCli()<br/><small>cli/src/cli.ts</small>")
     end
     packages_core_src_slices_database_tests_sqlite_t_f8fc8c34("sqlite.test.ts")
     packages_core_src_slices_auth_better_auth_1e63d915("better-auth.ts")
@@ -1188,38 +1245,39 @@ flowchart LR
     packages_core_src_engine_compositor_recipecompos_f22b10ba -->|method| packages_core_src_engine_compositor_recipecompos_fc9743ce
     packages_core_src_engine_compositor_recipecompos_f22b10ba -->|method| packages_core_src_engine_compositor_recipecompos_c072aaef
     packages_core_src_engine_compositor_recipecompos_f22b10ba -->|method| packages_core_src_engine_compositor_recipecompos_974e58c5
-    packages_core_src_utils_code_patcher_codepatcher_8dd2d14e -->|method| packages_core_src_utils_code_patcher_codepatcher_4b2d17fc
-    packages_core_src_utils_code_patcher_codepatcher_8dd2d14e -->|method| packages_core_src_utils_code_patcher_codepatcher_0677dd22
-    packages_core_src_utils_code_patcher_codepatcher_8dd2d14e -->|method| packages_core_src_utils_code_patcher_codepatcher_9ad77d2f
-    packages_core_src_utils_code_patcher_codepatcher_8dd2d14e -->|method| packages_core_src_utils_code_patcher_codepatcher_2a1476c0
-    packages_core_src_utils_code_patcher_codepatcher_8dd2d14e -->|method| packages_core_src_utils_code_patcher_codepatcher_42012216
     packages_core_src_vfs_vfs_virtualfilesystem_5289c11c -->|method| packages_core_src_vfs_vfs_virtualfilesystem_coun_d4105f9d
+    packages_core_src_vfs_vfs_virtualfilesystem_5289c11c -->|method| packages_core_src_vfs_vfs_virtualfilesystem_clea_9617a13e
+    packages_core_src_vfs_vfs_virtualfilesystem_5289c11c -->|method| packages_core_src_vfs_vfs_virtualfilesystem_clon_132621cd
+    packages_cli_src_templates_store_templatestore_3545533f -->|method| packages_cli_src_templates_store_templatestore_f_9b43bb4f
+    packages_cli_src_templates_store_templatestore_3545533f -->|method| packages_cli_src_templates_store_templatestore_r_7bfe648d
+    packages_cli_src_templates_store_templatestore_3545533f -->|method| packages_cli_src_templates_store_templatestore_g_05e5691d
     packages_core_src_engine_compositor_recipecompos_c072aaef -->|calls| packages_core_src_engine_compositor_recipecompos_fc9743ce
-    packages_core_src_utils_code_patcher_codepatcher_0677dd22 -->|calls| packages_core_src_utils_code_patcher_codepatcher_4b2d17fc
-    packages_core_src_utils_code_patcher_codepatcher_2a1476c0 -->|calls| packages_core_src_utils_code_patcher_codepatcher_4b2d17fc
+    packages_cli_src_cli_createcli_7e482f5c -->|calls| packages_cli_src_templates_store_templatestore_r_7bfe648d
+    packages_cli_src_templates_store_templatestore_r_7bfe648d -->|calls| packages_cli_src_templates_store_templatestore_f_9b43bb4f
     packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_engine_compositor_recipecompos_f22b10ba
     packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
     packages_core_src_engine_create_pipeline_cf2611ed -->|imports| packages_core_src_slices_auth_better_auth_1e63d915
-    packages_core_src_slices_auth_better_auth_1e63d915 -->|imports| packages_core_src_utils_code_patcher_codepatcher_8dd2d14e
     packages_core_src_slices_auth_better_auth_1e63d915 -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
     packages_core_src_slices_database_tests_sqlite_t_f8fc8c34 -->|imports| packages_core_src_vfs_vfs_virtualfilesystem_5289c11c
     packages_core_src_slices_database_tests_sqlite_t_f8fc8c34 -->|imports| packages_core_src_engine_create_pipeline_cf2611ed
+    packages_cli_src_cli_825c483b -->|imports| packages_cli_src_templates_store_templatestore_3545533f
     packages_cli_src_cli_825c483b -->|imports| packages_cli_src_prompts_wizard_f00010ea
-    %% Omitted for readability: 175 nodes, 0 edges
-    class packages_core_src_utils_code_patcher_codepatcher_8dd2d14e klass;
-    class packages_core_src_utils_code_patcher_codepatcher_4b2d17fc function;
-    class packages_core_src_utils_code_patcher_codepatcher_0677dd22 function;
-    class packages_core_src_utils_code_patcher_codepatcher_9ad77d2f function;
-    class packages_core_src_utils_code_patcher_codepatcher_2a1476c0 api;
-    class packages_core_src_utils_code_patcher_codepatcher_42012216 function;
+    packages_cli_src_prompts_wizard_f00010ea -->|imports| packages_cli_src_templates_store_templatestore_3545533f
+    %% Omitted for readability: 176 nodes, 0 edges
     class packages_core_src_engine_compositor_recipecompos_f22b10ba klass;
     class packages_core_src_engine_compositor_recipecompos_fc9743ce function;
     class packages_core_src_engine_compositor_recipecompos_c072aaef function;
     class packages_core_src_engine_compositor_recipecompos_974e58c5 function;
-    class packages_cli_src_cli_825c483b entry;
-    class packages_cli_src_cli_createcli_7e482f5c entry;
+    class packages_cli_src_templates_store_templatestore_3545533f ui;
+    class packages_cli_src_templates_store_templatestore_f_9b43bb4f function;
+    class packages_cli_src_templates_store_templatestore_r_7bfe648d function;
+    class packages_cli_src_templates_store_templatestore_g_05e5691d function;
     class packages_core_src_vfs_vfs_virtualfilesystem_5289c11c klass;
     class packages_core_src_vfs_vfs_virtualfilesystem_coun_d4105f9d function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_clea_9617a13e function;
+    class packages_core_src_vfs_vfs_virtualfilesystem_clon_132621cd function;
+    class packages_cli_src_cli_825c483b entry;
+    class packages_cli_src_cli_createcli_7e482f5c entry;
     class packages_core_src_slices_database_tests_sqlite_t_f8fc8c34 test;
     class packages_core_src_slices_auth_better_auth_1e63d915 module;
     class packages_core_src_engine_create_pipeline_cf2611ed module;
@@ -1271,19 +1329,19 @@ flowchart LR
 </tr>
 <tr>
   <td>4</td>
-  <td><code>ProjectConfig</code><br><small style="color:var(--muted)">src/types/config.ts</small></td>
+  <td><code>ArchitectureTopology</code><br><small style="color:var(--muted)">src/types/config.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
-  <td><code>agent-rag.test.ts</code><br><small style="color:var(--muted)">ai/__tests__/agent-rag.test.ts</small><br><code>agent-rag.ts</code><br><small style="color:var(--muted)">slices/ai/agent-rag.ts</small><br><code>ai-rules.test.ts</code><br><small style="color:var(--muted)">governance/__tests__/ai-rules.test.ts</small><br>+72 more</td>
+  <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Reads, resolves, or persists project configuration.</td>
+  <td>ArchitectureTopology node in src/types/config.ts.</td>
 </tr>
 <tr>
   <td>5</td>
-  <td><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
+  <td><code>ProjectConfig</code><br><small style="color:var(--muted)">src/types/config.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
-  <td><code>better-auth.ts</code><br><small style="color:var(--muted)">slices/auth/better-auth.ts</small><br><code>code-patcher.test.ts</code><br><small style="color:var(--muted)">utils/__tests__/code-patcher.test.ts</small><br><code>mongodb.ts</code><br><small style="color:var(--muted)">slices/database/mongodb.ts</small><br>+5 more</td>
-  <td><code>addImports()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>cleanSlots()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>injectSlot()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br>+2 more</td>
-  <td>CodePatcher node in src/utils/code-patcher.ts.</td>
+  <td><code>agent-rag.test.ts</code><br><small style="color:var(--muted)">ai/__tests__/agent-rag.test.ts</small><br><code>agent-rag.ts</code><br><small style="color:var(--muted)">slices/ai/agent-rag.ts</small><br><code>ai-rules.test.ts</code><br><small style="color:var(--muted)">governance/__tests__/ai-rules.test.ts</small><br>+60 more</td>
+  <td>No direct outbound edge</td>
+  <td>Reads, resolves, or persists project configuration.</td>
 </tr>
 <tr>
   <td>6</td>
@@ -1351,46 +1409,6 @@ flowchart LR
 </tr>
 <tr>
   <td>14</td>
-  <td><code>.addImports()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
-  <td><code>injectSlot()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
-  <td>.addImports() node in src/utils/code-patcher.ts.</td>
-</tr>
-<tr>
-  <td>15</td>
-  <td><code>.cleanSlots()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
-  <td>No direct outbound edge</td>
-  <td>.cleanSlots() node in src/utils/code-patcher.ts.</td>
-</tr>
-<tr>
-  <td>16</td>
-  <td><code>.injectSlot()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>addImports()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>registerRoute()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
-  <td>No direct outbound edge</td>
-  <td>.injectSlot() node in src/utils/code-patcher.ts.</td>
-</tr>
-<tr>
-  <td>17</td>
-  <td><code>.registerRoute()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
-  <td><span class="tag tag-endpoint">API</span></td>
-  <td><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
-  <td><code>injectSlot()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
-  <td>.registerRoute() node in src/utils/code-patcher.ts.</td>
-</tr>
-<tr>
-  <td>18</td>
-  <td><code>.wrapProvider()</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
-  <td><span class="tag tag-func">Function</span></td>
-  <td><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small></td>
-  <td>No direct outbound edge</td>
-  <td>.wrapProvider() node in src/utils/code-patcher.ts.</td>
-</tr>
-<tr>
-  <td>19</td>
   <td><code>.clear()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
@@ -1398,7 +1416,7 @@ flowchart LR
   <td>.clear() node in src/vfs/vfs.ts.</td>
 </tr>
 <tr>
-  <td>20</td>
+  <td>15</td>
   <td><code>.clone()</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
   <td><span class="tag tag-func">Function</span></td>
   <td><code>VirtualFileSystem</code><br><small style="color:var(--muted)">src/vfs/vfs.ts</small></td>
@@ -1406,7 +1424,7 @@ flowchart LR
   <td>Turns a local path or remote repository into analysis context.</td>
 </tr>
 <tr>
-  <td>21</td>
+  <td>16</td>
   <td><code>remoteDashboard</code><br><small style="color:var(--muted)">remoteDashboard</small></td>
   <td><span class="tag tag-class">Module</span></td>
   <td>External entry / no inbound edge</td>
@@ -1414,7 +1432,7 @@ flowchart LR
   <td>remoteDashboard node in remoteDashboard.</td>
 </tr>
 <tr>
-  <td>22</td>
+  <td>17</td>
   <td><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small></td>
   <td><span class="tag tag-class">Module</span></td>
   <td><code>AiGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small><br><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>BackendGrid.tsx</code><br><small style="color:var(--muted)">components/wizard/BackendGrid.tsx</small><br>+17 more</td>
@@ -1422,7 +1440,7 @@ flowchart LR
   <td>Module file in core/src/browser.ts.</td>
 </tr>
 <tr>
-  <td>23</td>
+  <td>18</td>
   <td><code>compositor.ts</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small></td>
   <td><span class="tag tag-class">Module</span></td>
   <td><code>agent-rag.ts</code><br><small style="color:var(--muted)">slices/ai/agent-rag.ts</small><br><code>ai-rules.ts</code><br><small style="color:var(--muted)">slices/governance/ai-rules.ts</small><br><code>better-auth.ts</code><br><small style="color:var(--muted)">slices/auth/better-auth.ts</small><br>+28 more</td>
@@ -1430,7 +1448,7 @@ flowchart LR
   <td>Module file in src/engine/compositor.ts.</td>
 </tr>
 <tr>
-  <td>24</td>
+  <td>19</td>
   <td><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small></td>
   <td><span class="tag tag-class">Module</span></td>
   <td><code>agent-rag.test.ts</code><br><small style="color:var(--muted)">ai/__tests__/agent-rag.test.ts</small><br><code>better-auth.test.ts</code><br><small style="color:var(--muted)">auth/__tests__/better-auth.test.ts</small><br><code>bullmq-worker.test.ts</code><br><small style="color:var(--muted)">backend/__tests__/bullmq-worker.test.ts</small><br>+8 more</td>
@@ -1438,7 +1456,7 @@ flowchart LR
   <td>Module file in src/engine/create-pipeline.ts.</td>
 </tr>
 <tr>
-  <td>25</td>
+  <td>20</td>
   <td><code>compositor.test.ts</code><br><small style="color:var(--muted)">engine/__tests__/compositor.test.ts</small></td>
   <td><span class="tag tag-func">Test</span></td>
   <td>External entry / no inbound edge</td>
@@ -1446,7 +1464,7 @@ flowchart LR
   <td>Module file in engine/__tests__/compositor.test.ts.</td>
 </tr>
 <tr>
-  <td>26</td>
+  <td>21</td>
   <td><code>core/src/index.ts</code><br><small style="color:var(--muted)">core/src/index.ts</small></td>
   <td><span class="tag tag-class">Module</span></td>
   <td><code>cli-matrix.test.ts</code><br><small style="color:var(--muted)">tests/e2e/cli-matrix.test.ts</small><br><code>cli.ts</code><br><small style="color:var(--muted)">cli/src/cli.ts</small><br><code>curated.ts</code><br><small style="color:var(--muted)">src/templates/curated.ts</small><br>+4 more</td>
@@ -1454,7 +1472,7 @@ flowchart LR
   <td>Module file in core/src/index.ts.</td>
 </tr>
 <tr>
-  <td>27</td>
+  <td>22</td>
   <td><code>dependencies.ts</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small></td>
   <td><span class="tag tag-class">Module</span></td>
   <td><code>agent-rag.ts</code><br><small style="color:var(--muted)">slices/ai/agent-rag.ts</small><br><code>better-auth.ts</code><br><small style="color:var(--muted)">slices/auth/better-auth.ts</small><br><code>biome.ts</code><br><small style="color:var(--muted)">slices/tooling/biome.ts</small><br>+19 more</td>
@@ -1462,7 +1480,7 @@ flowchart LR
   <td>Module file in src/registry/dependencies.ts.</td>
 </tr>
 <tr>
-  <td>28</td>
+  <td>23</td>
   <td><code>DEPENDENCY_REGISTRY</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small></td>
   <td><span class="tag tag-class">Class</span></td>
   <td><code>agent-rag.ts</code><br><small style="color:var(--muted)">slices/ai/agent-rag.ts</small><br><code>better-auth.ts</code><br><small style="color:var(--muted)">slices/auth/better-auth.ts</small><br><code>biome.ts</code><br><small style="color:var(--muted)">slices/tooling/biome.ts</small><br>+19 more</td>
@@ -1470,7 +1488,7 @@ flowchart LR
   <td>Builds dependency relationships and graph data.</td>
 </tr>
 <tr>
-  <td>29</td>
+  <td>24</td>
   <td><code>dependencies.test.ts</code><br><small style="color:var(--muted)">registry/__tests__/dependencies.test.ts</small></td>
   <td><span class="tag tag-func">Test</span></td>
   <td>External entry / no inbound edge</td>
@@ -1478,12 +1496,52 @@ flowchart LR
   <td>Module file in registry/__tests__/dependencies.test.ts.</td>
 </tr>
 <tr>
-  <td>30</td>
+  <td>25</td>
   <td><code>agent-rag.ts</code><br><small style="color:var(--muted)">slices/ai/agent-rag.ts</small></td>
   <td><span class="tag tag-class">Module</span></td>
   <td><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small></td>
   <td><code>compositor.ts</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small><br><code>config.ts</code><br><small style="color:var(--muted)">src/types/config.ts</small><br><code>dependencies.ts</code><br><small style="color:var(--muted)">src/registry/dependencies.ts</small><br>+5 more</td>
   <td>Module file in slices/ai/agent-rag.ts.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>agentRagSlice</code><br><small style="color:var(--muted)">slices/ai/agent-rag.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>Supports retrieval-augmented Q&amp;A or streaming chat.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>agent-rag.test.ts</code><br><small style="color:var(--muted)">ai/__tests__/agent-rag.test.ts</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>config.ts</code><br><small style="color:var(--muted)">src/types/config.ts</small><br><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br><code>generateProjectVfs()</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br>+2 more</td>
+  <td>Module file in ai/__tests__/agent-rag.test.ts.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>better-auth.ts</code><br><small style="color:var(--muted)">slices/auth/better-auth.ts</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small></td>
+  <td><code>code-patcher.ts</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>CodePatcher</code><br><small style="color:var(--muted)">src/utils/code-patcher.ts</small><br><code>compositor.ts</code><br><small style="color:var(--muted)">src/engine/compositor.ts</small><br>+7 more</td>
+  <td>Module file in slices/auth/better-auth.ts.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>betterAuthSlice</code><br><small style="color:var(--muted)">slices/auth/better-auth.ts</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small></td>
+  <td>No direct outbound edge</td>
+  <td>betterAuthSlice node in slices/auth/better-auth.ts.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>better-auth.test.ts</code><br><small style="color:var(--muted)">auth/__tests__/better-auth.test.ts</small></td>
+  <td><span class="tag tag-func">Test</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>config.ts</code><br><small style="color:var(--muted)">src/types/config.ts</small><br><code>create-pipeline.ts</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br><code>generateProjectVfs()</code><br><small style="color:var(--muted)">src/engine/create-pipeline.ts</small><br>+2 more</td>
+  <td>Module file in auth/__tests__/better-auth.test.ts.</td>
 </tr>
 </table>
 
@@ -1504,19 +1562,19 @@ flowchart LR
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: imports x345, imports x285, re exports x70, contains x65. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: imports x345, imports x285, re exports x70, contains x66. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
 
 <!-- ====== 7. Packages Desktop Components ====== -->
 <h2 id="packages-desktop-components">7. Packages Desktop Components</h2>
-<p>Packages Desktop Components groups implementation around packages, desktop, components, techiconstsx, mostly in components/common/TechIcons.tsx, components/preview/FileTreePreview.tsx, components/wizard/DragDropConfigurator.tsx. This section covers 86 nodes and 227 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Packages Desktop Components groups implementation around packages, desktop, components, techiconstsx, mostly in components/common/TechIcons.tsx, components/wizard/DragDropConfigurator.tsx, components/wizard/Step2StackEcosystem.tsx. This section covers 47 nodes and 133 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Packages Desktop Components (86 nodes, 227 edges)
+    %% Section: Packages Desktop Components (47 nodes, 133 edges)
     subgraph packages_desktop_components_components_common_Te_da5326d4["components/common/TechIcons.tsx"]
         packages_desktop_src_components_common_techicons_90619e5a("getFileIcon()<br/><small>components/common/TechIcons.tsx</small>")
         packages_desktop_src_components_common_techicons_7604c2f8("ClaudeIcon()<br/><small>components/common/TechIcons.tsx</small>")
@@ -1524,19 +1582,13 @@ flowchart LR
         packages_desktop_src_components_common_techicons_c4edf879("JsonIcon()<br/><small>components/common/TechIcons.tsx</small>")
         packages_desktop_src_components_common_techicons_176322be("DockerIcon()<br/><small>components/common/TechIcons.tsx</small>")
         packages_desktop_src_components_common_techicons_4f9d8e63("PnpmIcon()<br/><small>components/common/TechIcons.tsx</small>")
-    end
-    subgraph packages_desktop_components_components_preview_F_8beeb468["components/preview/FileTreePreview.tsx"]
-        packages_desktop_src_components_preview_filetree_2b119f15("FileTreePreview()<br/><small>components/preview/FileTreePreview.tsx</small>")
-        packages_desktop_src_components_preview_filetree_1ddd805c("TreeItem()<br/><small>components/preview/FileTreePreview.tsx</small>")
-        packages_desktop_src_components_preview_filetree_e3b435bb("filterTree()<br/><small>components/preview/FileTreePreview.tsx</small>")
-    end
-    subgraph packages_desktop_components_components_preview_F_38623fbf["components/preview/FileEditorDrawer.tsx"]
-        packages_desktop_src_components_preview_fileedit_d4fddfc1("FileEditorDrawer()<br/><small>components/preview/FileEditorDrawer.tsx</small>")
-        packages_desktop_src_components_preview_fileedit_af5c7a39("getMonacoLanguage()<br/><small>components/preview/FileEditorDrawer.tsx</small>")
-    end
-    subgraph packages_desktop_components_components_preview_V_8922a5f8["components/preview/VsCodeWorkspace.tsx"]
-        packages_desktop_src_components_preview_vscodewo_75c193eb("VsCodeWorkspace.tsx")
-        packages_desktop_src_components_preview_vscodewo_23c8ae15("VsCodeWorkspace()<br/><small>components/preview/VsCodeWorkspace.tsx</small>")
+        packages_desktop_src_components_common_techicons_6902b576("FastifyIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_6e3a122e("TailwindIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_b365e8bf("LucideIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_f8418b95("TablerIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_7a46c856("ReactIconsIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_36a4e39c("PhosphorIcon()<br/><small>components/common/TechIcons.tsx</small>")
+        packages_desktop_src_components_common_techicons_04dc50ea("SonnerIcon()<br/><small>components/common/TechIcons.tsx</small>")
     end
     subgraph packages_desktop_components_components_wizard_Dr_54e19242["components/wizard/DragDropConfigurator.tsx"]
         packages_desktop_src_components_wizard_dragdropc_d9e02fa0("DragDropConfigurator.tsx")
@@ -1546,50 +1598,50 @@ flowchart LR
         packages_desktop_src_components_wizard_step2stac_8af49020("Step2StackEcosystem.tsx")
         packages_desktop_src_components_wizard_step2stac_cd8ff1dc("Step2StackEcosystem()<br/><small>components/wizard/Step2StackEcosystem.tsx</small>")
     end
-    packages_desktop_src_components_wizard_stepperwi_8abfef04("StepperWizard.tsx")
+    packages_desktop_src_components_wizard_step3tool_0592a50f("Step3ToolingGovernance.tsx")
     packages_desktop_src_components_common_techicons_90619e5a -->|calls| packages_desktop_src_components_common_techicons_7604c2f8
     packages_desktop_src_components_common_techicons_90619e5a -->|calls| packages_desktop_src_components_common_techicons_d38a1f1a
     packages_desktop_src_components_common_techicons_90619e5a -->|calls| packages_desktop_src_components_common_techicons_c4edf879
     packages_desktop_src_components_common_techicons_90619e5a -->|calls| packages_desktop_src_components_common_techicons_176322be
     packages_desktop_src_components_common_techicons_90619e5a -->|calls| packages_desktop_src_components_common_techicons_4f9d8e63
-    packages_desktop_src_components_preview_fileedit_d4fddfc1 -->|calls| packages_desktop_src_components_preview_fileedit_af5c7a39
-    packages_desktop_src_components_preview_fileedit_d4fddfc1 -->|calls| packages_desktop_src_components_common_techicons_90619e5a
-    packages_desktop_src_components_preview_filetree_2b119f15 -->|calls| packages_desktop_src_components_preview_filetree_1ddd805c
-    packages_desktop_src_components_preview_filetree_2b119f15 -->|calls| packages_desktop_src_components_preview_filetree_e3b435bb
-    packages_desktop_src_components_preview_filetree_e3b435bb -->|calls| packages_desktop_src_components_preview_filetree_e3b435bb
-    packages_desktop_src_components_preview_filetree_1ddd805c -->|calls| packages_desktop_src_components_common_techicons_90619e5a
-    packages_desktop_src_components_preview_filetree_1ddd805c -->|calls| packages_desktop_src_components_preview_filetree_1ddd805c
-    packages_desktop_src_components_preview_vscodewo_23c8ae15 -->|calls| packages_desktop_src_components_preview_filetree_2b119f15
-    packages_desktop_src_components_preview_vscodewo_23c8ae15 -->|calls| packages_desktop_src_components_common_techicons_90619e5a
-    packages_desktop_src_components_preview_vscodewo_23c8ae15 -->|calls| packages_desktop_src_components_preview_fileedit_d4fddfc1
     packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_176322be
     packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_d38a1f1a
-    packages_desktop_src_components_preview_vscodewo_75c193eb -->|imports| packages_desktop_src_components_common_techicons_90619e5a
-    packages_desktop_src_components_preview_vscodewo_75c193eb -->|imports| packages_desktop_src_components_preview_filetree_2b119f15
-    packages_desktop_src_components_preview_vscodewo_75c193eb -->|imports| packages_desktop_src_components_preview_fileedit_d4fddfc1
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_6902b576
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_6e3a122e
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_b365e8bf
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_f8418b95
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_7a46c856
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_36a4e39c
+    packages_desktop_src_components_wizard_dragdropc_44db28e5 -->|calls| packages_desktop_src_components_common_techicons_04dc50ea
+    packages_desktop_src_components_wizard_step2stac_cd8ff1dc -->|calls| packages_desktop_src_components_common_techicons_6902b576
     packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_176322be
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_6902b576
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_b365e8bf
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_36a4e39c
     packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_4f9d8e63
     packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_d38a1f1a
-    packages_desktop_src_components_wizard_step2stac_8af49020 -->|imports| packages_desktop_src_components_common_techicons_d38a1f1a
-    %% Omitted for readability: 68 nodes, 2 edges
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_7a46c856
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_04dc50ea
+    packages_desktop_src_components_wizard_dragdropc_d9e02fa0 -->|imports| packages_desktop_src_components_common_techicons_f8418b95
+    %% Omitted for readability: 29 nodes, 6 edges
     class packages_desktop_src_components_common_techicons_90619e5a ui;
     class packages_desktop_src_components_common_techicons_7604c2f8 ui;
     class packages_desktop_src_components_common_techicons_d38a1f1a ui;
     class packages_desktop_src_components_common_techicons_c4edf879 ui;
     class packages_desktop_src_components_common_techicons_176322be ui;
     class packages_desktop_src_components_common_techicons_4f9d8e63 ui;
-    class packages_desktop_src_components_preview_filetree_2b119f15 ui;
-    class packages_desktop_src_components_preview_filetree_1ddd805c ui;
-    class packages_desktop_src_components_preview_filetree_e3b435bb ui;
-    class packages_desktop_src_components_preview_fileedit_d4fddfc1 ui;
-    class packages_desktop_src_components_preview_fileedit_af5c7a39 ui;
-    class packages_desktop_src_components_preview_vscodewo_75c193eb ui;
-    class packages_desktop_src_components_preview_vscodewo_23c8ae15 ui;
+    class packages_desktop_src_components_common_techicons_6902b576 ui;
+    class packages_desktop_src_components_common_techicons_6e3a122e ui;
+    class packages_desktop_src_components_common_techicons_b365e8bf ui;
+    class packages_desktop_src_components_common_techicons_f8418b95 ui;
+    class packages_desktop_src_components_common_techicons_7a46c856 ui;
+    class packages_desktop_src_components_common_techicons_36a4e39c ui;
+    class packages_desktop_src_components_common_techicons_04dc50ea ui;
     class packages_desktop_src_components_wizard_dragdropc_d9e02fa0 ui;
     class packages_desktop_src_components_wizard_dragdropc_44db28e5 ui;
     class packages_desktop_src_components_wizard_step2stac_8af49020 ui;
     class packages_desktop_src_components_wizard_step2stac_cd8ff1dc ui;
-    class packages_desktop_src_components_wizard_stepperwi_8abfef04 ui;
+    class packages_desktop_src_components_wizard_step3tool_0592a50f ui;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -1621,30 +1673,6 @@ flowchart LR
 </tr>
 <tr>
   <td>2</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/preview/FileTreePreview.tsx.</td>
-</tr>
-<tr>
-  <td>3</td>
-  <td><code>TreeItemProps</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>TreeItemProps node in components/preview/FileTreePreview.tsx.</td>
-</tr>
-<tr>
-  <td>4</td>
-  <td><code>FileViewerModalProps</code><br><small style="color:var(--muted)">components/preview/FileViewerModal.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>FileViewerModalProps node in components/preview/FileViewerModal.tsx.</td>
-</tr>
-<tr>
-  <td>5</td>
   <td><code>PaletteCategory</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -1652,7 +1680,7 @@ flowchart LR
   <td>PaletteCategory node in components/wizard/DragDropConfigurator.tsx.</td>
 </tr>
 <tr>
-  <td>6</td>
+  <td>3</td>
   <td><code>PaletteItem</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -1660,7 +1688,7 @@ flowchart LR
   <td>PaletteItem node in components/wizard/DragDropConfigurator.tsx.</td>
 </tr>
 <tr>
-  <td>7</td>
+  <td>4</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -1668,31 +1696,7 @@ flowchart LR
   <td>Props node in components/wizard/DragDropConfigurator.tsx.</td>
 </tr>
 <tr>
-  <td>8</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/Header.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/wizard/Header.tsx.</td>
-</tr>
-<tr>
-  <td>9</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/ProjectIdentity.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/wizard/ProjectIdentity.tsx.</td>
-</tr>
-<tr>
-  <td>10</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/Step1IdentityArchetype.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/wizard/Step1IdentityArchetype.tsx.</td>
-</tr>
-<tr>
-  <td>11</td>
+  <td>5</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -1700,7 +1704,7 @@ flowchart LR
   <td>Props node in components/wizard/Step2StackEcosystem.tsx.</td>
 </tr>
 <tr>
-  <td>12</td>
+  <td>6</td>
   <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/Step3ToolingGovernance.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -1708,47 +1712,7 @@ flowchart LR
   <td>Props node in components/wizard/Step3ToolingGovernance.tsx.</td>
 </tr>
 <tr>
-  <td>13</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/Step4ReviewScaffold.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/wizard/Step4ReviewScaffold.tsx.</td>
-</tr>
-<tr>
-  <td>14</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/StepperWizard.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/wizard/StepperWizard.tsx.</td>
-</tr>
-<tr>
-  <td>15</td>
-  <td><code>CommunicationChannel</code><br><small style="color:var(--muted)">components/wizard/TopologyVisualizer.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>CommunicationChannel node in components/wizard/TopologyVisualizer.tsx.</td>
-</tr>
-<tr>
-  <td>16</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/TopologyVisualizer.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>Props node in components/wizard/TopologyVisualizer.tsx.</td>
-</tr>
-<tr>
-  <td>17</td>
-  <td><code>TopologyNode</code><br><small style="color:var(--muted)">components/wizard/TopologyVisualizer.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>TopologyNode node in components/wizard/TopologyVisualizer.tsx.</td>
-</tr>
-<tr>
-  <td>18</td>
+  <td>7</td>
   <td><code>ClaudeIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small><br><code>Step3ToolingGovernance()</code><br><small style="color:var(--muted)">components/wizard/Step3ToolingGovernance.tsx</small><br><code>Step3ToolingGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/Step3ToolingGovernance.tsx</small></td>
@@ -1756,7 +1720,7 @@ flowchart LR
   <td>ClaudeIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>19</td>
+  <td>8</td>
   <td><code>CursorRulesIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step3ToolingGovernance()</code><br><small style="color:var(--muted)">components/wizard/Step3ToolingGovernance.tsx</small><br>+1 more</td>
@@ -1764,7 +1728,7 @@ flowchart LR
   <td>CursorRulesIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>20</td>
+  <td>9</td>
   <td><code>DockerIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small><br>+2 more</td>
@@ -1772,7 +1736,7 @@ flowchart LR
   <td>DockerIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>21</td>
+  <td>10</td>
   <td><code>DrizzleIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br><code>Step2StackEcosystem.tsx</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small></td>
@@ -1780,7 +1744,7 @@ flowchart LR
   <td>DrizzleIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>22</td>
+  <td>11</td>
   <td><code>ElectronIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>Step2StackEcosystem.tsx</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small></td>
@@ -1788,7 +1752,7 @@ flowchart LR
   <td>ElectronIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>23</td>
+  <td>12</td>
   <td><code>ExpressIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br>+1 more</td>
@@ -1796,7 +1760,7 @@ flowchart LR
   <td>ExpressIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>24</td>
+  <td>13</td>
   <td><code>FastifyIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br>+1 more</td>
@@ -1804,7 +1768,7 @@ flowchart LR
   <td>FastifyIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>25</td>
+  <td>14</td>
   <td><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>FileEditorDrawer()</code><br><small style="color:var(--muted)">components/preview/FileEditorDrawer.tsx</small><br><code>FileEditorDrawer.tsx</code><br><small style="color:var(--muted)">components/preview/FileEditorDrawer.tsx</small><br><code>FileTreePreview.tsx</code><br><small style="color:var(--muted)">components/preview/FileTreePreview.tsx</small><br>+3 more</td>
@@ -1812,7 +1776,7 @@ flowchart LR
   <td>getFileIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>26</td>
+  <td>15</td>
   <td><code>HonoIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br>+1 more</td>
@@ -1820,7 +1784,7 @@ flowchart LR
   <td>HonoIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>27</td>
+  <td>16</td>
   <td><code>JsonIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
@@ -1828,7 +1792,7 @@ flowchart LR
   <td>JsonIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>28</td>
+  <td>17</td>
   <td><code>LucideIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
@@ -1836,7 +1800,7 @@ flowchart LR
   <td>LucideIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>29</td>
+  <td>18</td>
   <td><code>MongoIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br>+1 more</td>
@@ -1844,12 +1808,100 @@ flowchart LR
   <td>MongoIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 <tr>
-  <td>30</td>
+  <td>19</td>
   <td><code>NestJSIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
   <td>No direct outbound edge</td>
   <td>NestJSIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>NextJsIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>Step2StackEcosystem.tsx</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>NextJsIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>OpenSpecIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step3ToolingGovernance()</code><br><small style="color:var(--muted)">components/wizard/Step3ToolingGovernance.tsx</small><br>+1 more</td>
+  <td>No direct outbound edge</td>
+  <td>OpenSpecIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>PhosphorIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>PhosphorIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>23</td>
+  <td><code>PnpmIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>PnpmIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>24</td>
+  <td><code>PostgresIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br>+1 more</td>
+  <td>No direct outbound edge</td>
+  <td>PostgresIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>25</td>
+  <td><code>PrismaIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br>+1 more</td>
+  <td>No direct outbound edge</td>
+  <td>PrismaIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>26</td>
+  <td><code>ReactHookFormIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ReactHookFormIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>ReactHotToastIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ReactHotToastIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>28</td>
+  <td><code>ReactIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>getFileIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small><br>+1 more</td>
+  <td>No direct outbound edge</td>
+  <td>ReactIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>29</td>
+  <td><code>ReactIconsIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ReactIconsIcon() node in components/common/TechIcons.tsx.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>ReactToastifyIcon()</code><br><small style="color:var(--muted)">components/common/TechIcons.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>DragDropConfigurator()</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small><br><code>DragDropConfigurator.tsx</code><br><small style="color:var(--muted)">components/wizard/DragDropConfigurator.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>ReactToastifyIcon() node in components/common/TechIcons.tsx.</td>
 </tr>
 </table>
 
@@ -1859,18 +1911,14 @@ flowchart LR
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
       <tr><td><code>components/common/TechIcons.tsx</code></td><td>36 nodes</td></tr>
-<tr><td><code>components/preview/FileTreePreview.tsx</code></td><td>6 nodes</td></tr>
 <tr><td><code>components/wizard/DragDropConfigurator.tsx</code></td><td>5 nodes</td></tr>
-<tr><td><code>components/wizard/TopologyVisualizer.tsx</code></td><td>5 nodes</td></tr>
-<tr><td><code>packages/desktop/package.json</code></td><td>3 nodes</td></tr>
-<tr><td><code>components/preview/FileEditorDrawer.tsx</code></td><td>3 nodes</td></tr>
-<tr><td><code>components/preview/FileViewerModal.tsx</code></td><td>3 nodes</td></tr>
-<tr><td><code>components/preview/VsCodeWorkspace.tsx</code></td><td>3 nodes</td></tr>
+<tr><td><code>components/wizard/Step2StackEcosystem.tsx</code></td><td>3 nodes</td></tr>
+<tr><td><code>components/wizard/Step3ToolingGovernance.tsx</code></td><td>3 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: contains x68, calls x58, imports x57, imports x44. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: imports x45, contains x43, calls x42, imports x3. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -2142,67 +2190,60 @@ flowchart LR
 
 <!-- ====== 9. Packages Desktop Components ====== -->
 <h2 id="packages-desktop-components-a93736">9. Packages Desktop Components</h2>
-<p>Packages Desktop Components groups implementation around packages, desktop, components, wizard, mostly in components/common/Badge.tsx, components/wizard/AiGovernance.tsx, components/wizard/BackendGrid.tsx. This section covers 18 nodes and 22 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Packages Desktop Components groups implementation around packages, desktop, components, wizard, mostly in components/wizard/TopologyVisualizer.tsx, components/wizard/Step1IdentityArchetype.tsx, components/wizard/Step4ReviewScaffold.tsx. This section covers 15 nodes and 20 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Packages Desktop Components (18 nodes, 22 edges)
-    subgraph packages_desktop_components_a93736_components_co_ba861b04["components/common/Badge.tsx"]
-        packages_desktop_src_components_common_badge_bad_e7191538("Badge()<br/><small>components/common/Badge.tsx</small>")
-        packages_desktop_src_components_common_badge_43b4bb2c("Badge.tsx")
-        packages_desktop_src_components_common_badge_bad_03fa0121("BadgeProps<br/><small>components/common/Badge.tsx</small>")
-        packages_desktop_src_components_common_badge_bad_ca716e6c("BadgeVariant<br/><small>components/common/Badge.tsx</small>")
-        packages_desktop_src_components_common_badge_var_43cb5bed("variantStyles<br/><small>components/common/Badge.tsx</small>")
+    %% Section: Packages Desktop Components (15 nodes, 20 edges)
+    subgraph packages_desktop_components_a93736_components_wi_8d902069["components/wizard/TopologyVisualizer.tsx"]
+        packages_desktop_src_components_wizard_topologyv_6d3426e2("TopologyVisualizer()<br/><small>components/wizard/TopologyVisualizer.tsx</small>")
+        packages_desktop_src_components_wizard_topologyv_8385172e("TopologyVisualizer.tsx")
+        packages_desktop_src_components_wizard_topologyv_edff6521("CommunicationChannel<br/><small>components/wizard/TopologyVisualizer.tsx</small>")
+        packages_desktop_src_components_wizard_topologyv_485323f6("Props<br/><small>components/wizard/TopologyVisualizer.tsx</small>")
+        packages_desktop_src_components_wizard_topologyv_91db7d13("TopologyNode<br/><small>components/wizard/TopologyVisualizer.tsx</small>")
     end
-    subgraph packages_desktop_components_a93736_components_wi_56ac55b0["components/wizard/AiGovernance.tsx"]
-        packages_desktop_src_components_wizard_aigoverna_40178dab("AiGovernance.tsx")
-        packages_desktop_src_components_wizard_aigoverna_735479fe("AiGovernance()<br/><small>components/wizard/AiGovernance.tsx</small>")
-        packages_desktop_src_components_wizard_aigoverna_ae0102ab("Props<br/><small>components/wizard/AiGovernance.tsx</small>")
+    subgraph packages_desktop_components_a93736_components_wi_04811021["components/wizard/Step1IdentityArchetype.tsx"]
+        packages_desktop_src_components_wizard_step1iden_0ad9d135("Step1IdentityArchetype.tsx")
+        packages_desktop_src_components_wizard_step1iden_8889d924("Step1IdentityArchetype()<br/><small>components/wizard/Step1IdentityArchetype.tsx</small>")
+        packages_desktop_src_components_wizard_step1iden_1359a6ac("Props<br/><small>components/wizard/Step1IdentityArchetype.tsx</small>")
     end
-    subgraph packages_desktop_components_a93736_components_wi_562e1209["components/wizard/BackendGrid.tsx"]
-        packages_desktop_src_components_wizard_backendgr_ded075d0("BackendGrid.tsx")
-        packages_desktop_src_components_wizard_backendgr_594bb769("BackendGrid()<br/><small>components/wizard/BackendGrid.tsx</small>")
-        packages_desktop_src_components_wizard_backendgr_b897944f("Props<br/><small>components/wizard/BackendGrid.tsx</small>")
+    subgraph packages_desktop_components_a93736_components_wi_592dee33["components/wizard/Step4ReviewScaffold.tsx"]
+        packages_desktop_src_components_wizard_step4revi_8709a889("Step4ReviewScaffold.tsx")
+        packages_desktop_src_components_wizard_step4revi_1af8cc67("Step4ReviewScaffold()<br/><small>components/wizard/Step4ReviewScaffold.tsx</small>")
+        packages_desktop_src_components_wizard_step4revi_03d2517f("Props<br/><small>components/wizard/Step4ReviewScaffold.tsx</small>")
     end
-    subgraph packages_desktop_components_a93736_components_wi_94b0c1ff["components/wizard/FrontendGrid.tsx"]
-        packages_desktop_src_components_wizard_frontendg_b058876f("FrontendGrid.tsx")
-        packages_desktop_src_components_wizard_frontendg_57a859a2("FrontendGrid()<br/><small>components/wizard/FrontendGrid.tsx</small>")
-        packages_desktop_src_components_wizard_frontendg_b699e0fa("Props<br/><small>components/wizard/FrontendGrid.tsx</small>")
+    subgraph packages_desktop_components_a93736_components_wi_06b6057e["components/wizard/StepperWizard.tsx"]
+        packages_desktop_src_components_wizard_stepperwi_8abfef04("StepperWizard.tsx")
+        packages_desktop_src_components_wizard_stepperwi_00b6066f("StepperWizard()<br/><small>components/wizard/StepperWizard.tsx</small>")
+        packages_desktop_src_components_wizard_stepperwi_ad7a0e0e("Props<br/><small>components/wizard/StepperWizard.tsx</small>")
     end
-    subgraph packages_desktop_components_a93736_components_wi_0751d11e["components/wizard/TopologySelector.tsx"]
-        packages_desktop_src_components_wizard_topologys_c495d504("TopologySelector.tsx")
-        packages_desktop_src_components_wizard_topologys_49477ddb("Props<br/><small>components/wizard/TopologySelector.tsx</small>")
-        packages_desktop_src_components_wizard_topologys_8ab080b7("TopologySelector()<br/><small>components/wizard/TopologySelector.tsx</small>")
-    end
-    packages_core_src_types_config_architecturetopol_cb0e704f("ArchitectureTopology<br/><small>src/types/config.ts</small>")
-    packages_desktop_src_components_wizard_aigoverna_40178dab -->|imports| packages_desktop_src_components_common_badge_bad_e7191538
-    packages_desktop_src_components_wizard_aigoverna_40178dab -->|imports| packages_desktop_src_components_common_badge_43b4bb2c
-    packages_desktop_src_components_wizard_backendgr_ded075d0 -->|imports| packages_desktop_src_components_common_badge_bad_e7191538
-    packages_desktop_src_components_wizard_backendgr_ded075d0 -->|imports| packages_desktop_src_components_common_badge_43b4bb2c
-    packages_desktop_src_components_wizard_frontendg_b058876f -->|imports| packages_desktop_src_components_common_badge_bad_e7191538
-    packages_desktop_src_components_wizard_frontendg_b058876f -->|imports| packages_desktop_src_components_common_badge_43b4bb2c
-    packages_desktop_src_components_wizard_topologys_c495d504 -->|imports| packages_core_src_types_config_architecturetopol_cb0e704f
-    packages_desktop_src_components_wizard_topologys_c495d504 -->|imports| packages_desktop_src_components_common_badge_bad_e7191538
-    packages_desktop_src_components_wizard_topologys_c495d504 -->|imports| packages_desktop_src_components_common_badge_43b4bb2c
-    class packages_desktop_src_components_common_badge_bad_e7191538 ui;
-    class packages_desktop_src_components_common_badge_43b4bb2c ui;
-    class packages_desktop_src_components_common_badge_bad_03fa0121 ui;
-    class packages_desktop_src_components_common_badge_bad_ca716e6c ui;
-    class packages_desktop_src_components_common_badge_var_43cb5bed ui;
-    class packages_desktop_src_components_wizard_aigoverna_40178dab ui;
-    class packages_desktop_src_components_wizard_aigoverna_735479fe ui;
-    class packages_desktop_src_components_wizard_aigoverna_ae0102ab ui;
-    class packages_desktop_src_components_wizard_backendgr_ded075d0 ui;
-    class packages_desktop_src_components_wizard_backendgr_594bb769 ui;
-    class packages_desktop_src_components_wizard_backendgr_b897944f ui;
-    class packages_desktop_src_components_wizard_frontendg_b058876f ui;
-    class packages_desktop_src_components_wizard_frontendg_57a859a2 ui;
-    class packages_desktop_src_components_wizard_frontendg_b699e0fa ui;
-    class packages_desktop_src_components_wizard_topologys_c495d504 ui;
-    class packages_desktop_src_components_wizard_topologys_49477ddb ui;
-    class packages_desktop_src_components_wizard_topologys_8ab080b7 ui;
-    class packages_core_src_types_config_architecturetopol_cb0e704f klass;
+    packages_core_src_browser_architecturetopology_0908db59("src browser architecturetopology")
+    packages_desktop_src_components_wizard_step4revi_1af8cc67 -->|calls| packages_desktop_src_components_wizard_topologyv_6d3426e2
+    packages_desktop_src_components_wizard_stepperwi_00b6066f -->|calls| packages_desktop_src_components_wizard_step1iden_8889d924
+    packages_desktop_src_components_wizard_stepperwi_00b6066f -->|calls| packages_desktop_src_components_wizard_step4revi_1af8cc67
+    packages_desktop_src_components_wizard_step1iden_0ad9d135 -->|imports| packages_core_src_browser_architecturetopology_0908db59
+    packages_desktop_src_components_wizard_step4revi_8709a889 -->|imports| packages_desktop_src_components_wizard_topologyv_6d3426e2
+    packages_desktop_src_components_wizard_step4revi_8709a889 -->|imports| packages_desktop_src_components_wizard_topologyv_8385172e
+    packages_desktop_src_components_wizard_stepperwi_8abfef04 -->|imports| packages_desktop_src_components_wizard_step1iden_8889d924
+    packages_desktop_src_components_wizard_stepperwi_8abfef04 -->|imports| packages_desktop_src_components_wizard_step4revi_1af8cc67
+    packages_desktop_src_components_wizard_stepperwi_8abfef04 -->|imports| packages_desktop_src_components_wizard_step1iden_0ad9d135
+    packages_desktop_src_components_wizard_stepperwi_8abfef04 -->|imports| packages_desktop_src_components_wizard_step4revi_8709a889
+    class packages_desktop_src_components_wizard_topologyv_6d3426e2 ui;
+    class packages_desktop_src_components_wizard_topologyv_8385172e ui;
+    class packages_desktop_src_components_wizard_topologyv_edff6521 ui;
+    class packages_desktop_src_components_wizard_topologyv_485323f6 ui;
+    class packages_desktop_src_components_wizard_topologyv_91db7d13 ui;
+    class packages_desktop_src_components_wizard_step1iden_0ad9d135 ui;
+    class packages_desktop_src_components_wizard_step1iden_8889d924 ui;
+    class packages_desktop_src_components_wizard_step1iden_1359a6ac ui;
+    class packages_desktop_src_components_wizard_step4revi_8709a889 ui;
+    class packages_desktop_src_components_wizard_step4revi_1af8cc67 ui;
+    class packages_desktop_src_components_wizard_step4revi_03d2517f ui;
+    class packages_desktop_src_components_wizard_stepperwi_8abfef04 ui;
+    class packages_desktop_src_components_wizard_stepperwi_00b6066f ui;
+    class packages_desktop_src_components_wizard_stepperwi_ad7a0e0e ui;
+    class packages_core_src_browser_architecturetopology_0908db59 function;
     classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
     classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
     classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
@@ -2226,147 +2267,123 @@ flowchart LR
 </tr>
 <tr>
   <td>1</td>
-  <td><code>ArchitectureTopology</code><br><small style="color:var(--muted)">src/types/config.ts</small></td>
-  <td><span class="tag tag-class">Class</span></td>
-  <td><code>Step1IdentityArchetype.tsx</code><br><small style="color:var(--muted)">components/wizard/Step1IdentityArchetype.tsx</small><br><code>TopologySelector.tsx</code><br><small style="color:var(--muted)">components/wizard/TopologySelector.tsx</small></td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/Step1IdentityArchetype.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>ArchitectureTopology node in src/types/config.ts.</td>
+  <td>Props node in components/wizard/Step1IdentityArchetype.tsx.</td>
 </tr>
 <tr>
   <td>2</td>
-  <td><code>BadgeProps</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small></td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/Step4ReviewScaffold.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>BadgeProps node in components/common/Badge.tsx.</td>
+  <td>Props node in components/wizard/Step4ReviewScaffold.tsx.</td>
 </tr>
 <tr>
   <td>3</td>
-  <td><code>BadgeVariant</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small></td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/StepperWizard.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>BadgeVariant node in components/common/Badge.tsx.</td>
+  <td>Props node in components/wizard/StepperWizard.tsx.</td>
 </tr>
 <tr>
   <td>4</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small></td>
+  <td><code>CommunicationChannel</code><br><small style="color:var(--muted)">components/wizard/TopologyVisualizer.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Props node in components/wizard/AiGovernance.tsx.</td>
+  <td>CommunicationChannel node in components/wizard/TopologyVisualizer.tsx.</td>
 </tr>
 <tr>
   <td>5</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/BackendGrid.tsx</small></td>
+  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/TopologyVisualizer.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Props node in components/wizard/BackendGrid.tsx.</td>
+  <td>Props node in components/wizard/TopologyVisualizer.tsx.</td>
 </tr>
 <tr>
   <td>6</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/FrontendGrid.tsx</small></td>
+  <td><code>TopologyNode</code><br><small style="color:var(--muted)">components/wizard/TopologyVisualizer.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
-  <td>Props node in components/wizard/FrontendGrid.tsx.</td>
+  <td>TopologyNode node in components/wizard/TopologyVisualizer.tsx.</td>
 </tr>
 <tr>
   <td>7</td>
-  <td><code>Props</code><br><small style="color:var(--muted)">components/wizard/TopologySelector.tsx</small></td>
+  <td><code>Step1IdentityArchetype()</code><br><small style="color:var(--muted)">components/wizard/Step1IdentityArchetype.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
+  <td><code>StepperWizard()</code><br><small style="color:var(--muted)">components/wizard/StepperWizard.tsx</small><br><code>StepperWizard.tsx</code><br><small style="color:var(--muted)">components/wizard/StepperWizard.tsx</small></td>
   <td>No direct outbound edge</td>
-  <td>Props node in components/wizard/TopologySelector.tsx.</td>
+  <td>Step1IdentityArchetype() node in components/wizard/Step1IdentityArchetype.tsx.</td>
 </tr>
 <tr>
   <td>8</td>
-  <td><code>Badge()</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small></td>
+  <td><code>Step4ReviewScaffold()</code><br><small style="color:var(--muted)">components/wizard/Step4ReviewScaffold.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
-  <td><code>AiGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small><br><code>BackendGrid.tsx</code><br><small style="color:var(--muted)">components/wizard/BackendGrid.tsx</small><br><code>FrontendGrid.tsx</code><br><small style="color:var(--muted)">components/wizard/FrontendGrid.tsx</small><br>+1 more</td>
-  <td>No direct outbound edge</td>
-  <td>Badge() node in components/common/Badge.tsx.</td>
+  <td><code>StepperWizard()</code><br><small style="color:var(--muted)">components/wizard/StepperWizard.tsx</small><br><code>StepperWizard.tsx</code><br><small style="color:var(--muted)">components/wizard/StepperWizard.tsx</small></td>
+  <td><code>ExecutionConsole()</code><br><small style="color:var(--muted)">components/console/ExecutionConsole.tsx</small><br><code>TopologyVisualizer()</code><br><small style="color:var(--muted)">components/wizard/TopologyVisualizer.tsx</small></td>
+  <td>Step4ReviewScaffold() node in components/wizard/Step4ReviewScaffold.tsx.</td>
 </tr>
 <tr>
   <td>9</td>
-  <td><code>AiGovernance()</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small></td>
+  <td><code>StepperWizard()</code><br><small style="color:var(--muted)">components/wizard/StepperWizard.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>AiGovernance() node in components/wizard/AiGovernance.tsx.</td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small><br><code>ForgeStackAppContent()</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><code>Step1IdentityArchetype()</code><br><small style="color:var(--muted)">components/wizard/Step1IdentityArchetype.tsx</small><br><code>Step2StackEcosystem()</code><br><small style="color:var(--muted)">components/wizard/Step2StackEcosystem.tsx</small><br><code>Step3ToolingGovernance()</code><br><small style="color:var(--muted)">components/wizard/Step3ToolingGovernance.tsx</small><br>+1 more</td>
+  <td>StepperWizard() node in components/wizard/StepperWizard.tsx.</td>
 </tr>
 <tr>
   <td>10</td>
-  <td><code>BackendGrid()</code><br><small style="color:var(--muted)">components/wizard/BackendGrid.tsx</small></td>
+  <td><code>TopologyVisualizer()</code><br><small style="color:var(--muted)">components/wizard/TopologyVisualizer.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
+  <td><code>Step4ReviewScaffold()</code><br><small style="color:var(--muted)">components/wizard/Step4ReviewScaffold.tsx</small><br><code>Step4ReviewScaffold.tsx</code><br><small style="color:var(--muted)">components/wizard/Step4ReviewScaffold.tsx</small></td>
   <td>No direct outbound edge</td>
-  <td>BackendGrid() node in components/wizard/BackendGrid.tsx.</td>
+  <td>TopologyVisualizer() node in components/wizard/TopologyVisualizer.tsx.</td>
 </tr>
 <tr>
   <td>11</td>
-  <td><code>FrontendGrid()</code><br><small style="color:var(--muted)">components/wizard/FrontendGrid.tsx</small></td>
+  <td><code>Step1IdentityArchetype.tsx</code><br><small style="color:var(--muted)">components/wizard/Step1IdentityArchetype.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>FrontendGrid() node in components/wizard/FrontendGrid.tsx.</td>
+  <td><code>StepperWizard.tsx</code><br><small style="color:var(--muted)">components/wizard/StepperWizard.tsx</small></td>
+  <td><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br><code>lucide-react</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>react</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br>+2 more</td>
+  <td>Module file in components/wizard/Step1IdentityArchetype.tsx.</td>
 </tr>
 <tr>
   <td>12</td>
-  <td><code>TopologySelector()</code><br><small style="color:var(--muted)">components/wizard/TopologySelector.tsx</small></td>
+  <td><code>Step4ReviewScaffold.tsx</code><br><small style="color:var(--muted)">components/wizard/Step4ReviewScaffold.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>TopologySelector() node in components/wizard/TopologySelector.tsx.</td>
+  <td><code>StepperWizard.tsx</code><br><small style="color:var(--muted)">components/wizard/StepperWizard.tsx</small></td>
+  <td><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br><code>ExecutionConsole()</code><br><small style="color:var(--muted)">components/console/ExecutionConsole.tsx</small><br><code>ExecutionConsole.tsx</code><br><small style="color:var(--muted)">components/console/ExecutionConsole.tsx</small><br>+5 more</td>
+  <td>Module file in components/wizard/Step4ReviewScaffold.tsx.</td>
 </tr>
 <tr>
   <td>13</td>
-  <td><code>Badge.tsx</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small></td>
+  <td><code>StepperWizard.tsx</code><br><small style="color:var(--muted)">components/wizard/StepperWizard.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
-  <td><code>AiGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small><br><code>BackendGrid.tsx</code><br><small style="color:var(--muted)">components/wizard/BackendGrid.tsx</small><br><code>FrontendGrid.tsx</code><br><small style="color:var(--muted)">components/wizard/FrontendGrid.tsx</small><br>+1 more</td>
-  <td><code>react</code><br><small style="color:var(--muted)">packages/desktop/package.json</small></td>
-  <td>Module file in components/common/Badge.tsx.</td>
+  <td><code>App.tsx</code><br><small style="color:var(--muted)">desktop/src/App.tsx</small></td>
+  <td><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br><code>lucide-react</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>react</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br>+9 more</td>
+  <td>Module file in components/wizard/StepperWizard.tsx.</td>
 </tr>
 <tr>
   <td>14</td>
-  <td><code>variantStyles</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small></td>
+  <td><code>TopologyVisualizer.tsx</code><br><small style="color:var(--muted)">components/wizard/TopologyVisualizer.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td>No direct outbound edge</td>
-  <td>variantStyles node in components/common/Badge.tsx.</td>
+  <td><code>Step4ReviewScaffold.tsx</code><br><small style="color:var(--muted)">components/wizard/Step4ReviewScaffold.tsx</small></td>
+  <td><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br><code>lucide-react</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br><code>react</code><br><small style="color:var(--muted)">packages/desktop/package.json</small><br>+1 more</td>
+  <td>Module file in components/wizard/TopologyVisualizer.tsx.</td>
 </tr>
 <tr>
   <td>15</td>
-  <td><code>AiGovernance.tsx</code><br><small style="color:var(--muted)">components/wizard/AiGovernance.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td><code>Badge()</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small><br><code>Badge.tsx</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small><br><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br>+3 more</td>
-  <td>Module file in components/wizard/AiGovernance.tsx.</td>
-</tr>
-<tr>
-  <td>16</td>
-  <td><code>BackendGrid.tsx</code><br><small style="color:var(--muted)">components/wizard/BackendGrid.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td><code>Badge()</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small><br><code>Badge.tsx</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small><br><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br>+3 more</td>
-  <td>Module file in components/wizard/BackendGrid.tsx.</td>
-</tr>
-<tr>
-  <td>17</td>
-  <td><code>FrontendGrid.tsx</code><br><small style="color:var(--muted)">components/wizard/FrontendGrid.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td><code>Badge()</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small><br><code>Badge.tsx</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small><br><code>browser.ts</code><br><small style="color:var(--muted)">core/src/browser.ts</small><br>+3 more</td>
-  <td>Module file in components/wizard/FrontendGrid.tsx.</td>
-</tr>
-<tr>
-  <td>18</td>
-  <td><code>TopologySelector.tsx</code><br><small style="color:var(--muted)">components/wizard/TopologySelector.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td>External entry / no inbound edge</td>
-  <td><code>ArchitectureTopology</code><br><small style="color:var(--muted)">src/types/config.ts</small><br><code>Badge()</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small><br><code>Badge.tsx</code><br><small style="color:var(--muted)">components/common/Badge.tsx</small><br>+3 more</td>
-  <td>Module file in components/wizard/TopologySelector.tsx.</td>
+  <td><code>packages_core_src_browser_architecturetopology</code><br><small style="color:var(--muted)"></small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>Step1IdentityArchetype.tsx</code><br><small style="color:var(--muted)">components/wizard/Step1IdentityArchetype.tsx</small><br><code>TopologySelector.tsx</code><br><small style="color:var(--muted)">components/wizard/TopologySelector.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>packages_core_src_browser_architecturetopology node in project.</td>
 </tr>
 </table>
 
@@ -2375,17 +2392,15 @@ flowchart LR
     <h4>Key Files</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><th>File</th><th>Coverage</th></tr>
-      <tr><td><code>components/common/Badge.tsx</code></td><td>5 nodes</td></tr>
-<tr><td><code>components/wizard/AiGovernance.tsx</code></td><td>3 nodes</td></tr>
-<tr><td><code>components/wizard/BackendGrid.tsx</code></td><td>3 nodes</td></tr>
-<tr><td><code>components/wizard/FrontendGrid.tsx</code></td><td>3 nodes</td></tr>
-<tr><td><code>components/wizard/TopologySelector.tsx</code></td><td>3 nodes</td></tr>
-<tr><td><code>src/types/config.ts</code></td><td>1 nodes</td></tr>
+      <tr><td><code>components/wizard/TopologyVisualizer.tsx</code></td><td>5 nodes</td></tr>
+<tr><td><code>components/wizard/Step1IdentityArchetype.tsx</code></td><td>3 nodes</td></tr>
+<tr><td><code>components/wizard/Step4ReviewScaffold.tsx</code></td><td>3 nodes</td></tr>
+<tr><td><code>components/wizard/StepperWizard.tsx</code></td><td>3 nodes</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Design Notes</h4>
-    <p>This section comes from graphify community clustering. Relationship summary: contains x12, imports x5, imports x4, references x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x10, imports x4, calls x3, imports x3. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
   </div>
 </div>
 <hr>
@@ -2956,17 +2971,17 @@ flowchart LR
   <div class="card">
     <h4>Graph</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>Nodes</td><td>665</td></tr>
-      <tr><td>Edges</td><td>1671</td></tr>
+      <tr><td>Nodes</td><td>668</td></tr>
+      <tr><td>Edges</td><td>1659</td></tr>
       <tr><td>Hyperedges</td><td>0</td></tr>
-      <tr><td>Communities</td><td>34</td></tr>
+      <tr><td>Communities</td><td>39</td></tr>
       <tr><td>Documented Sections</td><td>15</td></tr>
     </table>
   </div>
   <div class="card">
     <h4>Edge Confidence</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>EXTRACTED</td><td>1669</td></tr>
+      <tr><td>EXTRACTED</td><td>1657</td></tr>
       <tr><td>INFERRED</td><td>2</td></tr>
       <tr><td>AMBIGUOUS</td><td>0</td></tr>
     </table>
@@ -2975,7 +2990,7 @@ flowchart LR
 
 <div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
   <p>project-setup — Architecture Documentation</p>
-  <p>Generated: 2026-11-18 07:27 UTC · graphify callflow-html</p>
+  <p>Generated: 2026-11-18 08:38 UTC · graphify callflow-html</p>
 </div>
 
 </div><!-- .container -->
