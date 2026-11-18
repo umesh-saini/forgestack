@@ -44,14 +44,34 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
         hint: 'Recommended: apps/web, apps/api, @repo/contracts, @repo/ui',
       },
       {
+        value: 'ai-agent-rag',
+        label: 'AI-Native Agent / RAG Monorepo (pgvector + Tool Calling)',
+        hint: 'apps/web + apps/api with vector search, streaming chat & MCP',
+      },
+      {
+        value: 'micro-frontend',
+        label: 'Micro-Frontend Federation (Module Federation + Shared Bus)',
+        hint: 'apps/shell host + apps/remote-dashboard + @repo/event-bus',
+      },
+      {
         value: 'nextjs-fullstack',
         label: 'Next.js 15 Full-Stack (App Router + Server Actions)',
         hint: 'Modern SSR/RSC with Tailwind CSS v4 & Route Handlers',
       },
       {
+        value: 'tauri-desktop',
+        label: 'Native Desktop App (Tauri v2 + Rust + React 19)',
+        hint: 'High-performance cross-platform desktop with secure IPC',
+      },
+      {
         value: 'electron-desktop',
         label: 'Electron Desktop App (electron-vite + React 19)',
         hint: 'Secure IPC contextBridge with profile:create & log:getAll',
+      },
+      {
+        value: 'distributed-worker',
+        label: 'Distributed Worker Queue (Fastify + BullMQ + Redis)',
+        hint: 'Background task processing worker with Redis queue',
       },
       {
         value: 'standalone-fe',
@@ -74,14 +94,24 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
 
   const selectedTopology = topology as
     | 'monorepo'
+    | 'ai-agent-rag'
+    | 'micro-frontend'
     | 'standalone-fe'
     | 'standalone-be'
+    | 'tauri-desktop'
     | 'electron-desktop'
+    | 'distributed-worker'
     | 'nextjs-fullstack';
-  const includeFrontend = selectedTopology !== 'standalone-be';
+
+  const includeFrontend =
+    selectedTopology !== 'standalone-be' &&
+    selectedTopology !== 'distributed-worker';
+
   const includeBackend =
     selectedTopology !== 'standalone-fe' &&
     selectedTopology !== 'electron-desktop' &&
+    selectedTopology !== 'tauri-desktop' &&
+    selectedTopology !== 'micro-frontend' &&
     selectedTopology !== 'nextjs-fullstack';
 
   // 3. Frontend Features (if FE included)
@@ -134,8 +164,8 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
   }
 
   // 4. Backend Features (if BE included)
-  let beFramework: 'fastify' | 'express' | 'none' = 'fastify';
-  let beDatabase: 'postgres' | 'mongodb' | 'none' = 'postgres';
+  let beFramework: 'fastify' | 'express' | 'hono' | 'none' = 'fastify';
+  let beDatabase: 'postgres' | 'mongodb' | 'sqlite' | 'none' = 'postgres';
   let beOrm: 'drizzle' | 'prisma' | 'mongoose' | 'none' = 'drizzle';
   let beContainer = true;
 
@@ -144,6 +174,7 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
       message: 'Select backend HTTP framework:',
       options: [
         { value: 'fastify', label: 'Fastify (High Performance & Modern Schema Architecture)' },
+        { value: 'hono', label: 'Hono (Ultra-Lightweight & Cloudflare/Node.js Multi-Runtime)' },
         { value: 'express', label: 'Express (Classic Node.js HTTP Ecosystem)' },
       ],
       initialValue: 'fastify',
@@ -160,6 +191,7 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
       options: [
         { value: 'postgres-drizzle', label: 'PostgreSQL + Drizzle ORM (Type-Safe & Fast Cold Starts)' },
         { value: 'postgres-prisma', label: 'PostgreSQL + Prisma ORM (Schema-Driven Migrations)' },
+        { value: 'sqlite-drizzle', label: 'SQLite + Drizzle ORM (Local Embedded Zero-Config Database)' },
         { value: 'mongodb-mongoose', label: 'MongoDB + Mongoose (Document Database with Pooling)' },
         { value: 'none', label: 'None (In-Memory / Stateless API)' },
       ],
@@ -177,6 +209,9 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
     } else if (dbChoice === 'postgres-prisma') {
       beDatabase = 'postgres';
       beOrm = 'prisma';
+    } else if (dbChoice === 'sqlite-drizzle') {
+      beDatabase = 'sqlite';
+      beOrm = 'drizzle';
     } else if (dbChoice === 'mongodb-mongoose') {
       beDatabase = 'mongodb';
       beOrm = 'mongoose';
@@ -185,7 +220,7 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
       beOrm = 'none';
     }
 
-    if (beDatabase !== 'none') {
+    if (beDatabase !== 'none' && beDatabase !== 'sqlite') {
       const containerChoice = await p.confirm({
         message: 'Generate Docker Compose and multi-stage Dockerfile for database?',
         initialValue: true,
@@ -201,15 +236,92 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
     }
   }
 
-  // 5. AI Agent Governance
+  // 5. Auth & RPC Primitives
+  let authProvider: 'better-auth' | 'none' = 'none';
+  if (
+    selectedTopology === 'monorepo' ||
+    selectedTopology === 'nextjs-fullstack' ||
+    selectedTopology === 'ai-agent-rag' ||
+    includeBackend
+  ) {
+    const authChoice = await p.select({
+      message: 'Choose authentication provider:',
+      options: [
+        { value: 'better-auth', label: 'Better-Auth (TypeScript-first Auth & Session Management)' },
+        { value: 'none', label: 'None (Public API / Custom Auth)' },
+      ],
+      initialValue: 'better-auth',
+    });
+
+    if (p.isCancel(authChoice)) {
+      p.cancel('Scaffolding cancelled.');
+      process.exit(0);
+    }
+    authProvider = authChoice as 'better-auth' | 'none';
+  }
+
+  let rpcProtocol: 'trpc' | 'none' = 'none';
+  if (selectedTopology === 'monorepo' || selectedTopology === 'ai-agent-rag') {
+    const rpcChoice = await p.select({
+      message: 'Include end-to-end type-safe RPC contracts?',
+      options: [
+        { value: 'trpc', label: 'tRPC v11 (Client-Server Type Safety & React Query Integration)' },
+        { value: 'none', label: 'Standard REST / Fetch API' },
+      ],
+      initialValue: 'trpc',
+    });
+
+    if (p.isCancel(rpcChoice)) {
+      p.cancel('Scaffolding cancelled.');
+      process.exit(0);
+    }
+    rpcProtocol = rpcChoice as 'trpc' | 'none';
+  }
+
+  // 6. Testing & CI/CD
+  let e2eTesting: 'playwright' | 'none' = 'none';
+  if (includeFrontend) {
+    const testChoice = await p.select({
+      message: 'Select End-to-End (E2E) testing framework:',
+      options: [
+        { value: 'playwright', label: 'Playwright (Cross-Browser E2E Testing for Chromium, Firefox & WebKit)' },
+        { value: 'none', label: 'None (Unit Tests with Vitest only)' },
+      ],
+      initialValue: 'playwright',
+    });
+
+    if (p.isCancel(testChoice)) {
+      p.cancel('Scaffolding cancelled.');
+      process.exit(0);
+    }
+    e2eTesting = testChoice as 'playwright' | 'none';
+  }
+
+  const ciChoice = await p.select({
+    message: 'Configure automated CI/CD pipeline:',
+    options: [
+      { value: 'github-actions', label: 'GitHub Actions (Lint, Typecheck, Test, E2E Matrix on Node 20 & 22)' },
+      { value: 'none', label: 'None (Local verification only)' },
+    ],
+    initialValue: 'github-actions',
+  });
+
+  if (p.isCancel(ciChoice)) {
+    p.cancel('Scaffolding cancelled.');
+    process.exit(0);
+  }
+  const ciProvider = ciChoice as 'github-actions' | 'none';
+
+  // 7. AI Agent Governance
   const aiChoice = await p.multiselect({
     message: 'Include AI Agent Rules & Engineering Governance?',
     options: [
       { value: 'rules', label: 'Cursor Rules (.cursor/rules with Brutal Reviewer & Strict TS)' },
       { value: 'skills', label: 'Agent Skills (Modern UI Engineering & Clean Code Craftsmanship)' },
       { value: 'openspec', label: 'OpenSpec Spec-Driven Workflows' },
+      { value: 'mcp', label: 'Model Context Protocol (MCP) Server (@repo/mcp-server for Cursor & Antigravity)' },
     ],
-    initialValues: ['rules', 'skills', 'openspec'],
+    initialValues: ['rules', 'skills', 'openspec', 'mcp'],
     required: false,
   });
 
@@ -220,7 +332,7 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
 
   const selectedAi = aiChoice as string[];
 
-  // 6. Installation & Git
+  // 8. Installation & Git
   const gitChoice = await p.confirm({
     message: 'Initialize a new git repository?',
     initialValue: true,
@@ -262,7 +374,15 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
       database: beDatabase,
       orm: beOrm,
       container: beContainer,
+      processManager: selectedTopology === 'distributed-worker' ? 'bullmq' : 'docker',
     },
+    queue: selectedTopology === 'distributed-worker' ? 'bullmq' : 'none',
+    auth: authProvider,
+    rpc: rpcProtocol,
+    testing: {
+      e2e: e2eTesting,
+    },
+    ci: ciProvider,
     utilities: {
       frontendHelpers: true,
       backendHelpers: includeBackend,
@@ -271,6 +391,7 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
       rules: selectedAi.includes('rules'),
       skills: selectedAi.includes('skills'),
       openSpec: selectedAi.includes('openspec'),
+      mcp: selectedAi.includes('mcp'),
       engine: 'openspec',
     },
     packageManager: 'pnpm',
