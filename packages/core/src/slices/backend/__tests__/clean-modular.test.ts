@@ -63,4 +63,32 @@ describe('Clean Modular Backend Slice', () => {
     const serverCode = vfs.getFileContent('apps/api/src/server.ts')!;
     expect(serverCode).toContain('server = app.listen(');
   });
+
+  it('should generate Hono modular backend when hono is selected', () => {
+    const vfs = new VirtualFileSystem();
+    const honoConfig = {
+      ...baseConfig,
+      backend: { ...baseConfig.backend, framework: 'hono' as const },
+    };
+    cleanModularBackendSlice.apply(vfs, honoConfig);
+
+    const pkg = JSON.parse(vfs.getFileContent('apps/api/package.json')!);
+    expect(pkg.dependencies.hono).toBeDefined();
+    expect(pkg.dependencies['@hono/node-server']).toBeDefined();
+    expect(pkg.dependencies.express).toBeUndefined();
+    expect(pkg.dependencies.fastify).toBeUndefined();
+
+    const appCode = vfs.getFileContent('apps/api/src/app.ts')!;
+    expect(appCode).toContain('export const app = new Hono()');
+    expect(appCode).toContain('secureHeaders()');
+    expect(appCode).toContain('app.onError(errorHandler)');
+
+    const routesCode = vfs.getFileContent('apps/api/src/modules/health/health.routes.ts')!;
+    expect(routesCode).toContain('export const healthRoutes = new Hono()');
+    expect(routesCode).toContain("healthRoutes.get('/health'");
+
+    const serverCode = vfs.getFileContent('apps/api/src/server.ts')!;
+    expect(serverCode).toContain("import { serve } from '@hono/node-server'");
+    expect(serverCode).toContain('const server = serve(');
+  });
 });
