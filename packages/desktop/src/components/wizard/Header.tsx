@@ -56,7 +56,7 @@ export const Header: React.FC<Props> = ({
         <img
           src="/app-icon.png"
           alt="ForgeStack"
-          className="w-9 h-9 shrink-0 object-contain drop-shadow-[0_3px_8px_rgba(251,92,11,0.30)]"
+          className="w-9 h-9 rounded-xl shadow-md shadow-orange-500/25 object-contain"
         />
         <div>
           <div className="flex items-center gap-2">
