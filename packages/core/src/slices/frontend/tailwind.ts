@@ -11,13 +11,16 @@ export const tailwindSlice: FeatureSlice = {
       config.frontend.framework !== 'react-vite' ||
       config.frontend.styling !== 'tailwind' ||
       config.topology === 'electron-desktop' ||
+      config.topology === 'tauri-desktop' ||
+      config.topology === 'micro-frontend' ||
       config.topology === 'nextjs-fullstack'
     ) {
       return;
     }
 
     const basePath =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend'
+      config.topology === 'monorepo' ||
+      config.topology === 'ai-agent-rag'
         ? 'apps/web'
         : config.topology === 'separate-folders'
         ? 'frontend'

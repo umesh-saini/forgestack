@@ -9,23 +9,48 @@ export const DEPENDENCY_REGISTRY = {
   '@types/react': '^19.0.8',
   '@types/react-dom': '^19.0.3',
   '@vitejs/plugin-react': '^4.3.4',
+  '@module-federation/vite': '^1.1.0',
   vite: '^6.1.0',
   next: '^15.1.7',
 
-  // Desktop & Electron
+  // Desktop: Electron & Tauri v2
   electron: '^34.2.0',
   'electron-vite': '^3.0.0',
   '@electron-toolkit/utils': '^3.0.0',
   '@electron-toolkit/preload': '^3.0.0',
+  '@tauri-apps/api': '^2.2.0',
+  '@tauri-apps/cli': '^2.2.0',
+  '@tauri-apps/plugin-shell': '^2.2.0',
 
   // Date Libraries
   dayjs: '^1.11.13',
   'date-fns': '^4.1.0',
   moment: '^2.30.1',
 
-  // Utilities & Security
+  // Utilities, Security & Authentication
   jsonwebtoken: '^9.0.2',
   '@types/jsonwebtoken': '^9.0.8',
+  'better-auth': '^1.1.20',
+
+  // Messaging, Workers & WebSockets
+  bullmq: '^5.40.0',
+  ioredis: '^5.5.0',
+  ws: '^8.18.0',
+  '@types/ws': '^8.5.14',
+
+  // RPC & Monorepo Contracts
+  '@trpc/server': '^11.0.0',
+  '@trpc/client': '^11.0.0',
+  '@trpc/react-query': '^11.0.0',
+
+  // AI & Vector
+  ai: '^4.1.0',
+  '@ai-sdk/openai': '^1.1.0',
+  pgvector: '^0.2.0',
+  '@modelcontextprotocol/sdk': '^1.5.0',
+
+  // Testing
+  '@playwright/test': '^1.50.0',
 
   // Process Management
   pm2: '^5.4.3',

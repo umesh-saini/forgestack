@@ -12,7 +12,7 @@ export const cleanModularBackendSlice: FeatureSlice = {
     }
 
     const basePath =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend'
+      config.topology === 'monorepo' || config.topology === 'micro-frontend' || config.topology === 'ai-agent-rag'
         ? 'apps/api'
         : config.topology === 'separate-folders'
         ? 'backend'
@@ -22,11 +22,12 @@ export const cleanModularBackendSlice: FeatureSlice = {
     const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
 
     const isFastify = config.backend.framework === 'fastify';
+    const isHono = config.backend.framework === 'hono';
 
     // 1. package.json
     const packageJsonContent = {
       name:
-        config.topology === 'monorepo' || config.topology === 'micro-frontend'
+        config.topology === 'monorepo' || config.topology === 'micro-frontend' || config.topology === 'ai-agent-rag'
           ? '@repo/api'
           : config.topology === 'separate-folders'
           ? `${config.name}-backend`
@@ -45,7 +46,12 @@ export const cleanModularBackendSlice: FeatureSlice = {
         dotenv: DEPENDENCY_REGISTRY.dotenv,
         zod: DEPENDENCY_REGISTRY.zod,
         pino: DEPENDENCY_REGISTRY.pino,
-        ...(isFastify
+        ...(isHono
+          ? {
+              hono: DEPENDENCY_REGISTRY.hono,
+              '@hono/node-server': DEPENDENCY_REGISTRY['@hono/node-server'],
+            }
+          : isFastify
           ? {
               fastify: DEPENDENCY_REGISTRY.fastify,
               '@fastify/cors': DEPENDENCY_REGISTRY['@fastify/cors'],
@@ -58,7 +64,7 @@ export const cleanModularBackendSlice: FeatureSlice = {
               helmet: DEPENDENCY_REGISTRY.helmet,
               'express-rate-limit': DEPENDENCY_REGISTRY['express-rate-limit'],
             }),
-        ...(config.topology === 'monorepo'
+        ...(config.topology === 'monorepo' || config.topology === 'micro-frontend' || config.topology === 'ai-agent-rag'
           ? { '@repo/contracts': 'workspace:*' }
           : {}),
       },
@@ -69,13 +75,13 @@ export const cleanModularBackendSlice: FeatureSlice = {
         'pino-pretty': DEPENDENCY_REGISTRY['pino-pretty'],
         '@types/node': DEPENDENCY_REGISTRY['@types/node'],
         ...(config.backend.processManager === 'pm2' ? { pm2: DEPENDENCY_REGISTRY.pm2 } : {}),
-        ...(isFastify
-          ? {}
-          : {
+        ...(!isFastify && !isHono
+          ? {
               '@types/express': DEPENDENCY_REGISTRY['@types/express'],
               '@types/cors': DEPENDENCY_REGISTRY['@types/cors'],
-            }),
-        ...(config.topology === 'monorepo'
+            }
+          : {}),
+        ...(config.topology === 'monorepo' || config.topology === 'micro-frontend' || config.topology === 'ai-agent-rag'
           ? { '@repo/typescript-config': 'workspace:*' }
           : {}),
       },
@@ -93,7 +99,7 @@ export const cleanModularBackendSlice: FeatureSlice = {
       path: resolvePath('tsconfig.json'),
       content: JSON.stringify(
         {
-          ...(config.topology === 'monorepo'
+          ...(config.topology === 'monorepo' || config.topology === 'micro-frontend' || config.topology === 'ai-agent-rag'
             ? {
                 extends: '@repo/typescript-config/node.json',
                 compilerOptions: {
@@ -215,7 +221,49 @@ export class ConflictError extends AppError {
     vfs.applyAction({
       type: 'CREATE',
       path: resolvePath('src/shared/middleware/error-handler.ts'),
-      content: isFastify
+      content: isHono
+        ? `import type { Context } from 'hono';
+import { AppError } from '../errors/app-error.js';
+import { logger } from '../utils/logger.js';
+import { ZodError } from 'zod';
+
+export function errorHandler(err: Error, c: Context) {
+  if (err instanceof AppError) {
+    return c.json(
+      {
+        statusCode: err.statusCode,
+        error: err.name,
+        message: err.message,
+        details: err.details,
+      },
+      err.statusCode as any
+    );
+  }
+
+  if (err instanceof ZodError) {
+    return c.json(
+      {
+        statusCode: 400,
+        error: 'ValidationError',
+        message: 'Invalid request schema payload',
+        details: err.format(),
+      },
+      400
+    );
+  }
+
+  logger.error({ err }, 'Unhandled internal server error');
+  return c.json(
+    {
+      statusCode: 500,
+      error: 'InternalServerError',
+      message: 'An unexpected internal server error occurred',
+    },
+    500
+  );
+}
+`
+        : isFastify
         ? `import type { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 import { AppError } from '../errors/app-error.js';
 import { logger } from '../utils/logger.js';
@@ -311,7 +359,18 @@ export function errorHandler(
     vfs.applyAction({
       type: 'CREATE',
       path: resolvePath('src/modules/health/health.routes.ts'),
-      content: isFastify
+      content: isHono
+        ? `import { Hono } from 'hono';
+import { HealthController } from './health.controller.js';
+
+export const healthRoutes = new Hono();
+
+healthRoutes.get('/health', async (c) => {
+  const health = await HealthController.getHealth();
+  return c.json(health, 200);
+});
+`
+        : isFastify
         ? `import type { FastifyInstance } from 'fastify';
 import { HealthController } from './health.controller.js';
 
@@ -338,7 +397,26 @@ healthRoutes.get('/health', async (_req, res) => {
     vfs.applyAction({
       type: 'CREATE',
       path: resolvePath('src/app.ts'),
-      content: isFastify
+      content: isHono
+        ? `import { Hono } from 'hono';
+import { cors } from 'hono/cors';
+import { secureHeaders } from 'hono/secure-headers';
+import { env } from './config/env.js';
+import { errorHandler } from './shared/middleware/error-handler.js';
+import { healthRoutes } from './modules/health/health.routes.js';
+
+export const app = new Hono();
+
+app.use('*', secureHeaders());
+app.use('*', cors({ origin: env.CORS_ORIGIN, credentials: true }));
+
+app.onError(errorHandler);
+
+// Routes
+app.route('/api', healthRoutes);
+/* FORGESTACK_ROUTE_SLOT */
+`
+        : isFastify
         ? `import Fastify from 'fastify';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
@@ -406,7 +484,52 @@ app.use(errorHandler);
     vfs.applyAction({
       type: 'CREATE',
       path: resolvePath('src/server.ts'),
-      content: isFastify
+      content: isHono
+        ? `import { serve } from '@hono/node-server';
+import { app } from './app.js';
+import { env } from './config/env.js';
+import { logger } from './shared/utils/logger.js';
+
+/* FORGESTACK_DB_IMPORT_SLOT */
+
+async function bootstrap() {
+  /* FORGESTACK_DB_CONNECT_SLOT */
+
+  const server = serve(
+    {
+      fetch: app.fetch,
+      port: env.PORT,
+      hostname: '0.0.0.0',
+    },
+    (info) => {
+      logger.info(\`🚀 Hono server running on http://localhost:\${info.port}/api/health in [\${env.NODE_ENV}] mode\`);
+    }
+  );
+
+  const handleShutdown = async (signal: string) => {
+    logger.warn(\`Received \${signal}. Shutting down gracefully...\`);
+    server.close(async () => {
+      /* FORGESTACK_DB_DISCONNECT_SLOT */
+      logger.info('Graceful shutdown completed.');
+      process.exit(0);
+    });
+
+    setTimeout(() => {
+      logger.error('Shutdown timed out. Forcing exit.');
+      process.exit(1);
+    }, 10000).unref();
+  };
+
+  process.on('SIGINT', () => handleShutdown('SIGINT'));
+  process.on('SIGTERM', () => handleShutdown('SIGTERM'));
+}
+
+bootstrap().catch((err) => {
+  logger.fatal({ err }, 'Fatal startup crash');
+  process.exit(1);
+});
+`
+        : isFastify
         ? `import { buildApp } from './app.js';
 import { env } from './config/env.js';
 import { logger } from './shared/utils/logger.js';

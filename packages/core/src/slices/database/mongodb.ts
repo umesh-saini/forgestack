@@ -8,18 +8,31 @@ export const mongodbSlice: FeatureSlice = {
   id: 'db-mongodb',
   name: 'MongoDB Database Integration (Mongoose)',
   apply: (vfs: VirtualFileSystem, config: ProjectConfig) => {
-    if (config.backend.framework === 'none' || config.backend.database !== 'mongodb') {
+    const isNextjs =
+      config.topology === 'nextjs-fullstack' ||
+      (config.frontend.framework === 'nextjs' && config.backend.framework === 'none');
+
+    const isEligible =
+      config.backend.database === 'mongodb' &&
+      (config.backend.framework !== 'none' || isNextjs);
+
+    if (!isEligible) {
       return;
     }
 
-    const basePath =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend'
-        ? 'apps/api'
+    const basePath = isNextjs
+      ? config.topology === 'monorepo' || config.topology === 'micro-frontend'
+        ? 'apps/web'
         : config.topology === 'separate-folders'
-        ? 'backend'
-        : config.topology === 'electron-desktop' || config.topology === 'nextjs-fullstack'
-        ? 'server'
-        : '';
+        ? 'frontend'
+        : ''
+      : config.topology === 'monorepo' || config.topology === 'micro-frontend'
+      ? 'apps/api'
+      : config.topology === 'separate-folders'
+      ? 'backend'
+      : config.topology === 'electron-desktop'
+      ? 'server'
+      : '';
     const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
 
     // 1. Merge Mongoose dependency
@@ -123,31 +136,33 @@ export class MongoDatabase {
 `,
     });
 
-    // 4. Patch src/server.ts to connect and disconnect MongoDatabase
-    vfs.applyAction({
-      type: 'PATCH_AST',
-      path: resolvePath('src/server.ts'),
-      patcher: (content) => {
-        let patched = CodePatcher.injectSlot(
-          content,
-          '/* FORGESTACK_DB_IMPORT_SLOT */',
-          "import { MongoDatabase } from './database/connection.js';",
-          { preserveSlot: false }
-        );
-        patched = CodePatcher.injectSlot(
-          patched,
-          '/* FORGESTACK_DB_CONNECT_SLOT */',
-          '  await MongoDatabase.connect();',
-          { preserveSlot: false }
-        );
-        patched = CodePatcher.injectSlot(
-          patched,
-          '/* FORGESTACK_DB_DISCONNECT_SLOT */',
-          '    await MongoDatabase.disconnect();',
-          { preserveSlot: false }
-        );
-        return patched;
-      },
-    });
+    // 4. Patch src/server.ts to connect and disconnect MongoDatabase if present
+    if (vfs.hasFile(resolvePath('src/server.ts'))) {
+      vfs.applyAction({
+        type: 'PATCH_AST',
+        path: resolvePath('src/server.ts'),
+        patcher: (content) => {
+          let patched = CodePatcher.injectSlot(
+            content,
+            '/* FORGESTACK_DB_IMPORT_SLOT */',
+            "import { MongoDatabase } from './database/connection.js';",
+            { preserveSlot: false }
+          );
+          patched = CodePatcher.injectSlot(
+            patched,
+            '/* FORGESTACK_DB_CONNECT_SLOT */',
+            '  await MongoDatabase.connect();',
+            { preserveSlot: false }
+          );
+          patched = CodePatcher.injectSlot(
+            patched,
+            '/* FORGESTACK_DB_DISCONNECT_SLOT */',
+            '    await MongoDatabase.disconnect();',
+            { preserveSlot: false }
+          );
+          return patched;
+        },
+      });
+    }
   },
 };

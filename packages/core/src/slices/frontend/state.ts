@@ -12,14 +12,19 @@ export const stateSlice: FeatureSlice = {
       config.frontend.framework !== 'react-vite' ||
       config.frontend.state === 'none' ||
       config.topology === 'electron-desktop' ||
+      config.topology === 'tauri-desktop' ||
+      config.topology === 'micro-frontend' ||
       config.topology === 'nextjs-fullstack'
     ) {
       return;
     }
 
-    const basePath =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend'
-        ? 'apps/web'
+    const isMonorepoTopology =
+      config.topology === 'monorepo' ||
+      config.topology === 'ai-agent-rag';
+
+    const basePath = isMonorepoTopology
+      ? 'apps/web'
         : config.topology === 'separate-folders'
         ? 'frontend'
         : '';
@@ -97,7 +102,7 @@ export const QueryProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         content: `import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '../../../lib/api-client.js';
 ${
-  config.topology === 'monorepo'
+  isMonorepoTopology
     ? "import type { UserResponseDto } from '@repo/contracts';"
     : 'export interface UserResponseDto { id: string; email: string; name: string; }'
 }

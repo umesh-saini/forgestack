@@ -42,7 +42,11 @@ export const monorepoKernelSlice: FeatureSlice = {
       return;
     }
 
-    if (config.topology !== 'monorepo' && config.topology !== 'micro-frontend') {
+    if (
+      config.topology !== 'monorepo' &&
+      config.topology !== 'micro-frontend' &&
+      config.topology !== 'ai-agent-rag'
+    ) {
       return;
     }
 

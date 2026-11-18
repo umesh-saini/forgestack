@@ -11,13 +11,24 @@ export * from './utils/process-runner.js';
 
 // Slices
 export * from './slices/monorepo/index.js';
+export * from './slices/monorepo/micro-frontend.js';
 export * from './slices/shared-packages/index.js';
 export * from './slices/frontend/react-vite.js';
+export * from './slices/desktop/electron-vite.js';
+export * from './slices/desktop/tauri-app.js';
+export * from './slices/ai/agent-rag.js';
 export * from './slices/frontend/tailwind.js';
 export * from './slices/frontend/ui-extras.js';
 export * from './slices/frontend/state.js';
 export * from './slices/backend/clean-modular.js';
+export * from './slices/backend/bullmq-worker.js';
 export * from './slices/database/postgres.js';
 export * from './slices/database/mongodb.js';
+export * from './slices/database/sqlite.js';
+export * from './slices/auth/better-auth.js';
+export * from './slices/rpc/trpc.js';
 export * from './slices/governance/ai-rules.js';
+export * from './slices/governance/mcp-server.js';
 export * from './slices/container/docker.js';
+export * from './slices/testing/playwright.js';
+export * from './slices/devops/ci-workflows.js';

@@ -10,13 +10,15 @@ export const reactViteSlice: FeatureSlice = {
     if (
       config.frontend.framework !== 'react-vite' ||
       config.topology === 'electron-desktop' ||
+      config.topology === 'tauri-desktop' ||
+      config.topology === 'micro-frontend' ||
       config.topology === 'nextjs-fullstack'
     ) {
       return;
     }
 
     const basePath =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend'
+      config.topology === 'monorepo' || config.topology === 'ai-agent-rag'
         ? 'apps/web'
         : config.topology === 'separate-folders'
         ? 'frontend'
@@ -26,7 +28,7 @@ export const reactViteSlice: FeatureSlice = {
     // 1. package.json
     const packageJsonContent = {
       name:
-        config.topology === 'monorepo' || config.topology === 'micro-frontend'
+        config.topology === 'monorepo' || config.topology === 'ai-agent-rag'
           ? '@repo/web'
           : config.topology === 'separate-folders'
           ? `${config.name}-frontend`
@@ -50,7 +52,7 @@ export const reactViteSlice: FeatureSlice = {
           : config.frontend.dateLib === 'moment'
           ? { moment: DEPENDENCY_REGISTRY.moment }
           : {}),
-        ...(config.topology === 'monorepo'
+        ...(config.topology === 'monorepo' || config.topology === 'ai-agent-rag'
           ? {
               '@repo/contracts': 'workspace:*',
               '@repo/ui': 'workspace:*',
@@ -63,7 +65,7 @@ export const reactViteSlice: FeatureSlice = {
         '@vitejs/plugin-react': DEPENDENCY_REGISTRY['@vitejs/plugin-react'],
         typescript: DEPENDENCY_REGISTRY.typescript,
         vite: DEPENDENCY_REGISTRY.vite,
-        ...(config.topology === 'monorepo'
+        ...(config.topology === 'monorepo' || config.topology === 'ai-agent-rag'
           ? { '@repo/typescript-config': 'workspace:*' }
           : {}),
       },
@@ -81,7 +83,7 @@ export const reactViteSlice: FeatureSlice = {
       path: resolvePath('tsconfig.json'),
       content: JSON.stringify(
         {
-          ...(config.topology === 'monorepo'
+          ...(config.topology === 'monorepo' || config.topology === 'ai-agent-rag'
             ? {
                 extends: '@repo/typescript-config/react.json',
                 compilerOptions: {
