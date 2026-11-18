@@ -7,7 +7,11 @@ export const sharedPackagesSlice: FeatureSlice = {
   id: 'shared-packages',
   name: 'Shared Monorepo Packages (@repo/contracts, @repo/ui, config)',
   apply: (vfs: VirtualFileSystem, config: ProjectConfig) => {
-    if (config.topology !== 'monorepo' && config.topology !== 'micro-frontend') {
+    if (
+      config.topology !== 'monorepo' &&
+      config.topology !== 'micro-frontend' &&
+      config.topology !== 'ai-agent-rag'
+    ) {
       return;
     }
 

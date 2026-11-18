@@ -8,18 +8,31 @@ export const postgresSlice: FeatureSlice = {
   id: 'db-postgres',
   name: 'PostgreSQL Database Integration (Drizzle ORM / Prisma)',
   apply: (vfs: VirtualFileSystem, config: ProjectConfig) => {
-    if (config.backend.framework === 'none' || config.backend.database !== 'postgres') {
+    const isNextjs =
+      config.topology === 'nextjs-fullstack' ||
+      (config.frontend.framework === 'nextjs' && config.backend.framework === 'none');
+
+    const isEligible =
+      config.backend.database === 'postgres' &&
+      (config.backend.framework !== 'none' || isNextjs);
+
+    if (!isEligible) {
       return;
     }
 
-    const basePath =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend'
-        ? 'apps/api'
+    const basePath = isNextjs
+      ? config.topology === 'monorepo' || config.topology === 'micro-frontend'
+        ? 'apps/web'
         : config.topology === 'separate-folders'
-        ? 'backend'
-        : config.topology === 'electron-desktop' || config.topology === 'nextjs-fullstack'
-        ? 'server'
-        : '';
+        ? 'frontend'
+        : ''
+      : config.topology === 'monorepo' || config.topology === 'micro-frontend' || config.topology === 'ai-agent-rag'
+      ? 'apps/api'
+      : config.topology === 'separate-folders'
+      ? 'backend'
+      : config.topology === 'electron-desktop'
+      ? 'server'
+      : '';
     const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
 
     const isDrizzle = config.backend.orm === 'drizzle';
@@ -46,11 +59,72 @@ export const postgresSlice: FeatureSlice = {
         },
       });
 
-      // 2. drizzle.config.ts
-      vfs.applyAction({
-        type: 'CREATE',
-        path: resolvePath('drizzle.config.ts'),
-        content: `import { defineConfig } from 'drizzle-kit';
+      if (isNextjs) {
+        // Next.js specific Drizzle configuration & client
+        vfs.applyAction({
+          type: 'CREATE',
+          path: resolvePath('drizzle.config.ts'),
+          content: `import { defineConfig } from 'drizzle-kit';
+
+export default defineConfig({
+  schema: './src/db/schema.ts',
+  out: './drizzle',
+  dialect: 'postgresql',
+  dbCredentials: {
+    url: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/${config.name.replace(/[^a-zA-Z0-9_]/g, '_')}',
+  },
+  verbose: true,
+  strict: true,
+});
+`,
+        });
+
+        vfs.applyAction({
+          type: 'CREATE',
+          path: resolvePath('src/db/schema.ts'),
+          content: `import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+
+export const users = pgTable('users', {
+  id: uuid('id').defaultRandom().primaryKey(),
+  email: text('email').notNull().unique(),
+  name: text('name').notNull(),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().notNull(),
+});
+
+export type User = typeof users.$inferSelect;
+export type NewUser = typeof users.$inferInsert;
+`,
+        });
+
+        vfs.applyAction({
+          type: 'CREATE',
+          path: resolvePath('src/db/index.ts'),
+          content: `import { drizzle } from 'drizzle-orm/node-postgres';
+import pg from 'pg';
+import * as schema from './schema.js';
+
+const { Pool } = pg;
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/${config.name.replace(/[^a-zA-Z0-9_]/g, '_')}',
+});
+
+export const db = drizzle(pool, { schema });
+`,
+        });
+
+        vfs.applyAction({
+          type: 'CREATE',
+          path: resolvePath('.env.local'),
+          content: `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/${config.name.replace(/[^a-zA-Z0-9_]/g, '_')}\n`,
+        });
+      } else {
+        // Standard backend Drizzle configuration
+        vfs.applyAction({
+          type: 'CREATE',
+          path: resolvePath('drizzle.config.ts'),
+          content: `import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
   schema: './src/database/schema/index.ts',
@@ -63,13 +137,13 @@ export default defineConfig({
   strict: true,
 });
 `,
-      });
+        });
 
-      // 3. src/database/schema/users.ts
-      vfs.applyAction({
-        type: 'CREATE',
-        path: resolvePath('src/database/schema/users.ts'),
-        content: `import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+        // 3. src/database/schema/users.ts
+        vfs.applyAction({
+          type: 'CREATE',
+          path: resolvePath('src/database/schema/users.ts'),
+          content: `import { pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users', {
   id: uuid('id').defaultRandom().primaryKey(),
@@ -83,20 +157,20 @@ export const users = pgTable('users', {
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 `,
-      });
+        });
 
-      // 4. src/database/schema/index.ts
-      vfs.applyAction({
-        type: 'CREATE',
-        path: resolvePath('src/database/schema/index.ts'),
-        content: `export * from './users.js';\n`,
-      });
+        // 4. src/database/schema/index.ts
+        vfs.applyAction({
+          type: 'CREATE',
+          path: resolvePath('src/database/schema/index.ts'),
+          content: `export * from './users.js';\n`,
+        });
 
-      // 5. src/database/connection.ts
-      vfs.applyAction({
-        type: 'CREATE',
-        path: resolvePath('src/database/connection.ts'),
-        content: `import { drizzle } from 'drizzle-orm/node-postgres';
+        // 5. src/database/connection.ts
+        vfs.applyAction({
+          type: 'CREATE',
+          path: resolvePath('src/database/connection.ts'),
+          content: `import { drizzle } from 'drizzle-orm/node-postgres';
 import pg from 'pg';
 import { env } from '../config/env.js';
 import { logger } from '../shared/utils/logger.js';
@@ -154,7 +228,8 @@ export class Database {
   }
 }
 `,
-      });
+        });
+      }
     } else {
       // Prisma ORM
       vfs.applyAction({
@@ -175,11 +250,53 @@ export class Database {
         },
       });
 
-      // prisma/schema.prisma
-      vfs.applyAction({
-        type: 'CREATE',
-        path: resolvePath('prisma/schema.prisma'),
-        content: `datasource db {
+      if (isNextjs) {
+        vfs.applyAction({
+          type: 'CREATE',
+          path: resolvePath('prisma/schema.prisma'),
+          content: `datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+`,
+        });
+
+        vfs.applyAction({
+          type: 'CREATE',
+          path: resolvePath('src/db/index.ts'),
+          content: `import { PrismaClient } from '@prisma/client';
+
+const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
+
+export const prisma = globalForPrisma.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+`,
+        });
+
+        vfs.applyAction({
+          type: 'CREATE',
+          path: resolvePath('.env.local'),
+          content: `DATABASE_URL=postgresql://postgres:postgres@localhost:5432/${config.name.replace(/[^a-zA-Z0-9_]/g, '_')}\n`,
+        });
+      } else {
+        // prisma/schema.prisma
+        vfs.applyAction({
+          type: 'CREATE',
+          path: resolvePath('prisma/schema.prisma'),
+          content: `datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
@@ -197,13 +314,13 @@ model User {
   updatedAt DateTime @updatedAt
 }
 `,
-      });
+        });
 
-      // src/database/connection.ts for Prisma
-      vfs.applyAction({
-        type: 'CREATE',
-        path: resolvePath('src/database/connection.ts'),
-        content: `import { PrismaClient } from '@prisma/client';
+        // src/database/connection.ts for Prisma
+        vfs.applyAction({
+          type: 'CREATE',
+          path: resolvePath('src/database/connection.ts'),
+          content: `import { PrismaClient } from '@prisma/client';
 import { logger } from '../shared/utils/logger.js';
 
 export class Database {
@@ -235,34 +352,37 @@ export class Database {
   }
 }
 `,
-      });
+        });
+      }
     }
 
-    // Patch src/server.ts to connect and disconnect Database
-    vfs.applyAction({
-      type: 'PATCH_AST',
-      path: resolvePath('src/server.ts'),
-      patcher: (content) => {
-        let patched = CodePatcher.injectSlot(
-          content,
-          '/* FORGESTACK_DB_IMPORT_SLOT */',
-          "import { Database } from './database/connection.js';",
-          { preserveSlot: false }
-        );
-        patched = CodePatcher.injectSlot(
-          patched,
-          '/* FORGESTACK_DB_CONNECT_SLOT */',
-          '  await Database.connect();',
-          { preserveSlot: false }
-        );
-        patched = CodePatcher.injectSlot(
-          patched,
-          '/* FORGESTACK_DB_DISCONNECT_SLOT */',
-          '    await Database.disconnect();',
-          { preserveSlot: false }
-        );
-        return patched;
-      },
-    });
+    // Patch src/server.ts to connect and disconnect Database if present
+    if (vfs.hasFile(resolvePath('src/server.ts'))) {
+      vfs.applyAction({
+        type: 'PATCH_AST',
+        path: resolvePath('src/server.ts'),
+        patcher: (content) => {
+          let patched = CodePatcher.injectSlot(
+            content,
+            '/* FORGESTACK_DB_IMPORT_SLOT */',
+            "import { Database } from './database/connection.js';",
+            { preserveSlot: false }
+          );
+          patched = CodePatcher.injectSlot(
+            patched,
+            '/* FORGESTACK_DB_CONNECT_SLOT */',
+            '  await Database.connect();',
+            { preserveSlot: false }
+          );
+          patched = CodePatcher.injectSlot(
+            patched,
+            '/* FORGESTACK_DB_DISCONNECT_SLOT */',
+            '    await Database.disconnect();',
+            { preserveSlot: false }
+          );
+          return patched;
+        },
+      });
+    }
   },
 };

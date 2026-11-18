@@ -11,7 +11,9 @@ export const dockerSlice: FeatureSlice = {
     }
 
     const isMonorepo =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend';
+      config.topology === 'monorepo' ||
+      config.topology === 'micro-frontend' ||
+      config.topology === 'ai-agent-rag';
     const isSeparate = config.topology === 'separate-folders';
     const apiDockerfilePath = isMonorepo
       ? 'apps/api/Dockerfile'
