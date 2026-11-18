@@ -9,7 +9,8 @@ pub fn run() {
             commands::fs::scaffold_project_files,
             commands::fs::pick_directory,
             commands::fs::open_in_vscode,
-            commands::fs::open_in_folder
+            commands::fs::open_in_folder,
+            commands::fs::start_dev_stack
         ])
         .run(tauri::generate_context!())
         .expect("error while running ForgeStack desktop application");

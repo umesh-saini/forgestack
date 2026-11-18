@@ -210,6 +210,150 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
         </div>
       </div>
 
+      {/* Production Primitives: Auth, RPC, E2E & CI/CD */}
+      <div className="ui-panel rounded-2xl p-5 border space-y-4">
+        <div className="flex items-center justify-between border-b pb-3">
+          <div className="flex items-center gap-2">
+            <Shield className="w-4 h-4 text-emerald-500" />
+            <h4 className="font-bold text-xs uppercase tracking-wider">
+              Production Primitives & Architecture Protocols
+            </h4>
+          </div>
+          <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+            Better-Auth • tRPC • Playwright • CI/CD
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          {/* Better-Auth */}
+          <div
+            onClick={() =>
+              onChange((prev) => ({
+                ...prev,
+                auth: prev.auth === 'better-auth' ? 'none' : 'better-auth',
+              }))
+            }
+            className={`p-4 rounded-xl border text-left cursor-pointer transition-all space-y-2 ${
+              config.auth === 'better-auth'
+                ? 'ui-active-ring'
+                : 'ui-card-subtle opacity-70 hover:opacity-100'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Shield className="w-4 h-4 text-emerald-400" />
+                <h5 className="font-bold text-xs">Better-Auth Authentication</h5>
+              </div>
+              <input
+                type="checkbox"
+                checked={config.auth === 'better-auth'}
+                onChange={() => {}}
+                className="rounded accent-blue-600"
+              />
+            </div>
+            <p className="text-xs opacity-70 leading-relaxed">
+              TypeScript-first session authentication with Drizzle ORM schema (<code className="text-emerald-400">auth.ts</code>), route handlers, and client hook.
+            </p>
+          </div>
+
+          {/* tRPC */}
+          <div
+            onClick={() =>
+              onChange((prev) => ({
+                ...prev,
+                rpc: prev.rpc === 'trpc' ? 'none' : 'trpc',
+              }))
+            }
+            className={`p-4 rounded-xl border text-left cursor-pointer transition-all space-y-2 ${
+              config.rpc === 'trpc'
+                ? 'ui-active-ring'
+                : 'ui-card-subtle opacity-70 hover:opacity-100'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Zap className="w-4 h-4 text-cyan-400" />
+                <h5 className="font-bold text-xs">tRPC v11 Contracts</h5>
+              </div>
+              <input
+                type="checkbox"
+                checked={config.rpc === 'trpc'}
+                onChange={() => {}}
+                className="rounded accent-blue-600"
+              />
+            </div>
+            <p className="text-xs opacity-70 leading-relaxed">
+              End-to-end typesafe client-server procedure calls without code generation, paired with TanStack Query provider.
+            </p>
+          </div>
+
+          {/* Playwright */}
+          <div
+            onClick={() =>
+              onChange((prev) => ({
+                ...prev,
+                testing: {
+                  ...prev.testing,
+                  e2e: prev.testing?.e2e === 'playwright' ? 'none' : 'playwright',
+                },
+              }))
+            }
+            className={`p-4 rounded-xl border text-left cursor-pointer transition-all space-y-2 ${
+              config.testing?.e2e === 'playwright'
+                ? 'ui-active-ring'
+                : 'ui-card-subtle opacity-70 hover:opacity-100'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <FileCode className="w-4 h-4 text-amber-400" />
+                <h5 className="font-bold text-xs">Playwright Cross-Browser E2E</h5>
+              </div>
+              <input
+                type="checkbox"
+                checked={config.testing?.e2e === 'playwright'}
+                onChange={() => {}}
+                className="rounded accent-blue-600"
+              />
+            </div>
+            <p className="text-xs opacity-70 leading-relaxed">
+              Scaffolds <code className="text-amber-400">playwright.config.ts</code> and cross-browser smoke tests across Chromium, Firefox, and WebKit.
+            </p>
+          </div>
+
+          {/* GitHub Actions */}
+          <div
+            onClick={() =>
+              onChange((prev) => ({
+                ...prev,
+                ci: prev.ci === 'github-actions' ? 'none' : 'github-actions',
+              }))
+            }
+            className={`p-4 rounded-xl border text-left cursor-pointer transition-all space-y-2 ${
+              config.ci === 'github-actions'
+                ? 'ui-active-ring'
+                : 'ui-card-subtle opacity-70 hover:opacity-100'
+            }`}
+          >
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-blue-400" />
+                <h5 className="font-bold text-xs">GitHub Actions CI/CD</h5>
+              </div>
+              <input
+                type="checkbox"
+                checked={config.ci === 'github-actions'}
+                onChange={() => {}}
+                className="rounded accent-blue-600"
+              />
+            </div>
+            <p className="text-xs opacity-70 leading-relaxed">
+              Synthesizes <code className="text-blue-400">.github/workflows/ci.yml</code> with Node.js 20 & 22 matrix, linting, typechecks, and test runs.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* AI Governance Engine Alternative Selector */}
       <div className="ui-panel rounded-2xl p-5 border space-y-4">
         <div className="flex items-center justify-between border-b pb-3">
@@ -257,8 +401,8 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
           })}
         </div>
 
-        {/* AI Agent Rules, Claude, and Skills Checkboxes */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+        {/* AI Agent Rules, Claude, Skills, and MCP Checkboxes */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 pt-2">
           <label className="p-3 rounded-xl ui-card-subtle border flex items-center justify-between text-xs cursor-pointer select-none">
             <div className="flex items-center gap-2">
               <CursorRulesIcon className="w-4 h-4" />
@@ -280,7 +424,7 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
           <label className="p-3 rounded-xl ui-card-subtle border flex items-center justify-between text-xs cursor-pointer select-none">
             <div className="flex items-center gap-2">
               <ClaudeIcon className="w-4 h-4" />
-              <span className="font-semibold">Claude Code (CLAUDE.md)</span>
+              <span className="font-semibold">Claude Code</span>
             </div>
             <input
               type="checkbox"
@@ -298,7 +442,7 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
           <label className="p-3 rounded-xl ui-card-subtle border flex items-center justify-between text-xs cursor-pointer select-none">
             <div className="flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-amber-500" />
-              <span className="font-semibold">AAS Skills (17 Playbooks)</span>
+              <span className="font-semibold">AAS Skills</span>
             </div>
             <input
               type="checkbox"
@@ -307,6 +451,24 @@ export const Step3ToolingGovernance: React.FC<Props> = ({ config, onChange }) =>
                 onChange((prev) => ({
                   ...prev,
                   aiGovernance: { ...prev.aiGovernance, skills: e.target.checked },
+                }))
+              }
+              className="rounded accent-blue-600"
+            />
+          </label>
+
+          <label className="p-3 rounded-xl ui-card-subtle border flex items-center justify-between text-xs cursor-pointer select-none">
+            <div className="flex items-center gap-2">
+              <Bot className="w-4 h-4 text-purple-400" />
+              <span className="font-semibold">MCP Server</span>
+            </div>
+            <input
+              type="checkbox"
+              checked={config.aiGovernance.mcp ?? true}
+              onChange={(e) =>
+                onChange((prev) => ({
+                  ...prev,
+                  aiGovernance: { ...prev.aiGovernance, mcp: e.target.checked },
                 }))
               }
               className="rounded accent-blue-600"

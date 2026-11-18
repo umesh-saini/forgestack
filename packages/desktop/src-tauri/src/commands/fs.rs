@@ -200,3 +200,36 @@ pub async fn pick_directory(
 
     Ok(None)
 }
+
+#[tauri::command]
+pub async fn start_dev_stack(target_path: String, package_manager: Option<String>) -> Result<String, String> {
+    tauri::async_runtime::spawn_blocking(move || {
+        let path = Path::new(&target_path);
+        if !path.exists() {
+            return Err("Target path does not exist on disk".to_string());
+        }
+
+        let pm = package_manager.unwrap_or_else(|| "pnpm".to_string());
+
+        #[cfg(target_os = "linux")]
+        {
+            let _ = std::process::Command::new("sh")
+                .arg("-c")
+                .arg(format!("cd \"{}\" && {} run dev", target_path, pm))
+                .spawn();
+        }
+
+        #[cfg(not(target_os = "linux"))]
+        {
+            let _ = std::process::Command::new(&pm)
+                .arg("run")
+                .arg("dev")
+                .current_dir(path)
+                .spawn();
+        }
+
+        Ok(format!("Dev stack process spawned in {}", target_path))
+    })
+    .await
+    .map_err(|e| format!("Task execution error: {}", e))?
+}

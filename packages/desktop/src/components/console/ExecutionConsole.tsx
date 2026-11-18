@@ -9,6 +9,7 @@ import {
   Layers,
   Sparkles,
   Terminal,
+  Play,
 } from 'lucide-react';
 
 interface Props {
@@ -19,6 +20,7 @@ interface Props {
   onOpenVsCode: () => void;
   onOpenAntigravity: () => void;
   onOpenFolder: () => void;
+  onStartDevStack?: () => void;
 }
 
 export const ExecutionConsole: React.FC<Props> = ({
@@ -29,8 +31,29 @@ export const ExecutionConsole: React.FC<Props> = ({
   onOpenVsCode,
   onOpenAntigravity,
   onOpenFolder,
+  onStartDevStack,
 }) => {
   const [copied, setCopied] = useState(false);
+  const [devRunning, setDevRunning] = useState(false);
+
+  const handleStartDev = async () => {
+    if (onStartDevStack) {
+      onStartDevStack();
+      return;
+    }
+    try {
+      setDevRunning(true);
+      const isTauri = typeof window !== 'undefined' && ('__TAURI_INTERNALS__' in window || '__TAURI__' in window);
+      if (isTauri) {
+        const { invoke } = await import('@tauri-apps/api/core');
+        await invoke('start_dev_stack', { targetPath, packageManager: 'pnpm' });
+      } else {
+        await fetch('/api/dev', { method: 'POST', body: JSON.stringify({ targetPath }) }).catch(() => {});
+      }
+    } catch (e) {
+      console.error('Failed to spawn dev stack:', e);
+    }
+  };
 
   const copyCommand = () => {
     navigator.clipboard.writeText(`cd "${targetPath}" && pnpm dev`);
@@ -83,6 +106,14 @@ export const ExecutionConsole: React.FC<Props> = ({
         {/* Action Buttons upon Completion */}
         {isComplete && (
           <div className="flex items-center gap-2 flex-wrap">
+            <button
+              type="button"
+              onClick={handleStartDev}
+              className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
+            >
+              <Play className="w-3.5 h-3.5 fill-current" />
+              <span>{devRunning ? 'Dev Stack Running...' : 'Start Dev Stack'}</span>
+            </button>
             <button
               type="button"
               onClick={onOpenVsCode}
