@@ -30,7 +30,7 @@ export const StudioNavbar: React.FC<Props> = ({
             className="flex items-center gap-2.5 font-bold tracking-tight text-sm text-[var(--text-main)] hover:opacity-90 shrink-0"
           >
             <img
-              src="/app-icon.png"
+              src="/app-icon.svg"
               alt="ForgeStack"
               className="w-7 h-7 rounded-lg shadow-sm shadow-orange-500/25 shrink-0 object-contain"
             />
