@@ -86,3 +86,39 @@ Vitest scans `**/*.test.{js,ts}` by default. Previous builds emitted `.test.js` 
 - `.gitattributes`: `* text=auto eol=lf`, `packages/cli/bin/* text eol=lf`.
 - `.env.example`: Document standard local environment variables.
 - CI/CD: Update branch triggers to `[main, master]`.
+
+---
+
+## 7. Biome.js Alternative Linter and Formatter Slice
+### Problem
+Many modern engineering teams prefer Biome over ESLint + Prettier for sub-millisecond linting, formatting, and zero-dependency maintenance. Currently, scaffolded projects only offer ESLint.
+### Architecture
+Add `linter` to `projectConfigSchema`:
+```ts
+linter: z.enum(['eslint', 'biome', 'none']).default('eslint').optional()
+```
+When `linter === 'biome'`:
+- Create `biome.json` at project root with schema, linter recommended rules, and formatter specs (2 spaces, single quotes).
+- Add `@biomejs/biome` to devDependencies.
+- Update `package.json` scripts:
+  - `"lint": "biome check ."`
+  - `"format": "biome format --write ."`
+  - `"check": "biome check --write ."`
+- Expose `--linter <eslint | biome | none>` in CLI and Step 3 of Desktop Studio.
+
+---
+
+## 8. Multi-Cloud Deployment Descriptors Slice
+### Problem
+Teams frequently deploy generated applications to platforms other than bare Docker containers, such as Vercel, Cloudflare Pages/Workers, Railway, or Fly.io. Scaffolded projects lack turnkey deployment configuration files.
+### Architecture
+Add `deployment` to `projectConfigSchema`:
+```ts
+deployment: z.enum(['docker', 'vercel', 'cloudflare', 'railway', 'fly', 'none']).default('docker').optional()
+```
+Create `packages/core/src/slices/devops/deployment-targets.ts` generating platform-specific descriptors:
+1. `vercel`: Emits `vercel.json` with framework presets and headers.
+2. `cloudflare`: Emits `wrangler.jsonc` configured for Cloudflare Workers / Pages.
+3. `railway`: Emits `railway.json` with build and deploy configurations.
+4. `fly`: Emits `fly.toml` with app name, VM sizing, and HTTP service bindings.
+Expose `--deploy <target>` flag on CLI and visual selector in Desktop Step 3.
