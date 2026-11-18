@@ -4,6 +4,7 @@ import {
   AgentToolId,
   AGENT_TARGETS,
   FORGESTACK_CANONICAL_SKILL,
+  normalizeAgentToolId,
 } from './targets.js';
 
 export * from './targets.js';
@@ -17,15 +18,40 @@ export interface ProvisionResult {
 }
 
 /**
+ * Detects AI agent / IDE tool directories present in the target directory.
+ */
+export async function detectPresentTools(targetDir: string): Promise<AgentToolId[]> {
+  const detected: AgentToolId[] = [];
+
+  for (const target of AGENT_TARGETS) {
+    if (!target.detectionPaths || target.detectionPaths.length === 0) continue;
+
+    for (const relPath of target.detectionPaths) {
+      const fullPath = path.resolve(targetDir, relPath);
+      try {
+        await fs.access(fullPath);
+        detected.push(target.id);
+        break;
+      } catch {
+        // Not present
+      }
+    }
+  }
+
+  return detected;
+}
+
+/**
  * Provisions ForgeStack skills to the given project directory for the selected AI agents.
  */
 export async function provisionAgentSkills(
   targetDir: string,
-  selectedTargets: AgentToolId[] = AGENT_TARGETS.map((t) => t.id)
+  selectedTargets: (AgentToolId | string)[] = AGENT_TARGETS.map((t) => t.id)
 ): Promise<ProvisionResult[]> {
   const results: ProvisionResult[] = [];
+  const normalizedTargets = Array.from(new Set(selectedTargets.map(normalizeAgentToolId)));
 
-  for (const targetId of selectedTargets) {
+  for (const targetId of normalizedTargets) {
     const target = AGENT_TARGETS.find((t) => t.id === targetId);
     if (!target) continue;
 

@@ -1,27 +1,55 @@
 export type AgentToolId =
+  | 'agents'
   | 'shared'
   | 'antigravity'
-  | 'claude'
-  | 'cursor'
-  | 'windsurf'
-  | 'copilot'
-  | 'cline'
-  | 'continue'
-  | 'zed'
-  | 'trae'
-  | 'gemini'
+  | 'amazon-q'
   | 'amazonq'
-  | 'qwen'
-  | 'opencode'
+  | 'auggie'
+  | 'bob'
+  | 'claude'
+  | 'cline'
+  | 'command-code'
+  | 'codeartsagent'
   | 'codex'
+  | 'devin'
+  | 'windsurf'
+  | 'forgecode'
+  | 'codebuddy'
+  | 'continue'
+  | 'costrict'
+  | 'crush'
+  | 'cursor'
+  | 'factory'
+  | 'gemini'
+  | 'github-copilot'
+  | 'copilot'
+  | 'hermes'
+  | 'iflow'
   | 'junie'
-  | 'rovo';
+  | 'kilocode'
+  | 'kimi'
+  | 'kiro'
+  | 'lingma'
+  | 'minimax-code'
+  | 'vibe'
+  | 'oh-my-pi'
+  | 'opencode'
+  | 'pi'
+  | 'codeassistant'
+  | 'qoder'
+  | 'qwen'
+  | 'rovodev'
+  | 'roocode'
+  | 'trae'
+  | 'zed'
+  | 'zcode';
 
 export interface AgentSkillTarget {
   id: AgentToolId;
   name: string;
   description: string;
   relativePath: string;
+  detectionPaths?: string[];
   generateContent: (skillDoc: string) => string;
 }
 
@@ -128,130 +156,386 @@ npx forgestack-mcp
 - Provides a real-time Monaco-powered code editor, templates dashboard, custom preset saving, and software updates management.
 `;
 
+const stripFrontmatter = (doc: string) => doc.replace(/^---[\s\S]*?---\n/, '');
+
 export const AGENT_TARGETS: AgentSkillTarget[] = [
+  // 1. Shared / Vendor-Neutral
   {
-    id: 'shared',
-    name: 'Shared .agents Skills',
+    id: 'agents',
+    name: 'Shared .agents skills',
     description: 'Universal standard directory recognized by modern AI agents and CLI tools.',
     relativePath: '.agents/skills/forgestack/SKILL.md',
+    detectionPaths: ['.agents/skills', '.agents'],
     generateContent: () => FORGESTACK_CANONICAL_SKILL,
   },
+  // 2. Antigravity
   {
     id: 'antigravity',
-    name: 'Antigravity / Gemini CLI',
-    description: 'Google Antigravity and Gemini CLI agents skill specification.',
+    name: 'Antigravity',
+    description: 'Google Antigravity autonomous agent skill specification.',
     relativePath: '.agents/skills/forgestack/SKILL.md',
+    detectionPaths: ['.agent', '.agents/workflows', '.agents/skills'],
     generateContent: () => FORGESTACK_CANONICAL_SKILL,
   },
+  // 3. Amazon Q Developer
+  {
+    id: 'amazon-q',
+    name: 'Amazon Q Developer',
+    description: 'AWS Amazon Q Developer coding agent rules.',
+    relativePath: '.amazonq/rules/forgestack.md',
+    detectionPaths: ['.amazonq'],
+    generateContent: (skillDoc) => `# ForgeStack Scaffolding Guidelines for Amazon Q\n\n${stripFrontmatter(skillDoc)}`,
+  },
+  // 4. Auggie (Augment CLI)
+  {
+    id: 'auggie',
+    name: 'Auggie (Augment CLI)',
+    description: 'Augment Auggie CLI agent instructions.',
+    relativePath: '.augment/rules/forgestack.md',
+    detectionPaths: ['.augment'],
+    generateContent: (skillDoc) => stripFrontmatter(skillDoc),
+  },
+  // 5. Bob Shell
+  {
+    id: 'bob',
+    name: 'Bob Shell',
+    description: 'Bob Shell assistant skill specification.',
+    relativePath: '.bob/skills/forgestack/SKILL.md',
+    detectionPaths: ['.bob'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 6. Claude Code
   {
     id: 'claude',
-    name: 'Claude Code / Anthropic',
-    description: 'Claude Code CLI skills and CLAUDE.md project guidelines.',
+    name: 'Claude Code',
+    description: 'Claude Code CLI skills and guidelines.',
     relativePath: '.claude/skills/forgestack/SKILL.md',
+    detectionPaths: ['.claude', 'CLAUDE.md'],
     generateContent: () => FORGESTACK_CANONICAL_SKILL,
   },
+  // 7. Cline
+  {
+    id: 'cline',
+    name: 'Cline',
+    description: 'Autonomous coding agent instructions file for Cline.',
+    relativePath: '.clinerules',
+    detectionPaths: ['.cline', '.clinerules'],
+    generateContent: (skillDoc) => stripFrontmatter(skillDoc),
+  },
+  // 8. Command Code
+  {
+    id: 'command-code',
+    name: 'Command Code',
+    description: 'Command Code assistant workflow skills.',
+    relativePath: '.commandcode/skills/forgestack/SKILL.md',
+    detectionPaths: ['.commandcode'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 9. CodeArts
+  {
+    id: 'codeartsagent',
+    name: 'CodeArts',
+    description: 'Huawei CodeArts Snap & Doer assistant skills.',
+    relativePath: '.codeartsdoer/skills/forgestack/SKILL.md',
+    detectionPaths: ['.codeartsdoer'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 10. Codex
+  {
+    id: 'codex',
+    name: 'Codex',
+    description: 'OpenAI Codex & ChatGPT coding agent directives.',
+    relativePath: '.codex/skills/forgestack/SKILL.md',
+    detectionPaths: ['.codex', '.agents/skills'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 11. Devin Desktop (formerly Windsurf)
+  {
+    id: 'devin',
+    name: 'Devin Desktop (formerly Windsurf)',
+    description: 'Devin Desktop / Cascade workspace rules file.',
+    relativePath: '.devin/rules/forgestack.md',
+    detectionPaths: ['.devin', '.windsurf'],
+    generateContent: (skillDoc) => stripFrontmatter(skillDoc),
+  },
+  // 12. ForgeCode
+  {
+    id: 'forgecode',
+    name: 'ForgeCode',
+    description: 'ForgeCode agent skills.',
+    relativePath: '.forge/skills/forgestack/SKILL.md',
+    detectionPaths: ['.forge'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 13. CodeBuddy Code (CLI)
+  {
+    id: 'codebuddy',
+    name: 'CodeBuddy Code (CLI)',
+    description: 'CodeBuddy CLI agent skill specification.',
+    relativePath: '.codebuddy/skills/forgestack/SKILL.md',
+    detectionPaths: ['.codebuddy'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 14. Continue
+  {
+    id: 'continue',
+    name: 'Continue',
+    description: 'Custom slash prompt / rule for Continue.dev IDE extension.',
+    relativePath: '.continue/prompts/forgestack.prompt',
+    detectionPaths: ['.continue'],
+    generateContent: (skillDoc) => `temperature: 0.2\n---\n${stripFrontmatter(skillDoc)}`,
+  },
+  // 15. CoStrict
+  {
+    id: 'costrict',
+    name: 'CoStrict',
+    description: 'CoStrict agent spec and skills configuration.',
+    relativePath: '.cospec/skills/forgestack/SKILL.md',
+    detectionPaths: ['.cospec'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 16. Crush
+  {
+    id: 'crush',
+    name: 'Crush',
+    description: 'Crush assistant skill specification.',
+    relativePath: '.crush/skills/forgestack/SKILL.md',
+    detectionPaths: ['.crush'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 17. Cursor
   {
     id: 'cursor',
-    name: 'Cursor IDE Rules',
+    name: 'Cursor',
     description: 'Cursor .cursor/rules/ rule with glob matching and agent directives.',
     relativePath: '.cursor/rules/forgestack.mdc',
+    detectionPaths: ['.cursor', '.cursorrules'],
     generateContent: (skillDoc) => `---
 description: ForgeStack project scaffolding, CLI flags, and architectural rules
 globs: "**/*"
 alwaysApply: false
 ---
 
-${skillDoc.replace(/^---[\s\S]*?---\n/, '')}`,
+${stripFrontmatter(skillDoc)}`,
   },
+  // 18. Factory Droid
   {
-    id: 'windsurf',
-    name: 'Windsurf / Devin Desktop',
-    description: 'Windsurf / Cascade workspace rules file.',
-    relativePath: '.windsurf/rules/forgestack.md',
-    generateContent: (skillDoc) => skillDoc.replace(/^---[\s\S]*?---\n/, ''),
+    id: 'factory',
+    name: 'Factory Droid',
+    description: 'Factory Droid autonomous agent skills.',
+    relativePath: '.factory/skills/forgestack/SKILL.md',
+    detectionPaths: ['.factory'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
   },
-  {
-    id: 'copilot',
-    name: 'GitHub Copilot',
-    description: 'Workspace-wide instructions for GitHub Copilot in VS Code.',
-    relativePath: '.github/copilot-instructions.md',
-    generateContent: (skillDoc) => `# ForgeStack Scaffolding Guidelines for GitHub Copilot\n\n${skillDoc.replace(/^---[\s\S]*?---\n/, '')}`,
-  },
-  {
-    id: 'cline',
-    name: 'Cline & Roo Code',
-    description: 'Custom instructions file for Cline / Roo Code extension.',
-    relativePath: '.clinerules',
-    generateContent: (skillDoc) => skillDoc.replace(/^---[\s\S]*?---\n/, ''),
-  },
-  {
-    id: 'continue',
-    name: 'Continue.dev',
-    description: 'Custom slash prompt / rule for Continue.dev IDE extension.',
-    relativePath: '.continue/prompts/forgestack.prompt',
-    generateContent: (skillDoc) => `temperature: 0.2\n---\n${skillDoc.replace(/^---[\s\S]*?---\n/, '')}`,
-  },
-  {
-    id: 'zed',
-    name: 'Zed Agent',
-    description: 'Zed editor Assistant rules & slash prompts.',
-    relativePath: '.zed/rules/forgestack.md',
-    generateContent: (skillDoc) => skillDoc.replace(/^---[\s\S]*?---\n/, ''),
-  },
-  {
-    id: 'trae',
-    name: 'Trae IDE',
-    description: 'ByteDance Trae AI native editor workspace rules.',
-    relativePath: '.trae/rules/forgestack.md',
-    generateContent: (skillDoc) => skillDoc.replace(/^---[\s\S]*?---\n/, ''),
-  },
+  // 19. Gemini CLI
   {
     id: 'gemini',
     name: 'Gemini CLI',
     description: 'Google Gemini CLI and Developer Agent skills.',
     relativePath: '.gemini/skills/forgestack/SKILL.md',
+    detectionPaths: ['.gemini'],
     generateContent: () => FORGESTACK_CANONICAL_SKILL,
   },
+  // 20. GitHub Copilot
   {
-    id: 'amazonq',
-    name: 'Amazon Q Developer',
-    description: 'AWS Amazon Q Developer coding agent rules.',
-    relativePath: '.amazonq/rules/forgestack.md',
-    generateContent: (skillDoc) => `# ForgeStack Scaffolding Guidelines for Amazon Q\n\n${skillDoc.replace(/^---[\s\S]*?---\n/, '')}`,
+    id: 'github-copilot',
+    name: 'GitHub Copilot',
+    description: 'Workspace-wide instructions for GitHub Copilot in VS Code.',
+    relativePath: '.github/copilot-instructions.md',
+    detectionPaths: ['.github/copilot-instructions.md', '.github', '.github/workflows'],
+    generateContent: (skillDoc) => `# ForgeStack Scaffolding Guidelines for GitHub Copilot\n\n${stripFrontmatter(skillDoc)}`,
   },
+  // 21. Hermes Agent
   {
-    id: 'qwen',
-    name: 'Qwen Code',
-    description: 'Alibaba Qwen Code assistant skill specification.',
-    relativePath: '.qwen/skills/forgestack/SKILL.md',
+    id: 'hermes',
+    name: 'Hermes Agent',
+    description: 'Hermes Agent external skills directory.',
+    relativePath: '.hermes/skills/forgestack/SKILL.md',
+    detectionPaths: ['.hermes', 'HERMES.md', '.hermes.md'],
     generateContent: () => FORGESTACK_CANONICAL_SKILL,
   },
+  // 22. iFlow
+  {
+    id: 'iflow',
+    name: 'iFlow',
+    description: 'iFlow agent skills definition.',
+    relativePath: '.iflow/skills/forgestack/SKILL.md',
+    detectionPaths: ['.iflow'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 23. Junie
+  {
+    id: 'junie',
+    name: 'Junie',
+    description: 'JetBrains Junie AI agent skills configuration.',
+    relativePath: '.junie/skills/forgestack/SKILL.md',
+    detectionPaths: ['.junie'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 24. Kilo Code
+  {
+    id: 'kilocode',
+    name: 'Kilo Code',
+    description: 'Kilo Code agent workflows and skills.',
+    relativePath: '.kilocode/skills/forgestack/SKILL.md',
+    detectionPaths: ['.kilocode'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 25. Kimi Code
+  {
+    id: 'kimi',
+    name: 'Kimi Code',
+    description: 'Moonshot Kimi Code skills specification.',
+    relativePath: '.kimi-code/skills/forgestack/SKILL.md',
+    detectionPaths: ['.kimi-code', '.kimi'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 26. Kiro
+  {
+    id: 'kiro',
+    name: 'Kiro',
+    description: 'Kiro AI assistant prompts and skills.',
+    relativePath: '.kiro/skills/forgestack/SKILL.md',
+    detectionPaths: ['.kiro'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 27. Lingma
+  {
+    id: 'lingma',
+    name: 'Lingma',
+    description: 'Alibaba Cloud Tongyi Lingma skills.',
+    relativePath: '.lingma/skills/forgestack/SKILL.md',
+    detectionPaths: ['.lingma'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 28. MiniMax Code
+  {
+    id: 'minimax-code',
+    name: 'MiniMax Code',
+    description: 'MiniMax Code developer assistant skills.',
+    relativePath: '.minimax/skills/forgestack/SKILL.md',
+    detectionPaths: ['.minimax'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 29. Mistral Vibe
+  {
+    id: 'vibe',
+    name: 'Mistral Vibe',
+    description: 'Mistral Vibe coding agent skills.',
+    relativePath: '.vibe/skills/forgestack/SKILL.md',
+    detectionPaths: ['.vibe'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 30. Oh My Pi
+  {
+    id: 'oh-my-pi',
+    name: 'Oh My Pi',
+    description: 'Oh My Pi assistant skills.',
+    relativePath: '.omp/skills/forgestack/SKILL.md',
+    detectionPaths: ['.omp'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 31. OpenCode
   {
     id: 'opencode',
     name: 'OpenCode',
     description: 'OpenCode AI assistant skill specification.',
     relativePath: '.opencode/skills/forgestack/SKILL.md',
+    detectionPaths: ['.opencode'],
     generateContent: () => FORGESTACK_CANONICAL_SKILL,
   },
+  // 32. Pi
   {
-    id: 'codex',
-    name: 'Codex / OpenAI',
-    description: 'OpenAI Codex & ChatGPT coding agent directives.',
-    relativePath: '.codex/skills/forgestack/SKILL.md',
+    id: 'pi',
+    name: 'Pi',
+    description: 'Inflection Pi coding assistant prompts.',
+    relativePath: '.pi/skills/forgestack/SKILL.md',
+    detectionPaths: ['.pi'],
     generateContent: () => FORGESTACK_CANONICAL_SKILL,
   },
+  // 33. SourceCraft Code Assistant
   {
-    id: 'junie',
-    name: 'Junie (JetBrains)',
-    description: 'JetBrains Junie AI agent skills configuration.',
-    relativePath: '.junie/skills/forgestack/SKILL.md',
+    id: 'codeassistant',
+    name: 'SourceCraft Code Assistant',
+    description: 'SourceCraft Code Assistant skills.',
+    relativePath: '.codeassistant/skills/forgestack/SKILL.md',
+    detectionPaths: ['.codeassistant'],
     generateContent: () => FORGESTACK_CANONICAL_SKILL,
   },
+  // 34. Qoder
   {
-    id: 'rovo',
+    id: 'qoder',
+    name: 'Qoder',
+    description: 'Qoder assistant skills.',
+    relativePath: '.qoder/skills/forgestack/SKILL.md',
+    detectionPaths: ['.qoder'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 35. Qwen Code
+  {
+    id: 'qwen',
+    name: 'Qwen Code',
+    description: 'Alibaba Qwen Code assistant skill specification.',
+    relativePath: '.qwen/skills/forgestack/SKILL.md',
+    detectionPaths: ['.qwen'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 36. Rovo Dev CLI
+  {
+    id: 'rovodev',
     name: 'Rovo Dev CLI',
     description: 'Atlassian Rovo Dev CLI skill specification.',
-    relativePath: '.rovo/skills/forgestack/SKILL.md',
+    relativePath: '.rovodev/skills/forgestack/SKILL.md',
+    detectionPaths: ['.rovodev/skills', '.rovodev'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 37. Zoo Code
+  {
+    id: 'roocode',
+    name: 'Zoo Code',
+    description: 'Zoo Code / Roo Code autonomous assistant skills.',
+    relativePath: '.roo/skills/forgestack/SKILL.md',
+    detectionPaths: ['.roo'],
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  // 38. Trae
+  {
+    id: 'trae',
+    name: 'Trae',
+    description: 'ByteDance Trae AI native editor workspace rules.',
+    relativePath: '.trae/rules/forgestack.md',
+    detectionPaths: ['.trae'],
+    generateContent: (skillDoc) => stripFrontmatter(skillDoc),
+  },
+  // 39. Zed Agent
+  {
+    id: 'zed',
+    name: 'Zed Agent',
+    description: 'Zed editor Assistant rules & slash prompts.',
+    relativePath: '.zed/rules/forgestack.md',
+    detectionPaths: ['.zed', '.agents/skills'],
+    generateContent: (skillDoc) => stripFrontmatter(skillDoc),
+  },
+  // 40. ZCode
+  {
+    id: 'zcode',
+    name: 'ZCode',
+    description: 'ZCode agent skills.',
+    relativePath: '.zcode/skills/forgestack/SKILL.md',
+    detectionPaths: ['.zcode'],
     generateContent: () => FORGESTACK_CANONICAL_SKILL,
   },
 ];
+
+/**
+ * Normalizes tool aliases (e.g. 'shared' -> 'agents', 'windsurf' -> 'devin').
+ */
+export function normalizeAgentToolId(id: string): AgentToolId {
+  const map: Record<string, AgentToolId> = {
+    shared: 'agents',
+    windsurf: 'devin',
+    amazonq: 'amazon-q',
+    copilot: 'github-copilot',
+  };
+  return map[id] || (id as AgentToolId);
+}

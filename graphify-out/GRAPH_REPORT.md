@@ -1,37 +1,37 @@
 # Graph Report - project-setup  (2026-11-18)
 
 ## Corpus Check
-- 180 files · ~209,471 words
+- 181 files · ~215,016 words
 - Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 13 file(s) not represented in the graph (top: (none) 6, .ico 2, .xml 2)
+- Unclassified: 15 file(s) not represented in the graph (top: (none) 6, .mdc 2, .ico 2)
 
 ## Summary
-- 854 nodes · 2001 edges · 49 communities (40 shown, 9 thin omitted)
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 2 edges (avg confidence: 0.85)
+- 871 nodes · 2017 edges · 45 communities (35 shown, 10 thin omitted)
+- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 3 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `1ab4f2a6`
+- Built from commit: `35c81ab2`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - ProjectConfig
-- App.tsx
+- RealTech3DHero.tsx
 - cli.ts
-- dependencies
+- Interactive3DHero.tsx
 - TechIcons.tsx
 - steps
 - compilerOptions
 - types.ts
 - tauri.conf.json
-- updaterService.ts
+- App.tsx
 - cli/package.json
 - compilerOptions
 - steps
 - Badge.tsx
 - fs.rs
-- .openspec.yaml
+- ThreeFigureShowcase.tsx
 - json-merge.ts
 - package.json
 - default.json
@@ -41,8 +41,8 @@
 - pnpm-workspace.yaml
 - forgestack-desktop
 - with
-- VsCodeWorkspace.tsx
-- StepperWizard.tsx
+- 2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml
+- FeatureSpotlight.tsx
 - dependencies
 - typescript
 - 2026-11-17-nextgen-archetypes-primitives-and-ai-mcp-enhancements/.openspec.yaml
@@ -51,63 +51,59 @@
 - ./browser
 - scripts
 - lucide-react
-- AppSettingsPage.tsx
 - 2026-11-18-universal-ai-skills-mcp-and-interactive-landing/.openspec.yaml
 - bin
-- LandingPage.tsx
-- devDependencies
+- react
 - desktop/package.json
-- vite.config.ts
-- scripts
 
 ## God Nodes (most connected - your core abstractions)
 1. `VirtualFileSystem` - 71 edges
-2. `ProjectConfig` - 68 edges
-3. `react` - 47 edges
-4. `lucide-react` - 39 edges
+2. `ProjectConfig` - 67 edges
+3. `react` - 48 edges
+4. `lucide-react` - 40 edges
 5. `FeatureSlice` - 33 edges
 6. `DragDropConfigurator()` - 26 edges
 7. `DEPENDENCY_REGISTRY` - 23 edges
-8. `generateProjectVfs()` - 20 edges
-9. `ForgeStackAppContent()` - 19 edges
-10. `createCli()` - 16 edges
+8. `ForgeStackAppContent()` - 19 edges
+9. `generateProjectVfs()` - 18 edges
+10. `isTauri()` - 15 edges
 
 ## Surprising Connections (you probably didn't know these)
+- `Props` --references--> `ThemeId`  [EXTRACTED]
+  packages/desktop/src/components/preview/FileEditorDrawer.tsx → packages/desktop/src/components/wizard/Header.tsx
+- `Props` --references--> `ThemeId`  [EXTRACTED]
+  packages/desktop/src/components/preview/VsCodeWorkspace.tsx → packages/desktop/src/components/wizard/Header.tsx
 - `scaffoldApiPlugin()` --calls--> `generateProjectVfs()`  [EXTRACTED]
   packages/desktop/vite.config.ts → packages/core/src/engine/create-pipeline.ts
-- `typescript@^5.7.3` --declares--> `typescript`  [EXTRACTED]
-  packages/core/package.json → packages/desktop/package.json
-- `ForgeStackAppContent()` --calls--> `LandingPage()`  [EXTRACTED]
-  packages/desktop/src/App.tsx → packages/desktop/src/components/landing/LandingPage.tsx
-- `SavedTemplate` --references--> `ProjectConfig`  [EXTRACTED]
-  packages/desktop/src/types/template.ts → packages/core/src/types/config.ts
-- `VirtualFileSystem` --references--> `VirtualFile`  [EXTRACTED]
-  packages/core/src/vfs/vfs.ts → packages/core/src/vfs/types.ts
+- `provisionAgentSkills()` --indirect_call--> `normalizeAgentToolId()`  [INFERRED]
+  packages/core/src/skills/agent-provisioner.ts → packages/core/src/skills/targets.ts
+- `ArchitecturalBlueprints()` --calls--> `useThemeAccent()`  [EXTRACTED]
+  packages/desktop/src/components/landing/ArchitecturalBlueprints.tsx → packages/desktop/src/lib/motion.tsx
 
 ## Import Cycles
 - None detected.
 
-## Communities (49 total, 9 thin omitted)
+## Communities (45 total, 10 thin omitted)
 
 ### Community 0 - "ProjectConfig"
 Cohesion: 0.08
 Nodes (43): FeatureSlice, RecipeCompositor, createProjectPipeline(), generateProjectVfs(), DEPENDENCY_REGISTRY, getPinnedVersion(), PackageName, resolveDependencies() (+35 more)
 
-### Community 1 - "App.tsx"
-Cohesion: 0.20
-Nodes (8): App(), FastScaffoldModal(), Props, HomeTemplatesDashboard(), Props, loadAppSettings(), BUILTIN_TEMPLATES, SavedTemplate
+### Community 1 - "RealTech3DHero.tsx"
+Cohesion: 0.13
+Nodes (19): @react-three/drei@^10.7.9, @react-three/fiber@^9.8.2, three@^0.187.0, ArchetypeId, ArchetypeMeta, ARCHETYPES, Interactive3DLaboratory(), Lab3DModel() (+11 more)
 
 ### Community 2 - "cli.ts"
-Cohesion: 0.06
-Nodes (33): createCli(), createMcpServer(), runMcpServer(), runInteractiveWizard(), CURATED_TEMPLATES, CuratedTemplate, findCuratedTemplate(), SavedCustomTemplate (+25 more)
+Cohesion: 0.05
+Nodes (35): createCli(), createMcpServer(), runMcpServer(), runInteractiveWizard(), CURATED_TEMPLATES, CuratedTemplate, findCuratedTemplate(), SavedCustomTemplate (+27 more)
 
-### Community 3 - "dependencies"
-Cohesion: 0.13
-Nodes (15): dependencies, jszip@^3.10.2, lucide-react@^0.475.0, @monaco-editor/react@^4.7.0, react@^19.0.0, react-router-dom@^7.18.5, tailwind-merge@^3.0.1, @tauri-apps/api@^2.2.0 (+7 more)
+### Community 3 - "Interactive3DHero.tsx"
+Cohesion: 0.14
+Nodes (14): framer-motion@^14.14.0, ARCHITECTURE_LAYERS, ArchitectureLayer, CoreScene(), CoreSceneProps, Interactive3DHero(), LayerMesh(), LayerMeshProps (+6 more)
 
 ### Community 4 - "TechIcons.tsx"
-Cohesion: 0.12
-Nodes (43): ClaudeIcon(), CursorRulesIcon(), DockerIcon(), DrizzleIcon(), ElectronIcon(), ExpressIcon(), FastifyIcon(), getFileIcon() (+35 more)
+Cohesion: 0.08
+Nodes (56): @monaco-editor/react@^4.7.0, ClaudeIcon(), CursorRulesIcon(), DockerIcon(), DrizzleIcon(), ElectronIcon(), ExpressIcon(), FastifyIcon() (+48 more)
 
 ### Community 5 - "steps"
 Cohesion: 0.08
@@ -125,9 +121,9 @@ Nodes (10): AppendFileAction, CreateFileAction, DeleteFileAction, FileAction, Fi
 Cohesion: 0.08
 Nodes (24): app, security, windows, build, beforeBuildCommand, beforeDevCommand, devUrl, frontendDist (+16 more)
 
-### Community 9 - "updaterService.ts"
-Cohesion: 0.19
-Nodes (17): ForgeStackAppContent(), Props, StudioNavbar(), Props, UpdateModal(), PathSelectorModal(), checkForUpdates(), downloadAndInstallUpdate() (+9 more)
+### Community 9 - "App.tsx"
+Cohesion: 0.06
+Nodes (48): App(), ForgeStackAppContent(), ExecutionConsole(), Props, FastScaffoldModal(), Props, HomeTemplatesDashboard(), Props (+40 more)
 
 ### Community 10 - "cli/package.json"
 Cohesion: 0.18
@@ -142,16 +138,16 @@ Cohesion: 0.09
 Nodes (22): NODE_AUTH_TOKEN, jobs, publish, name, on, push, contents, id-token (+14 more)
 
 ### Community 13 - "Badge.tsx"
-Cohesion: 0.12
-Nodes (9): Badge(), BadgeProps, BadgeVariant, variantStyles, Props, Props, Props, Props (+1 more)
+Cohesion: 0.14
+Nodes (8): Badge(), BadgeProps, BadgeVariant, variantStyles, Props, Props, Props, Props
 
 ### Community 14 - "fs.rs"
 Cohesion: 0.17
 Nodes (8): AppEnvironment, get_app_environment(), PathValidationResult, pick_directory(), scaffold_project_files(), ScaffoldPayload, validate_target_path(), VirtualFilePayload
 
-### Community 15 - ".openspec.yaml"
-Cohesion: 0.50
-Nodes (3): date, name, schema
+### Community 15 - "ThreeFigureShowcase.tsx"
+Cohesion: 0.24
+Nodes (14): buildPalette(), Figure(), FigureDef, FigureProps, FIGURES, hexToRgb(), hsl(), rgba() (+6 more)
 
 ### Community 16 - "json-merge.ts"
 Cohesion: 0.62
@@ -177,13 +173,9 @@ Nodes (4): scripts, build, prepack, test
 Cohesion: 0.05
 Nodes (37): GITHUB_TOKEN, TAURI_SIGNING_PRIVATE_KEY, TAURI_SIGNING_PRIVATE_KEY_PASSWORD, args, platform, jobs, release, include (+29 more)
 
-### Community 29 - "VsCodeWorkspace.tsx"
-Cohesion: 0.18
-Nodes (14): FileEditorDrawer(), getMonacoLanguage(), Props, FileTreePreview(), filterTree(), Props, TreeItem(), TreeItemProps (+6 more)
-
-### Community 30 - "StepperWizard.tsx"
-Cohesion: 0.14
-Nodes (14): ExecutionConsole(), Props, Props, ScaffoldConsoleView(), Props, Step1IdentityArchetype(), Props, Step4ReviewScaffold() (+6 more)
+### Community 29 - "2026-11-17-multi-framework-spec-governance-and-stepper-studio/.openspec.yaml"
+Cohesion: 0.50
+Nodes (3): date, name, schema
 
 ### Community 31 - "dependencies"
 Cohesion: 0.20
@@ -214,12 +206,8 @@ Cohesion: 0.50
 Nodes (4): scripts, build, prepack, test
 
 ### Community 38 - "lucide-react"
-Cohesion: 0.12
-Nodes (11): MATRIX_DATA, Row, FeatureCard, FEATURES, container, item, Props, FileViewerModalProps (+3 more)
-
-### Community 39 - "AppSettingsPage.tsx"
-Cohesion: 0.22
-Nodes (7): AppSettings, AppSettingsPage(), DEFAULT_APP_SETTINGS, Props, saveAppSettings(), Props, AppEnvironment
+Cohesion: 0.11
+Nodes (9): MATRIX_DATA, Row, container, item, Props, FileViewerModalProps, Props, lucide-react (+1 more)
 
 ### Community 40 - "2026-11-18-universal-ai-skills-mcp-and-interactive-landing/.openspec.yaml"
 Cohesion: 0.50
@@ -229,45 +217,33 @@ Nodes (3): date, name, schema
 Cohesion: 0.50
 Nodes (4): bin, create-forgestack-app, forgestack, forgestack-mcp
 
-### Community 43 - "LandingPage.tsx"
+### Community 43 - "react"
+Cohesion: 0.17
+Nodes (15): ArchitecturalBlueprints(), SchematicTab, TABS, ChangelogTimeline(), ReleaseItem, RELEASES, DesktopAppShowcase(), DownloadInstallHub() (+7 more)
+
+### Community 45 - "desktop/package.json"
 Cohesion: 0.05
-Nodes (55): framer-motion@^14.14.0, @react-three/drei@^10.7.9, @react-three/fiber@^9.8.2, three@^0.187.0, ArchitecturalBlueprints(), SchematicTab, TABS, ChangelogTimeline() (+47 more)
-
-### Community 45 - "devDependencies"
-Cohesion: 0.13
-Nodes (15): devDependencies, tailwindcss@^4.0.0, @tauri-apps/cli@^2.2.0, @types/jszip@^3.4.1, @types/react@^19.0.8, @types/react-dom@^19.0.3, @types/three@^0.187.0, typescript@^5.7.3 (+7 more)
-
-### Community 46 - "desktop/package.json"
-Cohesion: 0.18
-Nodes (10): clsx@^2.1.1, react-dom@^19.0.0, @tauri-apps/plugin-process@^2.4.0, name, private, type, version, clsx (+2 more)
-
-### Community 47 - "vite.config.ts"
-Cohesion: 0.20
-Nodes (8): @tailwindcss/vite@^4.0.0, vite@^6.1.0, @vitejs/plugin-react@^4.3.4, __dirname, scaffoldApiPlugin(), @tailwindcss/vite, vite, @vitejs/plugin-react
-
-### Community 48 - "scripts"
-Cohesion: 0.50
-Nodes (4): scripts, build, dev, tauri
+Nodes (51): dependencies, clsx@^2.1.1, jszip@^3.10.2, lucide-react@^0.475.0, react@^19.0.0, react-dom@^19.0.0, react-router-dom@^7.18.5, tailwind-merge@^3.0.1 (+43 more)
 
 ## Knowledge Gaps
 - **1 isolated node(s):** `forgestack-desktop`
-  These have ≤1 connection - possible missing edges. (Counts symbols only; 303 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **9 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+  These have ≤1 connection - possible missing edges. (Counts symbols only; 315 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **10 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `lucide-react` to `App.tsx`, `dependencies`, `TechIcons.tsx`, `AppSettingsPage.tsx`, `updaterService.ts`, `LandingPage.tsx`, `Badge.tsx`, `desktop/package.json`, `VsCodeWorkspace.tsx`, `StepperWizard.tsx`?**
-  _High betweenness centrality (0.102) - this node is a cross-community bridge._
+- **Why does `react` connect `react` to `RealTech3DHero.tsx`, `Interactive3DHero.tsx`, `TechIcons.tsx`, `lucide-react`, `App.tsx`, `Badge.tsx`, `desktop/package.json`, `ThreeFigureShowcase.tsx`, `FeatureSpotlight.tsx`?**
+  _High betweenness centrality (0.103) - this node is a cross-community bridge._
 - **What connects `forgestack-desktop` to the rest of the system?**
   _1 weakly-connected nodes found - possible missing edges._
 - **Should `ProjectConfig` be split into smaller, more focused modules?**
   _Cohesion score 0.08143409302945488 - nodes in this community are weakly interconnected._
-- **Why does `lucide-react` connect `lucide-react` to `App.tsx`, `dependencies`, `TechIcons.tsx`, `AppSettingsPage.tsx`, `updaterService.ts`, `LandingPage.tsx`, `Badge.tsx`, `desktop/package.json`, `VsCodeWorkspace.tsx`, `StepperWizard.tsx`?**
-  _High betweenness centrality (0.056) - this node is a cross-community bridge._
+- **Why does `lucide-react` connect `lucide-react` to `RealTech3DHero.tsx`, `Interactive3DHero.tsx`, `TechIcons.tsx`, `App.tsx`, `react`, `desktop/package.json`, `Badge.tsx`, `FeatureSpotlight.tsx`?**
+  _High betweenness centrality (0.058) - this node is a cross-community bridge._
+- **Should `RealTech3DHero.tsx` be split into smaller, more focused modules?**
+  _Cohesion score 0.12857142857142856 - nodes in this community are weakly interconnected._
+- **Why does `@forgestack/core` connect `dependencies` to `cli/package.json`, `desktop/package.json`?**
+  _High betweenness centrality (0.029) - this node is a cross-community bridge._
 - **Should `cli.ts` be split into smaller, more focused modules?**
-  _Cohesion score 0.06106442577030812 - nodes in this community are weakly interconnected._
-- **Why does `ProjectConfig` connect `ProjectConfig` to `App.tsx`, `cli.ts`?**
-  _High betweenness centrality (0.028) - this node is a cross-community bridge._
-- **Should `dependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.05327281414237936 - nodes in this community are weakly interconnected._

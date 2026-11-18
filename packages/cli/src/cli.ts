@@ -9,13 +9,16 @@ import {
   projectConfigSchema,
   type ProjectConfig,
   provisionAgentSkills,
+  detectPresentTools,
   AGENT_TARGETS,
+  type AgentToolId,
 } from '@forgestack/core';
 import { runInteractiveWizard } from './prompts/wizard.js';
 import { CliReporter } from './ui/reporter.js';
 import { resolveProjectDirectory } from './utils/directory.js';
 import { CURATED_TEMPLATES, findCuratedTemplate } from './templates/curated.js';
 import { TemplateStore } from './templates/store.js';
+import { searchableMultiselect } from './ui/searchable-multiselect.js';
 
 export function createCli(): Command {
   const program = new Command();
@@ -391,31 +394,95 @@ export function createCli(): Command {
     .command('init-skills')
     .description('Provision ForgeStack AI assistant skills to the workspace across all tools')
     .argument('[dir]', 'Target directory (defaults to current directory)', '.')
-    .action(async (dirArg: string) => {
-      const targetDir = path.resolve(process.cwd(), dirArg);
-      p.intro(color.bold(color.cyan('ForgeStack AI Agent Skills Provisioner')));
-      const s = p.spinner();
-      s.start(`Writing skills across ${AGENT_TARGETS.length} AI ecosystems...`);
-      try {
-        const results = await provisionAgentSkills(targetDir);
-        s.stop(`Provisioned skills for ${results.filter((r) => r.success).length} AI assistants.`);
+    .option('-a, --all', 'Provision skills across all 40 available AI assistants non-interactively')
+    .option(
+      '-t, --tools <tools>',
+      'Comma-separated list of tool IDs to configure (e.g. claude,cursor,antigravity)'
+    )
+    .action(
+      async (
+        dirArg: string,
+        cmdOptions: { all?: boolean; tools?: string }
+      ) => {
+        const targetDir = path.resolve(process.cwd(), dirArg);
+        p.intro(color.bold(color.cyan('ForgeStack AI Agent Skills Provisioner')));
 
-        for (const res of results) {
-          if (res.success) {
-            console.log(
-              `  ${color.green('✓')} ${color.bold(res.targetName.padEnd(26))} ${color.dim('→')} ${color.dim(path.relative(targetDir, res.filePath))}`
-            );
-          } else {
-            console.log(`  ${color.red('✗')} ${color.bold(res.targetName)}: ${color.red(res.message || 'Failed')}`);
-          }
+        // 1. Detect present tools in workspace
+        const detected = await detectPresentTools(targetDir);
+        if (detected.length > 0) {
+          const detectedNames = detected
+            .map((id) => AGENT_TARGETS.find((t) => t.id === id)?.name || id)
+            .join(', ');
+          console.log(`  ${color.dim('Detected tool directories:')} ${color.yellow(detectedNames)}`);
         }
-        p.outro(color.green('AI assistants can now understand ForgeStack commands, VFS, and architecture!'));
-      } catch (err: any) {
-        s.stop(color.red('Provisioning failed: ' + err.message));
-        if (process.env.VITEST) throw err;
-        process.exit(1);
+
+        let selectedToolIds: string[] = [];
+
+        if (cmdOptions.all) {
+          selectedToolIds = AGENT_TARGETS.map((t) => t.id);
+        } else if (cmdOptions.tools) {
+          selectedToolIds = cmdOptions.tools
+            .split(',')
+            .map((s) => s.trim())
+            .filter(Boolean);
+        } else if (process.stdin.isTTY && process.stdout.isTTY) {
+          // Interactive searchable multiselect matching OpenSpec
+          const initialSelected = detected.length > 0 ? detected : ['agents'];
+          const items = AGENT_TARGETS.map((target) => ({
+            id: target.id,
+            label: target.name,
+            hint: target.relativePath,
+            selected: initialSelected.includes(target.id),
+          }));
+
+          selectedToolIds = await searchableMultiselect({
+            message: 'Select tools to set up',
+            items,
+            pageSize: 10,
+            initialSelected,
+          });
+
+          if (selectedToolIds.length === 0) {
+            p.outro(color.yellow('No AI assistant tools selected. Exiting without changes.'));
+            return;
+          }
+        } else {
+          // Headless default
+          selectedToolIds = detected.length > 0 ? detected : ['agents'];
+        }
+
+        const s = p.spinner();
+        s.start(`Writing skills across ${selectedToolIds.length} AI assistants...`);
+        try {
+          const results = await provisionAgentSkills(
+            targetDir,
+            selectedToolIds as AgentToolId[]
+          );
+          s.stop(`Provisioned skills for ${results.filter((r) => r.success).length} AI assistants.`);
+
+          for (const res of results) {
+            if (res.success) {
+              console.log(
+                `  ${color.green('✓')} ${color.bold(res.targetName.padEnd(28))} ${color.dim('→')} ${color.dim(path.relative(targetDir, res.filePath))}`
+              );
+            } else {
+              console.log(
+                `  ${color.red('✗')} ${color.bold(res.targetName)}: ${color.red(res.message || 'Failed')}`
+              );
+            }
+          }
+          p.outro(
+            color.green(
+              'AI assistants can now understand ForgeStack commands, VFS, and architecture!'
+            )
+          );
+        } catch (err: any) {
+          s.stop(color.red('Provisioning failed: ' + err.message));
+          if (process.env.VITEST) throw err;
+          process.exit(1);
+        }
       }
-    });
+    );
 
   return program;
 }

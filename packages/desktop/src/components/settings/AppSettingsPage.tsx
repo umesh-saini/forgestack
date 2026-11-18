@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Moon,
   Sun,
@@ -19,6 +19,7 @@ import {
   FlaskConical,
   Bot,
   Wand2,
+  Search,
 } from 'lucide-react';
 import type { ThemeId } from '../wizard/Header.js';
 import type { AppEnvironment, UpdateDetails } from '../../services/updaterService';
@@ -156,8 +157,21 @@ export const AppSettingsPage: React.FC<Props> = ({
   const [selectedAgentTargets, setSelectedAgentTargets] = useState<AgentToolId[]>(
     AGENT_TARGETS.map((t) => t.id)
   );
+  const [agentSearchQuery, setAgentSearchQuery] = useState('');
   const [isProvisioningSkills, setIsProvisioningSkills] = useState(false);
   const [skillsSuccessMessage, setSkillsSuccessMessage] = useState<string | null>(null);
+
+  const filteredAgentTargets = useMemo(() => {
+    const q = agentSearchQuery.toLowerCase().trim();
+    if (!q) return AGENT_TARGETS;
+    return AGENT_TARGETS.filter(
+      (t) =>
+        t.name.toLowerCase().includes(q) ||
+        t.id.toLowerCase().includes(q) ||
+        t.relativePath.toLowerCase().includes(q) ||
+        t.description.toLowerCase().includes(q)
+    );
+  }, [agentSearchQuery]);
 
   const handleToggleTarget = (id: AgentToolId) => {
     setSelectedAgentTargets((prev) =>
@@ -487,6 +501,9 @@ export const AppSettingsPage: React.FC<Props> = ({
             <h3 className="font-bold text-xs uppercase tracking-wider text-[var(--text-main)]">
               Universal AI Agent Skills Provisioner
             </h3>
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+              40 AI Tools Supported
+            </span>
           </div>
 
           <button
@@ -505,7 +522,7 @@ export const AppSettingsPage: React.FC<Props> = ({
         </div>
 
         <p className="text-xs text-[var(--text-muted)]">
-          Export ForgeStack's authoritative architecture specifications, CLI flag guides, and VFS rules across your installed AI agent suites.
+          Export ForgeStack's authoritative architecture specifications, CLI flag guides, and VFS rules across all 40 AI assistant ecosystems (Anthropic Claude, Cursor, Google Antigravity, OpenAI Codex, Devin, Qwen, Trae, and more).
         </p>
 
         {skillsSuccessMessage && (
@@ -515,37 +532,91 @@ export const AppSettingsPage: React.FC<Props> = ({
           </div>
         )}
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {AGENT_TARGETS.map((target) => {
-            const isChecked = selectedAgentTargets.includes(target.id);
-            return (
-              <div
-                key={target.id}
-                onClick={() => handleToggleTarget(target.id)}
-                className={`p-3 rounded-xl border cursor-pointer transition-all space-y-1.5 ${
-                  isChecked
-                    ? 'border-cyan-500/40 bg-cyan-500/10'
-                    : 'ui-card-subtle opacity-65 hover:opacity-100 hover:border-[var(--border-hover)]'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-[var(--text-main)]">{target.name}</span>
-                  <input
-                    type="checkbox"
-                    checked={isChecked}
-                    onChange={() => {}}
-                    className="rounded accent-cyan-600"
-                  />
+        {/* Controls: Filter & Quick Select */}
+        <div className="flex items-center justify-between flex-wrap gap-2 pt-1">
+          <div className="relative flex-1 min-w-[220px] max-w-sm">
+            <Search className="w-3.5 h-3.5 text-[var(--text-muted)] absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={agentSearchQuery}
+              onChange={(e) => setAgentSearchQuery(e.target.value)}
+              placeholder="Search 40 AI tools (e.g. claude, cursor, codex, qwen)..."
+              className="w-full pl-8 pr-3 py-1.5 rounded-xl border bg-[var(--bg-main)] text-xs text-[var(--text-main)] placeholder-[var(--text-muted)] focus:outline-none focus:border-cyan-500"
+            />
+          </div>
+
+          <div className="flex items-center gap-2 text-xs">
+            <button
+              type="button"
+              onClick={() => setSelectedAgentTargets(AGENT_TARGETS.map((t) => t.id))}
+              className="px-2.5 py-1 rounded-lg border ui-card-subtle text-[var(--text-muted)] hover:text-[var(--text-main)] text-[11px] font-medium"
+            >
+              Select All (40)
+            </button>
+            <button
+              type="button"
+              onClick={() => setSelectedAgentTargets([])}
+              className="px-2.5 py-1 rounded-lg border ui-card-subtle text-[var(--text-muted)] hover:text-[var(--text-main)] text-[11px] font-medium"
+            >
+              Deselect All
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                setSelectedAgentTargets([
+                  'agents',
+                  'antigravity',
+                  'claude',
+                  'cursor',
+                  'codex',
+                  'github-copilot',
+                  'devin',
+                ])
+              }
+              className="px-2.5 py-1 rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-400 text-[11px] font-medium"
+            >
+              Popular 7
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-h-[380px] overflow-y-auto pr-1">
+          {filteredAgentTargets.length === 0 ? (
+            <div className="col-span-full py-6 text-center text-xs text-[var(--text-muted)]">
+              No AI assistant matching "{agentSearchQuery}".
+            </div>
+          ) : (
+            filteredAgentTargets.map((target) => {
+              const isChecked = selectedAgentTargets.includes(target.id);
+              return (
+                <div
+                  key={target.id}
+                  onClick={() => handleToggleTarget(target.id)}
+                  className={`p-3 rounded-xl border cursor-pointer transition-all space-y-1.5 ${
+                    isChecked
+                      ? 'border-cyan-500/40 bg-cyan-500/10'
+                      : 'ui-card-subtle opacity-65 hover:opacity-100 hover:border-[var(--border-hover)]'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-[var(--text-main)]">{target.name}</span>
+                    <input
+                      type="checkbox"
+                      checked={isChecked}
+                      onChange={() => {}}
+                      className="rounded accent-cyan-600"
+                    />
+                  </div>
+                  <p className="text-[10px] text-[var(--text-muted)] line-clamp-2">
+                    {target.description}
+                  </p>
+                  <div className="font-mono text-[9px] text-cyan-400/80 truncate">
+                    {target.relativePath}
+                  </div>
                 </div>
-                <p className="text-[10px] text-[var(--text-muted)] line-clamp-2">
-                  {target.description}
-                </p>
-                <div className="font-mono text-[9px] text-cyan-400/80 truncate">
-                  {target.relativePath}
-                </div>
-              </div>
-            );
-          })}
+              );
+            })
+          )}
         </div>
       </div>
 
