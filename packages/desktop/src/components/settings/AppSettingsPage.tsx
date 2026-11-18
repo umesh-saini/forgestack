@@ -16,6 +16,7 @@ import {
   Palette,
   HardDrive,
   Cpu,
+  FlaskConical,
 } from 'lucide-react';
 import type { ThemeId } from '../wizard/Header.js';
 import type { AppEnvironment, UpdateDetails } from '../../services/updaterService';
@@ -67,6 +68,7 @@ interface Props {
   onThemeChange: (theme: ThemeId) => void;
   onBrowseFolder: (onSelect: (path: string) => void) => void;
   onCheckForUpdates?: () => void;
+  onSimulateUpdate?: () => void;
   isCheckingUpdate?: boolean;
   appEnv?: AppEnvironment | null;
   updateDetails?: UpdateDetails | null;
@@ -77,6 +79,7 @@ export const AppSettingsPage: React.FC<Props> = ({
   onThemeChange,
   onBrowseFolder,
   onCheckForUpdates,
+  onSimulateUpdate,
   isCheckingUpdate = false,
   appEnv,
   updateDetails,
@@ -429,17 +432,31 @@ export const AppSettingsPage: React.FC<Props> = ({
             </h3>
           </div>
 
-          {onCheckForUpdates && (
-            <button
-              type="button"
-              onClick={onCheckForUpdates}
-              disabled={isCheckingUpdate}
-              className="px-3.5 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-500 disabled:opacity-50 text-white text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm shadow-orange-600/30"
-            >
-              <RotateCcw className={`w-3.5 h-3.5 ${isCheckingUpdate ? 'animate-spin' : ''}`} />
-              <span>{isCheckingUpdate ? 'Checking Releases...' : 'Check for Updates'}</span>
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            {onSimulateUpdate && (
+              <button
+                type="button"
+                onClick={onSimulateUpdate}
+                className="px-3 py-1.5 rounded-xl ui-card-subtle border hover:ui-panel text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--text-main)] flex items-center gap-1.5 transition-all cursor-pointer"
+                title="Simulate available v1.1.0 update to preview the UI"
+              >
+                <FlaskConical className="w-3.5 h-3.5 text-cyan-400" />
+                <span>Simulate v1.1.0</span>
+              </button>
+            )}
+
+            {onCheckForUpdates && (
+              <button
+                type="button"
+                onClick={onCheckForUpdates}
+                disabled={isCheckingUpdate}
+                className="px-3.5 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-500 disabled:opacity-50 text-white text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm shadow-orange-600/30"
+              >
+                <RotateCcw className={`w-3.5 h-3.5 ${isCheckingUpdate ? 'animate-spin' : ''}`} />
+                <span>{isCheckingUpdate ? 'Checking Releases...' : 'Check for Updates'}</span>
+              </button>
+            )}
+          </div>
         </div>
 
         <p className="text-xs text-[var(--text-muted)]">

@@ -100,6 +100,24 @@ function ForgeStackAppContent() {
     }
   };
 
+  const handleSimulateUpdate = () => {
+    const isDeb = appEnv?.is_deb_or_system ?? false;
+    const isAppImage = appEnv?.is_appimage ?? false;
+    setUpdateDetails({
+      available: true,
+      currentVersion: appEnv?.current_version || '1.0.0',
+      newVersion: '1.1.0',
+      releaseNotes: `### ForgeStack Studio v1.1.0 Highlights\n\n• SvelteKit & Remix fullstack framework adapters\n• Real-time dependency conflict resolver\n• Enhanced AST composition engine for zero-merge-conflict scaffolding\n• Linux system security & packaging performance optimizations`,
+      releaseDate: new Date().toISOString(),
+      supportsInPlace: isAppImage,
+      isDebOrSystem: isDeb || (!isAppImage),
+      platform: appEnv?.platform || 'linux',
+      downloadUrl: 'https://github.com/forgestack/forgestack/releases/tag/v1.1.0',
+      debDownloadUrl: 'https://github.com/forgestack/forgestack/releases/download/v1.1.0/ForgeStack_1.1.0_amd64.deb',
+    });
+    setIsUpdateModalOpen(true);
+  };
+
   // Active Project Configuration
   const [config, setConfig] = useState<ProjectConfig>(() => {
     const userSettings = loadAppSettings();
@@ -656,6 +674,7 @@ function ForgeStackAppContent() {
                   setIsPathModalOpen(true);
                 }}
                 onCheckForUpdates={handleManualCheckUpdate}
+                onSimulateUpdate={handleSimulateUpdate}
                 isCheckingUpdate={isCheckingUpdate}
                 appEnv={appEnv}
                 updateDetails={updateDetails}
