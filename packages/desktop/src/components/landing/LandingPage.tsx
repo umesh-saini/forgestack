@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
-import { HeroKinetic } from './HeroKinetic.js';
+import { Interactive3DHero } from './Interactive3DHero.js';
 import { VelocityMarquee } from './VelocityMarquee.js';
-import { InteractiveStackSimulator } from './InteractiveStackSimulator.js';
+import { Interactive3DLaboratory } from './Interactive3DLaboratory.js';
+import { ThreeFigureShowcase } from './ThreeFigureShowcase.js';
 import { DesktopAppShowcase } from './DesktopAppShowcase.js';
-import { FeatureSpotlight } from './FeatureSpotlight.js';
-import { CompetitorMatrix } from './CompetitorMatrix.js';
+import { ArchitecturalBlueprints } from './ArchitecturalBlueprints.js';
 import { ChangelogTimeline } from './ChangelogTimeline.js';
 import { DownloadInstallHub } from './DownloadInstallHub.js';
 import { LandingFooter } from './LandingFooter.js';
+import { ScrollProgress } from './ScrollProgress.js';
 
 export const LandingPage: React.FC = () => {
   useEffect(() => {
@@ -15,32 +16,35 @@ export const LandingPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] overflow-x-hidden animate-in fade-in duration-200">
-      {/* 1. Kinetic Hero */}
-      <HeroKinetic />
+    <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] overflow-x-clip selection:bg-orange-500/30 selection:text-white">
+      {/* 1. Top Scroll Progress Telemetry Bar */}
+      <ScrollProgress />
 
-      {/* 2. Velocity Tech Marquee */}
+      {/* 2. Interactive 3D Architecture Core Hero (Immediate Awwwards-Caliber 3D Viewport) */}
+      <Interactive3DHero />
+
+      {/* 3. Engineering Primitives Marquee */}
       <VelocityMarquee />
 
-      {/* 3. Live 4-in-1 Stack Simulator Playground */}
-      <InteractiveStackSimulator />
+      {/* 4. Interactive 3D Preset Morphing Laboratory */}
+      <Interactive3DLaboratory />
 
-      {/* 4. Desktop Application Studio Showcase */}
+      {/* 5. Sticky Scroll-Driven 3D Primitives Showcase */}
+      <ThreeFigureShowcase />
+
+      {/* 6. Native Desktop Suite with Real Studio Screenshots */}
       <DesktopAppShowcase />
 
-      {/* 5. Architectural Feature Spotlights */}
-      <FeatureSpotlight />
+      {/* 7. Engineering CAD Schematics & AST Mechanics (Replaces generic AI slop) */}
+      <ArchitecturalBlueprints />
 
-      {/* 6. Competitor Comparison Matrix */}
-      <CompetitorMatrix />
-
-      {/* 7. Changelogs & Roadmap Timeline */}
+      {/* 8. Concrete Release Changelogs & Roadmap */}
       <ChangelogTimeline />
 
-      {/* 8. Binary Download & CLI Hub */}
+      {/* 9. Binary Downloads (.deb / AppImage) & CLI Hub */}
       <DownloadInstallHub />
 
-      {/* 9. Clean Footer */}
+      {/* 10. Minimalist Engineering Footer */}
       <LandingFooter />
     </div>
   );
