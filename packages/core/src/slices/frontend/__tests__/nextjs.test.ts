@@ -49,4 +49,62 @@ describe('Next.js 15 Full-Stack Slice', () => {
     expect(healthRoute).toContain('export async function GET()');
     expect(healthRoute).toContain('Next.js 15');
   });
+
+  it('should scaffold Next.js 15 fullstack with PostgreSQL and Drizzle ORM when backend database is configured', async () => {
+    const { generateProjectVfs } = await import('../../../engine/create-pipeline.js');
+    const fullstackConfig: ProjectConfig = {
+      ...nextConfig,
+      backend: {
+        framework: 'none',
+        database: 'postgres',
+        orm: 'drizzle',
+        container: true,
+      },
+    };
+
+    const vfs = await generateProjectVfs(fullstackConfig);
+
+    expect(vfs.hasFile('package.json')).toBe(true);
+    expect(vfs.hasFile('drizzle.config.ts')).toBe(true);
+    expect(vfs.hasFile('src/db/schema.ts')).toBe(true);
+    expect(vfs.hasFile('src/db/index.ts')).toBe(true);
+    expect(vfs.hasFile('.env.local')).toBe(true);
+
+    const pkg = JSON.parse(vfs.getFileContent('package.json')!);
+    expect(pkg.dependencies.next).toBeDefined();
+    expect(pkg.dependencies['drizzle-orm']).toBeDefined();
+    expect(pkg.dependencies.pg).toBeDefined();
+    expect(pkg.devDependencies['drizzle-kit']).toBeDefined();
+
+    const drizzleConfig = vfs.getFileContent('drizzle.config.ts')!;
+    expect(drizzleConfig).toContain("dialect: 'postgresql'");
+    expect(drizzleConfig).toContain("schema: './src/db/schema.ts'");
+
+    const envLocal = vfs.getFileContent('.env.local')!;
+    expect(envLocal).toContain('DATABASE_URL=postgresql://');
+  });
+
+  it('should scaffold Next.js 15 fullstack with SQLite when sqlite is selected', async () => {
+    const { generateProjectVfs } = await import('../../../engine/create-pipeline.js');
+    const sqliteNextConfig: ProjectConfig = {
+      ...nextConfig,
+      backend: {
+        framework: 'none',
+        database: 'sqlite',
+        orm: 'drizzle',
+        container: false,
+      },
+    };
+
+    const vfs = await generateProjectVfs(sqliteNextConfig);
+
+    expect(vfs.hasFile('src/db/schema.ts')).toBe(true);
+    expect(vfs.hasFile('src/db/index.ts')).toBe(true);
+    expect(vfs.hasFile('drizzle.config.ts')).toBe(true);
+    expect(vfs.hasFile('.env.local')).toBe(true);
+
+    const pkg = JSON.parse(vfs.getFileContent('package.json')!);
+    expect(pkg.dependencies['better-sqlite3']).toBeDefined();
+    expect(pkg.dependencies['drizzle-orm']).toBeDefined();
+  });
 });

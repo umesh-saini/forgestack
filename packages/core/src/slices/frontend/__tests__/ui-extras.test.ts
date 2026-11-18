@@ -46,4 +46,66 @@ describe('UI Extras Slice', () => {
     expect(pkg.dependencies['react-hook-form']).toBeDefined();
     expect(pkg.dependencies['@hookform/resolvers']).toBeDefined();
   });
+
+  it('should generate Tabler icons, Toastify, and TanStack Form when selected', () => {
+    const vfs = new VirtualFileSystem();
+    const customConfig: ProjectConfig = {
+      ...config,
+      frontend: {
+        ...config.frontend,
+        icons: 'tabler',
+        toast: 'toastify',
+        forms: 'tanstack-form',
+      },
+    };
+    reactViteSlice.apply(vfs, customConfig);
+    uiExtrasSlice.apply(vfs, customConfig);
+
+    const toastProvider = vfs.getFileContent('apps/web/src/providers/toast-provider.tsx')!;
+    expect(toastProvider).toContain("from 'react-toastify'");
+    expect(toastProvider).toContain('<ToastContainer');
+
+    const iconComponent = vfs.getFileContent('apps/web/src/components/ui/icon.tsx')!;
+    expect(iconComponent).toContain("from '@tabler/icons-react'");
+
+    const formComponent = vfs.getFileContent('apps/web/src/components/forms/login-form.tsx')!;
+    expect(formComponent).toContain("from '@tanstack/react-form'");
+
+    const pkg = JSON.parse(vfs.getFileContent('apps/web/package.json')!);
+    expect(pkg.dependencies['react-toastify']).toBeDefined();
+    expect(pkg.dependencies['@tabler/icons-react']).toBeDefined();
+    expect(pkg.dependencies['@tanstack/react-form']).toBeDefined();
+  });
+
+  it('should generate Phosphor icons, Hot-Toast, and Formik-Yup when selected', () => {
+    const vfs = new VirtualFileSystem();
+    const customConfig: ProjectConfig = {
+      ...config,
+      frontend: {
+        ...config.frontend,
+        icons: 'phosphor',
+        toast: 'hot-toast',
+        forms: 'formik-yup',
+      },
+    };
+    reactViteSlice.apply(vfs, customConfig);
+    uiExtrasSlice.apply(vfs, customConfig);
+
+    const toastProvider = vfs.getFileContent('apps/web/src/providers/toast-provider.tsx')!;
+    expect(toastProvider).toContain("from 'react-hot-toast'");
+    expect(toastProvider).toContain('<Toaster');
+
+    const iconComponent = vfs.getFileContent('apps/web/src/components/ui/icon.tsx')!;
+    expect(iconComponent).toContain("from '@phosphor-icons/react'");
+
+    const formComponent = vfs.getFileContent('apps/web/src/components/forms/login-form.tsx')!;
+    expect(formComponent).toContain("from 'formik'");
+    expect(formComponent).toContain("from 'yup'");
+
+    const pkg = JSON.parse(vfs.getFileContent('apps/web/package.json')!);
+    expect(pkg.dependencies['react-hot-toast']).toBeDefined();
+    expect(pkg.dependencies['@phosphor-icons/react']).toBeDefined();
+    expect(pkg.dependencies.formik).toBeDefined();
+    expect(pkg.dependencies.yup).toBeDefined();
+  });
 });
