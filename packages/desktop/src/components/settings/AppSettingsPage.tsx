@@ -17,9 +17,12 @@ import {
   HardDrive,
   Cpu,
   FlaskConical,
+  Bot,
+  Wand2,
 } from 'lucide-react';
 import type { ThemeId } from '../wizard/Header.js';
 import type { AppEnvironment, UpdateDetails } from '../../services/updaterService';
+import { AGENT_TARGETS, type AgentToolId, FORGESTACK_CANONICAL_SKILL } from '@forgestack/core/browser';
 
 export interface AppSettings {
   defaultTargetPath: string;
@@ -149,6 +152,60 @@ export const AppSettingsPage: React.FC<Props> = ({
       previewAccent: 'bg-blue-600',
     },
   ];
+
+  const [selectedAgentTargets, setSelectedAgentTargets] = useState<AgentToolId[]>(
+    AGENT_TARGETS.map((t) => t.id)
+  );
+  const [isProvisioningSkills, setIsProvisioningSkills] = useState(false);
+  const [skillsSuccessMessage, setSkillsSuccessMessage] = useState<string | null>(null);
+
+  const handleToggleTarget = (id: AgentToolId) => {
+    setSelectedAgentTargets((prev) =>
+      prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
+    );
+  };
+
+  const handleProvisionSkills = async () => {
+    setIsProvisioningSkills(true);
+    setSkillsSuccessMessage(null);
+    try {
+      const isTauri =
+        typeof window !== 'undefined' &&
+        ('__TAURI_INTERNALS__' in window || '__TAURI__' in window);
+      const filesToStage = AGENT_TARGETS.filter((t) =>
+        selectedAgentTargets.includes(t.id)
+      ).map((t) => ({
+        path: t.relativePath,
+        content: t.generateContent(FORGESTACK_CANONICAL_SKILL),
+        executable: false,
+      }));
+
+      if (isTauri) {
+        const { invoke } = await import('@tauri-apps/api/core');
+        await invoke('scaffold_project_files', {
+          payload: {
+            target_path: settings.defaultTargetPath,
+            files: filesToStage,
+            git_init: false,
+            run_install: false,
+            package_manager: settings.defaultPackageManager,
+          },
+        });
+        setSkillsSuccessMessage(
+          `Provisioned ForgeStack skills to ${filesToStage.length} AI agent environments in ${settings.defaultTargetPath}!`
+        );
+      } else {
+        setSkillsSuccessMessage(
+          `Prepared skills for ${filesToStage.length} AI agent environments. (CLI command: npx create-forgestack-app init-skills)`
+        );
+      }
+    } catch (err: any) {
+      console.error('Failed to provision skills:', err);
+      setSkillsSuccessMessage(`Error: ${err?.message || String(err)}`);
+    } finally {
+      setIsProvisioningSkills(false);
+    }
+  };
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8 space-y-8 animate-in fade-in duration-150">
@@ -422,7 +479,77 @@ export const AppSettingsPage: React.FC<Props> = ({
         </div>
       </div>
 
-      {/* SECTION 4: SOFTWARE UPDATES & PACKAGING */}
+      {/* SECTION 4: UNIVERSAL AI AGENT SKILLS PROVISIONER */}
+      <div className="ui-panel rounded-2xl p-6 space-y-5 border">
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2 text-cyan-500">
+            <Bot className="w-4 h-4" />
+            <h3 className="font-bold text-xs uppercase tracking-wider text-[var(--text-main)]">
+              Universal AI Agent Skills Provisioner
+            </h3>
+          </div>
+
+          <button
+            type="button"
+            onClick={handleProvisionSkills}
+            disabled={isProvisioningSkills || selectedAgentTargets.length === 0}
+            className="px-4 py-2 rounded-xl bg-cyan-600 hover:bg-cyan-500 disabled:opacity-50 text-white text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-md shadow-cyan-600/25"
+          >
+            <Wand2 className={`w-3.5 h-3.5 ${isProvisioningSkills ? 'animate-spin' : ''}`} />
+            <span>
+              {isProvisioningSkills
+                ? 'Provisioning Skills...'
+                : `Provision Skills (${selectedAgentTargets.length})`}
+            </span>
+          </button>
+        </div>
+
+        <p className="text-xs text-[var(--text-muted)]">
+          Export ForgeStack's authoritative architecture specifications, CLI flag guides, and VFS rules across your installed AI agent suites.
+        </p>
+
+        {skillsSuccessMessage && (
+          <div className="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-xs text-cyan-400 flex items-center gap-2 animate-in fade-in">
+            <Check className="w-4 h-4 shrink-0 text-cyan-400" />
+            <span>{skillsSuccessMessage}</span>
+          </div>
+        )}
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          {AGENT_TARGETS.map((target) => {
+            const isChecked = selectedAgentTargets.includes(target.id);
+            return (
+              <div
+                key={target.id}
+                onClick={() => handleToggleTarget(target.id)}
+                className={`p-3 rounded-xl border cursor-pointer transition-all space-y-1.5 ${
+                  isChecked
+                    ? 'border-cyan-500/40 bg-cyan-500/10'
+                    : 'ui-card-subtle opacity-65 hover:opacity-100 hover:border-[var(--border-hover)]'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-bold text-[var(--text-main)]">{target.name}</span>
+                  <input
+                    type="checkbox"
+                    checked={isChecked}
+                    onChange={() => {}}
+                    className="rounded accent-cyan-600"
+                  />
+                </div>
+                <p className="text-[10px] text-[var(--text-muted)] line-clamp-2">
+                  {target.description}
+                </p>
+                <div className="font-mono text-[9px] text-cyan-400/80 truncate">
+                  {target.relativePath}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* SECTION 5: SOFTWARE UPDATES & PACKAGING */}
       <div className="ui-panel rounded-2xl p-6 space-y-5 border">
         <div className="flex items-center justify-between flex-wrap gap-2">
           <div className="flex items-center gap-2 text-orange-500">

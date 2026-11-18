@@ -27,7 +27,7 @@
   "25": "pnpm-workspace.yaml",
   "26": "mod.rs",
   "27": "forgestack-desktop",
-  "28": "Header.tsx",
+  "28": "with",
   "29": "VsCodeWorkspace.tsx",
   "30": "StepperWizard.tsx",
   "31": "dependencies",
@@ -37,5 +37,11 @@
   "35": "2026-11-18-cli-openspec-ui-templates-and-nextjs-ux/.openspec.yaml",
   "36": "./browser",
   "37": "scripts",
-  "38": "CodePatcher"
+  "38": "lucide-react",
+  "39": "ScaffoldConsoleView.tsx",
+  "40": "2026-11-18-universal-ai-skills-mcp-and-interactive-landing/.openspec.yaml",
+  "41": "bin",
+  "42": "forgestack-mcp.js",
+  "43": "FileViewerModal.tsx",
+  "44": "vitest.config.ts"
 }

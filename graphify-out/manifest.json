@@ -20,9 +20,9 @@
     "ast_empty": true
   },
   "package.json": {
-    "mtime": 1794986956.5365024,
-    "seen": 1794991091.1400008,
-    "ast_hash": "e2e6c1a412fb510f63604716f98621b0",
+    "mtime": 1794998571.8298028,
+    "seen": 1794999012.7233784,
+    "ast_hash": "8706b45ce83b02f9f4aa8e3a16ac8a9a",
     "semantic_hash": ""
   },
   "packages/cli/bin/create-forgestack-app.js": {
@@ -32,9 +32,9 @@
     "semantic_hash": "6da7ac8ec09adab45a75108560e50f3f"
   },
   "packages/cli/package.json": {
-    "mtime": 1794976896.1454115,
-    "seen": 1794977688.7315114,
-    "ast_hash": "6e001fca0a5b9dcbae92eb8f385c78e6",
+    "mtime": 1794998600.2504542,
+    "seen": 1794999012.7233832,
+    "ast_hash": "cd46b583b7255ec91140c5cf7ea5f893",
     "semantic_hash": ""
   },
   "packages/cli/src/__tests__/cli.test.ts": {
@@ -44,16 +44,16 @@
     "semantic_hash": ""
   },
   "packages/cli/src/cli.ts": {
-    "mtime": 1794986535.1353288,
-    "seen": 1794986871.1128683,
-    "ast_hash": "5b88620d5f0637ef41b131d8b4c86c60",
+    "mtime": 1794998483.1482444,
+    "seen": 1794999012.723392,
+    "ast_hash": "026dbdcd2a53480cd807080bebb050a7",
     "semantic_hash": ""
   },
   "packages/cli/src/index.ts": {
-    "mtime": 1794826520.5616136,
-    "seen": 1794892396.458549,
-    "ast_hash": "706502027baac6c703977e4274399c18",
-    "semantic_hash": "706502027baac6c703977e4274399c18"
+    "mtime": 1794998651.7135541,
+    "seen": 1794999012.7233932,
+    "ast_hash": "70ec5140bcdfbc6160ef49dc395f159e",
+    "semantic_hash": ""
   },
   "packages/cli/src/prompts/wizard.ts": {
     "mtime": 1794977956.2120893,
@@ -80,9 +80,9 @@
     "semantic_hash": ""
   },
   "packages/core/src/browser.ts": {
-    "mtime": 1794986442.2607553,
-    "seen": 1794986871.1129153,
-    "ast_hash": "c4934117898634e521a2257b28a3bc45",
+    "mtime": 1794998403.6771188,
+    "seen": 1794999012.7234175,
+    "ast_hash": "72b846a9bcf9bfa75806229d1beb7242",
     "semantic_hash": ""
   },
   "packages/core/src/engine/__tests__/compositor.test.ts": {
@@ -116,9 +116,9 @@
     "semantic_hash": "9eacc4ef2649c4ba21b2f8b5ab95042f"
   },
   "packages/core/src/index.ts": {
-    "mtime": 1794986432.0466914,
-    "seen": 1794986871.1129394,
-    "ast_hash": "c98a9b4569f41d881784e856972d550f",
+    "mtime": 1794998399.0961118,
+    "seen": 1794999012.7234287,
+    "ast_hash": "4e8b8c53f9249c7d80a5cb306916f491",
     "semantic_hash": ""
   },
   "packages/core/src/registry/__tests__/dependencies.test.ts": {
@@ -410,9 +410,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/App.tsx": {
-    "mtime": 1794994944.5308418,
-    "seen": 1794994990.8720067,
-    "ast_hash": "fe947e771751b0a984f9b01e09289b4a",
+    "mtime": 1794998920.749135,
+    "seen": 1794999012.7235565,
+    "ast_hash": "209be4344612c0d37e66b8a5aa82f5c4",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/common/Badge.tsx": {
@@ -920,9 +920,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/layout/StudioNavbar.tsx": {
-    "mtime": 1794993649.3632655,
-    "seen": 1794994114.201142,
-    "ast_hash": "1aaac981b907a7a95d2bc251adb56846",
+    "mtime": 1794998895.105076,
+    "seen": 1794999012.7235994,
+    "ast_hash": "d16592d5f82745d37386f1069f3181a0",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/preview/FileEditorDrawer.tsx": {
@@ -932,9 +932,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/settings/AppSettingsPage.tsx": {
-    "mtime": 1794994785.5111673,
-    "seen": 1794994990.8720238,
-    "ast_hash": "b406184685d4d98782c767aacd12ab61",
+    "mtime": 1794998560.6073802,
+    "seen": 1794999012.7236104,
+    "ast_hash": "76881ebb765344cf7a861b160868acfc",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/preview/VsCodeWorkspace.tsx": {
@@ -1663,10 +1663,160 @@
     "ast_hash": "0742bba4da7200482eafa025275a872a",
     "semantic_hash": ""
   },
+  ".github/workflows/desktop-release.yml": {
+    "mtime": 1794996312.7364752,
+    "seen": 1794999012.7233531,
+    "ast_hash": "a399a199e49ae597c0dbeb5c3f11ac68",
+    "semantic_hash": ""
+  },
+  "openspec/changes/2026-11-18-universal-ai-skills-mcp-and-interactive-landing/.openspec.yaml": {
+    "mtime": 1794997926.853809,
+    "seen": 1794999012.7233653,
+    "ast_hash": "f02135e4a04785d5e4787da61d354975",
+    "semantic_hash": ""
+  },
+  "packages/cli/bin/forgestack-mcp.js": {
+    "mtime": 1794998634.6885207,
+    "seen": 1794999012.7233818,
+    "ast_hash": "8b3fd85512d2a8c9e6cf1b863de7b4b9",
+    "semantic_hash": ""
+  },
+  "packages/cli/src/__tests__/mcp-server.test.ts": {
+    "mtime": 1794998687.5736263,
+    "seen": 1794999012.7233891,
+    "ast_hash": "7a410fef8701dee9df8b959303415592",
+    "semantic_hash": ""
+  },
+  "packages/cli/src/mcp/server.ts": {
+    "mtime": 1794998626.683505,
+    "seen": 1794999012.7233946,
+    "ast_hash": "840da7c33a851dba481c9621ef069c0e",
+    "semantic_hash": ""
+  },
+  "packages/core/src/skills/__tests__/agent-provisioner.test.ts": {
+    "mtime": 1794998412.2531316,
+    "seen": 1794999012.723433,
+    "ast_hash": "425d7ef2903079212fa92b185b3c27cb",
+    "semantic_hash": ""
+  },
+  "packages/core/src/skills/agent-provisioner.ts": {
+    "mtime": 1794998394.0461044,
+    "seen": 1794999012.7234344,
+    "ast_hash": "f71a3cc8d4cd8244e9af694bd39bd8c5",
+    "semantic_hash": ""
+  },
+  "packages/core/src/skills/targets.ts": {
+    "mtime": 1794998386.5080936,
+    "seen": 1794999012.723436,
+    "ast_hash": "2743026ad73b8d5b2622eb5a9d201ab1",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/ChangelogTimeline.tsx": {
+    "mtime": 1794998848.12597,
+    "seen": 1794999012.723566,
+    "ast_hash": "e056819863ac7cc0d12a5427fa49c52f",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/CompetitorMatrix.tsx": {
+    "mtime": 1794998833.0989366,
+    "seen": 1794999012.723574,
+    "ast_hash": "9c835bea255a86a52c15e6652b897c4f",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/DesktopAppShowcase.tsx": {
+    "mtime": 1794998803.9988723,
+    "seen": 1794999012.7235785,
+    "ast_hash": "b808dff549d124ff7eca03a65d4ce24f",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/DownloadInstallHub.tsx": {
+    "mtime": 1794998865.3610086,
+    "seen": 1794999012.7235825,
+    "ast_hash": "012972610e428adbe4b177d7dab2846d",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/FeatureSpotlight.tsx": {
+    "mtime": 1794998817.7139025,
+    "seen": 1794999012.7235866,
+    "ast_hash": "e93075c9422ad589eda8d352785ee21e",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/HeroKinetic.tsx": {
+    "mtime": 1794998751.6307595,
+    "seen": 1794999012.7235894,
+    "ast_hash": "e1571b3409f1751505c6532face88f6d",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/InteractiveStackSimulator.tsx": {
+    "mtime": 1794998776.652813,
+    "seen": 1794999012.723591,
+    "ast_hash": "6c370d81c8ae46a9ba930e27cf5e0c90",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/LandingFooter.tsx": {
+    "mtime": 1794998874.1900284,
+    "seen": 1794999012.723593,
+    "ast_hash": "9763cc05a311a6f58c516e0cb60523c3",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/LandingPage.tsx": {
+    "mtime": 1794998881.7130456,
+    "seen": 1794999012.7235954,
+    "ast_hash": "f7fbbc2fe0aacd590fcd55891e3e9833",
+    "semantic_hash": ""
+  },
+  "packages/desktop/src/components/landing/VelocityMarquee.tsx": {
+    "mtime": 1794998733.9677222,
+    "seen": 1794999012.723597,
+    "ast_hash": "34b7188fc143617a7650b8d35cfc8a4a",
+    "semantic_hash": ""
+  },
+  ".agents/skills/forgestack/SKILL.md": {
+    "mtime": 1794998332.222019,
+    "seen": 1794999012.7237465,
+    "ast_hash": "1ac1c5fb5aaae9bc94f7944fbe2be059",
+    "semantic_hash": ""
+  },
+  "openspec/changes/2026-11-18-universal-ai-skills-mcp-and-interactive-landing/design.md": {
+    "mtime": 1794997970.6757934,
+    "seen": 1794999012.7238214,
+    "ast_hash": "529064840f354a61a6ab12ba528a1105",
+    "semantic_hash": ""
+  },
+  "openspec/changes/2026-11-18-universal-ai-skills-mcp-and-interactive-landing/proposal.md": {
+    "mtime": 1794997945.7278008,
+    "seen": 1794999012.7238235,
+    "ast_hash": "4cdb96e4b3e3849dff9d8cbd99849a28",
+    "semantic_hash": ""
+  },
+  "openspec/changes/2026-11-18-universal-ai-skills-mcp-and-interactive-landing/specs/ai-universal-skills/spec.md": {
+    "mtime": 1794998065.4667969,
+    "seen": 1794999012.723826,
+    "ast_hash": "3d709dde0152172a359c84365f70f5df",
+    "semantic_hash": ""
+  },
+  "openspec/changes/2026-11-18-universal-ai-skills-mcp-and-interactive-landing/specs/interactive-landing/spec.md": {
+    "mtime": 1794998081.832802,
+    "seen": 1794999012.7238276,
+    "ast_hash": "acfd6cb113a911af0eb696c3aaa13cea",
+    "semantic_hash": ""
+  },
+  "openspec/changes/2026-11-18-universal-ai-skills-mcp-and-interactive-landing/specs/mcp-server/spec.md": {
+    "mtime": 1794998074.6187997,
+    "seen": 1794999012.7238297,
+    "ast_hash": "59f014ae3b4df07cec7cf8e5a2213b87",
+    "semantic_hash": ""
+  },
+  "openspec/changes/2026-11-18-universal-ai-skills-mcp-and-interactive-landing/tasks.md": {
+    "mtime": 1794998996.0723112,
+    "seen": 1794999012.7238321,
+    "ast_hash": "ee395c88b8f1ebff78b8ff97c4a2b603",
+    "semantic_hash": ""
+  },
   "pnpm-lock.yaml": {
-    "mtime": 1794993334.6236763,
-    "seen": 1794994114.2018235,
-    "ast_hash": "31830a0bba670b48bdbb14c928943a25",
+    "mtime": 1794998570.8833992,
+    "seen": 1794999012.7240822,
+    "ast_hash": "5fdcb269bc5986659b736b0391d0b0ec",
     "semantic_hash": ""
   }
 }
