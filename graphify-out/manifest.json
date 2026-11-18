@@ -683,9 +683,9 @@
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1794831935.5748785,
-    "seen": 1794893962.4541726,
-    "ast_hash": "7951421b64998d1dba3782162a691c23",
+    "mtime": 1794979565.0420532,
+    "seen": 1794985009.7890403,
+    "ast_hash": "72a6bdec6ead19b201dd70fc4b8e3da7",
     "semantic_hash": ""
   },
   "openspec/changes/2026-11-17-multi-framework-spec-governance-and-stepper-studio/design.md": {
@@ -1244,6 +1244,42 @@
     "mtime": 1794978123.9521058,
     "seen": 1794978192.5300157,
     "ast_hash": "4411201dab3bfb128a744a5bd7879347",
+    "semantic_hash": ""
+  },
+  "openspec/changes/2026-11-18-production-hardening-and-ecosystem-parity/.openspec.yaml": {
+    "mtime": 1794984646.5689187,
+    "seen": 1794985009.78879,
+    "ast_hash": "e381aee74037cbb6e7cff9bd8b737b62",
+    "semantic_hash": ""
+  },
+  "CONTRIBUTING.md": {
+    "mtime": 1794979338.2601602,
+    "seen": 1794985009.7890368,
+    "ast_hash": "753e9efc6bdf2bafe269ed52346171ec",
+    "semantic_hash": ""
+  },
+  "openspec/changes/2026-11-18-production-hardening-and-ecosystem-parity/design.md": {
+    "mtime": 1794984673.3789585,
+    "seen": 1794985009.7890546,
+    "ast_hash": "e5b2896703910b30eb33785a380cf8af",
+    "semantic_hash": ""
+  },
+  "openspec/changes/2026-11-18-production-hardening-and-ecosystem-parity/proposal.md": {
+    "mtime": 1794984659.8789384,
+    "seen": 1794985009.7890563,
+    "ast_hash": "23e26f037f23a0ce18ed8c6cfa7dcf2d",
+    "semantic_hash": ""
+  },
+  "openspec/changes/2026-11-18-production-hardening-and-ecosystem-parity/specs/desktop-app/spec.md": {
+    "mtime": 1794984683.5679739,
+    "seen": 1794985009.7890573,
+    "ast_hash": "0d061c9b589a4918341d96adbe7c3d96",
+    "semantic_hash": ""
+  },
+  "openspec/changes/2026-11-18-production-hardening-and-ecosystem-parity/tasks.md": {
+    "mtime": 1794984693.0129879,
+    "seen": 1794985009.7890592,
+    "ast_hash": "a020e7b1a5d8b476a7fdfe2e68ccd379",
     "semantic_hash": ""
   },
   "pnpm-lock.yaml": {
