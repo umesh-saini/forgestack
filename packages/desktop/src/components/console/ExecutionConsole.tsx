@@ -10,7 +10,9 @@ import {
   Sparkles,
   Terminal,
   Play,
+  Download,
 } from 'lucide-react';
+import { isTauri } from '../../services/updaterService.js';
 
 interface Props {
   isGenerating: boolean;
@@ -95,9 +97,13 @@ export const ExecutionConsole: React.FC<Props> = ({
             </h3>
             <p className="text-[11px] opacity-60">
               {isComplete
-                ? 'Synthesis complete • Physical project ready on disk'
+                ? isTauri()
+                  ? 'Synthesis complete • Physical project ready on disk'
+                  : 'Synthesis complete • Project ZIP downloaded to browser'
                 : isGenerating
-                ? 'Writing files atomically to target destination...'
+                ? isTauri()
+                  ? 'Writing files atomically to target destination...'
+                  : 'Compiling in-memory VFS into browser ZIP archive...'
                 : 'Idle • Ready to synthesize architecture'}
             </p>
           </div>
@@ -106,30 +112,61 @@ export const ExecutionConsole: React.FC<Props> = ({
         {/* Action Buttons upon Completion */}
         {isComplete && (
           <div className="flex items-center gap-2 flex-wrap">
-            <button
-              type="button"
-              onClick={handleStartDev}
-              className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
-            >
-              <Play className="w-3.5 h-3.5 fill-current" />
-              <span>{devRunning ? 'Dev Stack Running...' : 'Start Dev Stack'}</span>
-            </button>
-            <button
-              type="button"
-              onClick={onOpenVsCode}
-              className="px-3 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
-            >
-              <Code2 className="w-3.5 h-3.5" />
-              <span>Open in VS Code</span>
-            </button>
-            <button
-              type="button"
-              onClick={onOpenFolder}
-              className="px-3 py-1.5 rounded-xl ui-card-subtle hover:opacity-100 text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer border"
-            >
-              <Folder className="w-3.5 h-3.5 text-orange-500" />
-              <span>Open Folder</span>
-            </button>
+            {isTauri() ? (
+              <>
+                <button
+                  type="button"
+                  onClick={handleStartDev}
+                  className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
+                >
+                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <span>{devRunning ? 'Dev Stack Running...' : 'Start Dev Stack'}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={onOpenVsCode}
+                  className="px-3 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
+                >
+                  <Code2 className="w-3.5 h-3.5" />
+                  <span>Open in VS Code</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={onOpenFolder}
+                  className="px-3 py-1.5 rounded-xl ui-card-subtle hover:opacity-100 text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer border"
+                >
+                  <Folder className="w-3.5 h-3.5 text-orange-500" />
+                  <span>Open Folder</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={copyCommand}
+                  className="px-3 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm"
+                >
+                  {copied ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-300" />
+                      <span>Copied Command!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5" />
+                      <span>Copy Terminal Command</span>
+                    </>
+                  )}
+                </button>
+                <a
+                  href="#/landing#downloads"
+                  className="px-3 py-1.5 rounded-xl ui-card-subtle hover:opacity-100 text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer border text-orange-400"
+                >
+                  <Download className="w-3.5 h-3.5 text-orange-400" />
+                  <span>Get Desktop App (.deb / AppImage)</span>
+                </a>
+              </>
+            )}
           </div>
         )}
       </div>

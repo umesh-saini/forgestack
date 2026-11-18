@@ -15,7 +15,7 @@ import {
 } from 'lucide-react';
 
 export const DesktopAppShowcase: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'monaco' | 'templates' | 'stepper' | 'updater'>('monaco');
+  const [activeTab, setActiveTab] = useState<'monaco' | 'templates' | 'stepper' | 'settings'>('stepper');
 
   return (
     <section className="py-16 sm:py-24 px-4 sm:px-6 relative border-t border-[var(--border-subtle)] bg-[var(--bg-surface)]/20">
@@ -38,10 +38,10 @@ export const DesktopAppShowcase: React.FC = () => {
         {/* Tab Switcher */}
         <div className="flex items-center justify-center gap-2 flex-wrap">
           {[
-            { id: 'monaco', label: 'VS Code Monaco Workspace', icon: <Code2 className="w-3.5 h-3.5" /> },
-            { id: 'templates', label: 'Templates & Blueprints Hub', icon: <Layers className="w-3.5 h-3.5" /> },
-            { id: 'stepper', label: '4-Step Stepper Studio', icon: <Sliders className="w-3.5 h-3.5" /> },
-            { id: 'updater', label: 'In-Place & System Auto-Updater', icon: <RotateCw className="w-3.5 h-3.5" /> },
+            { id: 'stepper', label: '4-Step Stepper Studio & Monaco View', icon: <Sliders className="w-3.5 h-3.5" /> },
+            { id: 'templates', label: 'Templates & Curated Presets Hub', icon: <Layers className="w-3.5 h-3.5" /> },
+            { id: 'settings', label: 'Universal AI Agent Skills & Settings', icon: <Sparkles className="w-3.5 h-3.5" /> },
+            { id: 'monaco', label: 'In-Memory VFS Code Inspector', icon: <Code2 className="w-3.5 h-3.5" /> },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -75,10 +75,10 @@ export const DesktopAppShowcase: React.FC = () => {
               <span className="font-bold text-slate-200">ForgeStack Studio</span>
               <span>—</span>
               <span className="text-orange-400 font-medium">
-                {activeTab === 'monaco' && 'Integrated Monaco Studio Workspace'}
+                {activeTab === 'stepper' && 'Progressive 4-Step Architecture Synthesis & Monaco Preview'}
                 {activeTab === 'templates' && 'Templates Hub & Fast Scaffolder'}
-                {activeTab === 'stepper' && 'Progressive 4-Step Architecture Synthesis'}
-                {activeTab === 'updater' && 'Debian Root Package Detector & Updater'}
+                {activeTab === 'settings' && 'Universal AI Agent Skills Setup & App Settings'}
+                {activeTab === 'monaco' && 'Integrated Monaco Studio Workspace'}
               </span>
             </div>
 
@@ -88,8 +88,59 @@ export const DesktopAppShowcase: React.FC = () => {
           </div>
 
           {/* Window Canvas / Interactive Screen */}
-          <div className="min-h-[420px] p-6 bg-[var(--bg-main)]">
-            {/* SCREEN 1: Monaco Editor Workspace */}
+          <div className="min-h-[420px] p-3 sm:p-5 bg-[var(--bg-main)]">
+            {/* SCREEN 1: Stepper Studio & Monaco Editor */}
+            {activeTab === 'stepper' && (
+              <div className="space-y-3">
+                <div className="rounded-xl overflow-hidden border border-slate-700/60 shadow-xl bg-slate-950">
+                  <img
+                    src="/screenshots/stepper-studio.png"
+                    alt="ForgeStack 4-Step Stepper Studio"
+                    className="w-full h-auto object-cover max-h-[580px] rounded-xl hover:scale-[1.01] transition-transform duration-300"
+                  />
+                </div>
+                <div className="flex items-center justify-between text-xs text-[var(--text-muted)] px-1">
+                  <span>Actual Studio Interface: 4-Step Stepper Wizard paired with live Monaco code editor</span>
+                  <span className="text-orange-400 font-mono">100% In-Memory VFS Reactivity</span>
+                </div>
+              </div>
+            )}
+
+            {/* SCREEN 2: Templates Hub */}
+            {activeTab === 'templates' && (
+              <div className="space-y-3">
+                <div className="rounded-xl overflow-hidden border border-slate-700/60 shadow-xl bg-slate-950">
+                  <img
+                    src="/screenshots/templates-hub.png"
+                    alt="ForgeStack Templates and Curated Presets Hub"
+                    className="w-full h-auto object-cover max-h-[580px] rounded-xl hover:scale-[1.01] transition-transform duration-300"
+                  />
+                </div>
+                <div className="flex items-center justify-between text-xs text-[var(--text-muted)] px-1">
+                  <span>Actual Studio Interface: Curated presets, custom template management, and instant fast-scaffold</span>
+                  <span className="text-cyan-400 font-mono">Instant Scaffold Dialog</span>
+                </div>
+              </div>
+            )}
+
+            {/* SCREEN 3: Universal AI Agent Skills & Settings */}
+            {activeTab === 'settings' && (
+              <div className="space-y-3">
+                <div className="rounded-xl overflow-hidden border border-slate-700/60 shadow-xl bg-slate-950">
+                  <img
+                    src="/screenshots/app-settings.png"
+                    alt="ForgeStack AI Agent Skills and Settings"
+                    className="w-full h-auto object-cover max-h-[580px] rounded-xl hover:scale-[1.01] transition-transform duration-300"
+                  />
+                </div>
+                <div className="flex items-center justify-between text-xs text-[var(--text-muted)] px-1">
+                  <span>Actual Studio Interface: Universal AI skills provisioner, theme picker, and packaging status</span>
+                  <span className="text-emerald-400 font-mono">8 Agent Ecosystems Supported</span>
+                </div>
+              </div>
+            )}
+
+            {/* SCREEN 4: In-Memory VFS Code Inspector */}
             {activeTab === 'monaco' && (
               <div className="grid grid-cols-1 md:grid-cols-12 gap-4 h-[380px] font-mono text-xs">
                 {/* File Tree Explorer */}
@@ -163,110 +214,8 @@ export function App() {
                   </div>
                   <div className="border-t pt-2 text-[10px] text-slate-400 flex items-center justify-between">
                     <span>UTF-8 • TypeScript React • Prettier Strict</span>
-                    <span className="text-orange-400">No merge conflicts</span>
+                    <span className="text-orange-400">Zero merge conflicts</span>
                   </div>
-                </div>
-              </div>
-            )}
-
-            {/* SCREEN 2: Templates Hub */}
-            {activeTab === 'templates' && (
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {[
-                    {
-                      name: 'Enterprise Monorepo',
-                      tag: 'Turborepo + Fastify + React 19',
-                      db: 'PostgreSQL + Drizzle',
-                      badge: 'Production Ready',
-                    },
-                    {
-                      name: 'Next.js 15 Full-Stack',
-                      tag: 'App Router + Server Actions',
-                      db: 'PostgreSQL + Better-Auth',
-                      badge: 'New in v1.0.0',
-                    },
-                    {
-                      name: 'Electron Desktop App',
-                      tag: 'electron-vite + React 19',
-                      db: 'SQLite Local Storage',
-                      badge: 'Native GUI',
-                    },
-                  ].map((item, idx) => (
-                    <div key={idx} className="p-4 rounded-xl ui-card-subtle border space-y-3">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-[var(--text-main)]">{item.name}</span>
-                        <span className="text-[9px] font-mono px-2 py-0.5 rounded bg-orange-500/15 text-orange-400 font-bold border border-orange-500/30">
-                          {item.badge}
-                        </span>
-                      </div>
-                      <p className="text-[11px] text-[var(--text-muted)] font-mono">{item.tag}</p>
-                      <div className="text-[10px] text-amber-400 font-mono">{item.db}</div>
-                      <div className="pt-2 flex items-center gap-2">
-                        <button className="flex-1 py-1.5 rounded-lg bg-orange-600 text-white text-[11px] font-bold">
-                          ⚡ Fast Scaffold
-                        </button>
-                        <button className="px-3 py-1.5 rounded-lg ui-card-subtle border text-[11px]">
-                          Edit
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* SCREEN 3: 4-Step Stepper Studio */}
-            {activeTab === 'stepper' && (
-              <div className="space-y-4">
-                {/* 4 Step Indicator */}
-                <div className="grid grid-cols-4 gap-2 text-center text-xs font-mono">
-                  <div className="p-2 rounded-xl bg-orange-500/20 text-orange-400 border border-orange-500/40 font-bold">
-                    1. Identity & Archetype
-                  </div>
-                  <div className="p-2 rounded-xl ui-card-subtle border opacity-80">
-                    2. Stack Ecosystem
-                  </div>
-                  <div className="p-2 rounded-xl ui-card-subtle border opacity-80">
-                    3. Tooling & Governance
-                  </div>
-                  <div className="p-2 rounded-xl ui-card-subtle border opacity-80">
-                    4. Synthesis Review
-                  </div>
-                </div>
-
-                <div className="p-6 rounded-xl ui-card-subtle border space-y-4">
-                  <div className="text-xs font-bold text-[var(--text-main)]">
-                    Progressive Contextual Disclosure
-                  </div>
-                  <p className="text-xs text-[var(--text-muted)] leading-relaxed">
-                    Options adapt dynamically based on your chosen runtime archetype. Next.js selections
-                    automatically hide unnecessary backend microservice fields; Electron archetypes
-                    activate main process and preload security configurations.
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {/* SCREEN 4: Software Updater */}
-            {activeTab === 'updater' && (
-              <div className="max-w-md mx-auto p-5 rounded-2xl ui-card-subtle border space-y-4 text-xs">
-                <div className="flex items-center gap-2 text-amber-500 font-bold">
-                  <Terminal className="w-4 h-4" />
-                  <span>System Package Installation Detected (.deb)</span>
-                </div>
-                <p className="text-[11px] text-[var(--text-muted)] leading-relaxed">
-                  ForgeStack is installed as a Debian root package in <code className="text-amber-400 font-mono">/usr/bin/forgestack-desktop</code>.
-                  For security, standard user processes cannot overwrite root system binaries.
-                </p>
-                <div className="p-2.5 rounded-lg ui-input border font-mono text-[11px] text-amber-400 truncate">
-                  sudo dpkg -i ~/Downloads/ForgeStack_1.1.0_amd64.deb
-                </div>
-                <div className="flex justify-end gap-2 pt-1">
-                  <button className="px-3 py-1.5 rounded-lg bg-orange-600 text-white font-bold text-xs flex items-center gap-1.5">
-                    <Download className="w-3.5 h-3.5" />
-                    <span>Download .deb</span>
-                  </button>
                 </div>
               </div>
             )}

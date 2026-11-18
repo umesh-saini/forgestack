@@ -6,7 +6,16 @@ export type AgentToolId =
   | 'windsurf'
   | 'copilot'
   | 'cline'
-  | 'continue';
+  | 'continue'
+  | 'zed'
+  | 'trae'
+  | 'gemini'
+  | 'amazonq'
+  | 'qwen'
+  | 'opencode'
+  | 'codex'
+  | 'junie'
+  | 'rovo';
 
 export interface AgentSkillTarget {
   id: AgentToolId;
@@ -181,5 +190,68 @@ ${skillDoc.replace(/^---[\s\S]*?---\n/, '')}`,
     description: 'Custom slash prompt / rule for Continue.dev IDE extension.',
     relativePath: '.continue/prompts/forgestack.prompt',
     generateContent: (skillDoc) => `temperature: 0.2\n---\n${skillDoc.replace(/^---[\s\S]*?---\n/, '')}`,
+  },
+  {
+    id: 'zed',
+    name: 'Zed Agent',
+    description: 'Zed editor Assistant rules & slash prompts.',
+    relativePath: '.zed/rules/forgestack.md',
+    generateContent: (skillDoc) => skillDoc.replace(/^---[\s\S]*?---\n/, ''),
+  },
+  {
+    id: 'trae',
+    name: 'Trae IDE',
+    description: 'ByteDance Trae AI native editor workspace rules.',
+    relativePath: '.trae/rules/forgestack.md',
+    generateContent: (skillDoc) => skillDoc.replace(/^---[\s\S]*?---\n/, ''),
+  },
+  {
+    id: 'gemini',
+    name: 'Gemini CLI',
+    description: 'Google Gemini CLI and Developer Agent skills.',
+    relativePath: '.gemini/skills/forgestack/SKILL.md',
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  {
+    id: 'amazonq',
+    name: 'Amazon Q Developer',
+    description: 'AWS Amazon Q Developer coding agent rules.',
+    relativePath: '.amazonq/rules/forgestack.md',
+    generateContent: (skillDoc) => `# ForgeStack Scaffolding Guidelines for Amazon Q\n\n${skillDoc.replace(/^---[\s\S]*?---\n/, '')}`,
+  },
+  {
+    id: 'qwen',
+    name: 'Qwen Code',
+    description: 'Alibaba Qwen Code assistant skill specification.',
+    relativePath: '.qwen/skills/forgestack/SKILL.md',
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  {
+    id: 'opencode',
+    name: 'OpenCode',
+    description: 'OpenCode AI assistant skill specification.',
+    relativePath: '.opencode/skills/forgestack/SKILL.md',
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  {
+    id: 'codex',
+    name: 'Codex / OpenAI',
+    description: 'OpenAI Codex & ChatGPT coding agent directives.',
+    relativePath: '.codex/skills/forgestack/SKILL.md',
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  {
+    id: 'junie',
+    name: 'Junie (JetBrains)',
+    description: 'JetBrains Junie AI agent skills configuration.',
+    relativePath: '.junie/skills/forgestack/SKILL.md',
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
+  },
+  {
+    id: 'rovo',
+    name: 'Rovo Dev CLI',
+    description: 'Atlassian Rovo Dev CLI skill specification.',
+    relativePath: '.rovo/skills/forgestack/SKILL.md',
+    generateContent: () => FORGESTACK_CANONICAL_SKILL,
   },
 ];

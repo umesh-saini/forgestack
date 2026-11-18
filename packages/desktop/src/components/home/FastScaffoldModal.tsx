@@ -3,6 +3,7 @@ import { FolderOpen, Rocket, X, Check, Loader2, Sparkles } from 'lucide-react';
 import type { SavedTemplate } from '../../types/template.js';
 import type { ProjectConfig } from '@forgestack/core/browser';
 import { loadAppSettings } from '../settings/AppSettingsPage.js';
+import { isTauri } from '../../services/updaterService.js';
 
 interface Props {
   template: SavedTemplate | null;
@@ -133,6 +134,14 @@ export const FastScaffoldModal: React.FC<Props> = ({
             </div>
           </div>
 
+          {/* Web sandbox banner */}
+          {!isTauri() && (
+            <div className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/20 text-xs text-orange-400 flex items-center gap-2">
+              <Sparkles className="w-4 h-4 shrink-0 text-orange-400" />
+              <span>Web Sandbox: Project will be packaged into a <strong className="font-mono text-orange-300">.ZIP</strong> archive download.</span>
+            </div>
+          )}
+
           {/* Quick automation flags */}
           <div className="p-3 rounded-xl ui-card-subtle border flex items-center justify-between text-xs">
             <label className="flex items-center gap-2 cursor-pointer select-none">
@@ -171,7 +180,7 @@ export const FastScaffoldModal: React.FC<Props> = ({
             className="px-5 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-medium transition-colors cursor-pointer flex items-center gap-2 shadow-lg shadow-orange-600/25"
           >
             <Rocket className="w-3.5 h-3.5" />
-            <span>Scaffold Project</span>
+            <span>{isTauri() ? 'Scaffold Project' : 'Download Project .ZIP'}</span>
           </button>
         </div>
       </div>

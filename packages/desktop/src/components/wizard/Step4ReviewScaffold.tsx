@@ -16,6 +16,7 @@ import {
 import type { ProjectConfig } from '@forgestack/core/browser';
 import { ExecutionConsole } from '../console/ExecutionConsole.js';
 import { TopologyVisualizer } from './TopologyVisualizer.js';
+import { isTauri } from '../../services/updaterService.js';
 
 interface Props {
   config: ProjectConfig;
@@ -234,11 +235,17 @@ export const Step4ReviewScaffold: React.FC<Props> = ({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 rounded-2xl bg-gradient-to-r from-orange-600/10 via-amber-600/10 to-rose-600/10 border border-orange-500/20">
         <div className="min-w-0 flex-1 space-y-1">
           <h4 className="font-bold text-sm tracking-tight text-[var(--text-main)]">
-            Ready to Synthesize Architecture
+            {isTauri() ? 'Ready to Synthesize Architecture' : 'Ready to Export Architecture'}
           </h4>
-          <p className="text-xs opacity-70 truncate font-mono">
-            Writes {fileCount} staged files atomically to <span className="font-semibold text-[var(--text-main)]">{config.targetPath}</span>
-          </p>
+          {isTauri() ? (
+            <p className="text-xs opacity-70 truncate font-mono">
+              Writes {fileCount} staged files atomically to <span className="font-semibold text-[var(--text-main)]">{config.targetPath}</span>
+            </p>
+          ) : (
+            <p className="text-xs opacity-70 truncate font-mono text-orange-400">
+              Bundles {fileCount} staged files into an instant client-side <span className="font-semibold text-[var(--text-main)]">{config.name}.zip</span> download
+            </p>
+          )}
         </div>
 
         <button
@@ -255,7 +262,7 @@ export const Step4ReviewScaffold: React.FC<Props> = ({
           ) : (
             <>
               <Rocket className="w-4 h-4 shrink-0" />
-              <span>Scaffold Project ({fileCount} files)</span>
+              <span>{isTauri() ? `Scaffold Project (${fileCount} files)` : `Download Project .ZIP (${fileCount} files)`}</span>
             </>
           )}
         </button>

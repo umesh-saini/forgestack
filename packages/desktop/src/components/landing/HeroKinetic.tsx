@@ -103,6 +103,15 @@ export const HeroKinetic: React.FC<Props> = ({ onOpenDownloadModal }) => {
             <ArrowRight className="w-4 h-4" />
           </button>
 
+          <button
+            type="button"
+            onClick={() => navigate('/hub')}
+            className="flex items-center gap-2 px-5 py-3 rounded-xl ui-card-subtle border text-xs sm:text-sm font-bold text-[var(--text-main)] hover:border-[var(--border-hover)] transition-all cursor-pointer hover:bg-[var(--bg-surface)]"
+          >
+            <Layers className="w-4 h-4 text-orange-500" />
+            <span>Explore Templates Hub</span>
+          </button>
+
           <a
             href="#downloads"
             className="flex items-center gap-2 px-5 py-3 rounded-xl ui-card-subtle border text-xs sm:text-sm font-bold text-[var(--text-main)] hover:border-[var(--border-hover)] transition-all cursor-pointer hover:bg-[var(--bg-surface)]"
