@@ -28,7 +28,7 @@
   "26": "mod.rs",
   "27": "forgestack-desktop",
   "28": "with",
-  "29": "VsCodeWorkspace.tsx",
+  "29": "FastScaffoldModal.tsx",
   "30": "StepperWizard.tsx",
   "31": "dependencies",
   "32": "typescript",
@@ -38,10 +38,9 @@
   "36": "./browser",
   "37": "scripts",
   "38": "lucide-react",
-  "39": "ScaffoldConsoleView.tsx",
+  "39": "AppSettingsPage.tsx",
   "40": "2026-11-18-universal-ai-skills-mcp-and-interactive-landing/.openspec.yaml",
   "41": "bin",
   "42": "forgestack-mcp.js",
-  "43": "FileViewerModal.tsx",
   "44": "vitest.config.ts"
 }

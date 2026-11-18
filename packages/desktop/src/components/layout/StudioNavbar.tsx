@@ -5,6 +5,7 @@ import {
   Settings,
   Sparkles,
 } from 'lucide-react';
+import { isTauri } from '../../services/updaterService.js';
 
 interface Props {
   targetPath: string;
@@ -31,7 +32,7 @@ export const StudioNavbar: React.FC<Props> = ({
         {/* Brand Logo & Navigation Links with Standard Gap */}
         <div className="flex items-center gap-6">
           <NavLink
-            to="/"
+            to={isTauri() ? '/hub' : '/'}
             className="flex items-center gap-2.5 font-bold tracking-tight text-sm text-[var(--text-main)] hover:opacity-90 shrink-0"
           >
             <img
@@ -52,10 +53,10 @@ export const StudioNavbar: React.FC<Props> = ({
           {/* Clean, Standard Navigation Links */}
           <nav className="flex items-center gap-4 text-xs font-medium">
             <NavLink
-              to="/"
+              to="/hub"
               className={({ isActive }) =>
                 `transition-colors ${
-                  isActive
+                  isActive || (location.pathname === '/' && isTauri()) || location.pathname === '/templates'
                     ? 'text-orange-500 font-bold'
                     : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
                 }`
@@ -68,7 +69,7 @@ export const StudioNavbar: React.FC<Props> = ({
               to="/new"
               className={({ isActive }) =>
                 `transition-colors ${
-                  isActive
+                  isActive || isWizardRoute
                     ? 'text-orange-500 font-bold'
                     : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
                 }`
@@ -81,7 +82,7 @@ export const StudioNavbar: React.FC<Props> = ({
               to="/landing"
               className={({ isActive }) =>
                 `transition-colors ${
-                  isActive
+                  isActive || (location.pathname === '/' && !isTauri())
                     ? 'text-orange-500 font-bold'
                     : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
                 }`

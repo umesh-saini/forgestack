@@ -32,8 +32,8 @@
     "semantic_hash": "6da7ac8ec09adab45a75108560e50f3f"
   },
   "packages/cli/package.json": {
-    "mtime": 1794998600.2504542,
-    "seen": 1794999012.7233832,
+    "mtime": 1794999183.2541702,
+    "seen": 1795000290.6147745,
     "ast_hash": "cd46b583b7255ec91140c5cf7ea5f893",
     "semantic_hash": ""
   },
@@ -338,9 +338,9 @@
     "semantic_hash": "d42baab1a0137a702df62d3507ba190d"
   },
   "packages/desktop/package.json": {
-    "mtime": 1794993335.214682,
-    "seen": 1794994114.2010622,
-    "ast_hash": "c90c393467d5b1fa91e0ccef2286926b",
+    "mtime": 1794999534.4672003,
+    "seen": 1795000290.6149962,
+    "ast_hash": "11e690ba5905a9fcf721dc51d086b2a3",
     "semantic_hash": ""
   },
   "packages/desktop/src-tauri/Cargo.toml": {
@@ -410,9 +410,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/App.tsx": {
-    "mtime": 1794998920.749135,
-    "seen": 1794999012.7235565,
-    "ast_hash": "209be4344612c0d37e66b8a5aa82f5c4",
+    "mtime": 1795000040.1601453,
+    "seen": 1795000290.615031,
+    "ast_hash": "bc565442682517572c77307e1253cec6",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/common/Badge.tsx": {
@@ -428,9 +428,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/console/ExecutionConsole.tsx": {
-    "mtime": 1794991544.8491838,
-    "seen": 1794992120.3051097,
-    "ast_hash": "09027f6d0c51bf8d4d76f33e18a991c4",
+    "mtime": 1795000175.297009,
+    "seen": 1795000290.6150384,
+    "ast_hash": "60e3a454fe7087fc8caccc7eb9fdae03",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/preview/FileTreePreview.tsx": {
@@ -872,9 +872,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/home/FastScaffoldModal.tsx": {
-    "mtime": 1794991545.1601882,
-    "seen": 1794992120.3051114,
-    "ast_hash": "294b7d61218e60b757063af40174fdb8",
+    "mtime": 1795000105.1503823,
+    "seen": 1795000290.6150408,
+    "ast_hash": "f474166bc3545fa0282cded5529b152a",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/home/HomeTemplatesDashboard.tsx": {
@@ -902,9 +902,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/wizard/Step4ReviewScaffold.tsx": {
-    "mtime": 1794991548.8955102,
-    "seen": 1794992120.3051414,
-    "ast_hash": "7ca67fa3d652d21931a54ccc524d64ee",
+    "mtime": 1795000134.724755,
+    "seen": 1795000290.615089,
+    "ast_hash": "110295a042aa7ac556e2fc298b554ac8",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/wizard/StepperWizard.tsx": {
@@ -920,9 +920,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/layout/StudioNavbar.tsx": {
-    "mtime": 1794998895.105076,
-    "seen": 1794999012.7235994,
-    "ast_hash": "d16592d5f82745d37386f1069f3181a0",
+    "mtime": 1795000064.6213057,
+    "seen": 1795000290.615064,
+    "ast_hash": "b67363b2f02048c03b6c95ff4c1e22f2",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/preview/FileEditorDrawer.tsx": {
@@ -932,8 +932,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/settings/AppSettingsPage.tsx": {
-    "mtime": 1794998560.6073802,
-    "seen": 1794999012.7236104,
+    "mtime": 1794999186.9411118,
+    "seen": 1795000290.615071,
     "ast_hash": "76881ebb765344cf7a861b160868acfc",
     "semantic_hash": ""
   },
@@ -1706,9 +1706,9 @@
     "semantic_hash": ""
   },
   "packages/core/src/skills/targets.ts": {
-    "mtime": 1794998386.5080936,
-    "seen": 1794999012.723436,
-    "ast_hash": "2743026ad73b8d5b2622eb5a9d201ab1",
+    "mtime": 1794999923.456351,
+    "seen": 1795000290.6148508,
+    "ast_hash": "be30ba2cc15fc13bde54d41e4fb8f5a9",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/ChangelogTimeline.tsx": {
@@ -1724,9 +1724,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/DesktopAppShowcase.tsx": {
-    "mtime": 1794998803.9988723,
-    "seen": 1794999012.7235785,
-    "ast_hash": "b808dff549d124ff7eca03a65d4ce24f",
+    "mtime": 1795000196.4331393,
+    "seen": 1795000290.615051,
+    "ast_hash": "6e06da2fec94e2165f307c03305648c3",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/DownloadInstallHub.tsx": {
@@ -1742,9 +1742,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/HeroKinetic.tsx": {
-    "mtime": 1794998751.6307595,
-    "seen": 1794999012.7235894,
-    "ast_hash": "e1571b3409f1751505c6532face88f6d",
+    "mtime": 1795000080.5634093,
+    "seen": 1795000290.615056,
+    "ast_hash": "b64a55a198dbb56c74d779dd49b22ea6",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/InteractiveStackSimulator.tsx": {
@@ -1808,15 +1808,33 @@
     "semantic_hash": ""
   },
   "openspec/changes/2026-11-18-universal-ai-skills-mcp-and-interactive-landing/tasks.md": {
-    "mtime": 1794998996.0723112,
-    "seen": 1794999012.7238321,
+    "mtime": 1794999182.8839526,
+    "seen": 1795000290.615213,
     "ast_hash": "ee395c88b8f1ebff78b8ff97c4a2b603",
     "semantic_hash": ""
   },
+  "packages/desktop/public/screenshots/app-settings.png": {
+    "mtime": 1794999567.5125086,
+    "seen": 1795000290.6152704,
+    "ast_hash": "ac6fc161cccb2ab363f050c25bd6ceaf",
+    "semantic_hash": ""
+  },
+  "packages/desktop/public/screenshots/stepper-studio.png": {
+    "mtime": 1794999566.4824991,
+    "seen": 1795000290.615272,
+    "ast_hash": "1713057a6b2ff3e9a84b18b8276228ff",
+    "semantic_hash": ""
+  },
+  "packages/desktop/public/screenshots/templates-hub.png": {
+    "mtime": 1794999565.4434896,
+    "seen": 1795000290.6152735,
+    "ast_hash": "bc047fe95b2c89bd5dfab59cf14ade5b",
+    "semantic_hash": ""
+  },
   "pnpm-lock.yaml": {
-    "mtime": 1794998570.8833992,
-    "seen": 1794999012.7240822,
-    "ast_hash": "5fdcb269bc5986659b736b0391d0b0ec",
+    "mtime": 1794999534.1312847,
+    "seen": 1795000290.6153657,
+    "ast_hash": "07aee7742972ed2c64b8a9512f2b9e55",
     "semantic_hash": ""
   }
 }

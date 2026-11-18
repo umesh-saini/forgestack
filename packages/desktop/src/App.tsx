@@ -27,6 +27,7 @@ import { LandingPage } from './components/landing/LandingPage.js';
 import {
   getAppEnvironment,
   checkForUpdates,
+  isTauri,
   type AppEnvironment,
   type UpdateDetails,
 } from './services/updaterService.js';
@@ -275,11 +276,7 @@ function ForgeStackAppContent() {
         `[ForgeStack PRE-FLIGHT] Verifying target directory write permissions...`,
       ]);
 
-      const isTauri =
-        typeof window !== 'undefined' &&
-        ('__TAURI_INTERNALS__' in window || '__TAURI__' in window);
-
-      if (isTauri) {
+      if (isTauri()) {
         setLogs((prev) => [
           ...prev,
           `[ForgeStack TAURI] Writing files natively via Tauri Rust engine...`,
@@ -302,43 +299,48 @@ function ForgeStackAppContent() {
         setLogs((prev) => [
           ...prev,
           `[ForgeStack TAURI] Wrote ${writtenCount} files atomically to ${cfgToScaffold.targetPath}`,
+          ...(cfgToScaffold.git
+            ? ['[ForgeStack GIT] Local git repository initialized & staged.']
+            : []),
+          ...(cfgToScaffold.install
+            ? [`[ForgeStack INSTALL] Dependencies installed via ${cfgToScaffold.packageManager}.`]
+            : []),
+          `[ForgeStack SUCCESS] Project scaffolded cleanly on physical disk with Day-One AI Governance!`,
         ]);
       } else {
+        // Web Browser Mode: Package in-memory VFS into ZIP archive and trigger download
         setLogs((prev) => [
           ...prev,
-          `[ForgeStack FLUSH] Writing files atomically via Vite scaffold API...`,
+          `[ForgeStack WEB] Packaging in-memory VFS into browser ZIP archive...`,
         ]);
-        const response = await fetch('/api/scaffold', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(cfgToScaffold),
-        });
+        const JSZip = (await import('jszip')).default;
+        const zip = new JSZip();
 
-        if (!response.ok) {
-          const errData = await response.json().catch(() => ({}));
-          throw new Error(
-            errData.error || `Scaffolding failed with HTTP status ${response.status}`
-          );
+        for (const file of vfs.getAllFiles()) {
+          const cleanPath = file.path.replace(/^\/+/, '');
+          zip.file(cleanPath, file.content);
         }
-        const result = await response.json();
+
+        const zipBlob = await zip.generateAsync({ type: 'blob' });
+        const downloadUrl = URL.createObjectURL(zipBlob);
+        const anchor = document.createElement('a');
+        anchor.href = downloadUrl;
+        anchor.download = `${cfgToScaffold.name}.zip`;
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(downloadUrl);
+
         setLogs((prev) => [
           ...prev,
-          `[ForgeStack FLUSH] Wrote ${result.filesWritten} files atomically to ${result.targetPath}`,
+          `[ForgeStack WEB] Generated ${cfgToScaffold.name}.zip (${(zipBlob.size / 1024).toFixed(1)} KB) containing ${vfs.count()} files.`,
+          `[ForgeStack DOWNLOAD] Project ZIP archive downloaded to your browser.`,
+          `[ForgeStack CLI] Terminal command: npx create-forgestack-app ${cfgToScaffold.name} --topology ${cfgToScaffold.topology}`,
+          `[ForgeStack NOTICE] Web sandbox notice: direct disk write, auto git init, and auto install require native CLI or Desktop Studio.`,
+          `[ForgeStack SUCCESS] Project synthesized and downloaded successfully!`,
         ]);
       }
 
-      setLogs((prev) => [
-        ...prev,
-        ...(cfgToScaffold.git
-          ? ['[ForgeStack GIT] Local git repository initialized & staged.']
-          : []),
-        ...(cfgToScaffold.install
-          ? [`[ForgeStack INSTALL] Dependencies installed via ${cfgToScaffold.packageManager}.`]
-          : []),
-        `[ForgeStack SUCCESS] Project scaffolded cleanly on physical disk with Day-One AI Governance!`,
-      ]);
       setIsComplete(true);
     } catch (err: any) {
       setLogs((prev) => [
@@ -516,9 +518,29 @@ function ForgeStackAppContent() {
       {/* Main View Router */}
       <main className="flex-1">
         <Routes>
-          {/* VIEW 1: HOME TEMPLATES DASHBOARD */}
+          {/* VIEW 1: ROOT - Flagship Marketing Landing on Web, Templates Hub on Native Desktop */}
           <Route
             path="/"
+            element={
+              isTauri() ? (
+                <HomeTemplatesDashboard
+                  templates={templates}
+                  onNewStack={handleNewStack}
+                  onEditTemplate={handleEditTemplate}
+                  onFastScaffold={(tpl) => setFastScaffoldTemplate(tpl)}
+                  onDuplicateTemplate={handleDuplicateTemplate}
+                  onDeleteTemplate={handleDeleteTemplate}
+                  onRenameTemplate={handleRenameTemplate}
+                />
+              ) : (
+                <LandingPage />
+              )
+            }
+          />
+
+          {/* VIEW 2: TEMPLATES HUB (Direct workspace path /hub & alias /templates) */}
+          <Route
+            path="/hub"
             element={
               <HomeTemplatesDashboard
                 templates={templates}
@@ -531,8 +553,9 @@ function ForgeStackAppContent() {
               />
             }
           />
+          <Route path="/templates" element={<Navigate to="/hub" replace />} />
 
-          {/* VIEW 2: 4-STEP STEPPER STUDIO (/new or /studio) */}
+          {/* VIEW 3: 4-STEP STEPPER STUDIO (/new or /studio) */}
           <Route
             path="/new"
             element={
@@ -564,7 +587,7 @@ function ForgeStackAppContent() {
                       onOpenFolder={handleOpenFolder}
                       onOpenVsCode={handleOpenVsCode}
                       onOpenAntigravity={handleOpenAntigravity}
-                      onBackToHome={() => navigate('/')}
+                      onBackToHome={() => navigate('/hub')}
                     />
                   </div>
 
