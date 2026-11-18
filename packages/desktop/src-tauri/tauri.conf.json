@@ -29,6 +29,7 @@
   "bundle": {
     "active": true,
     "targets": "all",
+    "createUpdaterArtifacts": true,
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",
@@ -39,6 +40,12 @@
   },
   "plugins": {
     "dialog": null,
-    "shell": null
+    "shell": null,
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDc5RkMzQTRCQTU4MzdGRTgKUldUb2Y0T2xTenI4ZVZFeGNaME85a3pYbHhwZ3BOSXF4RU1ESE1TUHJuOWQzQ3V1M1Q0dWR2RFQK",
+      "endpoints": [
+        "https://github.com/forgestack/forgestack/releases/latest/download/latest.json"
+      ]
+    }
   }
 }

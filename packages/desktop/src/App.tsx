@@ -22,6 +22,13 @@ import { PathSelectorModal } from './components/wizard/PathSelectorModal.js';
 import { VsCodeWorkspace } from './components/preview/VsCodeWorkspace.js';
 import { AppSettingsPage, loadAppSettings } from './components/settings/AppSettingsPage.js';
 import { ScaffoldConsoleView } from './components/home/ScaffoldConsoleView.js';
+import { UpdateModal } from './components/updater/UpdateModal.js';
+import {
+  getAppEnvironment,
+  checkForUpdates,
+  type AppEnvironment,
+  type UpdateDetails,
+} from './services/updaterService.js';
 import { type SavedTemplate, BUILTIN_TEMPLATES } from './types/template.js';
 
 function ForgeStackAppContent() {
@@ -60,6 +67,36 @@ function ForgeStackAppContent() {
       localStorage.setItem('forgestack-templates', JSON.stringify(updated));
     } catch {
       // ignore
+    }
+  };
+
+  // Software Updates & Packaging State
+  const [appEnv, setAppEnv] = useState<AppEnvironment | null>(null);
+  const [updateDetails, setUpdateDetails] = useState<UpdateDetails | null>(null);
+  const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
+  const [isCheckingUpdate, setIsCheckingUpdate] = useState(false);
+
+  useEffect(() => {
+    getAppEnvironment().then((env) => {
+      setAppEnv(env);
+    });
+
+    // Background update check on startup
+    checkForUpdates(false).then((details) => {
+      if (details) {
+        setUpdateDetails(details);
+      }
+    });
+  }, []);
+
+  const handleManualCheckUpdate = async () => {
+    setIsCheckingUpdate(true);
+    setIsUpdateModalOpen(true);
+    try {
+      const details = await checkForUpdates(true);
+      setUpdateDetails(details);
+    } finally {
+      setIsCheckingUpdate(false);
     }
   };
 
@@ -453,6 +490,8 @@ function ForgeStackAppContent() {
           });
           setIsPathModalOpen(true);
         }}
+        onOpenUpdateModal={() => setIsUpdateModalOpen(true)}
+        hasUpdate={Boolean(updateDetails?.available)}
       />
 
       {/* Main View Router */}
@@ -616,6 +655,10 @@ function ForgeStackAppContent() {
                   setBrowseCallback(() => callback);
                   setIsPathModalOpen(true);
                 }}
+                onCheckForUpdates={handleManualCheckUpdate}
+                isCheckingUpdate={isCheckingUpdate}
+                appEnv={appEnv}
+                updateDetails={updateDetails}
               />
             }
           />
@@ -662,6 +705,14 @@ function ForgeStackAppContent() {
           setIsPathModalOpen(false);
           setBrowseCallback(null);
         }}
+      />
+
+      {/* Software Update Notification & Installation Modal */}
+      <UpdateModal
+        isOpen={isUpdateModalOpen}
+        onClose={() => setIsUpdateModalOpen(false)}
+        updateDetails={updateDetails}
+        isChecking={isCheckingUpdate}
       />
     </div>
   );

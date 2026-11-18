@@ -3,16 +3,21 @@ import { NavLink, useLocation } from 'react-router-dom';
 import {
   FolderOpen,
   Settings,
+  Sparkles,
 } from 'lucide-react';
 
 interface Props {
   targetPath: string;
   onBrowsePath: () => void;
+  onOpenUpdateModal?: () => void;
+  hasUpdate?: boolean;
 }
 
 export const StudioNavbar: React.FC<Props> = ({
   targetPath,
   onBrowsePath,
+  onOpenUpdateModal,
+  hasUpdate = false,
 }) => {
   const location = useLocation();
   const isWizardRoute =
@@ -32,7 +37,7 @@ export const StudioNavbar: React.FC<Props> = ({
             <img
               src="/app-icon.svg"
               alt="ForgeStack"
-              className="w-7 h-7 rounded-lg shadow-sm shadow-orange-500/25 shrink-0 object-contain"
+              className="w-11 h-11 rounded-lg shrink-0 object-contain"
             />
             <div className="flex items-center gap-1.5">
               <span className="font-extrabold text-[var(--text-main)]">ForgeStack</span>
@@ -76,6 +81,19 @@ export const StudioNavbar: React.FC<Props> = ({
 
         {/* Right Header Controls with Standard Gap */}
         <div className="flex items-center gap-2.5">
+          {/* Update Available Badge */}
+          {hasUpdate && (
+            <button
+              type="button"
+              onClick={onOpenUpdateModal}
+              className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-orange-500/15 text-orange-400 border border-orange-500/30 text-xs font-mono font-bold animate-pulse hover:bg-orange-500/25 transition-all cursor-pointer shadow-sm shadow-orange-500/20"
+              title="New software update available"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-orange-400" />
+              <span>Update Ready</span>
+            </button>
+          )}
+
           {/* Target Directory Indicator Pill (shown only on wizard route where active project exists) */}
           {isWizardRoute && (
             <button

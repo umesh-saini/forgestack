@@ -18,6 +18,7 @@ import {
   Cpu,
 } from 'lucide-react';
 import type { ThemeId } from '../wizard/Header.js';
+import type { AppEnvironment, UpdateDetails } from '../../services/updaterService';
 
 export interface AppSettings {
   defaultTargetPath: string;
@@ -65,12 +66,20 @@ interface Props {
   currentTheme: ThemeId;
   onThemeChange: (theme: ThemeId) => void;
   onBrowseFolder: (onSelect: (path: string) => void) => void;
+  onCheckForUpdates?: () => void;
+  isCheckingUpdate?: boolean;
+  appEnv?: AppEnvironment | null;
+  updateDetails?: UpdateDetails | null;
 }
 
 export const AppSettingsPage: React.FC<Props> = ({
   currentTheme,
   onThemeChange,
   onBrowseFolder,
+  onCheckForUpdates,
+  isCheckingUpdate = false,
+  appEnv,
+  updateDetails,
 }) => {
   const [settings, setSettings] = useState<AppSettings>(() => loadAppSettings());
   const [savedBanner, setSavedBanner] = useState(false);
@@ -410,13 +419,107 @@ export const AppSettingsPage: React.FC<Props> = ({
         </div>
       </div>
 
-      {/* SECTION 4: ABOUT & RESET */}
+      {/* SECTION 4: SOFTWARE UPDATES & PACKAGING */}
+      <div className="ui-panel rounded-2xl p-6 space-y-5 border">
+        <div className="flex items-center justify-between flex-wrap gap-2">
+          <div className="flex items-center gap-2 text-orange-500">
+            <Sparkles className="w-4 h-4" />
+            <h3 className="font-bold text-xs uppercase tracking-wider text-[var(--text-main)]">
+              Software Updates & Packaging
+            </h3>
+          </div>
+
+          {onCheckForUpdates && (
+            <button
+              type="button"
+              onClick={onCheckForUpdates}
+              disabled={isCheckingUpdate}
+              className="px-3.5 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-500 disabled:opacity-50 text-white text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm shadow-orange-600/30"
+            >
+              <RotateCcw className={`w-3.5 h-3.5 ${isCheckingUpdate ? 'animate-spin' : ''}`} />
+              <span>{isCheckingUpdate ? 'Checking Releases...' : 'Check for Updates'}</span>
+            </button>
+          )}
+        </div>
+
+        <p className="text-xs text-[var(--text-muted)]">
+          Manages binary distribution packages, automated in-place updates, and release changelogs.
+        </p>
+
+        {/* 3 Metric Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 font-mono text-xs">
+          <div className="p-3.5 rounded-xl ui-card-subtle border space-y-1">
+            <span className="text-[10px] uppercase font-bold text-[var(--text-muted)]">
+              Installed Version
+            </span>
+            <div className="font-bold text-sm text-[var(--text-main)]">
+              v{appEnv?.current_version || '1.0.0'}
+            </div>
+            <div className="text-[10px] text-[var(--text-muted)]">
+              Target: {appEnv?.platform || 'desktop'}
+            </div>
+          </div>
+
+          <div className="p-3.5 rounded-xl ui-card-subtle border space-y-1">
+            <span className="text-[10px] uppercase font-bold text-[var(--text-muted)]">
+              Packaging Format
+            </span>
+            <div className="font-bold text-sm text-cyan-400">
+              {appEnv?.is_appimage
+                ? 'AppImage (Standalone)'
+                : appEnv?.is_deb_or_system
+                ? 'Debian (.deb / APT)'
+                : 'Development / Native'}
+            </div>
+            <div className="text-[10px] text-[var(--text-muted)] truncate" title={appEnv?.install_location}>
+              {appEnv?.is_deb_or_system ? 'System Binary (/usr/bin)' : 'User Execution Space'}
+            </div>
+          </div>
+
+          <div className="p-3.5 rounded-xl ui-card-subtle border space-y-1">
+            <span className="text-[10px] uppercase font-bold text-[var(--text-muted)]">
+              Update Mechanism
+            </span>
+            <div className={`font-bold text-sm ${appEnv?.supports_in_place_update ? 'text-emerald-400' : 'text-amber-400'}`}>
+              {appEnv?.supports_in_place_update ? 'In-Place Hot Swap' : 'Manual Package (.deb)'}
+            </div>
+            <div className="text-[10px] text-[var(--text-muted)]">
+              {appEnv?.supports_in_place_update
+                ? 'Automated cryptographic download'
+                : 'Security policy requires dpkg install'}
+            </div>
+          </div>
+        </div>
+
+        {/* Update Notification Pill if an update is currently pending */}
+        {updateDetails?.available && (
+          <div className="p-3 rounded-xl bg-orange-500/10 border border-orange-500/30 text-xs flex items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-orange-500 animate-ping" />
+              <span className="font-medium">
+                Version <strong>v{updateDetails.newVersion}</strong> is ready for review.
+              </span>
+            </div>
+            {onCheckForUpdates && (
+              <button
+                type="button"
+                onClick={onCheckForUpdates}
+                className="px-3 py-1 rounded-lg bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs transition-colors cursor-pointer"
+              >
+                View Details
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+
+      {/* SECTION 5: ABOUT & RESET */}
       <div className="ui-panel rounded-2xl p-6 space-y-4 border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <Cpu className="w-4 h-4 text-cyan-400" />
             <h4 className="font-bold text-xs uppercase tracking-wider text-[var(--text-main)]">
-              ForgeStack Enterprise Studio v1.2.0
+              ForgeStack Enterprise Studio v{appEnv?.current_version || '1.0.0'}
             </h4>
           </div>
           <p className="text-xs text-[var(--text-muted)]">
