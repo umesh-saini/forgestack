@@ -60,7 +60,7 @@ hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
 <div class="container">
 
 <h1>project-setup — Complete Call Flow &amp; Architecture Documentation</h1>
-<p class="subtitle">Generated from graphify knowledge graph: 867 nodes, 2005 edges, 51 communities. Commit: 52b51cc</p>
+<p class="subtitle">Generated from graphify knowledge graph: 867 nodes, 2003 edges, 51 communities. Commit: 68580e8</p>
 
 <div class="nav">
     <a href="#overview">Architecture Overview</a>
@@ -158,7 +158,7 @@ flowchart LR
   <div class="card">
     <h4>Graph Report Highlights</h4>
     <ul>
-      <li>867 nodes · 2005 edges · 51 communities (41 shown, 10 thin omitted)</li>
+      <li>867 nodes · 2003 edges · 51 communities (41 shown, 10 thin omitted)</li>
       <li>Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 3 edges (avg confidence: 0.85)</li>
       <li>Token cost: 0 input · 0 output</li>
       <li>1. `VirtualFileSystem` - 71 edges</li>
@@ -170,12 +170,12 @@ flowchart LR
 <hr>
 <!-- ====== 2. Graph Build ====== -->
 <h2 id="build-graph">2. Graph Build</h2>
-<p>Graph Build groups implementation around packages, desktop, packagejson, components, mostly in packages/desktop/package.json, package.json, packages/cli/package.json. This section covers 371 nodes and 493 internal edges; the diagram shows only representative relationships to stay readable.</p>
+<p>Graph Build groups implementation around packages, desktop, packagejson, components, mostly in packages/desktop/package.json, package.json, packages/cli/package.json. This section covers 371 nodes and 491 internal edges; the diagram shows only representative relationships to stay readable.</p>
 
 <div class="mermaid">
 %%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
 flowchart LR
-    %% Section: Graph Build (371 nodes, 493 edges)
+    %% Section: Graph Build (371 nodes, 491 edges)
     subgraph build_graph_src_utils_json_merge_ts_54dfd484["src/utils/json-merge.ts"]
         packages_core_src_utils_json_merge_deepequals_ab2c8706("deepEquals()<br/><small>src/utils/json-merge.ts</small>")
         packages_core_src_utils_json_merge_deepmergejson_aa9a2297("deepMergeJson()<br/><small>src/utils/json-merge.ts</small>")
@@ -330,6 +330,14 @@ flowchart LR
 </tr>
 <tr>
   <td>10</td>
+  <td><code>ModelConfig</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Reads, resolves, or persists project configuration.</td>
+</tr>
+<tr>
+  <td>11</td>
   <td><code>SceneProps</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -337,7 +345,7 @@ flowchart LR
   <td>SceneProps node in components/landing/ThreeFigureShowcase.tsx.</td>
 </tr>
 <tr>
-  <td>11</td>
+  <td>12</td>
   <td><code>RevealProps</code><br><small style="color:var(--muted)">src/lib/motion.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -345,7 +353,7 @@ flowchart LR
   <td>RevealProps node in src/lib/motion.tsx.</td>
 </tr>
 <tr>
-  <td>12</td>
+  <td>13</td>
   <td><code>CoreScene()</code><br><small style="color:var(--muted)">components/landing/Interactive3DHero.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>Interactive3DHero()</code><br><small style="color:var(--muted)">components/landing/Interactive3DHero.tsx</small></td>
@@ -353,7 +361,7 @@ flowchart LR
   <td>CoreScene() node in components/landing/Interactive3DHero.tsx.</td>
 </tr>
 <tr>
-  <td>13</td>
+  <td>14</td>
   <td><code>Interactive3DHero()</code><br><small style="color:var(--muted)">components/landing/Interactive3DHero.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -361,7 +369,7 @@ flowchart LR
   <td>Interactive3DHero() node in components/landing/Interactive3DHero.tsx.</td>
 </tr>
 <tr>
-  <td>14</td>
+  <td>15</td>
   <td><code>LayerMesh()</code><br><small style="color:var(--muted)">components/landing/Interactive3DHero.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>CoreScene()</code><br><small style="color:var(--muted)">components/landing/Interactive3DHero.tsx</small></td>
@@ -369,7 +377,7 @@ flowchart LR
   <td>LayerMesh() node in components/landing/Interactive3DHero.tsx.</td>
 </tr>
 <tr>
-  <td>15</td>
+  <td>16</td>
   <td><code>Interactive3DLaboratory()</code><br><small style="color:var(--muted)">components/landing/Interactive3DLaboratory.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
@@ -377,7 +385,7 @@ flowchart LR
   <td>Interactive3DLaboratory() node in components/landing/Interactive3DLaboratory.tsx.</td>
 </tr>
 <tr>
-  <td>16</td>
+  <td>17</td>
   <td><code>Lab3DModel()</code><br><small style="color:var(--muted)">components/landing/Interactive3DLaboratory.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>Interactive3DLaboratory()</code><br><small style="color:var(--muted)">components/landing/Interactive3DLaboratory.tsx</small></td>
@@ -385,7 +393,7 @@ flowchart LR
   <td>Lab3DModel() node in components/landing/Interactive3DLaboratory.tsx.</td>
 </tr>
 <tr>
-  <td>17</td>
+  <td>18</td>
   <td><code>buildPalette()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>ThreeFigureShowcase()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
@@ -393,15 +401,15 @@ flowchart LR
   <td>buildPalette() node in components/landing/ThreeFigureShowcase.tsx.</td>
 </tr>
 <tr>
-  <td>18</td>
+  <td>19</td>
   <td><code>Figure()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>Scene()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
-  <td><code>MongoDb3DFigure()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small><br><code>React193DFigure()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small><br><code>TypeScript3DFigure()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
+  <td><code>TechGlbFigure()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
   <td>Figure() node in components/landing/ThreeFigureShowcase.tsx.</td>
 </tr>
 <tr>
-  <td>19</td>
+  <td>20</td>
   <td><code>hexToRgb()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>buildPalette()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small><br><code>rgba()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
@@ -409,7 +417,7 @@ flowchart LR
   <td>hexToRgb() node in components/landing/ThreeFigureShowcase.tsx.</td>
 </tr>
 <tr>
-  <td>20</td>
+  <td>21</td>
   <td><code>hsl()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>buildPalette()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
@@ -417,23 +425,7 @@ flowchart LR
   <td>hsl() node in components/landing/ThreeFigureShowcase.tsx.</td>
 </tr>
 <tr>
-  <td>21</td>
-  <td><code>MongoDb3DFigure()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>Figure()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
-  <td>No direct outbound edge</td>
-  <td>MongoDb3DFigure() node in components/landing/ThreeFigureShowcase.tsx.</td>
-</tr>
-<tr>
   <td>22</td>
-  <td><code>React193DFigure()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>Figure()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
-  <td>No direct outbound edge</td>
-  <td>React193DFigure() node in components/landing/ThreeFigureShowcase.tsx.</td>
-</tr>
-<tr>
-  <td>23</td>
   <td><code>rgba()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>StaticGrid()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
@@ -441,7 +433,7 @@ flowchart LR
   <td>rgba() node in components/landing/ThreeFigureShowcase.tsx.</td>
 </tr>
 <tr>
-  <td>24</td>
+  <td>23</td>
   <td><code>rgbToHsl()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>buildPalette()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
@@ -449,7 +441,7 @@ flowchart LR
   <td>rgbToHsl() node in components/landing/ThreeFigureShowcase.tsx.</td>
 </tr>
 <tr>
-  <td>25</td>
+  <td>24</td>
   <td><code>Scene()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>ThreeFigureShowcase()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
@@ -457,7 +449,7 @@ flowchart LR
   <td>Scene() node in components/landing/ThreeFigureShowcase.tsx.</td>
 </tr>
 <tr>
-  <td>26</td>
+  <td>25</td>
   <td><code>SectionLabel()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>ThreeFigureShowcase()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
@@ -465,12 +457,20 @@ flowchart LR
   <td>SectionLabel() node in components/landing/ThreeFigureShowcase.tsx.</td>
 </tr>
 <tr>
-  <td>27</td>
+  <td>26</td>
   <td><code>StaticGrid()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td><code>ThreeFigureShowcase()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
   <td><code>rgba()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
   <td>StaticGrid() node in components/landing/ThreeFigureShowcase.tsx.</td>
+</tr>
+<tr>
+  <td>27</td>
+  <td><code>TechGlbFigure()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>Figure()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
+  <td>No direct outbound edge</td>
+  <td>TechGlbFigure() node in components/landing/ThreeFigureShowcase.tsx.</td>
 </tr>
 <tr>
   <td>28</td>
@@ -482,19 +482,19 @@ flowchart LR
 </tr>
 <tr>
   <td>29</td>
-  <td><code>TypeScript3DFigure()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
-  <td><span class="tag tag-hook">UI</span></td>
-  <td><code>Figure()</code><br><small style="color:var(--muted)">components/landing/ThreeFigureShowcase.tsx</small></td>
-  <td>No direct outbound edge</td>
-  <td>TypeScript3DFigure() node in components/landing/ThreeFigureShowcase.tsx.</td>
-</tr>
-<tr>
-  <td>30</td>
   <td><code>Reveal()</code><br><small style="color:var(--muted)">src/lib/motion.tsx</small></td>
   <td><span class="tag tag-hook">UI</span></td>
   <td>External entry / no inbound edge</td>
   <td>No direct outbound edge</td>
   <td>Reveal() node in src/lib/motion.tsx.</td>
+</tr>
+<tr>
+  <td>30</td>
+  <td><code>useThemeAccent()</code><br><small style="color:var(--muted)">src/lib/motion.tsx</small></td>
+  <td><span class="tag tag-hook">UI</span></td>
+  <td><code>ArchitecturalBlueprints()</code><br><small style="color:var(--muted)">components/landing/ArchitecturalBlueprints.tsx</small><br><code>ArchitecturalBlueprints.tsx</code><br><small style="color:var(--muted)">components/landing/ArchitecturalBlueprints.tsx</small><br><code>Interactive3DHero()</code><br><small style="color:var(--muted)">components/landing/Interactive3DHero.tsx</small><br>+5 more</td>
+  <td>No direct outbound edge</td>
+  <td>useThemeAccent() node in src/lib/motion.tsx.</td>
 </tr>
 </table>
 
@@ -4053,7 +4053,7 @@ flowchart LR
     <h4>Graph</h4>
     <table style="width:100%;font-size:0.85rem;">
       <tr><td>Nodes</td><td>867</td></tr>
-      <tr><td>Edges</td><td>2005</td></tr>
+      <tr><td>Edges</td><td>2003</td></tr>
       <tr><td>Hyperedges</td><td>0</td></tr>
       <tr><td>Communities</td><td>51</td></tr>
       <tr><td>Documented Sections</td><td>15</td></tr>
@@ -4062,7 +4062,7 @@ flowchart LR
   <div class="card">
     <h4>Edge Confidence</h4>
     <table style="width:100%;font-size:0.85rem;">
-      <tr><td>EXTRACTED</td><td>2002</td></tr>
+      <tr><td>EXTRACTED</td><td>2000</td></tr>
       <tr><td>INFERRED</td><td>3</td></tr>
       <tr><td>AMBIGUOUS</td><td>0</td></tr>
     </table>
@@ -4071,7 +4071,7 @@ flowchart LR
 
 <div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
   <p>project-setup — Architecture Documentation</p>
-  <p>Generated: 2026-11-18 12:23 UTC · graphify callflow-html</p>
+  <p>Generated: 2026-11-18 12:36 UTC · graphify callflow-html</p>
 </div>
 
 </div><!-- .container -->

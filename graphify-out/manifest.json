@@ -44,8 +44,8 @@
     "semantic_hash": ""
   },
   "packages/cli/src/cli.ts": {
-    "mtime": 1795003784.1694589,
-    "seen": 1795004076.3268216,
+    "mtime": 1795004655.7701693,
+    "seen": 1795005381.6148477,
     "ast_hash": "a58009a04f97066ca98c56efd555d629",
     "semantic_hash": ""
   },
@@ -884,8 +884,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/settings/AppSettingsPage.tsx": {
-    "mtime": 1795003886.165251,
-    "seen": 1795004076.3270128,
+    "mtime": 1795004656.7416286,
+    "seen": 1795005381.6150396,
     "ast_hash": "b1fb49abd811b5ba447eafa872eca0a9",
     "semantic_hash": ""
   },
@@ -1646,20 +1646,20 @@
     "semantic_hash": ""
   },
   "packages/core/src/skills/__tests__/agent-provisioner.test.ts": {
-    "mtime": 1795003724.2072995,
-    "seen": 1795004076.3268514,
+    "mtime": 1795004655.8695705,
+    "seen": 1795005381.6148787,
     "ast_hash": "03a686f137ed12eedfb0130eaa624e1c",
     "semantic_hash": ""
   },
   "packages/core/src/skills/agent-provisioner.ts": {
-    "mtime": 1795003687.6545491,
-    "seen": 1795004076.3268528,
+    "mtime": 1795004656.1154714,
+    "seen": 1795005381.6148803,
     "ast_hash": "0d0abfec558d952ef44b74a13502fd6c",
     "semantic_hash": ""
   },
   "packages/core/src/skills/targets.ts": {
-    "mtime": 1795003678.71136,
-    "seen": 1795004076.3268542,
+    "mtime": 1795004656.333915,
+    "seen": 1795005381.6148815,
     "ast_hash": "23c92307a6e84cc6af3df4dd04dbaf47",
     "semantic_hash": ""
   },
@@ -1712,8 +1712,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/LandingPage.tsx": {
-    "mtime": 1795004354.4584985,
-    "seen": 1795004620.3168457,
+    "mtime": 1795004997.2790973,
+    "seen": 1795005381.6150246,
     "ast_hash": "6e5d005ded0a1091d2df56907bd896fb",
     "semantic_hash": ""
   },
@@ -1784,8 +1784,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/ArchitecturalBlueprints.tsx": {
-    "mtime": 1795003972.6076188,
-    "seen": 1795004076.3269813,
+    "mtime": 1795004656.6234784,
+    "seen": 1795005381.6150084,
     "ast_hash": "2500fd99b6d58d7f2912438f07f1d381",
     "semantic_hash": ""
   },
@@ -1808,9 +1808,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/ThreeFigureShowcase.tsx": {
-    "mtime": 1795004445.7174695,
-    "seen": 1795004620.3168497,
-    "ast_hash": "1a79889c0fd5c535d2e05c7e264b40a5",
+    "mtime": 1795005184.6950212,
+    "seen": 1795005381.6150277,
+    "ast_hash": "cfb6e75ed6c51dfe74b8ed72489aa060",
     "semantic_hash": ""
   },
   "packages/desktop/src/lib/motion.tsx": {
@@ -1832,8 +1832,8 @@
     "semantic_hash": ""
   },
   ".claude/skills/forgestack/SKILL.md": {
-    "mtime": 1795004609.8100924,
-    "seen": 1795004620.3169324,
+    "mtime": 1795005364.6629815,
+    "seen": 1795005381.6151786,
     "ast_hash": "6acc2cd16f90d6cf7fa61c337e09239a",
     "semantic_hash": ""
   },
