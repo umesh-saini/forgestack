@@ -14,8 +14,12 @@
       "import": "./dist/browser.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
+    "prepack": "tsc",
     "test": "vitest run"
   },
   "dependencies": {
