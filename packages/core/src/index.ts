@@ -34,3 +34,4 @@ export * from './slices/testing/playwright.js';
 export * from './slices/devops/ci-workflows.js';
 export * from './slices/tooling/biome.js';
 export * from './slices/devops/deployment-targets.js';
+export * from './skills/agent-provisioner.js';

@@ -23,6 +23,7 @@ import { VsCodeWorkspace } from './components/preview/VsCodeWorkspace.js';
 import { AppSettingsPage, loadAppSettings } from './components/settings/AppSettingsPage.js';
 import { ScaffoldConsoleView } from './components/home/ScaffoldConsoleView.js';
 import { UpdateModal } from './components/updater/UpdateModal.js';
+import { LandingPage } from './components/landing/LandingPage.js';
 import {
   getAppEnvironment,
   checkForUpdates,
@@ -681,6 +682,9 @@ function ForgeStackAppContent() {
               />
             }
           />
+
+          {/* VIEW 5: FLAGSHIP SHOWCASE LANDING PAGE */}
+          <Route path="/landing" element={<LandingPage />} />
 
           {/* Fallback to Home */}
           <Route path="*" element={<Navigate to="/" replace />} />

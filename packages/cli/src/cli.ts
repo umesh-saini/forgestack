@@ -8,6 +8,8 @@ import {
   ProcessRunner,
   projectConfigSchema,
   type ProjectConfig,
+  provisionAgentSkills,
+  AGENT_TARGETS,
 } from '@forgestack/core';
 import { runInteractiveWizard } from './prompts/wizard.js';
 import { CliReporter } from './ui/reporter.js';
@@ -49,6 +51,7 @@ export function createCli(): Command {
     .option('--no-rules', 'Skip Cursor AI rules')
     .option('--skills', 'Include AI Agent skills', true)
     .option('--no-skills', 'Skip AI Agent skills')
+    .option('--init-ai-skills', 'Provision ForgeStack AI assistant skills across all detected AI tools')
     .option('--openspec', 'Include OpenSpec workflows', true)
     .option('--no-openspec', 'Skip OpenSpec workflows')
     .option('--claude', 'Include Claude Desktop MCP config', true)
@@ -303,6 +306,15 @@ export function createCli(): Command {
           }
         }
 
+        if (options.initAiSkills) {
+          try {
+            await provisionAgentSkills(config.targetPath);
+            console.log(color.cyan('  ✓ AI agent skills provisioned across all detected assistant tools.'));
+          } catch (skillErr) {
+            console.warn(color.yellow('  ! Warning provisioning AI skills: ' + (skillErr as Error).message));
+          }
+        }
+
         CliReporter.printSummary(config, config.targetPath);
       } catch (err) {
         p.log.error(color.red((err as Error).message));
@@ -371,6 +383,36 @@ export function createCli(): Command {
         if (process.env.VITEST) {
           throw new Error(err);
         }
+        process.exit(1);
+      }
+    });
+
+  program
+    .command('init-skills')
+    .description('Provision ForgeStack AI assistant skills to the workspace across all tools')
+    .argument('[dir]', 'Target directory (defaults to current directory)', '.')
+    .action(async (dirArg: string) => {
+      const targetDir = path.resolve(process.cwd(), dirArg);
+      p.intro(color.bold(color.cyan('ForgeStack AI Agent Skills Provisioner')));
+      const s = p.spinner();
+      s.start(`Writing skills across ${AGENT_TARGETS.length} AI ecosystems...`);
+      try {
+        const results = await provisionAgentSkills(targetDir);
+        s.stop(`Provisioned skills for ${results.filter((r) => r.success).length} AI assistants.`);
+
+        for (const res of results) {
+          if (res.success) {
+            console.log(
+              `  ${color.green('✓')} ${color.bold(res.targetName.padEnd(26))} ${color.dim('→')} ${color.dim(path.relative(targetDir, res.filePath))}`
+            );
+          } else {
+            console.log(`  ${color.red('✗')} ${color.bold(res.targetName)}: ${color.red(res.message || 'Failed')}`);
+          }
+        }
+        p.outro(color.green('AI assistants can now understand ForgeStack commands, VFS, and architecture!'));
+      } catch (err: any) {
+        s.stop(color.red('Provisioning failed: ' + err.message));
+        if (process.env.VITEST) throw err;
         process.exit(1);
       }
     });
