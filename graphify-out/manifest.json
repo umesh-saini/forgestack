@@ -1,9 +1,9 @@
 {
   ".github/workflows/ci.yml": {
-    "mtime": 1794827088.4182034,
-    "seen": 1794892396.4581077,
-    "ast_hash": "0d08a86ed1cc516c9d90f019383f198e",
-    "semantic_hash": "0d08a86ed1cc516c9d90f019383f198e"
+    "mtime": 1794986633.8899233,
+    "seen": 1794986871.112794,
+    "ast_hash": "1c3b8bb6897b48fcf0cc10b614cf2ad7",
+    "semantic_hash": ""
   },
   "openspec/changes/archive/2026-11-16-project-scaffolding-platform/.openspec.yaml": {
     "mtime": 1794824934.551648,
@@ -20,10 +20,10 @@
     "ast_empty": true
   },
   "package.json": {
-    "mtime": 1794828410.2770467,
-    "seen": 1794892396.4582262,
-    "ast_hash": "f92f9d5fc6e3d4fb7d5dc41f6adca816",
-    "semantic_hash": "f92f9d5fc6e3d4fb7d5dc41f6adca816"
+    "mtime": 1794986179.714033,
+    "seen": 1794986871.1128397,
+    "ast_hash": "e2e6c1a412fb510f63604716f98621b0",
+    "semantic_hash": ""
   },
   "packages/cli/bin/create-forgestack-app.js": {
     "mtime": 1794826525.2376275,
@@ -38,15 +38,15 @@
     "semantic_hash": ""
   },
   "packages/cli/src/__tests__/cli.test.ts": {
-    "mtime": 1794976957.669408,
-    "seen": 1794977688.7315185,
-    "ast_hash": "f56b5a7185c64279ae396b2074560c86",
+    "mtime": 1794986748.405597,
+    "seen": 1794986871.1128566,
+    "ast_hash": "d4c77d176e45ce8cd68a02703d82ddee",
     "semantic_hash": ""
   },
   "packages/cli/src/cli.ts": {
-    "mtime": 1794977955.8993542,
-    "seen": 1794978192.5297263,
-    "ast_hash": "863ef4490d5b7a711d0f6611d08feb54",
+    "mtime": 1794986535.1353288,
+    "seen": 1794986871.1128683,
+    "ast_hash": "5b88620d5f0637ef41b131d8b4c86c60",
     "semantic_hash": ""
   },
   "packages/cli/src/index.ts": {
@@ -80,9 +80,9 @@
     "semantic_hash": ""
   },
   "packages/core/src/browser.ts": {
-    "mtime": 1794919317.0210552,
-    "seen": 1794920087.0182748,
-    "ast_hash": "294ca39a53a58d01fbf7102ccc6374b6",
+    "mtime": 1794986442.2607553,
+    "seen": 1794986871.1129153,
+    "ast_hash": "c4934117898634e521a2257b28a3bc45",
     "semantic_hash": ""
   },
   "packages/core/src/engine/__tests__/compositor.test.ts": {
@@ -104,9 +104,9 @@
     "semantic_hash": "3d491f8e17e9c01a0e4ec9ae84e58881"
   },
   "packages/core/src/engine/create-pipeline.ts": {
-    "mtime": 1794975829.74814,
-    "seen": 1794977688.7315886,
-    "ast_hash": "6827e8c171b5dfeef7821256cedcd3d2",
+    "mtime": 1794986413.7925763,
+    "seen": 1794986871.1129313,
+    "ast_hash": "c03a35a6a739a5ff9c0d2ea283fb1bca",
     "semantic_hash": ""
   },
   "packages/core/src/engine/flusher.ts": {
@@ -116,9 +116,9 @@
     "semantic_hash": "9eacc4ef2649c4ba21b2f8b5ab95042f"
   },
   "packages/core/src/index.ts": {
-    "mtime": 1794919312.396108,
-    "seen": 1794920087.0182838,
-    "ast_hash": "44542ad9cae2368206e5e7518c0f6dcd",
+    "mtime": 1794986432.0466914,
+    "seen": 1794986871.1129394,
+    "ast_hash": "c98a9b4569f41d881784e856972d550f",
     "semantic_hash": ""
   },
   "packages/core/src/registry/__tests__/dependencies.test.ts": {
@@ -128,9 +128,9 @@
     "semantic_hash": ""
   },
   "packages/core/src/registry/dependencies.ts": {
-    "mtime": 1794975830.7351422,
-    "seen": 1794977688.731605,
-    "ast_hash": "04ae322afb6797aad2385ad3b34c124a",
+    "mtime": 1794986330.7040443,
+    "seen": 1794986871.112947,
+    "ast_hash": "e619041a123d43398beb47fc4202566c",
     "semantic_hash": ""
   },
   "packages/core/src/slices/backend/__tests__/clean-modular.test.ts": {
@@ -272,9 +272,9 @@
     "semantic_hash": ""
   },
   "packages/core/src/types/config.ts": {
-    "mtime": 1794975840.854541,
-    "seen": 1794977688.7318726,
-    "ast_hash": "309a8326cc30c1a59ca222e06e8575bf",
+    "mtime": 1794986285.9927514,
+    "seen": 1794986871.1131961,
+    "ast_hash": "49ff1e7153c92bbf792ad1dec1185d67",
     "semantic_hash": ""
   },
   "packages/core/src/utils/__tests__/code-patcher.test.ts": {
@@ -407,9 +407,9 @@
     "semantic_hash": "fd41b550e9b255c615bdcfc90df8f280"
   },
   "packages/desktop/src-tauri/tauri.conf.json": {
-    "mtime": 1794901394.7438312,
-    "seen": 1794902057.6261609,
-    "ast_hash": "e186f3ba3b94d620c94c5c0b64cc2292",
+    "mtime": 1794986143.8617828,
+    "seen": 1794986871.1132934,
+    "ast_hash": "a22273b737889d8504748e9857f59ebe",
     "semantic_hash": ""
   },
   "packages/desktop/src/App.tsx": {
@@ -491,9 +491,9 @@
     "semantic_hash": "d1c63b57281bc90281a3e3c58e3560fe"
   },
   "packages/desktop/src/components/wizard/TopologySelector.tsx": {
-    "mtime": 1794919778.3533325,
-    "seen": 1794920087.01843,
-    "ast_hash": "e214477650de830d7f76fa883c03d6ae",
+    "mtime": 1794986257.9765651,
+    "seen": 1794986871.113403,
+    "ast_hash": "daa00efaaf807f2a51115f404e1c2814",
     "semantic_hash": ""
   },
   "packages/desktop/src/main.tsx": {
@@ -773,21 +773,21 @@
     "semantic_hash": ""
   },
   "openspec/specs/cli-generator/spec.md": {
-    "mtime": 1794977710.161125,
-    "seen": 1794978192.5300105,
-    "ast_hash": "5c785aad95a16bc31b6d6575113f7268",
+    "mtime": 1794986858.6438847,
+    "seen": 1794986871.1137094,
+    "ast_hash": "e8356da1852d07f2025229caf6b56c52",
     "semantic_hash": ""
   },
   "openspec/specs/desktop-app/spec.md": {
-    "mtime": 1794976555.6813579,
-    "seen": 1794977688.7323792,
-    "ast_hash": "24ef5799e2a1e5181adb3c48e4c017c5",
+    "mtime": 1794986858.6458845,
+    "seen": 1794986871.113711,
+    "ast_hash": "47598140af9a063b464f5bece38f4e8a",
     "semantic_hash": ""
   },
   "openspec/specs/scaffolding-engine/spec.md": {
-    "mtime": 1794976555.681844,
-    "seen": 1794977688.7323825,
-    "ast_hash": "6869458f057378f5b55aa47972a63bf7",
+    "mtime": 1794986858.6488047,
+    "seen": 1794986871.1137123,
+    "ast_hash": "73e3d827415a8b07a6d90bcc6ff79852",
     "semantic_hash": ""
   },
   "openspec/specs/template-presets/spec.md": {
@@ -899,9 +899,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/wizard/Step3ToolingGovernance.tsx": {
-    "mtime": 1794975842.4613552,
-    "seen": 1794977688.7321112,
-    "ast_hash": "504648708287d2ccf265107a401a0a8f",
+    "mtime": 1794986578.5974653,
+    "seen": 1794986871.1133912,
+    "ast_hash": "395134652e197920d840c3533866546d",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/wizard/Step4ReviewScaffold.tsx": {
@@ -1246,46 +1246,106 @@
     "ast_hash": "4411201dab3bfb128a744a5bd7879347",
     "semantic_hash": ""
   },
-  "openspec/changes/2026-11-18-production-hardening-and-ecosystem-parity/.openspec.yaml": {
-    "mtime": 1794984646.5689187,
-    "seen": 1794985009.78879,
-    "ast_hash": "e381aee74037cbb6e7cff9bd8b737b62",
-    "semantic_hash": ""
-  },
   "CONTRIBUTING.md": {
     "mtime": 1794979338.2601602,
     "seen": 1794985009.7890368,
     "ast_hash": "753e9efc6bdf2bafe269ed52346171ec",
     "semantic_hash": ""
   },
-  "openspec/changes/2026-11-18-production-hardening-and-ecosystem-parity/design.md": {
-    "mtime": 1794984673.3789585,
-    "seen": 1794985009.7890546,
-    "ast_hash": "e5b2896703910b30eb33785a380cf8af",
+  ".github/workflows/publish.yml": {
+    "mtime": 1794986643.0989783,
+    "seen": 1794986871.1128013,
+    "ast_hash": "6aa4da4cbac34243312a64a5866e1985",
     "semantic_hash": ""
   },
-  "openspec/changes/2026-11-18-production-hardening-and-ecosystem-parity/proposal.md": {
-    "mtime": 1794984659.8789384,
-    "seen": 1794985009.7890563,
-    "ast_hash": "23e26f037f23a0ce18ed8c6cfa7dcf2d",
+  "eslint.config.js": {
+    "mtime": 1794986202.390189,
+    "seen": 1794986871.1128056,
+    "ast_hash": "e62ae9751ac7a0c7dd9cf106f58f8c30",
     "semantic_hash": ""
   },
-  "openspec/changes/2026-11-18-production-hardening-and-ecosystem-parity/specs/desktop-app/spec.md": {
+  "openspec/changes/archive/2026-11-18-production-hardening-and-ecosystem-parity/.openspec.yaml": {
+    "mtime": 1794984646.5689187,
+    "seen": 1794986871.1128309,
+    "ast_hash": "e381aee74037cbb6e7cff9bd8b737b62",
+    "semantic_hash": ""
+  },
+  "packages/core/src/slices/devops/__tests__/deployment-targets.test.ts": {
+    "mtime": 1794986728.4174805,
+    "seen": 1794986871.1130493,
+    "ast_hash": "6ef8cd3d4588468b2f3edf2b456e48c3",
+    "semantic_hash": ""
+  },
+  "packages/core/src/slices/devops/deployment-targets.ts": {
+    "mtime": 1794986399.9154885,
+    "seen": 1794986871.1130571,
+    "ast_hash": "791b2c741f7c72a52e7e2ce4ae693ef6",
+    "semantic_hash": ""
+  },
+  "packages/core/src/slices/tooling/__tests__/biome.test.ts": {
+    "mtime": 1794986718.3674216,
+    "seen": 1794986871.1131802,
+    "ast_hash": "cef1354a9bf2637b715afe318e0dc9c9",
+    "semantic_hash": ""
+  },
+  "packages/core/src/slices/tooling/biome.ts": {
+    "mtime": 1794986385.9603999,
+    "seen": 1794986871.1131837,
+    "ast_hash": "5683b4d122cf99d7ca784a3a6e25a830",
+    "semantic_hash": ""
+  },
+  "turbo.json": {
+    "mtime": 1794986121.0536213,
+    "seen": 1794986871.1134427,
+    "ast_hash": "5ff66567bc4e2621068e24abdffbe36f",
+    "semantic_hash": ""
+  },
+  "vitest.config.ts": {
+    "mtime": 1794986127.8864179,
+    "seen": 1794986871.1134462,
+    "ast_hash": "809c1eb522669290150ae2535f68549a",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-11-18-production-hardening-and-ecosystem-parity/design.md": {
+    "mtime": 1794985116.0515368,
+    "seen": 1794986871.113687,
+    "ast_hash": "ca0ce19ffeab4304f58d12851cf710d5",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-11-18-production-hardening-and-ecosystem-parity/proposal.md": {
+    "mtime": 1794985847.9700193,
+    "seen": 1794986871.1136885,
+    "ast_hash": "e6d6025368d9f6e40a5ceeac81ede110",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-11-18-production-hardening-and-ecosystem-parity/specs/cli-generator/spec.md": {
+    "mtime": 1794985130.6208024,
+    "seen": 1794986871.11369,
+    "ast_hash": "e8b7c8ff2e1d09b0ee1655291fb50dd5",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-11-18-production-hardening-and-ecosystem-parity/specs/desktop-app/spec.md": {
     "mtime": 1794984683.5679739,
-    "seen": 1794985009.7890573,
+    "seen": 1794986871.113691,
     "ast_hash": "0d061c9b589a4918341d96adbe7c3d96",
     "semantic_hash": ""
   },
-  "openspec/changes/2026-11-18-production-hardening-and-ecosystem-parity/tasks.md": {
-    "mtime": 1794984693.0129879,
-    "seen": 1794985009.7890592,
-    "ast_hash": "a020e7b1a5d8b476a7fdfe2e68ccd379",
+  "openspec/changes/archive/2026-11-18-production-hardening-and-ecosystem-parity/specs/scaffolding-engine/spec.md": {
+    "mtime": 1794985124.039683,
+    "seen": 1794986871.1136925,
+    "ast_hash": "31189cc489ba49635606586547b3b97b",
+    "semantic_hash": ""
+  },
+  "openspec/changes/archive/2026-11-18-production-hardening-and-ecosystem-parity/tasks.md": {
+    "mtime": 1794986840.3918588,
+    "seen": 1794986871.1137068,
+    "ast_hash": "3ebd53c4a4d0e76bcfd92fc2239241a6",
     "semantic_hash": ""
   },
   "pnpm-lock.yaml": {
-    "mtime": 1794896613.739717,
-    "seen": 1794897291.0584366,
-    "ast_hash": "8fbcc0eded1a64a1ecf8d1870d41434d",
+    "mtime": 1794986148.0775476,
+    "seen": 1794986871.1137192,
+    "ast_hash": "cb811c5a7de58d0456c24bbdace0bd59",
     "semantic_hash": ""
   }
 }

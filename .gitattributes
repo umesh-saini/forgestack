@@ -1,0 +1,6 @@
+# Set default behavior to automatically normalize line endings to LF
+* text=auto eol=lf
+
+# Explicitly ensure CLI entrypoints and shell scripts always retain LF
+packages/cli/bin/* text eol=lf
+*.sh text eol=lf

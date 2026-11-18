@@ -124,6 +124,7 @@ export const DEPENDENCY_REGISTRY = {
   tsx: '^4.19.2',
   eslint: '^9.20.0',
   prettier: '^3.5.0',
+  '@biomejs/biome': '^1.9.4',
   '@types/node': '^22.13.4',
   '@types/express': '^5.0.0',
   '@types/cors': '^2.8.17',

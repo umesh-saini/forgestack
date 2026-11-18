@@ -9,14 +9,18 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "lint": "eslint .",
-    "typecheck": "tsc -b",
+    "typecheck": "pnpm --filter \"@forgestack/*\" exec tsc --noEmit",
     "cli:dev": "node packages/cli/bin/create-forgestack-app.js",
     "desktop:web": "pnpm --filter @forgestack/desktop dev",
     "desktop:dev": "pnpm --filter @forgestack/desktop tauri dev",
     "desktop:build": "pnpm --filter @forgestack/desktop tauri build"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.15.0",
+    "turbo": "^2.11.12",
     "typescript": "^5.7.3",
+    "typescript-eslint": "^8.73.0",
     "vitest": "^3.0.5"
   }
 }

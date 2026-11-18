@@ -43,6 +43,8 @@ export const projectConfigSchema = z.object({
     e2e: z.enum(['playwright', 'cypress', 'none']).default('none').optional(),
   }).default({}).optional(),
   ci: z.enum(['github-actions', 'none']).default('none').optional(),
+  linter: z.enum(['eslint', 'biome', 'none']).default('eslint').optional(),
+  deployment: z.enum(['docker', 'vercel', 'cloudflare', 'railway', 'fly', 'none']).default('docker').optional(),
   utilities: z.object({
     frontendHelpers: z.boolean().default(false),
     backendHelpers: z.boolean().default(false),
