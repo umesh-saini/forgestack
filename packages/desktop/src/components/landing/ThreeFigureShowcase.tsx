@@ -11,21 +11,16 @@ import {
 } from 'framer-motion';
 import { useThemeAccent } from '../../lib/motion.js';
 
-// Preload all real tech 3D models from the library
+// Preload real 3D models
 try {
   useGLTF.preload('/models/typescript.glb');
-  useGLTF.preload('/models/react.glb');
-  useGLTF.preload('/models/node.glb');
-  useGLTF.preload('/models/tailwind.glb');
   useGLTF.preload('/models/mongodb.glb');
-  useGLTF.preload('/models/git.glb');
-  useGLTF.preload('/models/js.glb');
 } catch {
   // Preload fallback in non-browser envs
 }
 
 /* ------------------------------------------------------------------ */
-/* Palette helpers — derive cohesive colors from the theme accent      */
+/* palette helpers — derive 9 cohesive colors from the theme accent    */
 /* ------------------------------------------------------------------ */
 
 function hexToRgb(hex: string): [number, number, number] {
@@ -72,6 +67,7 @@ function hsl(h: number, s: number, l: number): string {
 function buildPalette(accent: string): string[] {
   const [r, g, b] = hexToRgb(accent);
   const [h] = rgbToHsl(r, g, b);
+  // Walk the hue wheel around the accent for a cohesive-but-varied set.
   const offsets = [0, 40, -40, 80, -80, 120, -120, 200, -200];
   return offsets.map((o, i) => {
     const hue = (h + o + 360) % 360;
@@ -87,73 +83,80 @@ function rgba(hex: string, a: number): string {
 }
 
 /* ------------------------------------------------------------------ */
-/* Real Tech 3D GLTF Model Components                                 */
+/* Real Tech 3D Models Sub-components                                 */
 /* ------------------------------------------------------------------ */
 
-interface ModelConfig {
-  url: string;
-  scale: number;
-  offsetY?: number;
-  rotation?: [number, number, number];
+function TypeScript3DFigure({ color }: { color: string }) {
+  const { scene } = useGLTF('/models/typescript.glb');
+  const clone = React.useMemo(() => scene.clone(), [scene]);
+  return (
+    <primitive
+      object={clone}
+      scale={0.65}
+      position={[0, 0, 0]}
+      rotation={[0, 0.25, 0]}
+    />
+  );
 }
 
-const MODEL_CONFIGS: Record<string, ModelConfig> = {
-  typescript: { url: '/models/typescript.glb', scale: 0.65, offsetY: 0, rotation: [0, 0.25, 0] },
-  react: { url: '/models/react.glb', scale: 0.18, offsetY: 0, rotation: [0, 0.25, 0] },
-  node: { url: '/models/node.glb', scale: 11.0, offsetY: 0, rotation: [0, 0.25, 0] },
-  tailwind: { url: '/models/tailwind.glb', scale: 11.0, offsetY: 0, rotation: [0, 0.25, 0] },
-  mongodb: { url: '/models/mongodb.glb', scale: 11.0, offsetY: 0, rotation: [0, 0.25, 0] },
-  git: { url: '/models/git.glb', scale: 0.17, offsetY: 0, rotation: [0, 0.25, 0] },
-  js: { url: '/models/js.glb', scale: 0.17, offsetY: 0, rotation: [0, 0.25, 0] },
-};
+function MongoDb3DFigure({ color }: { color: string }) {
+  const { scene } = useGLTF('/models/mongodb.glb');
+  const clone = React.useMemo(() => scene.clone(), [scene]);
+  return (
+    <primitive
+      object={clone}
+      scale={11.5}
+      position={[0, -0.65, 0]}
+      rotation={[0, 0.25, 0]}
+    />
+  );
+}
 
-function TechGlbFigure({ modelKey, color }: { modelKey: string; color: string }) {
-  const cfg = MODEL_CONFIGS[modelKey];
-  if (!cfg) return null;
-
-  try {
-    const { scene } = useGLTF(cfg.url);
-    const clone = React.useMemo(() => scene.clone(), [scene]);
-    return (
-      <primitive
-        object={clone}
-        scale={cfg.scale}
-        position={[0, cfg.offsetY || 0, 0]}
-        rotation={cfg.rotation || [0, 0.25, 0]}
-      />
-    );
-  } catch {
-    return (
+function React193DFigure({ color }: { color: string }) {
+  return (
+    <group>
       <mesh>
-        <boxGeometry args={[1.2, 1.2, 0.4]} />
-        <meshStandardMaterial color={color} />
+        <sphereGeometry args={[0.32, 32, 32]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.6} />
       </mesh>
-    );
-  }
+      <mesh rotation={[Math.PI / 3, 0, 0]}>
+        <torusGeometry args={[0.92, 0.04, 16, 64]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.4} />
+      </mesh>
+      <mesh rotation={[-Math.PI / 3, 0, 0]}>
+        <torusGeometry args={[0.92, 0.04, 16, 64]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.4} />
+      </mesh>
+      <mesh rotation={[0, Math.PI / 2, 0]}>
+        <torusGeometry args={[0.92, 0.04, 16, 64]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.4} />
+      </mesh>
+    </group>
+  );
 }
 
 /* ------------------------------------------------------------------ */
-/* The Nine Architecture Figures                                      */
+/* The nine figures                                                   */
 /* ------------------------------------------------------------------ */
 
 interface FigureDef {
   name: string;
   tag: string;
-  modelKey?: 'typescript' | 'react' | 'node' | 'tailwind' | 'mongodb' | 'git' | 'js';
+  custom?: 'typescript' | 'mongodb' | 'react';
   geometry?: React.ReactNode;
 }
 
-const SPACING = 3.5;
+const SPACING = 3.4;
 
 const FIGURES: FigureDef[] = [
-  { name: 'TypeScript 5.7', tag: 'type-safe core', modelKey: 'typescript' },
-  { name: 'React 19 Core', tag: 'modern ui engine', modelKey: 'react' },
-  { name: 'Node.js ESM Engine', tag: 'backend runtime', modelKey: 'node' },
-  { name: 'Tailwind CSS v4', tag: 'design tokens', modelKey: 'tailwind' },
-  { name: 'MongoDB & Drizzle', tag: 'database persistence', modelKey: 'mongodb' },
-  { name: 'Git & Version Control', tag: 'source workflows', modelKey: 'git' },
-  { name: 'Modern JavaScript', tag: 'modular esm modules', modelKey: 'js' },
-  { name: 'Fastify 5 REST Engine', tag: 'high-throughput api', geometry: <cylinderGeometry args={[0.75, 0.75, 1.4, 6]} /> },
+  { name: 'TypeScript 5.7', tag: 'type-safe core', custom: 'typescript' },
+  { name: 'React 19 Core', tag: 'modern frontend', custom: 'react' },
+  { name: 'MongoDB & Drizzle', tag: 'database layer', custom: 'mongodb' },
+  { name: 'Turborepo Engine', tag: 'monorepo orchestration', geometry: <boxGeometry args={[1.25, 1.25, 1.25]} /> },
+  { name: 'Fastify 5 REST', tag: 'modular api server', geometry: <cylinderGeometry args={[0.75, 0.75, 1.4, 6]} /> },
+  { name: 'Next.js 15 Full-Stack', tag: 'server actions', geometry: <dodecahedronGeometry args={[1.0, 0]} /> },
+  { name: 'Tauri v2 Desktop', tag: 'native rust engine', geometry: <sphereGeometry args={[0.92, 48, 48]} /> },
+  { name: 'BullMQ Queue', tag: 'distributed worker', geometry: <coneGeometry args={[0.85, 1.7, 48]} /> },
   { name: '40 AI Ecosystems & MCP', tag: 'day-one governance', geometry: <octahedronGeometry args={[1.1, 0]} /> },
 ];
 
@@ -167,13 +170,13 @@ const Figure: React.FC<FigureProps> = ({ index, color, activeIndexRef }) => {
   const meshRef = React.useRef<THREE.Group>(null);
   const def = FIGURES[index];
 
-  // depth parallax
+  // depth parallax — figures further from camera sit slightly back
   const z = (index % 3) * -0.6 - 0.2;
 
   useFrame((_, delta) => {
     const mesh = meshRef.current;
     if (mesh) {
-      mesh.rotation.y += delta * 0.22;
+      mesh.rotation.y += delta * 0.2;
       mesh.rotation.x += delta * 0.05;
 
       const active = activeIndexRef.current === index;
@@ -187,7 +190,7 @@ const Figure: React.FC<FigureProps> = ({ index, color, activeIndexRef }) => {
     <group position={[index * SPACING, 0, z]}>
       <Float speed={1.4} rotationIntensity={0.5} floatIntensity={0.9}>
         <group ref={meshRef}>
-          {def.modelKey ? (
+          {def.custom === 'typescript' ? (
             <Suspense
               fallback={
                 <mesh>
@@ -196,8 +199,21 @@ const Figure: React.FC<FigureProps> = ({ index, color, activeIndexRef }) => {
                 </mesh>
               }
             >
-              <TechGlbFigure modelKey={def.modelKey} color={color} />
+              <TypeScript3DFigure color={color} />
             </Suspense>
+          ) : def.custom === 'mongodb' ? (
+            <Suspense
+              fallback={
+                <mesh>
+                  <cylinderGeometry args={[0.5, 0.5, 1.3, 32]} />
+                  <meshStandardMaterial color={color} />
+                </mesh>
+              }
+            >
+              <MongoDb3DFigure color={color} />
+            </Suspense>
+          ) : def.custom === 'react' ? (
+            <React193DFigure color={color} />
           ) : (
             <mesh castShadow>
               {def.geometry}
@@ -238,8 +254,8 @@ const Scene: React.FC<SceneProps> = ({ progressRef, activeIndexRef, palette }) =
 
   return (
     <group ref={groupRef}>
-      <ambientLight intensity={0.75} />
-      <directionalLight position={[5, 6, 4]} intensity={1.3} />
+      <ambientLight intensity={0.7} />
+      <directionalLight position={[5, 6, 4]} intensity={1.2} />
       <pointLight position={[-6, -2, 3]} intensity={0.6} color={palette[0]} />
       {FIGURES.map((_, i) => (
         <Figure
@@ -372,7 +388,7 @@ export const ThreeFigureShowcase: React.FC = () => {
                   <span style={{ color: accent }}>One Scroll.</span>
                 </h2>
                 <p className="mt-3 text-xs sm:text-sm text-[var(--text-muted)] max-w-xl mx-auto">
-                  Interactive 3D figures for TypeScript, React, Node.js, Tailwind CSS, MongoDB, Git, and JavaScript.
+                  Interactive 3D figures for TypeScript, React, MongoDB, Turborepo, and 40 AI assistant ecosystems.
                   Scroll to inspect the full architecture stack in real-time.
                 </p>
               </div>

@@ -1,17 +1,17 @@
 # Graph Report - project-setup  (2026-11-18)
 
 ## Corpus Check
-- 180 files · ~211,610 words
+- 180 files · ~211,631 words
 - Verdict: corpus is large enough that graph structure adds value.
-- Unclassified: 21 file(s) not represented in the graph (top: .glb 7, (none) 6, .ico 2)
+- Unclassified: 16 file(s) not represented in the graph (top: (none) 6, .ico 2, .glb 2)
 
 ## Summary
-- 867 nodes · 2003 edges · 51 communities (41 shown, 10 thin omitted)
+- 867 nodes · 2005 edges · 51 communities (41 shown, 10 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 3 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `68580e8d`
+- Built from commit: `52b51ccd`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -77,14 +77,14 @@
 ## Surprising Connections (you probably didn't know these)
 - `scaffoldApiPlugin()` --calls--> `generateProjectVfs()`  [EXTRACTED]
   packages/desktop/vite.config.ts → packages/core/src/engine/create-pipeline.ts
+- `ForgeStackAppContent()` --calls--> `LandingPage()`  [EXTRACTED]
+  packages/desktop/src/App.tsx → packages/desktop/src/components/landing/LandingPage.tsx
 - `LandingPage()` --calls--> `ThreeFigureShowcase()`  [EXTRACTED]
   packages/desktop/src/components/landing/LandingPage.tsx → packages/desktop/src/components/landing/ThreeFigureShowcase.tsx
 - `SavedTemplate` --references--> `ProjectConfig`  [EXTRACTED]
   packages/desktop/src/types/template.ts → packages/core/src/types/config.ts
 - `VirtualFileSystem` --references--> `VirtualFile`  [EXTRACTED]
   packages/core/src/vfs/vfs.ts → packages/core/src/vfs/types.ts
-- `Props` --references--> `UpdateDetails`  [EXTRACTED]
-  packages/desktop/src/components/updater/UpdateModal.tsx → packages/desktop/src/services/updaterService.ts
 
 ## Import Cycles
 - None detected.
@@ -257,7 +257,7 @@ Nodes (4): scripts, build, dev, tauri
 
 ## Knowledge Gaps
 - **1 isolated node(s):** `forgestack-desktop`
-  These have ≤1 connection - possible missing edges. (Counts symbols only; 312 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+  These have ≤1 connection - possible missing edges. (Counts symbols only; 310 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **10 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
@@ -276,4 +276,4 @@ _Questions this graph is uniquely positioned to answer:_
 - **Why does `@forgestack/core` connect `dependencies` to `cli/package.json`, `desktop/package.json`?**
   _High betweenness centrality (0.029) - this node is a cross-community bridge._
 - **Should `ThreeFigureShowcase.tsx` be split into smaller, more focused modules?**
-  _Cohesion score 0.0666049953746531 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06845513413506013 - nodes in this community are weakly interconnected._
