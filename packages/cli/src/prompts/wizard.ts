@@ -2,39 +2,189 @@ import * as p from '@clack/prompts';
 import fs from 'node:fs';
 import path from 'node:path';
 import color from 'picocolors';
-import type { ProjectConfig } from '@forgestack/core';
+import { type ProjectConfig, projectConfigSchema } from '@forgestack/core';
+import { resolveProjectDirectory, validateProjectNameOrDot } from '../utils/directory.js';
+import { CliSplash } from '../ui/splash.js';
+import { searchableMultiselect } from '../ui/searchable-multiselect.js';
+import { CURATED_TEMPLATES } from '../templates/curated.js';
+import { TemplateStore } from '../templates/store.js';
 
 export async function runInteractiveWizard(initialName?: string): Promise<ProjectConfig> {
+  CliSplash.showWelcome();
   p.intro(color.bgCyan(color.black(' ForgeStack App Generator ')));
 
   // 1. Project Name & Target Path
-  const projectName = await p.text({
-    message: 'What is your project name?',
-    placeholder: 'my-app',
-    defaultValue: initialName || 'my-app',
-    validate: (value) => {
-      if (!value || value.trim().length === 0) {
-        return 'Project name cannot be empty.';
+  let sanitizedName = 'my-app';
+  let targetPath = path.resolve(process.cwd(), sanitizedName);
+
+  if (initialName) {
+    const resolved = resolveProjectDirectory(initialName);
+    sanitizedName = resolved.projectName;
+    targetPath = resolved.targetPath;
+
+    if (!resolved.isEmpty) {
+      const confirmOverwrite = await p.confirm({
+        message: `Target directory "${targetPath}" is not empty. Continue and potentially overwrite existing files?`,
+        initialValue: false,
+      });
+      if (!confirmOverwrite || p.isCancel(confirmOverwrite)) {
+        p.cancel('Scaffolding cancelled to protect existing files.');
+        process.exit(0);
       }
-      if (!/^[a-z0-9-_]+$/.test(value.trim())) {
-        return 'Project name must contain only lowercase alphanumeric characters, dashes, or underscores.';
+    }
+  } else {
+    const projectName = await p.text({
+      message: 'What is your project named?',
+      placeholder: 'my-app (or . for current directory)',
+      defaultValue: 'my-app',
+      validate: (value) => validateProjectNameOrDot(value),
+    });
+
+    if (p.isCancel(projectName)) {
+      p.cancel('Scaffolding cancelled.');
+      process.exit(0);
+    }
+
+    const resolved = resolveProjectDirectory(projectName as string);
+    sanitizedName = resolved.projectName;
+    targetPath = resolved.targetPath;
+
+    if (!resolved.isEmpty) {
+      const confirmOverwrite = await p.confirm({
+        message: `Target directory "${targetPath}" is not empty. Continue and potentially overwrite existing files?`,
+        initialValue: false,
+      });
+      if (!confirmOverwrite || p.isCancel(confirmOverwrite)) {
+        p.cancel('Scaffolding cancelled to protect existing files.');
+        process.exit(0);
       }
-      const targetDir = path.resolve(process.cwd(), value.trim());
-      if (fs.existsSync(targetDir) && fs.readdirSync(targetDir).length > 0) {
-        return `Directory '${value.trim()}' already exists and is not empty.`;
-      }
-    },
+    }
+  }
+
+  // 2. Setup Flow Selector
+  const savedTemplates = TemplateStore.loadSavedTemplates();
+
+  const flowChoice = await p.select({
+    message: 'How would you like to initialize your project?',
+    options: [
+      {
+        value: 'curated',
+        label: '🌟 Use a Curated Default Template (Instant Setup)',
+        hint: 'Recommended: Enterprise Monorepo, AI RAG, Tauri Desktop, Next.js',
+      },
+      {
+        value: 'wizard',
+        label: '🛠️  Custom Stack Wizard (Configure every layer)',
+        hint: 'Customize every framework, database, primitive, and AI tool',
+      },
+      ...(savedTemplates.length > 0
+        ? [
+            {
+              value: 'saved',
+              label: `📂 Load a Saved Custom Template (${savedTemplates.length} available)`,
+              hint: 'Instantiate a previously saved team stack from ~/.forgestack',
+            },
+          ]
+        : []),
+    ],
+    initialValue: 'curated',
   });
 
-  if (p.isCancel(projectName)) {
+  if (p.isCancel(flowChoice)) {
     p.cancel('Scaffolding cancelled.');
     process.exit(0);
   }
 
-  const sanitizedName = (projectName as string).trim();
-  const targetPath = path.resolve(process.cwd(), sanitizedName);
+  if (flowChoice === 'curated') {
+    const templateChoice = await p.select({
+      message: 'Select a curated default template:',
+      options: CURATED_TEMPLATES.map((t) => ({
+        value: t.id,
+        label: `${t.name} (${t.tagline})`,
+        hint: t.description,
+      })),
+      initialValue: 'enterprise-monorepo',
+    });
 
-  // 2. Architecture Topology
+    if (p.isCancel(templateChoice)) {
+      p.cancel('Scaffolding cancelled.');
+      process.exit(0);
+    }
+
+    const curated = CURATED_TEMPLATES.find((t) => t.id === templateChoice)!;
+
+    const gitChoice = await p.confirm({
+      message: 'Initialize a new git repository?',
+      initialValue: true,
+    });
+    if (p.isCancel(gitChoice)) {
+      p.cancel('Scaffolding cancelled.');
+      process.exit(0);
+    }
+
+    const installChoice = await p.confirm({
+      message: 'Install dependencies automatically?',
+      initialValue: true,
+    });
+    if (p.isCancel(installChoice)) {
+      p.cancel('Scaffolding cancelled.');
+      process.exit(0);
+    }
+
+    return projectConfigSchema.parse({
+      name: sanitizedName,
+      targetPath,
+      git: Boolean(gitChoice),
+      install: Boolean(installChoice),
+      ...curated.config,
+    });
+  }
+
+  if (flowChoice === 'saved') {
+    const templateChoice = await p.select({
+      message: 'Select one of your saved templates:',
+      options: savedTemplates.map((t) => ({
+        value: t.id,
+        label: t.name,
+        hint: t.description,
+      })),
+    });
+
+    if (p.isCancel(templateChoice)) {
+      p.cancel('Scaffolding cancelled.');
+      process.exit(0);
+    }
+
+    const saved = savedTemplates.find((t) => t.id === templateChoice)!;
+
+    const gitChoice = await p.confirm({
+      message: 'Initialize a new git repository?',
+      initialValue: true,
+    });
+    if (p.isCancel(gitChoice)) {
+      p.cancel('Scaffolding cancelled.');
+      process.exit(0);
+    }
+
+    const installChoice = await p.confirm({
+      message: 'Install dependencies automatically?',
+      initialValue: true,
+    });
+    if (p.isCancel(installChoice)) {
+      p.cancel('Scaffolding cancelled.');
+      process.exit(0);
+    }
+
+    return projectConfigSchema.parse({
+      name: sanitizedName,
+      targetPath,
+      git: Boolean(gitChoice),
+      install: Boolean(installChoice),
+      ...saved.config,
+    });
+  }
+
+  // 3. Architecture Topology
   const topology = await p.select({
     message: 'Select project architecture topology:',
     options: [
@@ -313,24 +463,42 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
   const ciProvider = ciChoice as 'github-actions' | 'none';
 
   // 7. AI Agent Governance
-  const aiChoice = await p.multiselect({
-    message: 'Include AI Agent Rules & Engineering Governance?',
-    options: [
-      { value: 'rules', label: 'Cursor Rules (.cursor/rules with Brutal Reviewer & Strict TS)' },
-      { value: 'skills', label: 'Agent Skills (Modern UI Engineering & Clean Code Craftsmanship)' },
-      { value: 'openspec', label: 'OpenSpec Spec-Driven Workflows' },
-      { value: 'mcp', label: 'Model Context Protocol (MCP) Server (@repo/mcp-server for Cursor & Antigravity)' },
+  const selectedAi = await searchableMultiselect({
+    message: 'Select AI Agent Governance & Tool Integrations',
+    items: [
+      {
+        id: 'rules',
+        label: 'Cursor Rules (.cursor/rules)',
+        hint: 'Brutal Reviewer & Strict TS',
+        selected: true,
+      },
+      {
+        id: 'skills',
+        label: 'AAS Agent Skills (17 Engineering Playbooks)',
+        hint: 'Clean Code Guard & Anti-UI Slop',
+        selected: true,
+      },
+      {
+        id: 'openspec',
+        label: 'OpenSpec Spec-Driven Workflows',
+        hint: 'opsx-* automated changes',
+        selected: true,
+      },
+      {
+        id: 'mcp',
+        label: 'Model Context Protocol (MCP) Server',
+        hint: '@repo/mcp-server for Cursor & Antigravity',
+        selected: true,
+      },
+      {
+        id: 'claude',
+        label: 'Claude Code Configuration (CLAUDE.md)',
+        hint: 'Architecture commands & conventions',
+        selected: true,
+      },
     ],
-    initialValues: ['rules', 'skills', 'openspec', 'mcp'],
-    required: false,
+    initialSelected: ['rules', 'skills', 'openspec', 'mcp', 'claude'],
   });
-
-  if (p.isCancel(aiChoice)) {
-    p.cancel('Scaffolding cancelled.');
-    process.exit(0);
-  }
-
-  const selectedAi = aiChoice as string[];
 
   // 8. Installation & Git
   const gitChoice = await p.confirm({
@@ -351,6 +519,73 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
   if (p.isCancel(installChoice)) {
     p.cancel('Scaffolding cancelled.');
     process.exit(0);
+  }
+
+  // 9. Optional: Save as Reusable Custom Template
+  const saveChoice = await p.confirm({
+    message: 'Save this customized configuration as a reusable template?',
+    initialValue: false,
+  });
+
+  if (!p.isCancel(saveChoice) && saveChoice) {
+    const templateName = await p.text({
+      message: 'Enter template name:',
+      placeholder: `${sanitizedName}-preset`,
+      defaultValue: `${sanitizedName}-preset`,
+      validate: (v) => (!v || !v.trim() ? 'Template name cannot be empty.' : undefined),
+    });
+
+    if (!p.isCancel(templateName) && templateName) {
+      TemplateStore.saveCustomTemplate(
+        (templateName as string).trim(),
+        `Custom template based on ${sanitizedName} (${selectedTopology})`,
+        {
+          topology: selectedTopology,
+          frontend: {
+            framework:
+              selectedTopology === 'nextjs-fullstack'
+                ? 'nextjs'
+                : includeFrontend
+                ? 'react-vite'
+                : 'none',
+            styling: feStyling,
+            state: feState,
+            uiExtras: feExtras,
+            dateLib: 'none',
+          },
+          backend: {
+            framework: beFramework,
+            database: beDatabase,
+            orm: beOrm,
+            container: beContainer,
+            processManager: selectedTopology === 'distributed-worker' ? 'bullmq' : 'docker',
+          },
+          queue: selectedTopology === 'distributed-worker' ? 'bullmq' : 'none',
+          auth: authProvider,
+          rpc: rpcProtocol,
+          testing: {
+            e2e: e2eTesting,
+          },
+          ci: ciProvider,
+          utilities: {
+            frontendHelpers: true,
+            backendHelpers: includeBackend,
+          },
+          aiGovernance: {
+            rules: selectedAi.includes('rules'),
+            skills: selectedAi.includes('skills'),
+            openSpec: selectedAi.includes('openspec'),
+            mcp: selectedAi.includes('mcp'),
+            claude: selectedAi.includes('claude'),
+            engine: 'openspec',
+          },
+          packageManager: 'pnpm',
+        }
+      );
+      p.log.success(
+        color.green(`Saved template "${(templateName as string).trim()}" to ~/.forgestack/templates.json`)
+      );
+    }
   }
 
   return {
@@ -392,6 +627,7 @@ export async function runInteractiveWizard(initialName?: string): Promise<Projec
       skills: selectedAi.includes('skills'),
       openSpec: selectedAi.includes('openspec'),
       mcp: selectedAi.includes('mcp'),
+      claude: selectedAi.includes('claude'),
       engine: 'openspec',
     },
     packageManager: 'pnpm',
