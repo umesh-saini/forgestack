@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import * as fs from 'node:fs/promises';
 import * as path from 'node:path';
 import * as os from 'node:os';
-import { provisionAgentSkills, AGENT_TARGETS } from '../agent-provisioner.js';
+import { provisionAgentSkills, detectPresentTools, AGENT_TARGETS } from '../agent-provisioner.js';
 
 describe('Universal AI Agent Provisioner', () => {
   let tempDir: string;
@@ -15,9 +15,10 @@ describe('Universal AI Agent Provisioner', () => {
     await fs.rm(tempDir, { recursive: true, force: true });
   });
 
-  it('provisions skills across all supported agent ecosystems', async () => {
+  it('provisions skills across all supported agent ecosystems (40 tools)', async () => {
     const results = await provisionAgentSkills(tempDir);
-    expect(results).toHaveLength(AGENT_TARGETS.length);
+    expect(AGENT_TARGETS.length).toBe(40);
+    expect(results).toHaveLength(40);
     expect(results.every((r) => r.success)).toBe(true);
 
     // Verify key files were physically created and have content
@@ -64,5 +65,15 @@ describe('Universal AI Agent Provisioner', () => {
       .then(() => true)
       .catch(() => false);
     expect(clineExists).toBe(false);
+  });
+
+  it('detects existing tool directories in a project', async () => {
+    await fs.mkdir(path.join(tempDir, '.cursor'), { recursive: true });
+    await fs.mkdir(path.join(tempDir, '.amazonq'), { recursive: true });
+
+    const detected = await detectPresentTools(tempDir);
+    expect(detected).toContain('cursor');
+    expect(detected).toContain('amazon-q');
+    expect(detected).not.toContain('claude');
   });
 });

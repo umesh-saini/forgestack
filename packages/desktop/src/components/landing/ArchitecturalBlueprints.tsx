@@ -39,7 +39,7 @@ const TABS: SchematicTab[] = [
     id: 'ai-governance',
     number: '03',
     title: 'Day-One AI Governance',
-    badge: '17 AI ECOSYSTEMS',
+    badge: '40 AI ECOSYSTEMS',
   },
 ];
 
@@ -217,12 +217,12 @@ export const ArchitecturalBlueprints: React.FC = () => {
                   <span>Universal AI Compatibility</span>
                 </div>
                 <h3 className="text-2xl sm:text-3xl font-extrabold text-[var(--text-main)] tracking-tight">
-                  17 AI Ecosystems Pre-Configured
+                  40 AI Ecosystems Pre-Configured
                 </h3>
                 <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
                   Every scaffolded project includes the canonical open standard skill file
                   at <code className="text-orange-400 font-mono">.agents/skills/forgestack/SKILL.md</code> plus
-                  dedicated rules for Antigravity, Claude Code, Cursor, Windsurf, Zed, Trae, and Copilot.
+                  dedicated rules for Antigravity, Claude Code, Cursor, Devin, Zed, Trae, Copilot, Qwen, Codex, and all 40 AI ecosystems supported by OpenSpec.
                   Autonomous agents understand your monorepo topology from the first second.
                 </p>
                 <div className="p-3 rounded-xl ui-card border space-y-2 font-mono text-xs">
@@ -238,7 +238,7 @@ export const ArchitecturalBlueprints: React.FC = () => {
               <div className="lg:col-span-6 p-4 sm:p-6 rounded-2xl bg-[var(--bg-main)] border border-[var(--border-color)] font-mono text-xs space-y-3">
                 <div className="flex items-center justify-between pb-2 border-b border-white/5 text-[11px] text-[var(--text-muted)]">
                   <span>PROVISIONED AGENT TARGETS</span>
-                  <span className="text-emerald-400 font-bold">17 TOOLS DETECTED</span>
+                  <span className="text-emerald-400 font-bold">40 TOOLS SUPPORTED</span>
                 </div>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-[11px]">
                   {[
@@ -246,7 +246,7 @@ export const ArchitecturalBlueprints: React.FC = () => {
                     'Antigravity',
                     'Claude Code',
                     'Cursor IDE',
-                    'Windsurf / Devin',
+                    'Devin Desktop',
                     'GitHub Copilot',
                     'Cline / Roo Code',
                     'Continue.dev',
@@ -257,7 +257,10 @@ export const ArchitecturalBlueprints: React.FC = () => {
                     'Qwen Code',
                     'OpenCode',
                     'Codex / OpenAI',
-                  ].map((agent, i) => (
+                    'Zoo Code',
+                    'Kiro',
+                    'Lingma',
+                  ].map((agent) => (
                     <div
                       key={agent}
                       className="p-2 rounded-lg bg-white/5 border border-white/5 text-slate-300 flex items-center gap-1.5 truncate"
@@ -266,6 +269,9 @@ export const ArchitecturalBlueprints: React.FC = () => {
                       <span className="truncate">{agent}</span>
                     </div>
                   ))}
+                </div>
+                <div className="pt-2 text-center text-[10px] text-[var(--text-muted)]">
+                  + 22 more AI assistants fully integrated with interactive CLI & studio picker
                 </div>
               </div>
             </div>

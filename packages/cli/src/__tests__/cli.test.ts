@@ -167,4 +167,19 @@ describe('ForgeStack CLI', () => {
       ])
     ).resolves.toBeDefined();
   });
+
+  it('should support init-skills with --tools flag', async () => {
+    const cli = createCli();
+    cli.exitOverride();
+
+    await expect(
+      cli.parseAsync([
+        'node',
+        'create-forgestack-app',
+        'init-skills',
+        '--tools',
+        'cursor,claude',
+      ])
+    ).resolves.toBeDefined();
+  });
 });
