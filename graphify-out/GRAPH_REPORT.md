@@ -1,7 +1,7 @@
 # Graph Report - project-setup  (2026-11-18)
 
 ## Corpus Check
-- 156 files · ~188,872 words
+- 156 files · ~189,000 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 13 file(s) not represented in the graph (top: (none) 6, .ico 2, .xml 2)
 
@@ -11,7 +11,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `04a8f2ce`
+- Built from commit: `4997bde0`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -71,10 +71,10 @@
   packages/core/package.json → package.json
 - `typescript@^5.7.3` --declares--> `typescript`  [EXTRACTED]
   package.json → packages/desktop/package.json
-- `typescript@^5.7.3` --declares--> `typescript`  [EXTRACTED]
-  packages/cli/package.json → packages/desktop/package.json
-- `typescript@^5.7.3` --declares--> `typescript`  [EXTRACTED]
-  packages/core/package.json → packages/desktop/package.json
+- `ForgeStackAppContent()` --calls--> `HomeTemplatesDashboard()`  [EXTRACTED]
+  packages/desktop/src/App.tsx → packages/desktop/src/components/home/HomeTemplatesDashboard.tsx
+- `ForgeStackAppContent()` --calls--> `ScaffoldConsoleView()`  [EXTRACTED]
+  packages/desktop/src/App.tsx → packages/desktop/src/components/home/ScaffoldConsoleView.tsx
 
 ## Import Cycles
 - None detected.

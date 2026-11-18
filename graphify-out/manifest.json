@@ -392,8 +392,8 @@
     "semantic_hash": "c4810650ec6404163a933d256fe855f6"
   },
   "packages/desktop/src-tauri/src/lib.rs": {
-    "mtime": 1794993462.7908316,
-    "seen": 1794994114.2011013,
+    "mtime": 1794994190.0994413,
+    "seen": 1794994990.8720024,
     "ast_hash": "2b00972f4614afca3b943ea0a5eb6c49",
     "semantic_hash": ""
   },
@@ -404,15 +404,15 @@
     "semantic_hash": "fd41b550e9b255c615bdcfc90df8f280"
   },
   "packages/desktop/src-tauri/tauri.conf.json": {
-    "mtime": 1794993432.5975738,
-    "seen": 1794994114.201109,
+    "mtime": 1794994190.31853,
+    "seen": 1794994990.8720052,
     "ast_hash": "7eb1b9be94c73ddcffcb74fbe4a26dc1",
     "semantic_hash": ""
   },
   "packages/desktop/src/App.tsx": {
-    "mtime": 1794993812.1623402,
-    "seen": 1794994114.2011125,
-    "ast_hash": "ccfaee5d0d1eb1f015212a685c5cf8c3",
+    "mtime": 1794994944.5308418,
+    "seen": 1794994990.8720067,
+    "ast_hash": "fe947e771751b0a984f9b01e09289b4a",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/common/Badge.tsx": {
@@ -932,9 +932,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/settings/AppSettingsPage.tsx": {
-    "mtime": 1794994059.1457574,
-    "seen": 1794994114.2011623,
-    "ast_hash": "30d97fa56517fdbfd910af214ca95d4e",
+    "mtime": 1794994785.5111673,
+    "seen": 1794994990.8720238,
+    "ast_hash": "b406184685d4d98782c767aacd12ab61",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/preview/VsCodeWorkspace.tsx": {
@@ -944,8 +944,8 @@
     "semantic_hash": ""
   },
   "packages/desktop/src-tauri/capabilities/default.json": {
-    "mtime": 1794993423.6354957,
-    "seen": 1794994114.2010744,
+    "mtime": 1794994189.614433,
+    "seen": 1794994990.8719919,
     "ast_hash": "f218ac05d7447ac43966dbc9a1991771",
     "semantic_hash": ""
   },
