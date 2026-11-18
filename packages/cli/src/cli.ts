@@ -21,14 +21,22 @@ export function createCli(): Command {
     .argument('[name]', 'Project name')
     .option(
       '--topology <type>',
-      'Architecture topology (monorepo, standalone-fe, standalone-be)'
+      'Architecture topology (monorepo, nextjs-fullstack, tauri-desktop, electron-desktop, ai-agent-rag, micro-frontend, distributed-worker, standalone-fe, standalone-be)'
     )
-    .option('--fe <framework>', 'Frontend framework (react-vite, none)')
+    .option('--fe <framework>', 'Frontend framework (react-vite, nextjs, none)')
     .option('--styling <type>', 'Frontend styling (tailwind, none)')
     .option('--state <type>', 'Frontend state (query, redux, zustand, none)')
-    .option('--be <framework>', 'Backend framework (fastify, express, none)')
-    .option('--db <database>', 'Database engine (postgres, mongodb, none)')
+    .option('--be <framework>', 'Backend framework (fastify, express, hono, none)')
+    .option('--db <database>', 'Database engine (postgres, mongodb, sqlite, none)')
     .option('--orm <orm>', 'ORM / ODM (drizzle, prisma, mongoose, none)')
+    .option('--auth <provider>', 'Authentication provider (better-auth, none)')
+    .option('--rpc <protocol>', 'RPC contract layer (trpc, none)')
+    .option('--queue <type>', 'Background queue (bullmq, none)')
+    .option('--testing <framework>', 'E2E testing framework (playwright, none)')
+    .option('--e2e <framework>', 'Alias for --testing (playwright, none)')
+    .option('--ci <provider>', 'CI/CD pipeline (github-actions, none)')
+    .option('--mcp', 'Include Model Context Protocol server', true)
+    .option('--no-mcp', 'Skip Model Context Protocol server')
     .option('--container', 'Generate Docker Compose and Dockerfile', true)
     .option('--no-container', 'Skip Docker containerization')
     .option('--pm <manager>', 'Package manager (pnpm, npm, yarn, bun)', 'pnpm')
@@ -48,13 +56,25 @@ export function createCli(): Command {
         } else {
           const projectName = nameArg || (options.name as string) || 'my-app';
           const topology = (options.topology as any) || 'monorepo';
-          const isStandaloneFE = topology === 'standalone-fe';
-          const isStandaloneBE = topology === 'standalone-be';
+          const isFrontendOnly =
+            topology === 'standalone-fe' ||
+            topology === 'electron-desktop' ||
+            topology === 'tauri-desktop' ||
+            topology === 'micro-frontend';
+          const isBackendOnly =
+            topology === 'standalone-be' ||
+            topology === 'distributed-worker';
 
-          const db = isStandaloneFE ? 'none' : ((options.db as any) || 'postgres');
-          const orm = isStandaloneFE
-            ? 'none'
-            : ((options.orm as any) || (db === 'postgres' ? 'drizzle' : db === 'mongodb' ? 'mongoose' : 'none'));
+          const db = isFrontendOnly ? 'none' : ((options.db as any) || (topology === 'distributed-worker' ? 'none' : 'postgres'));
+          const defaultOrm =
+            db === 'postgres'
+              ? 'drizzle'
+              : db === 'mongodb'
+              ? 'mongoose'
+              : db === 'sqlite'
+              ? 'drizzle'
+              : 'none';
+          const orm = isFrontendOnly ? 'none' : ((options.orm as any) || defaultOrm);
 
           // Validate compatibility
           if (db === 'mongodb' && orm === 'drizzle') {
@@ -63,24 +83,53 @@ export function createCli(): Command {
           if (db === 'postgres' && orm === 'mongoose') {
             throw new Error("Invalid option combination: PostgreSQL is not compatible with Mongoose. Use '--orm drizzle' or '--orm prisma'.");
           }
+          if (db === 'sqlite' && orm === 'mongoose') {
+            throw new Error("Invalid option combination: SQLite is not compatible with Mongoose. Use '--orm drizzle'.");
+          }
+          if (db === 'sqlite' && orm === 'prisma') {
+            throw new Error("Invalid option combination: SQLite with Prisma is not supported. Use '--orm drizzle'.");
+          }
+          if (options.rpc === 'trpc' && topology !== 'monorepo' && topology !== 'ai-agent-rag') {
+            throw new Error("Invalid option combination: tRPC requires a monorepo topology ('monorepo' or 'ai-agent-rag').");
+          }
 
           config = projectConfigSchema.parse({
             name: projectName,
             targetPath: path.resolve(process.cwd(), projectName),
             topology,
             frontend: {
-              framework: isStandaloneBE ? 'none' : (options.fe || 'react-vite'),
-              styling: isStandaloneBE ? 'none' : (options.styling || 'tailwind'),
-              state: isStandaloneBE ? 'none' : (options.state || 'query'),
-              uiExtras: isStandaloneBE ? { toast: false, icons: false, forms: false } : { toast: true, icons: true, forms: true },
+              framework:
+                topology === 'nextjs-fullstack'
+                  ? 'nextjs'
+                  : isBackendOnly
+                  ? 'none'
+                  : (options.fe || 'react-vite'),
+              styling: isBackendOnly ? 'none' : (options.styling || 'tailwind'),
+              state: isBackendOnly ? 'none' : (options.state || 'query'),
+              uiExtras: isBackendOnly
+                ? { toast: false, icons: false, forms: false }
+                : { toast: true, icons: true, forms: true },
             },
             backend: {
-              framework: isStandaloneFE ? 'none' : (options.be || 'fastify'),
+              framework: isFrontendOnly ? 'none' : (options.be || 'fastify'),
               database: db,
               orm,
-              container: isStandaloneFE ? false : options.container !== false,
+              container: isFrontendOnly || db === 'sqlite' || db === 'none' ? false : options.container !== false,
+              processManager: topology === 'distributed-worker' ? 'bullmq' : 'docker',
             },
-            aiGovernance: { rules: true, skills: true, openSpec: true },
+            queue: topology === 'distributed-worker' ? 'bullmq' : ((options.queue as any) || 'none'),
+            auth: (options.auth as any) || 'none',
+            rpc: (options.rpc as any) || 'none',
+            testing: {
+              e2e: ((options.testing || options.e2e || 'none') as any),
+            },
+            ci: (options.ci as any) || 'none',
+            aiGovernance: {
+              rules: true,
+              skills: true,
+              openSpec: true,
+              mcp: options.mcp !== false,
+            },
             packageManager: options.pm || 'pnpm',
             git: options.git !== false,
             install: Boolean(options.install),
@@ -130,6 +179,9 @@ export function createCli(): Command {
         CliReporter.printSummary(config, config.targetPath);
       } catch (err) {
         p.log.error(color.red((err as Error).message));
+        if (process.env.VITEST) {
+          throw err;
+        }
         process.exit(1);
       }
     });
