@@ -159,4 +159,150 @@ describe('E2E Scaffolding Permutation Matrix', () => {
     // Should NOT have frontend files
     expect(fs.existsSync(path.join(config.targetPath, 'src/App.tsx'))).toBe(false);
   });
+
+  it('Permutation 5: Native Tauri v2 Desktop + Rust Core + React 19 + Tailwind v4', async () => {
+    const config: ProjectConfig = {
+      name: 'tauri-desktop-app',
+      targetPath: path.join(tempDir, 'tauri-desktop-app'),
+      topology: 'tauri-desktop',
+      frontend: {
+        framework: 'react-vite',
+        styling: 'tailwind',
+        state: 'query',
+        uiExtras: { toast: true, icons: true, forms: true },
+      },
+      backend: {
+        framework: 'none',
+        database: 'none',
+        orm: 'none',
+        container: false,
+      },
+      aiGovernance: { rules: true, skills: true, openSpec: true, mcp: true },
+      packageManager: 'pnpm',
+      git: false,
+      install: false,
+    };
+
+    const vfs = await generateProjectVfs(config);
+    const flushResult = await TransactionalFlusher.flush(vfs, config.targetPath);
+
+    expect(flushResult.filesWritten).toBeGreaterThan(30);
+    expect(fs.existsSync(path.join(config.targetPath, 'src-tauri/Cargo.toml'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'src-tauri/tauri.conf.json'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'src-tauri/src/main.rs'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'src/App.tsx'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'vite.config.ts'))).toBe(true);
+
+    const cargo = await fs.promises.readFile(path.join(config.targetPath, 'src-tauri/Cargo.toml'), 'utf-8');
+    expect(cargo).toContain('tauri = { version = "2"');
+  });
+
+  it('Permutation 6: AI-Native Agent / RAG Monorepo + pgvector + Better-Auth + tRPC + Playwright + CI/CD + MCP Server', async () => {
+    const config: ProjectConfig = {
+      name: 'ai-rag-monorepo',
+      targetPath: path.join(tempDir, 'ai-rag-monorepo'),
+      topology: 'ai-agent-rag',
+      frontend: {
+        framework: 'react-vite',
+        styling: 'tailwind',
+        state: 'query',
+        uiExtras: { toast: true, icons: true, forms: true },
+      },
+      backend: {
+        framework: 'fastify',
+        database: 'postgres',
+        orm: 'drizzle',
+        container: true,
+      },
+      auth: 'better-auth',
+      rpc: 'trpc',
+      queue: 'none',
+      testing: { e2e: 'playwright' },
+      ci: 'github-actions',
+      aiGovernance: { rules: true, skills: true, openSpec: true, mcp: true },
+      packageManager: 'pnpm',
+      git: false,
+      install: false,
+    };
+
+    const vfs = await generateProjectVfs(config);
+    const flushResult = await TransactionalFlusher.flush(vfs, config.targetPath);
+
+    expect(flushResult.filesWritten).toBeGreaterThan(90);
+    expect(fs.existsSync(path.join(config.targetPath, 'apps/api/src/ai/vector-store.ts'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'apps/api/src/ai/agent-service.ts'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'apps/api/src/modules/chat/chat.routes.ts'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'apps/web/src/hooks/use-agent-chat.ts'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'apps/web/src/components/chat-interface.tsx'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'packages/mcp-server/src/index.ts'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, '.agents/mcp.json'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, '.github/workflows/ci.yml'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'playwright.config.ts'))).toBe(true);
+  });
+
+  it('Permutation 7: Micro-Frontend Federation + Module Federation + Typed Event-Bus', async () => {
+    const config: ProjectConfig = {
+      name: 'micro-frontend-app',
+      targetPath: path.join(tempDir, 'micro-frontend-app'),
+      topology: 'micro-frontend',
+      frontend: {
+        framework: 'react-vite',
+        styling: 'tailwind',
+        state: 'query',
+        uiExtras: { toast: true, icons: true, forms: true },
+      },
+      backend: {
+        framework: 'none',
+        database: 'none',
+        orm: 'none',
+        container: false,
+      },
+      aiGovernance: { rules: true, skills: true, openSpec: true },
+      packageManager: 'pnpm',
+      git: false,
+      install: false,
+    };
+
+    const vfs = await generateProjectVfs(config);
+    const flushResult = await TransactionalFlusher.flush(vfs, config.targetPath);
+
+    expect(fs.existsSync(path.join(config.targetPath, 'apps/shell/vite.config.ts'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'apps/remote-dashboard/vite.config.ts'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'packages/event-bus/src/index.ts'))).toBe(true);
+  });
+
+  it('Permutation 8: Distributed BullMQ Worker + Fastify + Redis Container', async () => {
+    const config: ProjectConfig = {
+      name: 'worker-queue-app',
+      targetPath: path.join(tempDir, 'worker-queue-app'),
+      topology: 'distributed-worker',
+      frontend: {
+        framework: 'none',
+        styling: 'none',
+        state: 'none',
+        uiExtras: { toast: false, icons: false, forms: false },
+      },
+      backend: {
+        framework: 'fastify',
+        database: 'postgres',
+        orm: 'drizzle',
+        container: true,
+        processManager: 'bullmq',
+      },
+      queue: 'bullmq',
+      aiGovernance: { rules: true, skills: true, openSpec: true },
+      packageManager: 'pnpm',
+      git: false,
+      install: false,
+    };
+
+    const vfs = await generateProjectVfs(config);
+    const flushResult = await TransactionalFlusher.flush(vfs, config.targetPath);
+
+    expect(fs.existsSync(path.join(config.targetPath, 'src/worker.ts'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'src/queue/task-queue.ts'))).toBe(true);
+    expect(fs.existsSync(path.join(config.targetPath, 'docker-compose.yml'))).toBe(true);
+    const compose = await fs.promises.readFile(path.join(config.targetPath, 'docker-compose.yml'), 'utf-8');
+    expect(compose).toContain('redis:7-alpine');
+  });
 });
