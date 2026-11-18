@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { RealTech3DHero } from './RealTech3DHero.js';
+import { HeroKinetic } from './HeroKinetic.js';
 import { VelocityMarquee } from './VelocityMarquee.js';
 import { ArchitecturalBlueprints } from './ArchitecturalBlueprints.js';
 import { ThreeFigureShowcase } from './ThreeFigureShowcase.js';
@@ -19,13 +19,13 @@ export const LandingPage: React.FC = () => {
       {/* 1. Top Scroll Progress Telemetry Bar */}
       <ScrollProgress />
 
-      {/* 2. Real Tech 3D Architecture Motherboard Hero */}
-      <RealTech3DHero />
+      {/* 2. Flagship Kinetic Typography & Interactive Terminal Hero (Zero 3D) */}
+      <HeroKinetic />
 
       {/* 3. Engineering Primitives Marquee */}
       <VelocityMarquee />
 
-      {/* 4. Sticky Scroll-Driven 3D Primitives Showcase */}
+      {/* 4. Sticky Scroll-Driven 3D Architecture Showcase */}
       <ThreeFigureShowcase />
 
       {/* 5. Native Desktop Studio Suite with Real Production Screenshots */}

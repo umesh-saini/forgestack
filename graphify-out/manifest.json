@@ -1712,9 +1712,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/LandingPage.tsx": {
-    "mtime": 1795003333.628951,
-    "seen": 1795004076.326998,
-    "ast_hash": "0df7d739b3d0ac293a23636cfcb8bac5",
+    "mtime": 1795004354.4584985,
+    "seen": 1795004620.3168457,
+    "ast_hash": "6e5d005ded0a1091d2df56907bd896fb",
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/VelocityMarquee.tsx": {
@@ -1808,9 +1808,9 @@
     "semantic_hash": ""
   },
   "packages/desktop/src/components/landing/ThreeFigureShowcase.tsx": {
-    "mtime": 1795001310.0648577,
-    "seen": 1795003120.463442,
-    "ast_hash": "cb91199c3c53fbd0d50e4eddc7ce779e",
+    "mtime": 1795004445.7174695,
+    "seen": 1795004620.3168497,
+    "ast_hash": "1a79889c0fd5c535d2e05c7e264b40a5",
     "semantic_hash": ""
   },
   "packages/desktop/src/lib/motion.tsx": {
@@ -1831,15 +1831,9 @@
     "ast_hash": "28169bdfb479515132f4b6969d5985d0",
     "semantic_hash": ""
   },
-  "packages/desktop/src/components/landing/RealTech3DHero.tsx": {
-    "mtime": 1795003932.7070029,
-    "seen": 1795004076.3269997,
-    "ast_hash": "c0527523112e1782fc37dd16b6c094ec",
-    "semantic_hash": ""
-  },
   ".claude/skills/forgestack/SKILL.md": {
-    "mtime": 1795004023.465777,
-    "seen": 1795004076.327108,
+    "mtime": 1795004609.8100924,
+    "seen": 1795004620.3169324,
     "ast_hash": "6acc2cd16f90d6cf7fa61c337e09239a",
     "semantic_hash": ""
   },
@@ -1883,12 +1877,6 @@
     "mtime": 1794900385.2305162,
     "seen": 1795004076.3271577,
     "ast_hash": "b4aa0531da49588b4422bf3100ffa80e",
-    "semantic_hash": ""
-  },
-  "packages/cli/.claude/skills/forgestack/SKILL.md": {
-    "mtime": 1795003819.5818963,
-    "seen": 1795004076.3271952,
-    "ast_hash": "6acc2cd16f90d6cf7fa61c337e09239a",
     "semantic_hash": ""
   },
   "pnpm-lock.yaml": {
