@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { Float, Edges } from '@react-three/drei';
+import { Float, Edges, useGLTF } from '@react-three/drei';
 import * as THREE from 'three';
 import {
   motion,
@@ -10,6 +10,14 @@ import {
   useReducedMotion,
 } from 'framer-motion';
 import { useThemeAccent } from '../../lib/motion.js';
+
+// Preload real 3D models
+try {
+  useGLTF.preload('/models/typescript.glb');
+  useGLTF.preload('/models/mongodb.glb');
+} catch {
+  // Preload fallback in non-browser envs
+}
 
 /* ------------------------------------------------------------------ */
 /* palette helpers — derive 9 cohesive colors from the theme accent    */
@@ -75,27 +83,81 @@ function rgba(hex: string, a: number): string {
 }
 
 /* ------------------------------------------------------------------ */
-/* the nine figures                                                     */
+/* Real Tech 3D Models Sub-components                                 */
+/* ------------------------------------------------------------------ */
+
+function TypeScript3DFigure({ color }: { color: string }) {
+  const { scene } = useGLTF('/models/typescript.glb');
+  const clone = React.useMemo(() => scene.clone(), [scene]);
+  return (
+    <primitive
+      object={clone}
+      scale={0.65}
+      position={[0, 0, 0]}
+      rotation={[0, 0.25, 0]}
+    />
+  );
+}
+
+function MongoDb3DFigure({ color }: { color: string }) {
+  const { scene } = useGLTF('/models/mongodb.glb');
+  const clone = React.useMemo(() => scene.clone(), [scene]);
+  return (
+    <primitive
+      object={clone}
+      scale={11.5}
+      position={[0, -0.65, 0]}
+      rotation={[0, 0.25, 0]}
+    />
+  );
+}
+
+function React193DFigure({ color }: { color: string }) {
+  return (
+    <group>
+      <mesh>
+        <sphereGeometry args={[0.32, 32, 32]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.6} />
+      </mesh>
+      <mesh rotation={[Math.PI / 3, 0, 0]}>
+        <torusGeometry args={[0.92, 0.04, 16, 64]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.4} />
+      </mesh>
+      <mesh rotation={[-Math.PI / 3, 0, 0]}>
+        <torusGeometry args={[0.92, 0.04, 16, 64]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.4} />
+      </mesh>
+      <mesh rotation={[0, Math.PI / 2, 0]}>
+        <torusGeometry args={[0.92, 0.04, 16, 64]} />
+        <meshStandardMaterial color={color} emissive={color} emissiveIntensity={0.4} />
+      </mesh>
+    </group>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* The nine figures                                                   */
 /* ------------------------------------------------------------------ */
 
 interface FigureDef {
   name: string;
-  geometry: React.ReactNode;
   tag: string;
+  custom?: 'typescript' | 'mongodb' | 'react';
+  geometry?: React.ReactNode;
 }
 
 const SPACING = 3.4;
 
 const FIGURES: FigureDef[] = [
-  { name: 'In-Memory VFS', tag: 'core', geometry: <icosahedronGeometry args={[0.95, 0]} /> },
-  { name: 'AST Composer', tag: 'engine', geometry: <torusKnotGeometry args={[0.6, 0.22, 160, 24]} /> },
-  { name: 'Turborepo', tag: 'monorepo', geometry: <boxGeometry args={[1.25, 1.25, 1.25]} /> },
-  { name: 'Next.js 15', tag: 'fullstack', geometry: <dodecahedronGeometry args={[1.0, 0]} /> },
-  { name: 'Tauri v2', tag: 'desktop', geometry: <sphereGeometry args={[0.92, 48, 48]} /> },
-  { name: 'BullMQ Worker', tag: 'queue', geometry: <coneGeometry args={[0.85, 1.7, 48]} /> },
-  { name: 'Micro-Frontend', tag: 'federation', geometry: <torusGeometry args={[0.7, 0.26, 32, 120]} /> },
-  { name: 'Better-Auth', tag: 'identity', geometry: <octahedronGeometry args={[1.1, 0]} /> },
-  { name: 'OpenSpec', tag: 'governance', geometry: <cylinderGeometry args={[0.72, 0.72, 1.5, 48]} /> },
+  { name: 'TypeScript 5.7', tag: 'type-safe core', custom: 'typescript' },
+  { name: 'React 19 Core', tag: 'modern frontend', custom: 'react' },
+  { name: 'MongoDB & Drizzle', tag: 'database layer', custom: 'mongodb' },
+  { name: 'Turborepo Engine', tag: 'monorepo orchestration', geometry: <boxGeometry args={[1.25, 1.25, 1.25]} /> },
+  { name: 'Fastify 5 REST', tag: 'modular api server', geometry: <cylinderGeometry args={[0.75, 0.75, 1.4, 6]} /> },
+  { name: 'Next.js 15 Full-Stack', tag: 'server actions', geometry: <dodecahedronGeometry args={[1.0, 0]} /> },
+  { name: 'Tauri v2 Desktop', tag: 'native rust engine', geometry: <sphereGeometry args={[0.92, 48, 48]} /> },
+  { name: 'BullMQ Queue', tag: 'distributed worker', geometry: <coneGeometry args={[0.85, 1.7, 48]} /> },
+  { name: '40 AI Ecosystems & MCP', tag: 'day-one governance', geometry: <octahedronGeometry args={[1.1, 0]} /> },
 ];
 
 interface FigureProps {
@@ -105,8 +167,8 @@ interface FigureProps {
 }
 
 const Figure: React.FC<FigureProps> = ({ index, color, activeIndexRef }) => {
-  const meshRef = React.useRef<THREE.Mesh>(null);
-  const matRef = React.useRef<THREE.MeshStandardMaterial>(null);
+  const meshRef = React.useRef<THREE.Group>(null);
+  const def = FIGURES[index];
 
   // depth parallax — figures further from camera sit slightly back
   const z = (index % 3) * -0.6 - 0.2;
@@ -114,23 +176,12 @@ const Figure: React.FC<FigureProps> = ({ index, color, activeIndexRef }) => {
   useFrame((_, delta) => {
     const mesh = meshRef.current;
     if (mesh) {
-      // gentle idle spin, independent of scroll
-      mesh.rotation.y += delta * 0.15;
+      mesh.rotation.y += delta * 0.2;
       mesh.rotation.x += delta * 0.05;
-    }
-    const mat = matRef.current;
-    if (mat) {
-      const active = activeIndexRef.current === index;
-      mat.emissiveIntensity = THREE.MathUtils.lerp(
-        mat.emissiveIntensity,
-        active ? 0.65 : 0.28,
-        delta * 4,
-      );
-    }
-    if (mesh) {
+
       const active = activeIndexRef.current === index;
       mesh.scale.setScalar(
-        THREE.MathUtils.lerp(mesh.scale.x, active ? 1.14 : 1.0, delta * 3),
+        THREE.MathUtils.lerp(mesh.scale.x, active ? 1.15 : 1.0, delta * 3),
       );
     }
   });
@@ -138,18 +189,45 @@ const Figure: React.FC<FigureProps> = ({ index, color, activeIndexRef }) => {
   return (
     <group position={[index * SPACING, 0, z]}>
       <Float speed={1.4} rotationIntensity={0.5} floatIntensity={0.9}>
-        <mesh ref={meshRef} castShadow>
-          {FIGURES[index].geometry}
-          <meshStandardMaterial
-            ref={matRef}
-            color={color}
-            metalness={0.35}
-            roughness={0.22}
-            emissive={color}
-            emissiveIntensity={0.3}
-          />
-          <Edges threshold={15} color="white" />
-        </mesh>
+        <group ref={meshRef}>
+          {def.custom === 'typescript' ? (
+            <Suspense
+              fallback={
+                <mesh>
+                  <boxGeometry args={[1.2, 1.2, 0.3]} />
+                  <meshStandardMaterial color={color} />
+                </mesh>
+              }
+            >
+              <TypeScript3DFigure color={color} />
+            </Suspense>
+          ) : def.custom === 'mongodb' ? (
+            <Suspense
+              fallback={
+                <mesh>
+                  <cylinderGeometry args={[0.5, 0.5, 1.3, 32]} />
+                  <meshStandardMaterial color={color} />
+                </mesh>
+              }
+            >
+              <MongoDb3DFigure color={color} />
+            </Suspense>
+          ) : def.custom === 'react' ? (
+            <React193DFigure color={color} />
+          ) : (
+            <mesh castShadow>
+              {def.geometry}
+              <meshStandardMaterial
+                color={color}
+                metalness={0.35}
+                roughness={0.22}
+                emissive={color}
+                emissiveIntensity={0.3}
+              />
+              <Edges threshold={15} color="white" />
+            </mesh>
+          )}
+        </group>
       </Float>
     </group>
   );
@@ -169,18 +247,16 @@ const Scene: React.FC<SceneProps> = ({ progressRef, activeIndexRef, palette }) =
     const g = groupRef.current;
     if (!g) return;
     const p = progressRef.current;
-    // slide the whole row so scroll sweeps each figure through center
     const targetX = -p * (total - 1) * SPACING;
     g.position.x = THREE.MathUtils.lerp(g.position.x, targetX, delta * 6);
-    // subtle breathing rotation
     g.rotation.y = Math.sin(performance.now() * 0.0002) * 0.08;
   });
 
   return (
     <group ref={groupRef}>
-      <ambientLight intensity={0.6} />
-      <directionalLight position={[5, 6, 4]} intensity={1.1} />
-      <pointLight position={[-6, -2, 3]} intensity={0.5} color={palette[0]} />
+      <ambientLight intensity={0.7} />
+      <directionalLight position={[5, 6, 4]} intensity={1.2} />
+      <pointLight position={[-6, -2, 3]} intensity={0.6} color={palette[0]} />
       {FIGURES.map((_, i) => (
         <Figure
           key={i}
@@ -194,7 +270,7 @@ const Scene: React.FC<SceneProps> = ({ progressRef, activeIndexRef, palette }) =
 };
 
 /* ------------------------------------------------------------------ */
-/* static fallback for reduced-motion / no-WebGL                       */
+/* Static fallback for reduced-motion / no-WebGL                       */
 /* ------------------------------------------------------------------ */
 
 const StaticGrid: React.FC<{ palette: string[] }> = ({ palette }) => (
@@ -219,7 +295,7 @@ const StaticGrid: React.FC<{ palette: string[] }> = ({ palette }) => (
 );
 
 /* ------------------------------------------------------------------ */
-/* main component                                                       */
+/* Main component                                                     */
 /* ------------------------------------------------------------------ */
 
 export const ThreeFigureShowcase: React.FC = () => {
@@ -238,7 +314,6 @@ export const ThreeFigureShowcase: React.FC = () => {
     restDelta: 0.001,
   });
 
-  // refs read inside the R3F render loop (no React re-render per frame)
   const progressRef = React.useRef(0);
   const activeIndexRef = React.useRef(0);
   const [activeIndex, setActiveIndex] = React.useState(0);
@@ -251,22 +326,11 @@ export const ThreeFigureShowcase: React.FC = () => {
   });
 
   const total = FIGURES.length;
-  const active = FIGURES[activeIndex];
+  const active = FIGURES[activeIndex] ?? FIGURES[0];
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative"
-      style={{ height: reduce ? 'auto' : '400vh' }}
-    >
-      <div className={reduce ? 'relative py-20 px-4' : 'sticky top-0 h-screen w-full overflow-hidden'}>
-        {/* ambient glow tied to the theme accent */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `radial-gradient(60% 60% at 50% 45%, ${rgba(accent, 0.14)}, transparent 70%)`,
-          }}
-        />
+    <section ref={sectionRef} className="relative h-[280vh] border-b border-[var(--border-color)]">
+      <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
 
         {reduce ? (
@@ -283,11 +347,13 @@ export const ThreeFigureShowcase: React.FC = () => {
                 camera={{ position: [0, 0, 6.2], fov: 45 }}
                 frameloop="always"
               >
-                <Scene
-                  progressRef={progressRef}
-                  activeIndexRef={activeIndexRef}
-                  palette={palette}
-                />
+                <Suspense fallback={null}>
+                  <Scene
+                    progressRef={progressRef}
+                    activeIndexRef={activeIndexRef}
+                    palette={palette}
+                  />
+                </Suspense>
               </Canvas>
             </div>
 
@@ -317,13 +383,13 @@ export const ThreeFigureShowcase: React.FC = () => {
               {/* center headline */}
               <div className="text-center -mt-6">
                 <h2 className="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight">
-                  Nine primitives.
+                  Real Tech Primitives.
                   <br />
-                  <span style={{ color: accent }}>One scroll.</span>
+                  <span style={{ color: accent }}>One Scroll.</span>
                 </h2>
                 <p className="mt-3 text-xs sm:text-sm text-[var(--text-muted)] max-w-xl mx-auto">
-                  Each figure is a ForgeStack slice. Scroll to march the stack through your viewport —
-                  the engine, the worker, the desktop shell, the spec, all in memory.
+                  Interactive 3D figures for TypeScript, React, MongoDB, Turborepo, and 40 AI assistant ecosystems.
+                  Scroll to inspect the full architecture stack in real-time.
                 </p>
               </div>
 
@@ -338,7 +404,7 @@ export const ThreeFigureShowcase: React.FC = () => {
                       background:
                         i === activeIndex
                           ? accent
-                          : 'var(--border-hover)',
+                          : 'var(--border-color)',
                     }}
                   />
                 ))}
@@ -351,14 +417,11 @@ export const ThreeFigureShowcase: React.FC = () => {
   );
 };
 
-const SectionLabel: React.FC = () => (
-  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full ui-card-subtle border text-[11px] font-mono">
-    <span
-      className="w-1.5 h-1.5 rounded-full"
-      style={{ background: 'var(--accent)' }}
-    />
-    <span className="font-bold uppercase tracking-wider" style={{ color: 'var(--accent)' }}>
-      03 · Live 3D Stack
-    </span>
-  </div>
-);
+function SectionLabel() {
+  return (
+    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full ui-card-subtle border text-[11px] font-mono text-[var(--text-muted)]">
+      <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse" />
+      <span>TECH ARCHITECTURE STACK</span>
+    </div>
+  );
+}
