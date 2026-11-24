@@ -1,0 +1,78 @@
+@import 'tailwindcss';
+
+/* Brand tokens: ember on charcoal (matches the desktop studio). Light scheme follows the OS. */
+:root {
+  --bg: #0b0b0d;
+  --bg-raised: #141417;
+  --bg-sunken: #08080a;
+  --border: #26262b;
+  --text: #ececf1;
+  --text-muted: #a1a1aa;
+  --accent: #f97316;
+  --accent-strong: #ea580c;
+  --accent-soft: rgb(249 115 22 / 0.12);
+  --on-accent: #0b0b0d; /* ~7:1 on #f97316 */
+  --ok: #22c55e;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #fafaf9;
+    --bg-raised: #ffffff;
+    --bg-sunken: #f1f1ef;
+    --border: #e4e4e0;
+    --text: #18181b;
+    --text-muted: #52525b;
+    --accent: #c2410c;
+    --accent-strong: #9a3412;
+    --accent-soft: rgb(194 65 12 / 0.08);
+    --on-accent: #ffffff; /* ~5.2:1 on #c2410c */
+    --ok: #15803d;
+    color-scheme: light;
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-raised: var(--bg-raised);
+  --color-sunken: var(--bg-sunken);
+  --color-line: var(--border);
+  --color-fg: var(--text);
+  --color-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-ok: var(--ok);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+code,
+pre {
+  font-family: ui-monospace, 'JetBrains Mono', 'Fira Code', Menlo, monospace;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

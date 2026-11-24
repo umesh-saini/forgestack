@@ -80,7 +80,7 @@ export const HomeTemplatesDashboard: React.FC<Props> = ({
               <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-500 border border-orange-500/20 font-bold uppercase tracking-wider">
                 Production Foundations
               </span>
-              <span className="text-xs opacity-50 font-mono">v1.2.0</span>
+              <span className="text-xs opacity-50 font-mono">v{__APP_VERSION__}</span>
             </div>
             <h2 className="text-2xl font-black tracking-tight text-[var(--text-main)]">
               Architecture Templates Hub

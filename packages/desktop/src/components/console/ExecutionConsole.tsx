@@ -159,7 +159,9 @@ export const ExecutionConsole: React.FC<Props> = ({
                   )}
                 </button>
                 <a
-                  href="#/landing#downloads"
+                  href="https://github.com/umesh-saini/forgestack/releases"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="px-3 py-1.5 rounded-xl ui-card-subtle hover:opacity-100 text-xs font-medium flex items-center gap-1.5 transition-colors cursor-pointer border text-orange-400"
                 >
                   <Download className="w-3.5 h-3.5 text-orange-400" />
