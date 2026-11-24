@@ -3,6 +3,7 @@ import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import { CodePatcher } from '../../utils/code-patcher.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const uiExtrasSlice: FeatureSlice = {
   id: 'fe-ui-extras',
@@ -18,14 +19,7 @@ export const uiExtrasSlice: FeatureSlice = {
       return;
     }
 
-    const basePath =
-      config.topology === 'monorepo' ||
-      config.topology === 'ai-agent-rag'
-        ? 'apps/web'
-        : config.topology === 'separate-folders'
-        ? 'frontend'
-        : '';
-    const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
+    const resolvePath = layoutFor(config).fe;
 
     const dependenciesToAdd: Record<string, string> = {};
 
@@ -77,7 +71,7 @@ export const uiExtrasSlice: FeatureSlice = {
     if (config.frontend.uiExtras.toast && toastChoice !== 'none') {
       let toastProviderContent = '';
       if (toastChoice === 'toastify') {
-        toastProviderContent = `import React from 'react';
+        toastProviderContent = `import type React from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -91,7 +85,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 };
 `;
       } else if (toastChoice === 'hot-toast') {
-        toastProviderContent = `import React from 'react';
+        toastProviderContent = `import type React from 'react';
 import { Toaster } from 'react-hot-toast';
 
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -105,7 +99,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 `;
       } else {
         // default: sonner
-        toastProviderContent = `import React from 'react';
+        toastProviderContent = `import type React from 'react';
 import { Toaster } from 'sonner';
 
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -149,12 +143,13 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (config.frontend.uiExtras.icons && iconsChoice !== 'none') {
       let iconContent = '';
       if (iconsChoice === 'tabler') {
-        iconContent = `import React from 'react';
+        iconContent = `import type React from 'react';
 import * as Icons from '@tabler/icons-react';
 
 export type IconName = keyof typeof Icons;
 
-export interface IconProps extends React.SVGProps<SVGSVGElement> {
+// Tabler's \`stroke\` is a width (number), not the SVG color attribute, so drop the SVG one
+export interface IconProps extends Omit<React.SVGProps<SVGSVGElement>, 'stroke'> {
   name: IconName;
   size?: number | string;
   stroke?: number | string;
@@ -169,7 +164,7 @@ export const Icon: React.FC<IconProps> = ({ name, size = 20, stroke = 2, ...prop
 };
 `;
       } else if (iconsChoice === 'phosphor') {
-        iconContent = `import React from 'react';
+        iconContent = `import type React from 'react';
 import * as Icons from '@phosphor-icons/react';
 
 export type IconName = keyof typeof Icons;
@@ -189,7 +184,7 @@ export const Icon: React.FC<IconProps> = ({ name, size = 20, weight = 'regular',
 };
 `;
       } else if (iconsChoice === 'react-icons') {
-        iconContent = `import React from 'react';
+        iconContent = `import type React from 'react';
 import * as Icons from 'react-icons/fi';
 
 export type IconName = keyof typeof Icons;
@@ -209,7 +204,7 @@ export const Icon: React.FC<IconProps> = ({ name, size = 20, ...props }) => {
 `;
       } else {
         // default: lucide
-        iconContent = `import React from 'react';
+        iconContent = `import type React from 'react';
 import * as Icons from 'lucide-react';
 
 export type IconName = keyof typeof Icons;
@@ -249,7 +244,7 @@ export const Icon: React.FC<IconProps> = ({ name, ...props }) => {
           : '';
 
       if (formChoice === 'formik-yup') {
-        formContent = `import React from 'react';
+        formContent = `import type React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 ${toastImport}
@@ -271,8 +266,9 @@ export const LoginForm: React.FC = () => {
   return (
     <form onSubmit={formik.handleSubmit} className="space-y-4 max-w-sm mx-auto text-left">
       <div>
-        <label className="block text-sm font-medium mb-1">Email</label>
+        <label className="block text-sm font-medium mb-1" htmlFor="login-email">Email</label>
         <input
+          id="login-email"
           type="email"
           name="email"
           onChange={formik.handleChange}
@@ -287,8 +283,9 @@ export const LoginForm: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Password</label>
+        <label className="block text-sm font-medium mb-1" htmlFor="login-password">Password</label>
         <input
+          id="login-password"
           type="password"
           name="password"
           onChange={formik.handleChange}
@@ -314,7 +311,7 @@ export const LoginForm: React.FC = () => {
 };
 `;
       } else if (formChoice === 'tanstack-form') {
-        formContent = `import React from 'react';
+        formContent = `import type React from 'react';
 import { useForm } from '@tanstack/react-form';
 import { z } from 'zod';
 ${toastImport}
@@ -352,8 +349,9 @@ export const LoginForm: React.FC = () => {
       >
         {(field) => (
           <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
+            <label className="block text-sm font-medium mb-1" htmlFor="login-email">Email</label>
             <input
+              id="login-email"
               type="email"
               value={field.state.value}
               onBlur={field.handleBlur}
@@ -379,8 +377,9 @@ export const LoginForm: React.FC = () => {
       >
         {(field) => (
           <div>
-            <label className="block text-sm font-medium mb-1">Password</label>
+            <label className="block text-sm font-medium mb-1" htmlFor="login-password">Password</label>
             <input
+              id="login-password"
               type="password"
               value={field.state.value}
               onBlur={field.handleBlur}
@@ -412,7 +411,7 @@ export const LoginForm: React.FC = () => {
 `;
       } else {
         // default: rhf-zod
-        formContent = `import React from 'react';
+        formContent = `import type React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -441,8 +440,9 @@ export const LoginForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-sm mx-auto text-left">
       <div>
-        <label className="block text-sm font-medium mb-1">Email</label>
+        <label className="block text-sm font-medium mb-1" htmlFor="login-email">Email</label>
         <input
+          id="login-email"
           type="email"
           {...register('email')}
           className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-md focus:ring-2 focus:ring-blue-600 outline-none"
@@ -454,8 +454,9 @@ export const LoginForm: React.FC = () => {
       </div>
 
       <div>
-        <label className="block text-sm font-medium mb-1">Password</label>
+        <label className="block text-sm font-medium mb-1" htmlFor="login-password">Password</label>
         <input
+          id="login-password"
           type="password"
           {...register('password')}
           className="w-full px-3 py-2 bg-zinc-900 border border-zinc-800 rounded-md focus:ring-2 focus:ring-blue-600 outline-none"

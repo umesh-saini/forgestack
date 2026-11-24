@@ -234,16 +234,16 @@ export type ApiErrorResponseDto = z.infer<typeof apiErrorResponseSchema>;
     vfs.applyAction({
       type: 'CREATE',
       path: 'packages/ui/src/button.tsx',
-      content: `import React from 'react';
+      content: `import type { ButtonHTMLAttributes, FC } from 'react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'danger' | 'ghost';
   size?: 'sm' | 'md' | 'lg';
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button: FC<ButtonProps> = ({
   className,
   variant = 'primary',
   size = 'md',
@@ -268,6 +268,7 @@ export const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
+      type="button"
       className={twMerge(clsx(baseClasses, variants[variant], sizes[size], className))}
       {...props}
     >

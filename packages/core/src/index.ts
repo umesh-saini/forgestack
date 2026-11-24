@@ -7,6 +7,7 @@ export * from './engine/flusher.js';
 export * from './engine/create-pipeline.js';
 export * from './utils/json-merge.js';
 export * from './utils/code-patcher.js';
+export * from './utils/layout.js';
 export * from './utils/process-runner.js';
 
 // Slices

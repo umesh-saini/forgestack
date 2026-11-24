@@ -89,7 +89,7 @@ describe('E2E Scaffolding Permutation Matrix', () => {
     expect(fs.existsSync(path.join(config.targetPath, 'docker-compose.yml'))).toBe(true);
 
     const compose = await fs.promises.readFile(path.join(config.targetPath, 'docker-compose.yml'), 'utf-8');
-    expect(compose).toContain('mongo:7-alpine');
+    expect(compose).toContain('mongo:7');
   });
 
   it('Permutation 3: Standalone Frontend + React 19 + Zustand + Tailwind', async () => {

@@ -7,6 +7,7 @@ import {
   TransactionalFlusher,
   ProcessRunner,
   projectConfigSchema,
+  normalizeConfig,
   type ProjectConfig,
   provisionAgentSkills,
   detectPresentTools,
@@ -19,6 +20,12 @@ import { resolveProjectDirectory } from './utils/directory.js';
 import { CURATED_TEMPLATES, findCuratedTemplate } from './templates/curated.js';
 import { TemplateStore } from './templates/store.js';
 import { searchableMultiselect } from './ui/searchable-multiselect.js';
+
+// clack's spinner redraws every frame; when output isn't a terminal (CI, pipes) that floods logs.
+const spinner = () =>
+  process.stdout.isTTY
+    ? p.spinner()
+    : { start: (msg = '') => p.log.step(msg), stop: (msg = '') => p.log.success(msg), message: (_msg?: string) => {} };
 
 export function createCli(): Command {
   const program = new Command();
@@ -214,7 +221,8 @@ export function createCli(): Command {
                 : { toast: true, icons: true, forms: true },
             },
             backend: {
-              framework: isFrontendOnly ? 'none' : (options.be || 'fastify'),
+              // Next.js full-stack serves its API via route handlers; no separate server.
+              framework: isFrontendOnly ? 'none' : (options.be || (topology === 'nextjs-fullstack' ? 'none' : 'fastify')),
               database: db,
               orm,
               container: isFrontendOnly || db === 'sqlite' || db === 'none' ? false : options.container !== false,
@@ -238,7 +246,7 @@ export function createCli(): Command {
             },
             packageManager: options.pm || 'pnpm',
             git: options.git !== false,
-            install: Boolean(options.install || options.yes),
+            install: options.install === true || (options.install !== false && Boolean(options.yes)),
           });
         }
 
@@ -269,8 +277,12 @@ export function createCli(): Command {
           }
         }
 
+        // Reconcile with topology up front so the summary reflects what's actually generated.
+        config = normalizeConfig(config);
+        let installFailed = false;
+
         // Execute Scaffolding
-        const s = p.spinner();
+        const s = spinner();
 
         s.start('Staging files in Virtual File System (VFS)...');
         const vfs = await generateProjectVfs(config);
@@ -305,6 +317,8 @@ export function createCli(): Command {
             await ProcessRunner.installDependencies(config.targetPath, config.packageManager);
             s.stop(`Dependencies installed successfully with ${config.packageManager}.`);
           } catch (e) {
+            installFailed = true;
+            process.exitCode = 1;
             s.stop(color.red('Dependency installation failed: ' + (e as Error).message));
           }
         }
@@ -318,7 +332,7 @@ export function createCli(): Command {
           }
         }
 
-        CliReporter.printSummary(config, config.targetPath);
+        CliReporter.printSummary(config, config.targetPath, undefined, installFailed);
       } catch (err) {
         p.log.error(color.red((err as Error).message));
         if (process.env.VITEST) {
@@ -451,7 +465,7 @@ export function createCli(): Command {
           selectedToolIds = detected.length > 0 ? detected : ['agents'];
         }
 
-        const s = p.spinner();
+        const s = spinner();
         s.start(`Writing skills across ${selectedToolIds.length} AI assistants...`);
         try {
           const results = await provisionAgentSkills(

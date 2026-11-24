@@ -40,9 +40,12 @@ describe('AI-Native Agent & RAG Archetype Slice', () => {
     // 2. Vector Store with pgvector
     expect(vfs.hasFile('apps/api/src/ai/vector-store.ts')).toBe(true);
     const vectorStore = vfs.getFileContent('apps/api/src/ai/vector-store.ts')!;
-    expect(vectorStore).toContain("pgTable('document_embeddings'");
-    expect(vectorStore).toContain("vector('embedding')");
     expect(vectorStore).toContain('findSimilarDocuments');
+    // Table lives in the drizzle schema folder so migrations pick it up
+    const embeddings = vfs.getFileContent('apps/api/src/database/schema/embeddings.ts')!;
+    expect(embeddings).toContain("pgTable('document_embeddings'");
+    expect(embeddings).toContain("vector('embedding')");
+    expect(vfs.getFileContent('apps/api/src/database/schema/index.ts')).toContain("'./embeddings.js'");
 
     // 3. Agent Tool Calling Service
     expect(vfs.hasFile('apps/api/src/ai/agent-service.ts')).toBe(true);

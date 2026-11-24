@@ -3,6 +3,7 @@ import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import { CodePatcher } from '../../utils/code-patcher.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const mongodbSlice: FeatureSlice = {
   id: 'db-mongodb',
@@ -20,20 +21,8 @@ export const mongodbSlice: FeatureSlice = {
       return;
     }
 
-    const basePath = isNextjs
-      ? config.topology === 'monorepo' || config.topology === 'micro-frontend'
-        ? 'apps/web'
-        : config.topology === 'separate-folders'
-        ? 'frontend'
-        : ''
-      : config.topology === 'monorepo' || config.topology === 'micro-frontend'
-      ? 'apps/api'
-      : config.topology === 'separate-folders'
-      ? 'backend'
-      : config.topology === 'electron-desktop'
-      ? 'server'
-      : '';
-    const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
+    const layout = layoutFor(config);
+    const resolvePath = layout.be;
 
     // 1. Merge Mongoose dependency
     vfs.applyAction({
@@ -50,7 +39,7 @@ export const mongodbSlice: FeatureSlice = {
     vfs.applyAction({
       type: 'CREATE',
       path: resolvePath('src/database/models/user.model.ts'),
-      content: `import mongoose, { Schema, Document } from 'mongoose';
+      content: `import mongoose, { Schema, type Document } from 'mongoose';
 
 export interface IUser extends Document {
   email: string;
@@ -72,6 +61,25 @@ const userSchema = new Schema<IUser>(
 export const UserModel = mongoose.model<IUser>('User', userSchema);
 `,
     });
+
+    // 3a. Next.js serves its own API: a cached connection helper, no backend env/logger modules.
+    if (layout.nextIsServer) {
+      vfs.applyAction({
+        type: 'CREATE',
+        path: resolvePath('src/db/index.ts'),
+        content: `import mongoose from 'mongoose';
+
+// Reuse one connection across route handler invocations and dev hot reloads.
+const cache = globalThis as unknown as { mongoose?: Promise<typeof mongoose> };
+
+export function connectDb(): Promise<typeof mongoose> {
+  cache.mongoose ??= mongoose.connect(process.env.DATABASE_URL || 'mongodb://localhost:27017/${config.name.replace(/[^a-zA-Z0-9_]/g, '_')}');
+  return cache.mongoose;
+}
+`,
+      });
+      return;
+    }
 
     // 3. src/database/connection.ts
     vfs.applyAction({

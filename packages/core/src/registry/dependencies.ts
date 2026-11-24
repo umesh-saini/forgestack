@@ -108,8 +108,8 @@ export const DEPENDENCY_REGISTRY = {
   // Databases & ORMs
   pg: '^8.13.1',
   '@types/pg': '^8.11.11',
-  'drizzle-orm': '^0.39.1',
-  'drizzle-kit': '^0.30.4',
+  'drizzle-orm': '^0.45.2', // better-auth peer: ^0.45.2
+  'drizzle-kit': '^0.31.4', // better-auth peer: >=0.31.4 (npm rejects older)
   '@prisma/client': '^6.3.1',
   prisma: '^6.3.1',
   mongoose: '^8.10.0',
@@ -123,6 +123,9 @@ export const DEPENDENCY_REGISTRY = {
   tsup: '^8.3.6',
   tsx: '^4.19.2',
   eslint: '^9.20.0',
+  '@eslint/js': '^9.20.0',
+  'typescript-eslint': '^8.24.0',
+  globals: '^15.15.0',
   prettier: '^3.5.0',
   '@biomejs/biome': '^1.9.4',
   '@types/node': '^22.13.4',

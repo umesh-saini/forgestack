@@ -2,6 +2,7 @@ import type { FeatureSlice } from '../../engine/compositor.js';
 import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const tailwindSlice: FeatureSlice = {
   id: 'fe-tailwind',
@@ -18,14 +19,7 @@ export const tailwindSlice: FeatureSlice = {
       return;
     }
 
-    const basePath =
-      config.topology === 'monorepo' ||
-      config.topology === 'ai-agent-rag'
-        ? 'apps/web'
-        : config.topology === 'separate-folders'
-        ? 'frontend'
-        : '';
-    const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
+    const resolvePath = layoutFor(config).fe;
 
     // 1. Merge Tailwind v4 dependencies
     vfs.applyAction({

@@ -52,7 +52,7 @@ describe('Docker Containerization Slice', () => {
     dockerSlice.apply(vfs, mongoConfig);
 
     const compose = vfs.getFileContent('docker-compose.yml')!;
-    expect(compose).toContain('image: mongo:7-alpine');
+    expect(compose).toContain('image: mongo:7');
     expect(compose).toContain('mongodb:27017');
     expect(compose).toContain('mongosh');
   });

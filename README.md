@@ -3,7 +3,6 @@
 > The Next-Generation Enterprise Scaffolding Platform: Headless Engine, Interactive OpenSpec TUI, Next.js-Inspired CLI & Tauri v2 Desktop Studio.
 
 [![npm version](https://img.shields.io/npm/v/@forgestack/cli.svg?style=flat-square&color=blue)](https://www.npmjs.com/package/@forgestack/cli)
-[![CI Build](https://img.shields.io/badge/build-passing-brightgreen.svg?style=flat-square)](https://github.com/forgestack/forgestack)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7%20Strict-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
 [![React 19](https://img.shields.io/badge/React-19.0-61dafb.svg?style=flat-square)](https://react.dev/)
 [![Tauri v2](https://img.shields.io/badge/Tauri-v2.0-FFC131.svg?style=flat-square)](https://v2.tauri.app/)
@@ -52,7 +51,7 @@
   - Cursor AI Rules (`.cursor/rules/`): Architectural layer isolation, zero-`any` TypeScript enforcement, and code review rigor.
   - OpenSpec (`openspec/`): Spec-driven development workflows (`/opsx:propose`, `/opsx:apply`, `/opsx:sync`, `/spec:verify`).
   - Model Context Protocol (`@repo/mcp-server`): Model Context Protocol server exposing custom project tools for Claude Desktop, Cursor, and Antigravity.
-  - 16+ Production Agent Skills (`.agents/skills/`): Clean code audit, accessibility testing, UI fuzzing, database migrations, and Docker hardening.
+  - 17 Production Agent Skills (`.agents/skills/`): Clean code audit, accessibility testing, UI fuzzing, database migrations, and Docker hardening.
 
 ---
 
@@ -262,7 +261,7 @@ Every project scaffolded by ForgeStack includes native AI Agent governance confi
 - **Model Context Protocol (`packages/mcp-server/`)**:
   - Out-of-the-box `@repo/mcp-server` exposing database schemas, health status, and project tools to Claude Desktop, Cursor, and Antigravity.
 - **Agent Skills (`.agents/skills/`)**:
-  - 16+ production skills including `accesslint-audit` (WCAG 2.2), `anti-ui-slop` (design system consistency), `break-ui` (fuzz testing), `bugs-are-annoying` (bug hunting), `clean-code-guard`, `database-migration`, `docker-expert`, and `drizzle-orm-expert`.
+  - 17 production skills including `accesslint-audit` (WCAG 2.2), `anti-ui-slop` (design system consistency), `break-ui` (fuzz testing), `bugs-are-annoying` (bug hunting), `clean-code-guard`, `database-migration`, `docker-expert`, and `drizzle-orm-expert`.
 - **OpenSpec Workflows (`.agents/workflows/`)**:
   - Spec-driven engineering commands: `/opsx:propose` to initiate changes, `/opsx:apply` to implement tasks, and `/spec:verify` to check compliance.
 
@@ -270,7 +269,16 @@ Every project scaffolded by ForgeStack includes native AI Agent governance confi
 
 ## 🧪 Local Testing & Development
 
-ForgeStack enforces strict engineering verification with **100% test pass rates across 38 test suites and 123+ tests**:
+ForgeStack is verified at four levels:
+
+| Level | What it proves | Command | Where it runs |
+|---|---|---|---|
+| Unit tests | Each slice emits the files it promises | `pnpm test` | every push |
+| Static combination matrix | **Every** combination of options that interact in code (~636k unique projects) is internally consistent: every import resolves, every dependency is declared, every script's binary is installed, workspace links and package-manager settings are valid | `pnpm test:matrix` | every push |
+| Curated templates | All 8 presets install, **build** and typecheck | `pnpm verify:templates` | every push |
+| Runtime matrix | A pairwise set (~100 projects covering every pair of option values) is installed, built, typechecked, linted, unit-tested, migrated against real Postgres/MongoDB/Redis, **started**, and probed over HTTP (health, Better-Auth sign-up + sign-in, tRPC, Vite preview, BullMQ worker) | `pnpm matrix:runtime` (needs Docker) | nightly |
+
+`pnpm test` already includes the pairwise static check across all package managers; the option space lives in [`scripts/matrix/space.mjs`](scripts/matrix/space.mjs).
 
 ```bash
 # Run complete test suite across all packages
@@ -282,17 +290,28 @@ pnpm test:watch
 # Compile TypeScript across monorepo
 pnpm build
 
+# Scaffold + install + build every curated template (slow; runs in CI)
+pnpm verify:templates            # all 8
+pnpm verify:templates nextjs-fullstack   # just one
+
+# Every combination, statically (~7 min)
+pnpm test:matrix
+
+# Pairwise runtime matrix: install/build/start/probe (~1-2 h, Docker required)
+pnpm matrix:runtime                       # all
+pnpm matrix:runtime -- --only 3,17        # specific configs (see --list)
+
 # Run local CLI developer runner
 pnpm cli:dev template list
 ```
 
-For complete step-by-step local testing instructions (including `npm link`, `npm pack` tarball emulation, and end-to-end scenario validation), read the [Local Testing Guide](file:///home/dev/Documents/Kungfu/Test-Task/project-setup/docs/LOCAL_TESTING_GUIDE.md).
+For complete step-by-step local testing instructions (including `npm link`, `npm pack` tarball emulation, and end-to-end scenario validation), read the [Local Testing Guide](docs/LOCAL_TESTING_GUIDE.md).
 
 ---
 
 ## 🚢 Publishing & Deployment
 
-ForgeStack packages are structured for automated publishing to npm. For detailed instructions on npm scopes, automated GitHub Actions CI/CD workflows, token setup, and version bumping, see the [NPM Deployment Guide](file:///home/dev/Documents/Kungfu/Test-Task/project-setup/docs/NPM_DEPLOYMENT_GUIDE.md).
+ForgeStack packages are structured for automated publishing to npm. For detailed instructions on npm scopes, automated GitHub Actions CI/CD workflows, token setup, and version bumping, see the [NPM Deployment Guide](docs/NPM_DEPLOYMENT_GUIDE.md).
 
 ---
 

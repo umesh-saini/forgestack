@@ -65,8 +65,12 @@ export class CodePatcher {
     closeTag: string
   ): string {
     if (source.includes(SLOTS.PROVIDERS)) {
-      const wrapped = `${openTag}\n  ${SLOTS.PROVIDERS}\n${closeTag}`;
-      return source.replace(SLOTS.PROVIDERS, wrapped);
+      // Wrap the slot *and* the element right after it (e.g. `<App />`). Wrapping only the slot
+      // left the providers empty and rendered <App /> outside them (useQuery/toasts crashed).
+      return source.replace(
+        /\/\* FORGESTACK_PROVIDER_SLOT \*\/(\s*<[A-Z][\w.]*\s*\/>)?/,
+        (_match, element = '') => `${openTag}\n  ${SLOTS.PROVIDERS}${element}\n${closeTag}`
+      );
     }
 
     throw new Error(
@@ -91,7 +95,9 @@ export class CodePatcher {
    */
   public static cleanSlots(source: string): string {
     return source
-      .replace(/\/\*\s*FORGESTACK_[A-Z_]+\s*\*\/\n?/g, '')
+      // a slot alone on its line goes with its indentation; an inline slot just disappears
+      .replace(/^[ \t]*\/\*\s*FORGESTACK_[A-Z_]+\s*\*\/[ \t]*\n/gm, '')
+      .replace(/\/\*\s*FORGESTACK_[A-Z_]+\s*\*\//g, '')
       .trimEnd() + '\n';
   }
 }

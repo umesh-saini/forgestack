@@ -17,11 +17,7 @@ export class CliReporter {
     );
   }
 
-  public static printSummary(config: ProjectConfig, targetDir: string, fileCount?: number): void {
-    const isMonorepo =
-      config.topology === 'monorepo' ||
-      config.topology === 'ai-agent-rag' ||
-      config.topology === 'micro-frontend';
+  public static printSummary(config: ProjectConfig, targetDir: string, fileCount?: number, installFailed = false): void {
     const isCurrentDir = targetDir === process.cwd();
 
     const primitives: string[] = [];
@@ -46,13 +42,13 @@ Location:       ${color.dim(targetDir)}`,
 
     const steps = [
       ...(isCurrentDir ? [] : [`cd ${path.basename(targetDir)}`]),
-      ...(config.install ? [] : [`${config.packageManager} install`]),
-      isMonorepo ? `${config.packageManager} dev` : `${config.packageManager} run dev`,
+      ...(config.install && !installFailed ? [] : [`${config.packageManager} install`]),
+      `${config.packageManager} run dev`,
     ];
 
-    p.outro(
-      `${color.green('✔')} Architecture synthesis complete! Quick start:\n\n` +
-        steps.map((s) => `  ${color.cyan('$')} ${color.bold(s)}`).join('\n')
-    );
+    const headline = installFailed
+      ? `${color.yellow('⚠')} Project files were created, but dependency installation failed (see error above). Fix it, then:`
+      : `${color.green('✔')} Architecture synthesis complete! Quick start:`;
+    p.outro(`${headline}\n\n` + steps.map((s) => `  ${color.cyan('$')} ${color.bold(s)}`).join('\n'));
   }
 }

@@ -3,6 +3,7 @@ import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import { CodePatcher } from '../../utils/code-patcher.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const postgresSlice: FeatureSlice = {
   id: 'db-postgres',
@@ -20,20 +21,7 @@ export const postgresSlice: FeatureSlice = {
       return;
     }
 
-    const basePath = isNextjs
-      ? config.topology === 'monorepo' || config.topology === 'micro-frontend'
-        ? 'apps/web'
-        : config.topology === 'separate-folders'
-        ? 'frontend'
-        : ''
-      : config.topology === 'monorepo' || config.topology === 'micro-frontend' || config.topology === 'ai-agent-rag'
-      ? 'apps/api'
-      : config.topology === 'separate-folders'
-      ? 'backend'
-      : config.topology === 'electron-desktop'
-      ? 'server'
-      : '';
-    const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
+    const resolvePath = layoutFor(config).be;
 
     const isDrizzle = config.backend.orm === 'drizzle';
 
@@ -127,7 +115,8 @@ export const db = drizzle(pool, { schema });
           content: `import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
-  schema: './src/database/schema/index.ts',
+  // Table files, not the index.ts barrel: drizzle-kit's loader can't map './x.js' imports to .ts
+  schema: './src/database/schema/!(index).ts',
   out: './src/database/migrations',
   dialect: 'postgresql',
   dbCredentials: {
@@ -243,6 +232,9 @@ export class Database {
             prisma: DEPENDENCY_REGISTRY.prisma,
           },
           scripts: {
+            // The client must exist before tsc/next build; don't rely on @prisma/client's own
+            // postinstall (pnpm 10 blocks dependency build scripts by default).
+            postinstall: 'prisma generate',
             'db:generate': 'prisma generate',
             'db:migrate': 'prisma migrate dev',
             'db:studio': 'prisma studio',

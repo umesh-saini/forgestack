@@ -132,6 +132,8 @@ export const eventBus = new MicroFrontendEventBus();
             typescript: DEPENDENCY_REGISTRY.typescript,
             vite: DEPENDENCY_REGISTRY.vite,
             '@vitejs/plugin-react': DEPENDENCY_REGISTRY['@vitejs/plugin-react'],
+            tailwindcss: DEPENDENCY_REGISTRY.tailwindcss,
+            '@tailwindcss/vite': DEPENDENCY_REGISTRY['@tailwindcss/vite'],
             '@types/react': DEPENDENCY_REGISTRY['@types/react'],
             '@types/react-dom': DEPENDENCY_REGISTRY['@types/react-dom'],
           },
@@ -166,10 +168,12 @@ export const eventBus = new MicroFrontendEventBus();
       content: `import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { federation } from '@module-federation/vite';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   plugins: [
     react(),
+    tailwindcss(),
     federation({
       name: 'shell',
       remotes: {
@@ -276,6 +280,7 @@ export function App() {
             This surface is rendered directly by the shell host. It communicates with remotes via @repo/event-bus.
           </p>
           <button
+            type="button"
             onClick={() => eventBus.publish('shell:ping', { timestamp: new Date().toISOString() })}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm font-medium transition"
           >
@@ -326,6 +331,8 @@ export default App;
             typescript: DEPENDENCY_REGISTRY.typescript,
             vite: DEPENDENCY_REGISTRY.vite,
             '@vitejs/plugin-react': DEPENDENCY_REGISTRY['@vitejs/plugin-react'],
+            tailwindcss: DEPENDENCY_REGISTRY.tailwindcss,
+            '@tailwindcss/vite': DEPENDENCY_REGISTRY['@tailwindcss/vite'],
             '@types/react': DEPENDENCY_REGISTRY['@types/react'],
             '@types/react-dom': DEPENDENCY_REGISTRY['@types/react-dom'],
           },
@@ -360,10 +367,12 @@ export default App;
       content: `import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { federation } from '@module-federation/vite';
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   plugins: [
     react(),
+    tailwindcss(),
     federation({
       name: 'remoteDashboard',
       filename: 'remoteEntry.js',
@@ -449,6 +458,7 @@ export function DashboardWidget() {
       <h3 className="font-semibold text-emerald-400 text-sm mb-2">Federated Remote Dashboard Widget</h3>
       <p className="text-xs text-zinc-300 mb-3">{pingData}</p>
       <button
+        type="button"
         onClick={triggerAlert}
         className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-xs font-medium transition"
       >

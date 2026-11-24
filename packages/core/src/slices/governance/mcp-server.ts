@@ -45,6 +45,7 @@ export const mcpServerSlice: FeatureSlice = {
               '@repo/typescript-config': 'workspace:*',
               typescript: DEPENDENCY_REGISTRY.typescript,
               tsup: DEPENDENCY_REGISTRY.tsup,
+              '@types/node': DEPENDENCY_REGISTRY['@types/node'],
               tsx: DEPENDENCY_REGISTRY.tsx,
             },
           },

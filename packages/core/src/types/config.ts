@@ -64,3 +64,66 @@ export const projectConfigSchema = z.object({
 
 export type ProjectConfig = z.infer<typeof projectConfigSchema>;
 export type ArchitectureTopology = ProjectConfig['topology'];
+
+const FRONTEND_ONLY: ArchitectureTopology[] = ['standalone-fe', 'tauri-desktop', 'electron-desktop'];
+const BACKEND_ONLY: ArchitectureTopology[] = ['standalone-be', 'distributed-worker'];
+const ORMS_FOR_DB: Record<ProjectConfig['backend']['database'], ProjectConfig['backend']['orm'][]> = {
+  postgres: ['drizzle', 'prisma'],
+  sqlite: ['drizzle'],
+  mongodb: ['mongoose'],
+  none: ['none'],
+};
+
+/**
+ * Makes a config consistent with its topology. Every entry point (CLI flags, wizard, templates,
+ * desktop app, MCP server) funnels through generateProjectVfs, which calls this — so a topology
+ * that has no backend can't end up running backend slices just because a default leaked through.
+ * Throws on choices that can't be reconciled (e.g. SQLite + Mongoose).
+ */
+export function normalizeConfig(input: ProjectConfig): ProjectConfig {
+  const c: ProjectConfig = structuredClone(input);
+  const t = c.topology;
+
+  if (FRONTEND_ONLY.includes(t)) {
+    c.backend = { ...c.backend, framework: 'none', database: 'none', orm: 'none', container: false, processManager: 'none' };
+    if (t !== 'standalone-fe') c.frontend.framework = 'react-vite'; // desktop & federation shells are Vite apps
+    c.auth = 'none';
+  }
+  if (t === 'micro-frontend') c.frontend.framework = 'react-vite'; // federated Vite shell (+ optional apps/api)
+  if (t === 'nextjs-fullstack') {
+    // Next serves the API through route handlers; DB/ORM stay (used by Next directly).
+    c.frontend.framework = 'nextjs';
+    c.backend = { ...c.backend, framework: 'none', processManager: 'none' };
+  }
+  if (BACKEND_ONLY.includes(t)) {
+    c.frontend = { ...c.frontend, framework: 'none', styling: 'none', state: 'none', uiExtras: { toast: false, icons: false, forms: false } };
+  }
+  if (t === 'distributed-worker') {
+    c.queue = 'bullmq';
+    c.backend.processManager = 'bullmq';
+  } else if (c.queue === 'bullmq' && c.backend.framework === 'none') {
+    c.queue = 'none';
+  }
+  if (c.backend.processManager === 'bullmq' && c.backend.framework !== 'none') c.queue = 'bullmq';
+
+  if (c.backend.framework === 'none' && t !== 'nextjs-fullstack') {
+    c.backend = { ...c.backend, database: 'none', orm: 'none', container: false };
+    c.auth = 'none';
+  }
+  if (c.backend.database === 'none') c.backend.orm = 'none';
+  if (c.frontend.framework === 'none' && c.utilities) c.utilities = { ...c.utilities, frontendHelpers: false };
+  if (c.backend.framework === 'none' && c.utilities) c.utilities = { ...c.utilities, backendHelpers: false };
+
+  // tRPC needs a shared contracts package and both ends of the wire.
+  const trpcTopology = t === 'monorepo' || t === 'ai-agent-rag';
+  if (c.rpc === 'trpc' && (!trpcTopology || c.backend.framework === 'none' || c.frontend.framework === 'none')) c.rpc = 'none';
+
+  const { database, orm } = c.backend;
+  if (!ORMS_FOR_DB[database].includes(orm)) {
+    throw new Error(`Invalid combination: ${database} does not support ORM '${orm}'. Use one of: ${ORMS_FOR_DB[database].join(', ')}.`);
+  }
+  if (t === 'ai-agent-rag' && (database !== 'postgres' || orm !== 'drizzle')) {
+    throw new Error("Invalid combination: 'ai-agent-rag' stores embeddings with pgvector and requires PostgreSQL + Drizzle.");
+  }
+  return c;
+}

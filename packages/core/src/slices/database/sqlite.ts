@@ -3,6 +3,7 @@ import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import { CodePatcher } from '../../utils/code-patcher.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const sqliteSlice: FeatureSlice = {
   id: 'db-sqlite',
@@ -20,20 +21,7 @@ export const sqliteSlice: FeatureSlice = {
       return;
     }
 
-    const basePath = isNextjs
-      ? config.topology === 'monorepo' || config.topology === 'micro-frontend'
-        ? 'apps/web'
-        : config.topology === 'separate-folders'
-        ? 'frontend'
-        : ''
-      : config.topology === 'monorepo' || config.topology === 'micro-frontend'
-      ? 'apps/api'
-      : config.topology === 'separate-folders'
-      ? 'backend'
-      : config.topology === 'electron-desktop'
-      ? 'server'
-      : '';
-    const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
+    const resolvePath = layoutFor(config).be;
 
     const isDrizzle = config.backend.orm === 'drizzle';
 
@@ -128,7 +116,8 @@ export const db = drizzle(client, { schema });
           content: `import { defineConfig } from 'drizzle-kit';
 
 export default defineConfig({
-  schema: './src/database/schema/index.ts',
+  // Table files, not the index.ts barrel: drizzle-kit's loader can't map './x.js' imports to .ts
+  schema: './src/database/schema/!(index).ts',
   out: './src/database/migrations',
   dialect: 'sqlite',
   dbCredentials: {

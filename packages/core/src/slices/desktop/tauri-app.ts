@@ -46,6 +46,8 @@ export const tauriAppSlice: FeatureSlice = {
             '@types/react': DEPENDENCY_REGISTRY['@types/react'],
             '@types/react-dom': DEPENDENCY_REGISTRY['@types/react-dom'],
             '@vitejs/plugin-react': DEPENDENCY_REGISTRY['@vitejs/plugin-react'],
+            tailwindcss: DEPENDENCY_REGISTRY.tailwindcss,
+            '@tailwindcss/vite': DEPENDENCY_REGISTRY['@tailwindcss/vite'],
             typescript: DEPENDENCY_REGISTRY.typescript,
             vite: DEPENDENCY_REGISTRY.vite,
           },
@@ -91,12 +93,13 @@ export const tauriAppSlice: FeatureSlice = {
       path: 'vite.config.ts',
       content: `import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import tailwindcss from '@tailwindcss/vite';
 
 // @ts-expect-error process is a nodejs global
 const host = process.env.TAURI_DEV_HOST;
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   clearScreen: false,
   server: {
     port: 1420,
@@ -158,7 +161,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     vfs.applyAction({
       type: 'CREATE',
       path: 'src/App.tsx',
-      content: `import React, { useState } from 'react';
+      content: `import { useState } from 'react';
 import { invoke } from '@tauri-apps/api/core';
 
 export function App() {
@@ -188,6 +191,7 @@ export function App() {
           placeholder="Enter a name..."
         />
         <button
+          type="button"
           onClick={handleGreet}
           className="px-4 py-2 bg-blue-600 hover:bg-blue-500 font-semibold rounded-lg transition"
         >
