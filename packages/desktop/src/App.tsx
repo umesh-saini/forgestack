@@ -23,15 +23,6 @@ import { VsCodeWorkspace } from './components/preview/VsCodeWorkspace.js';
 import { AppSettingsPage, loadAppSettings } from './components/settings/AppSettingsPage.js';
 import { ScaffoldConsoleView } from './components/home/ScaffoldConsoleView.js';
 import { UpdateModal } from './components/updater/UpdateModal.js';
-// Lazy: the landing page pulls in three.js/R3F/framer-motion, which native desktop users never see.
-const LazyLandingPage = React.lazy(() =>
-  import('./components/landing/LandingPage.js').then((m) => ({ default: m.LandingPage }))
-);
-const LandingPage = () => (
-  <React.Suspense fallback={null}>
-    <LazyLandingPage />
-  </React.Suspense>
-);
 import {
   getAppEnvironment,
   checkForUpdates,
@@ -526,23 +517,19 @@ function ForgeStackAppContent() {
       {/* Main View Router */}
       <main className="flex-1">
         <Routes>
-          {/* VIEW 1: ROOT - Flagship Marketing Landing on Web, Templates Hub on Native Desktop */}
+          {/* VIEW 1: ROOT - Templates Hub (the marketing site lives in packages/website) */}
           <Route
             path="/"
             element={
-              isTauri() ? (
-                <HomeTemplatesDashboard
-                  templates={templates}
-                  onNewStack={handleNewStack}
-                  onEditTemplate={handleEditTemplate}
-                  onFastScaffold={(tpl) => setFastScaffoldTemplate(tpl)}
-                  onDuplicateTemplate={handleDuplicateTemplate}
-                  onDeleteTemplate={handleDeleteTemplate}
-                  onRenameTemplate={handleRenameTemplate}
-                />
-              ) : (
-                <LandingPage />
-              )
+              <HomeTemplatesDashboard
+                templates={templates}
+                onNewStack={handleNewStack}
+                onEditTemplate={handleEditTemplate}
+                onFastScaffold={(tpl) => setFastScaffoldTemplate(tpl)}
+                onDuplicateTemplate={handleDuplicateTemplate}
+                onDeleteTemplate={handleDeleteTemplate}
+                onRenameTemplate={handleRenameTemplate}
+              />
             }
           />
 
@@ -713,9 +700,6 @@ function ForgeStackAppContent() {
               />
             }
           />
-
-          {/* VIEW 5: FLAGSHIP SHOWCASE LANDING PAGE */}
-          <Route path="/landing" element={<LandingPage />} />
 
           {/* Fallback to Home */}
           <Route path="*" element={<Navigate to="/" replace />} />

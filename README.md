@@ -1,334 +1,368 @@
-# ForgeStack ⚡
+<div align="center">
 
-> The Next-Generation Enterprise Scaffolding Platform: Headless Engine, Interactive OpenSpec TUI, Next.js-Inspired CLI & Tauri v2 Desktop Studio.
+<img src="packages/desktop/public/app-icon.png" alt="ForgeStack logo" width="96" height="96" />
 
-[![npm version](https://img.shields.io/npm/v/@forgestack/cli.svg?style=flat-square&color=blue)](https://www.npmjs.com/package/@forgestack/cli)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.7%20Strict-blue.svg?style=flat-square)](https://www.typescriptlang.org/)
-[![React 19](https://img.shields.io/badge/React-19.0-61dafb.svg?style=flat-square)](https://react.dev/)
-[![Tauri v2](https://img.shields.io/badge/Tauri-v2.0-FFC131.svg?style=flat-square)](https://v2.tauri.app/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+# ForgeStack
 
-**ForgeStack** solves starter-template rot once and for all. Rather than cloning rigid, out-of-date GitHub boilerplates, ForgeStack utilizes an in-memory **Virtual File System (VFS)** and **Additive Feature Slices** to dynamically compose production-ready TypeScript Monorepos, Polyrepos, Native Desktop Apps, and Distributed Worker Systems with **Day-One AI Agent Governance**.
+**Production-ready TypeScript projects in one command, verified to build, run and lint.**
 
----
+Monorepos, full-stack apps, desktop apps and workers, with auth, database, RPC, CI and AI-agent rules already wired.
+Use it from the terminal, a desktop app, or let your AI assistant do it for you.
 
-## 📑 Table of Contents
+[![CI](https://github.com/umesh-saini/forgestack/actions/workflows/ci.yml/badge.svg)](https://github.com/umesh-saini/forgestack/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/@forgestack/cli.svg?label=%40forgestack%2Fcli)](https://www.npmjs.com/package/@forgestack/cli)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/umesh-saini/forgestack?style=social)](https://github.com/umesh-saini/forgestack)
 
-- [Key Features](#-key-features)
-- [Monorepo Architecture](#-monorepo-architecture)
-- [Supported Frameworks, Primitives & Tools](#-supported-frameworks-primitives--tools)
-- [Curated Default Architecture Presets](#-curated-default-architecture-presets)
-- [CLI Quickstart & Next.js-Inspired UX](#-cli-quickstart--nextjs-inspired-ux)
-  - [Instant Generation (`--yes`)](#instant-generation---yes)
-  - [Current Directory Scaffolding (`.`)](#current-directory-scaffolding-)
-  - [OpenSpec-Inspired Terminal UI (TUI)](#openspec-inspired-terminal-ui-tui)
-  - [Custom Template Persistence](#custom-template-persistence)
-  - [Complete CLI Flag Reference](#complete-cli-flag-reference)
-- [Desktop Studio App (Tauri v2)](#-desktop-studio-app-tauri-v2)
-  - [Running the Desktop App](#running-the-desktop-app)
-  - [Fast Browser Preview Mode](#fast-browser-preview-mode)
-  - [Building Native Installers](#building-native-installers)
-- [Day-One AI Agent Governance & MCP](#-day-one-ai-agent-governance--mcp)
-- [Local Testing & Development](#-local-testing--development)
-- [Publishing & Deployment](#-publishing--deployment)
-- [Continuous Upgrades & Roadmap](#-continuous-upgrades--roadmap)
+[Website](https://umesh-saini.github.io/forgestack/) · [Quick start](#-quick-start) · [AI setup](#-use-it-from-your-ai-assistant) · [Supported stack](#-supported-stack) · [Changelog](CHANGELOG.md)
+
+<img src="docs/screenshots/website.png" alt="ForgeStack website hero: 'Production-ready TypeScript projects in one command' with a copyable npx command" width="900" />
+
+</div>
+
+> ⭐ **If ForgeStack saves you an afternoon, please [star the repo](https://github.com/umesh-saini/forgestack).** It's free, takes one click, and helps other developers find it.
 
 ---
 
-## ⚡ Key Features
+## 🚀 Quick start
 
-- **🚀 Headless Scaffolding Engine (`@forgestack/core`)**: In-memory VFS with transactional atomic flush, JSON merge ast-patching, lockstep dependency matrix, and zero disk mutations on dry-runs.
-- **💻 Premier CLI Experience (`create-forgestack-app`)**:
-  - `create-next-app` ergonomics: Positional arguments, current-directory resolution (`.`), overwrite collision guards.
-  - OpenSpec TUI: ASCII welcome banner, live searchable & filterable multi-select prompt for AI skills, and formatted execution summary.
-  - 1-Click Instant setup (`--yes` / `-y`).
-  - Curated default templates & reusable local template catalog (`~/.forgestack/templates.json`).
-- **🖥️ Cross-Platform Desktop Studio (`@forgestack/desktop`)**:
-  - Built with Tauri v2 + Rust Core + React 19 + Tailwind CSS v4.
-  - Real-time in-browser VFS preview using `@forgestack/core/browser`.
-  - Visual architecture topology graph, interactive feature toggles, and native folder selection.
-- **🤖 Built-in AI Governance**:
-  - Cursor AI Rules (`.cursor/rules/`): Architectural layer isolation, zero-`any` TypeScript enforcement, and code review rigor.
-  - OpenSpec (`openspec/`): Spec-driven development workflows (`/opsx:propose`, `/opsx:apply`, `/opsx:sync`, `/spec:verify`).
-  - Model Context Protocol (`@repo/mcp-server`): Model Context Protocol server exposing custom project tools for Claude Desktop, Cursor, and Antigravity.
-  - 17 Production Agent Skills (`.agents/skills/`): Clean code audit, accessibility testing, UI fuzzing, database migrations, and Docker hardening.
+No global install needed:
+
+```bash
+npx -p @forgestack/cli create-forgestack-app my-app
+```
+
+That opens an interactive wizard. Prefer one shot with recommended defaults?
+
+```bash
+npx -p @forgestack/cli create-forgestack-app my-app --yes
+cd my-app && pnpm dev
+```
+
+> **Why `-p`?** The package ships two programs (`create-forgestack-app` and the `forgestack-mcp` AI server), so npm needs to be told which one to run. Installing globally gives you the short form:
+>
+> ```bash
+> npm i -g @forgestack/cli
+> create-forgestack-app my-app     # or: forgestack my-app
+> ```
 
 ---
 
-## 📦 Monorepo Architecture
+## ✨ Why ForgeStack
+
+| | |
+|---|---|
+| **Verified, not just generated** | Every one of **~636,000** option combinations is checked on every push for broken imports, missing dependencies and invalid scripts. A pairwise sample of ~100 projects is installed, built, linted, unit-tested, migrated against real Postgres/MongoDB/Redis, **started**, and probed over HTTP, including a real sign-up and sign-in. |
+| **Compose, don't clone** | Projects are assembled in memory from small feature slices, so any combination works and nothing goes stale like a template repo. Nothing touches disk until the whole tree is valid. |
+| **Wired end to end** | Better-Auth sign-up/sign-in, tRPC routers, Drizzle/Prisma migrations and BullMQ workers are mounted and working, not left as TODOs. |
+| **Built for AI agents** | A local MCP server lets Claude Code, Codex, Antigravity and others scaffold for you in one tool call. Every project ships rules and skills for **40 AI coding tools**. |
+| **Any package manager** | pnpm, npm, yarn and bun monorepos get the right workspace setup and build-script allow-lists. |
+
+---
+
+## 💸 Save tokens and time
+
+Asking an AI agent to set up a project from zero means it writes dozens of files, installs, hits build errors and fixes them, re-sending its whole context at every step. With ForgeStack it makes **one tool call**.
+
+| Project | AI from scratch | Time | With ForgeStack |
+|---|---|---|---|
+| Standalone frontend or API (~25 files) | ~150k – 600k tokens | 15 – 45 min | **~2k – 5k tokens · < 1 min** |
+| Next.js full-stack with auth + database (~25 files) | ~300k – 1M tokens | 30 – 90 min | **~2k – 5k tokens · < 1 min** |
+| Monorepo: React + API + DB + auth + tRPC + CI (80–90 files) | ~800k – 3M+ tokens | 1 – 4 h | **~3k – 6k tokens · < 1 min** |
+
+<sub>Estimates. How we got them: the generated code alone is **2k–15k tokens of output** (measured across the 8 curated templates; ~40k–53k including the AI-governance files). Agent sessions process far more than they output (typically 10–100×) because context is re-sent on every step and build errors take several fix loops. Your numbers depend on the model, prompt caching and the stack. The ForgeStack column is the MCP tool call plus the agent reading the summary.</sub>
+
+---
+
+## 🤖 Use it from your AI assistant
+
+ForgeStack includes **`forgestack-mcp`**, a local [Model Context Protocol](https://modelcontextprotocol.io) server. It needs no account, no API key and makes no network calls. It gives your assistant five tools:
+
+| Tool | What it does |
+|---|---|
+| `forgestack_list_presets` | List curated and saved templates |
+| `forgestack_get_stack_options` | All supported topologies, frameworks, databases, ORMs, … |
+| `forgestack_validate_config` | Check a config before generating (catches impossible combos) |
+| `forgestack_preview_vfs` | Show the full file tree in memory, without writing anything |
+| `forgestack_scaffold_project` | Generate the project on disk |
+
+### Step 1: Add the MCP server (globally, recommended)
+
+Add it **once at user/global level** and every AI session, in every project, can scaffold for you.
+
+<details open>
+<summary><b>Claude Code</b></summary>
+
+```bash
+claude mcp add --scope user forgestack -- npx -y -p @forgestack/cli forgestack-mcp
+```
+`--scope user` makes it available in every project. Check with `claude mcp list`.
+</details>
+
+<details open>
+<summary><b>Codex (OpenAI)</b></summary>
+
+```bash
+codex mcp add forgestack -- npx -y -p @forgestack/cli forgestack-mcp
+```
+Or add it to `~/.codex/config.toml` (global):
+```toml
+[mcp_servers.forgestack]
+command = "npx"
+args = ["-y", "-p", "@forgestack/cli", "forgestack-mcp"]
+```
+</details>
+
+<details open>
+<summary><b>Antigravity</b></summary>
+
+Agent panel → **⋯** → **MCP Servers** → **Manage MCP Servers** → **View raw config**, then add:
+```json
+{
+  "mcpServers": {
+    "forgestack": { "command": "npx", "args": ["-y", "-p", "@forgestack/cli", "forgestack-mcp"] }
+  }
+}
+```
+</details>
+
+<details>
+<summary><b>Cursor</b> · <b>Gemini CLI</b> · <b>Windsurf</b> · other tools using the same JSON format</summary>
+
+Add the same `mcpServers` entry as Antigravity above to your tool's **global** config file:
+
+| Tool | Global config file |
+|---|---|
+| Cursor | `~/.cursor/mcp.json` |
+| Gemini CLI | `~/.gemini/settings.json` |
+| Windsurf | `~/.codeium/windsurf/mcp_config.json` |
+| Claude Desktop | `claude_desktop_config.json` (Settings → Developer → Edit Config) |
+
+</details>
+
+<details>
+<summary><b>VS Code (GitHub Copilot)</b></summary>
+
+```bash
+code --add-mcp '{"name":"forgestack","command":"npx","args":["-y","-p","@forgestack/cli","forgestack-mcp"]}'
+```
+</details>
+
+> Config file locations change between tool versions. If one above doesn't work, search your tool's docs for "MCP server"; the command is always `npx -y -p @forgestack/cli forgestack-mcp`.
+
+### Step 2: Ask in plain language
 
 ```text
-├── packages/
-│   ├── core/       # Headless VFS engine, compositors, dependency registry & slices
-│   ├── cli/        # Interactive OpenSpec TUI & headless binary (create-forgestack-app)
-│   └── desktop/    # Native Tauri v2 + React 19 + Tailwind v4 Desktop Studio
-├── docs/           # Comprehensive publishing and local testing manuals
-│   ├── NPM_DEPLOYMENT_GUIDE.md  # Step-by-step npm release & CI/CD workflow
-│   └── LOCAL_TESTING_GUIDE.md   # Complete local QA verification checklist
-├── openspec/       # OpenSpec formal specifications and archived change proposals
-├── tests/          # Monorepo integration & permutation matrix tests
-└── .agents/        # Production AI Agent skills and spec-driven workflows
+Use the forgestack MCP tools to scaffold a pnpm monorepo called "shop" with React,
+Fastify, PostgreSQL + Drizzle, Better-Auth and tRPC in ~/code/shop, then install dependencies.
 ```
+
+The agent validates the config, previews the tree if you ask, and writes the project, usually in a single call.
+
+### Optional: install the ForgeStack skill
+
+Skills teach the agent ForgeStack's flags and conventions, which is useful even without MCP. Install them globally for Claude Code and Codex:
+
+```bash
+npx -p @forgestack/cli forgestack init-skills ~ --tools claude,codex
+```
+
+Or inside a project, for any of the 40 supported tools (it auto-detects the ones you use):
+
+```bash
+npx -p @forgestack/cli forgestack init-skills .            # detected tools
+npx -p @forgestack/cli forgestack init-skills . --all      # all 40
+```
+
+<details>
+<summary><b>All 40 supported AI coding tools</b></summary>
+
+Shared `.agents` skills · Antigravity · Amazon Q Developer · Auggie (Augment CLI) · Bob Shell · Claude Code · Cline · Command Code · CodeArts · Codex · Devin Desktop (formerly Windsurf) · ForgeCode · CodeBuddy Code (CLI) · Continue · CoStrict · Crush · Cursor · Factory Droid · Gemini CLI · GitHub Copilot · Hermes Agent · iFlow · Junie · Kilo Code · Kimi Code · Kiro · Lingma · MiniMax Code · Mistral Vibe · Oh My Pi · OpenCode · Pi · SourceCraft Code Assistant · Qoder · Qwen Code · Rovo Dev CLI · Zoo Code · Trae · Zed Agent · ZCode
+
+</details>
 
 ---
 
-## 🧰 Supported Frameworks, Primitives & Tools
+## 🧰 Supported stack
 
-ForgeStack provides first-class support for modern, industry-standard TypeScript tools:
+Mix and match any layer. Impossible combinations (e.g. SQLite + Mongoose) are rejected with a clear message.
 
-### 1. Architectural Topologies
-- **Monorepo**: Turborepo, pnpm workspaces, shared UI, shared contracts, shared TypeScript configs.
-- **AI-Native Agent & RAG**: Vector database embeddings, OpenAI tool-calling, SSE streaming chat, MCP server.
-- **Native Desktop App**: Tauri v2, Rust native backend, React 19 webview, secure IPC channels.
-- **Next.js 15 Full-Stack**: App Router, Server Actions, route handlers, PostgreSQL + Drizzle ORM.
-- **Micro-Frontend Federation**: Module Federation 2.0 (Host Shell on `:5000` + Remote App on `:5001`).
-- **Distributed Worker System**: Fastify HTTP job producer, BullMQ background worker daemon, Redis broker.
-- **Standalone Frontend SPA**: React 19, Vite 6, Tailwind CSS v4.
-- **Clean Modular Backend**: ESM Fastify or Express, layered modular architecture, PostgreSQL / MongoDB / SQLite.
+| Layer | Options |
+|---|---|
+| **Architecture** | Turborepo monorepo · AI agent + RAG (pgvector) · Micro-frontends (Module Federation) · Next.js full-stack · Separate frontend/backend · Standalone frontend · Standalone API · BullMQ worker service · Tauri v2 desktop · Electron desktop |
+| **Frontend** | React 19 + Vite · Next.js 15 · Tailwind CSS v4 |
+| **State** | TanStack Query · Redux Toolkit · Zustand |
+| **UI kits** | Icons: Lucide, Tabler, React Icons, Phosphor · Toasts: Sonner, React-Toastify, React Hot Toast · Forms: React Hook Form + Zod, TanStack Form, Formik + Yup · Dates: Day.js, date-fns, Moment |
+| **Backend** | Fastify 5 · Express · Hono |
+| **Database & ORM** | PostgreSQL + Drizzle or Prisma · SQLite + Drizzle · MongoDB + Mongoose |
+| **Auth, RPC, jobs** | Better-Auth · tRPC v11 · BullMQ + Redis |
+| **Quality** | Vitest · Playwright · Cypress · ESLint 9 · Biome · GitHub Actions |
+| **Deploy** | Docker / Compose · Vercel · Cloudflare · Railway · Fly.io |
+| **Package managers** | pnpm · npm · yarn · bun |
+| **AI governance** | Cursor rules · OpenSpec / GSD / Spec Kit workflows · 17 agent skills · project MCP server · `CLAUDE.md` |
 
-### 2. Frontend Ecosystem
-- **Frameworks**: React 19 (Vite 6), Next.js 15 (App Router), Vanilla ESM.
-- **Styling**: Tailwind CSS v4 (CSS-first configuration with `@theme` and `@import "tailwindcss"`), Vanilla CSS.
-- **State Management**: TanStack Query v5 (React Query), Zustand, Redux Toolkit.
-- **UI Components & Icons**: Lucide React, Tabler Icons, React Icons, Phosphor Icons.
-- **Feedback & Notifications**: Sonner Toasts, React-Toastify, React Hot Toast.
-- **Forms & Validation**: React Hook Form + Zod, TanStack Form, Formik + Yup.
-- **Date Utilities**: Day.js, date-fns, Moment.js.
+### Curated templates
 
-### 3. Backend & Data Layer
-- **HTTP Frameworks**: Fastify v5 (high performance, schema-based serialization), Express v5, Hono.
-- **Database Engines**: PostgreSQL 16+, MongoDB 7+, SQLite (Better-SQLite3 / LibSQL).
-- **ORM / ODMs**: Drizzle ORM (type-safe SQL schema & migrations), Prisma ORM, Mongoose ODM.
-- **Authentication**: Better-Auth (sessions, credentials, two-factor authentication, multi-tenant).
-- **RPC & Contracts**: tRPC v11 (end-to-end type safety between backend and frontend without build-time code generation), REST API contracts.
-- **Queue & Async Jobs**: BullMQ + Redis for distributed background processing.
-- **Containerization**: Multi-stage Dockerfiles and Docker Compose files for Postgres, Redis, and Mongo.
-
-### 4. Testing, DevOps & Quality Assurance
-- **Testing**: Vitest (instant unit/integration test runner), Playwright (E2E browser smoke tests).
-- **CI/CD**: GitHub Actions automated workflows (lint, test, build, typecheck).
-- **Package Managers**: `pnpm` (default workspace manager), `npm`, `yarn`, `bun`.
+| Template | What you get |
+|---|---|
+| `enterprise-monorepo` | Turborepo, React 19, Fastify, PostgreSQL (Drizzle), Better-Auth, tRPC, Playwright, CI |
+| `ai-agent-rag` | Monorepo with pgvector embeddings, OpenAI tool-calling agent, streaming chat, MCP server |
+| `nextjs-fullstack` | Next.js 15 App Router, PostgreSQL (Drizzle), Better-Auth, Tailwind v4 |
+| `tauri-desktop` | Tauri v2 (Rust) + React 19 + Tailwind v4 |
+| `micro-frontend` | Vite Module Federation shell (:5000) + remote (:5001) + typed event bus |
+| `distributed-worker` | Fastify producer + BullMQ worker + Redis, Dockerized |
+| `standalone-fe` | React 19 SPA with Vite, Tailwind, TanStack Query, icons and toasts |
+| `standalone-be` | Clean modular Fastify API with PostgreSQL (Drizzle), Pino, Zod env validation |
 
 ---
 
-## 🌟 Curated Default Architecture Presets
-
-ForgeStack comes loaded with 8 pre-configured, production-grade architecture presets that can be scaffolded instantly:
-
-| Preset Identifier | Name | Core Stack & Features |
-|:---|:---|:---|
-| `enterprise-monorepo` | **Enterprise Monorepo** | Turborepo, React 19, Fastify, PostgreSQL (Drizzle), tRPC v11, Better-Auth, Playwright, CI/CD |
-| `ai-agent-rag` | **AI-Native Agent & RAG** | PostgreSQL (pgvector cosine similarity), OpenAI tool-calling, SSE streaming chat, `@repo/mcp-server` |
-| `tauri-desktop` | **Native Tauri v2 Desktop** | Rust Core, React 19, Tailwind CSS v4, secure IPC bindings, native dialogs |
-| `nextjs-fullstack` | **Next.js 15 Full-Stack** | Next.js 15 App Router, Server Actions, PostgreSQL (Drizzle), Tailwind v4, Playwright |
-| `micro-frontend` | **Micro-Frontend Federation** | Vite Module Federation (Shell:5000 + Remote:5001), shared design tokens |
-| `distributed-worker` | **Distributed BullMQ Worker** | Fastify HTTP producer, BullMQ consumer daemon, Redis queue, Docker container |
-| `standalone-fe` | **Modern Frontend SPA** | React 19, Vite 6, Tailwind CSS v4, TanStack Query, Lucide icons, Sonner toast |
-| `standalone-be` | **Clean Modular Backend** | Fastify, ESM, PostgreSQL (Drizzle), Docker Compose, Pino logger, Zod schema validation |
-
----
-
-## 💻 CLI Quickstart & Next.js-Inspired UX
-
-Generate a new application anywhere using your favorite package manager:
+## ⌨️ CLI examples
 
 ```bash
-# Using NPX
-npx create-forgestack-app my-app
+# Interactive wizard
+npx -p @forgestack/cli create-forgestack-app my-app
 
-# Using PNPM
-pnpm create forgestack-app my-app
+# Into the current folder (like create-next-app .)
+npx -p @forgestack/cli create-forgestack-app . --yes
 
-# Using NPM / Bun
-npm create forgestack-app my-app
-bun create forgestack-app my-app
+# From a curated template
+npx -p @forgestack/cli create-forgestack-app my-app --template nextjs-fullstack
+
+# Pick every layer yourself
+npx -p @forgestack/cli create-forgestack-app my-api \
+  --topology standalone-be --be hono --db postgres --orm drizzle \
+  --auth better-auth --linter biome --pm npm --yes
+
+# Preview the file tree without writing anything
+npx -p @forgestack/cli create-forgestack-app my-app --yes --dry-run
+
+# Save your stack as a reusable template, then reuse it
+npx -p @forgestack/cli create-forgestack-app my-api --topology standalone-be --save-template team-api --yes
+npx -p @forgestack/cli create-forgestack-app service-2 --template team-api
+
+# Manage templates
+npx -p @forgestack/cli forgestack template list
+npx -p @forgestack/cli forgestack template delete team-api
 ```
 
-### Instant Generation (`--yes`)
-Skip all wizard prompts and scaffold the curated **Enterprise Monorepo** stack in seconds:
-```bash
-npx create-forgestack-app my-app --yes
-```
+<details>
+<summary><b>All flags</b></summary>
 
-### Current Directory Scaffolding (`.`)
-Just like Next.js (`create-next-app .`), you can scaffold directly into your current directory:
-```bash
-# In an empty or target directory:
-npx create-forgestack-app .
-
-# Overwrite non-empty directory without prompting:
-npx create-forgestack-app . --force
-```
-
-### OpenSpec-Inspired Terminal UI (TUI)
-- **ASCII Welcome Banner**: Displays configured subsystems and quickstart commands (`/opsx:propose`, `/opsx:apply`).
-- **Searchable Multiselect Widget**: When configuring AI governance, filter through skills in real time (`Search: [type to filter]`), toggle options with `Space`, and confirm with `Enter`.
-
-### Custom Template Persistence
-Save your own customized stack combinations to a local catalog (`~/.forgestack/templates.json`) and instantiate them across multiple projects:
-
-```bash
-# Save a configuration during scaffolding
-npx create-forgestack-app my-api --topology standalone-be --be fastify --db postgres --save-template team-api
-
-# List all curated presets and saved custom templates
-npx create-forgestack-app template list
-
-# Instantiate a project from your saved template
-npx create-forgestack-app service-2 --template team-api
-
-# Delete a custom template
-npx create-forgestack-app template delete team-api
-```
-
-### Complete CLI Flag Reference
-
-```bash
-create-forgestack-app [options] [command] [dir]
-```
-
-| Flag | Description | Options / Defaults |
-|:---|:---|:---|
-| `[dir]` | Positional directory name or dot (`.`) | e.g. `my-app` or `.` |
-| `-t, --template <name>` | Select curated preset or saved custom template | `enterprise-monorepo`, `ai-agent-rag`, etc. |
-| `-y, --yes` | Skip prompts and scaffold immediately with defaults | Boolean |
-| `--save-template <name>`| Save configuration as reusable custom template | String |
-| `--topology <type>` | Architecture topology | `monorepo`, `ai-agent-rag`, `tauri-desktop`, etc. |
-| `--fe <framework>` | Frontend framework | `react-vite`, `nextjs`, `none` |
-| `--styling <type>` | Frontend styling engine | `tailwind`, `none` |
-| `--state <type>` | Frontend state manager | `query`, `redux`, `zustand`, `none` |
-| `--be <framework>` | Backend HTTP framework | `fastify`, `express`, `hono`, `none` |
-| `--db <database>` | Database engine | `postgres`, `mongodb`, `sqlite`, `none` |
-| `--orm <orm>` | Database ORM / ODM | `drizzle`, `prisma`, `mongoose`, `none` |
-| `--auth <provider>` | Authentication system | `better-auth`, `none` |
-| `--rpc <protocol>` | RPC layer | `trpc`, `none` |
-| `--queue <type>` | Background worker queue | `bullmq`, `none` |
-| `--testing <framework>`| E2E test framework | `playwright`, `none` |
-| `--ci <provider>` | CI/CD pipeline | `github-actions`, `none` |
-| `--rules / --no-rules` | Include Cursor AI rules | Default: `true` |
-| `--skills / --no-skills`| Include AI agent skills | Default: `true` |
-| `--openspec / --no-openspec` | Include OpenSpec workflows | Default: `true` |
-| `--mcp / --no-mcp` | Include Model Context Protocol server | Default: `true` |
-| `--claude / --no-claude` | Include Claude Desktop MCP configuration | Default: `true` |
-| `--container / --no-container` | Generate Docker Compose & Dockerfiles | Default: `true` |
-| `--force / --overwrite` | Overwrite non-empty directory | Boolean |
+| Flag | Description | Values (default) |
+|---|---|---|
+| `[dir]` | Project name or `.` for the current folder | |
+| `-y, --yes` | Skip prompts, use recommended defaults | |
+| `-t, --template <name>` | Curated or saved template | `enterprise-monorepo`, `nextjs-fullstack`, … |
+| `--save-template <name>` | Save this configuration for reuse | |
+| `--topology <type>` | Architecture | `monorepo`, `ai-agent-rag`, `micro-frontend`, `nextjs-fullstack`, `standalone-fe`, `standalone-be`, `distributed-worker`, `tauri-desktop`, `electron-desktop` |
+| `--fe <framework>` | Frontend | `react-vite`, `nextjs`, `none` |
+| `--styling <type>` | Styling | `tailwind`, `none` |
+| `--state <type>` | State | `query`, `redux`, `zustand`, `none` |
+| `--be <framework>` | Backend | `fastify`, `express`, `hono`, `none` |
+| `--db <database>` | Database | `postgres`, `mongodb`, `sqlite`, `none` |
+| `--orm <orm>` | ORM / ODM | `drizzle`, `prisma`, `mongoose`, `none` |
+| `--auth <provider>` | Auth | `better-auth`, `none` |
+| `--rpc <protocol>` | RPC (monorepos) | `trpc`, `none` |
+| `--queue <type>` | Background jobs | `bullmq`, `none` |
+| `--testing <framework>` | E2E tests (alias `--e2e`) | `playwright`, `none` |
+| `--ci <provider>` | CI | `github-actions`, `none` |
+| `--linter <type>` | Linter / formatter | `eslint` (default), `biome`, `none` |
+| `--deploy <target>` | Deployment descriptor | `docker` (default), `vercel`, `cloudflare`, `railway`, `fly`, `none` |
 | `--pm <manager>` | Package manager | `pnpm` (default), `npm`, `yarn`, `bun` |
-| `--git / --no-git` | Initialize git repository | Default: `true` |
-| `--install / --no-install` | Run dependency install automatically | Boolean |
-| `--dry-run` | Stage files in memory and inspect without disk writes | Boolean |
+| `--install / --no-install` | Install dependencies (on with `--yes`) | |
+| `--git / --no-git` | Initialize a git repo | on |
+| `--rules`, `--skills`, `--openspec`, `--mcp`, `--claude` | AI governance pieces (`--no-…` to skip) | on |
+| `--init-ai-skills` | Also install ForgeStack skills for detected AI tools | |
+| `--container / --no-container` | Dockerfile + Compose | on |
+| `--force` | Allow a non-empty target folder | |
+| `--dry-run` | Generate in memory only | |
+
+</details>
 
 ---
 
-## 🖥️ Desktop Studio App (Tauri v2)
+## 🖥️ Desktop studio
 
-The desktop application (`packages/desktop`) is a native visual studio for composing, inspecting, and scaffolding architectures with live file-tree visualization.
+A Tauri v2 desktop app with curated templates, a 4-step wizard and a live preview of every file before anything is written. Download it from [Releases](https://github.com/umesh-saini/forgestack/releases).
 
-### Running the Desktop App
+| Templates hub | Studio wizard with live file preview | Settings |
+|---|---|---|
+| <img src="docs/screenshots/templates-hub.png" alt="Templates hub listing curated presets with Fast Scaffold buttons" width="300" /> | <img src="docs/screenshots/stepper-studio.png" alt="Wizard step 1 with project name, package manager and architecture cards next to a live staged file tree" width="300" /> | <img src="docs/screenshots/app-settings.png" alt="Settings with four themes, default path, package manager and git/install toggles" width="300" /> |
 
-#### Option A: Native Desktop App (Tauri v2 Window)
-Spawns the native desktop window with native OS dialogs and filesystem validation hooks:
 ```bash
-pnpm desktop:dev
+pnpm desktop:web     # UI in the browser at http://localhost:1420 (no Rust needed)
+pnpm desktop:dev     # native window (needs the Rust toolchain)
+pnpm desktop:build   # installers: .deb/.AppImage, .dmg, .msi/.exe
 ```
-
-#### Option B: Fast Browser Preview Mode
-Develop and preview the studio UI directly in your browser with instant Hot Module Replacement (HMR) without compiling Rust:
-```bash
-pnpm desktop:web
-```
-*Accessible at [http://localhost:1420](http://localhost:1420)*.
-
-### Building Native Installers
-ForgeStack packages standalone native installers using Tauri v2:
-```bash
-pnpm desktop:build
-```
-Bundles are generated in `packages/desktop/src-tauri/target/release/bundle/`:
-- **Linux**: `.deb` and standalone `.AppImage`
-- **macOS**: `.dmg` disk image and `.app` bundle
-- **Windows**: `.msi` and `.exe` installers
 
 ---
 
-## 🤖 Day-One AI Agent Governance & MCP
+## 🧪 How it's verified
 
-Every project scaffolded by ForgeStack includes native AI Agent governance configured from the very first commit:
-
-- **Cursor Rules (`.cursor/rules/`)**:
-  - `01-architecture-boundaries.mdc`: Enforces strict controller-service-repository boundaries.
-  - `02-typescript-strict.mdc`: Strictly forbids `any` and unvalidated type assertions.
-  - `03-brutally-honest-reviewer.mdc`: Independent principal reviewer for code correctness.
-- **Model Context Protocol (`packages/mcp-server/`)**:
-  - Out-of-the-box `@repo/mcp-server` exposing database schemas, health status, and project tools to Claude Desktop, Cursor, and Antigravity.
-- **Agent Skills (`.agents/skills/`)**:
-  - 17 production skills including `accesslint-audit` (WCAG 2.2), `anti-ui-slop` (design system consistency), `break-ui` (fuzz testing), `bugs-are-annoying` (bug hunting), `clean-code-guard`, `database-migration`, `docker-expert`, and `drizzle-orm-expert`.
-- **OpenSpec Workflows (`.agents/workflows/`)**:
-  - Spec-driven engineering commands: `/opsx:propose` to initiate changes, `/opsx:apply` to implement tasks, and `/spec:verify` to check compliance.
-
----
-
-## 🧪 Local Testing & Development
-
-ForgeStack is verified at four levels:
-
-| Level | What it proves | Command | Where it runs |
+| Level | What it proves | Command | Runs |
 |---|---|---|---|
-| Unit tests | Each slice emits the files it promises | `pnpm test` | every push |
-| Static combination matrix | **Every** combination of options that interact in code (~636k unique projects) is internally consistent: every import resolves, every dependency is declared, every script's binary is installed, workspace links and package-manager settings are valid | `pnpm test:matrix` | every push |
+| Unit tests | Each slice emits what it promises | `pnpm test` | every push |
+| Static combination matrix | All ~636k combinations of interacting options: imports resolve, dependencies are declared, scripts' binaries exist, workspace and package-manager settings are valid | `pnpm test:matrix` | every push |
 | Curated templates | All 8 presets install, **build** and typecheck | `pnpm verify:templates` | every push |
-| Runtime matrix | A pairwise set (~100 projects covering every pair of option values) is installed, built, typechecked, linted, unit-tested, migrated against real Postgres/MongoDB/Redis, **started**, and probed over HTTP (health, Better-Auth sign-up + sign-in, tRPC, Vite preview, BullMQ worker) | `pnpm matrix:runtime` (needs Docker) | nightly |
+| Runtime matrix | ~100 pairwise projects installed, built, typechecked, linted, unit-tested, migrated against real databases, **started** and probed over HTTP (health, sign-up, sign-in, tRPC, Vite preview, BullMQ worker) | `pnpm matrix:runtime` (Docker) | nightly |
 
-`pnpm test` already includes the pairwise static check across all package managers; the option space lives in [`scripts/matrix/space.mjs`](scripts/matrix/space.mjs).
+The option space lives in [`scripts/matrix/space.mjs`](scripts/matrix/space.mjs). Add an option there and every level picks it up.
 
-```bash
-# Run complete test suite across all packages
-pnpm test
+---
 
-# Run tests in watch mode
-pnpm test:watch
+## 🏗️ How it works
 
-# Compile TypeScript across monorepo
-pnpm build
-
-# Scaffold + install + build every curated template (slow; runs in CI)
-pnpm verify:templates            # all 8
-pnpm verify:templates nextjs-fullstack   # just one
-
-# Every combination, statically (~7 min)
-pnpm test:matrix
-
-# Pairwise runtime matrix: install/build/start/probe (~1-2 h, Docker required)
-pnpm matrix:runtime                       # all
-pnpm matrix:runtime -- --only 3,17        # specific configs (see --list)
-
-# Run local CLI developer runner
-pnpm cli:dev template list
+```text
+packages/
+├── core/      # Engine: config schema, in-memory file system, feature slices, pipeline
+├── cli/       # create-forgestack-app + forgestack-mcp (MCP server)
+├── desktop/   # Tauri v2 studio
+└── website/   # Project website (GitHub Pages)
 ```
 
-For complete step-by-step local testing instructions (including `npm link`, `npm pack` tarball emulation, and end-to-end scenario validation), read the [Local Testing Guide](docs/LOCAL_TESTING_GUIDE.md).
+1. Your choices become a `ProjectConfig`, which is validated and normalized (e.g. a frontend-only topology never gets backend files).
+2. ~30 **feature slices** (React, Fastify, Drizzle, Better-Auth, tRPC, Docker, …) each add or patch files in an **in-memory file system**.
+3. Final passes add lint/typecheck scripts, package-manager settings and clean up injection markers.
+4. Only then is the tree written to disk in one step, so a failure never leaves a half-written project.
 
 ---
 
-## 🚢 Publishing & Deployment
+## 🤝 Contributing
 
-ForgeStack packages are structured for automated publishing to npm. For detailed instructions on npm scopes, automated GitHub Actions CI/CD workflows, token setup, and version bumping, see the [NPM Deployment Guide](docs/NPM_DEPLOYMENT_GUIDE.md).
+Contributions are very welcome, whether that's a new stack option, a fix or better docs.
 
----
+- **Found a bug or a combination that doesn't build?** [Open an issue](https://github.com/umesh-saini/forgestack/issues/new) with the command you ran. I'll take a look.
+- **Have an improvement?** [Send a pull request](https://github.com/umesh-saini/forgestack/pulls). The test matrix will tell you right away if anything breaks.
+- **Like the project?** A ⭐ [star](https://github.com/umesh-saini/forgestack) really helps.
 
-## 🔭 Continuous Upgrades & Roadmap
+```bash
+git clone https://github.com/umesh-saini/forgestack.git && cd forgestack
+pnpm install && pnpm build
+pnpm test                                       # unit + pairwise static matrix
+pnpm cli:dev my-test-app --yes --no-install     # run the local CLI
+pnpm --filter @forgestack/website dev           # website
+```
 
-ForgeStack is continuously evolving. I am actively looking for upgrades, architectural optimizations, and community feedback to make ForgeStack even more accurate, resilient, and perfect. 
+See [CONTRIBUTING.md](CONTRIBUTING.md), the [Local Testing Guide](docs/LOCAL_TESTING_GUIDE.md) and the [npm publishing guide](docs/NPM_DEPLOYMENT_GUIDE.md).
 
-Upcoming areas of active development:
-- [ ] **Kubernetes & Helm Chart Additive Slices**: Declarative cloud-native deployment slices.
-- [ ] **GraphQL / Apollo Federation Archetype**: Distributed subgraph federation preset.
-- [ ] **Biome & Oxlint Integration**: Ultra-fast Rust-based linter and formatter slice.
-- [ ] **Desktop Visual Diff Studio**: Visual inspection of generated diffs before applying to disk.
+### Roadmap
 
-If you have feedback, ideas for new primitives, or want to contribute an architecture slice or AI skill, please open an issue or submit a pull request!
+- [ ] Publish `create-forgestack-app` so `npm create forgestack-app` works
+- [ ] Kubernetes & Helm deployment slice
+- [ ] GraphQL / federation archetype
+- [ ] Oxlint option
+- [ ] Visual diff in the desktop app before writing changes
+
+Ideas? [Open an issue](https://github.com/umesh-saini/forgestack/issues/new).
 
 ---
 
 ## 📄 License
 
-MIT © ForgeStack Contributors
+[MIT](LICENSE) © ForgeStack contributors
+
+<div align="center">
+
+**If ForgeStack helped you, a ⭐ on [GitHub](https://github.com/umesh-saini/forgestack) means a lot. Thank you!**
+
+</div>

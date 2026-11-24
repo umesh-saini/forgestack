@@ -1,0 +1,60 @@
+name: Website
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - 'packages/website/**'
+      - 'packages/core/src/types/**'
+      - 'packages/core/src/skills/targets.ts'
+      - 'CHANGELOG.md'
+      - 'docs/screenshots/**'
+      - '.github/workflows/website.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.x
+          cache: 'pnpm'
+
+      - name: Install & build
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm --filter @forgestack/core build
+          pnpm --filter @forgestack/website build
+        env:
+          # Project page is served from /<repo>/; set to '/' when using a custom domain
+          WEBSITE_BASE: /${{ github.event.repository.name }}/
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: packages/website/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

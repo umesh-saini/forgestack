@@ -77,19 +77,6 @@ export const StudioNavbar: React.FC<Props> = ({
             >
               Studio Wizard
             </NavLink>
-
-            <NavLink
-              to="/landing"
-              className={({ isActive }) =>
-                `transition-colors ${
-                  isActive || (location.pathname === '/' && !isTauri())
-                    ? 'text-orange-500 font-bold'
-                    : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'
-                }`
-              }
-            >
-              Showcase
-            </NavLink>
           </nav>
         </div>
 
