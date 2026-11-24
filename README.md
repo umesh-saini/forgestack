@@ -16,7 +16,7 @@ Use it from the terminal, a desktop app, or let your AI assistant do it for you.
 
 [Website](https://umesh-saini.github.io/forgestack/) · [Quick start](#-quick-start) · [AI setup](#-use-it-from-your-ai-assistant) · [Supported stack](#-supported-stack) · [Changelog](CHANGELOG.md)
 
-<img src="docs/screenshots/website.png" alt="ForgeStack website hero: 'Production-ready TypeScript projects in one command' with a copyable npx command" width="900" />
+<img src="docs/screenshots/website.png" alt="ForgeStack website: 'Compose a TypeScript project before writing a file.' with the install command and a Studio screenshot" width="900" />
 
 </div>
 
@@ -283,11 +283,13 @@ npx -p @forgestack/cli forgestack template delete team-api
 
 ## 🖥️ Desktop studio
 
-A Tauri v2 desktop app with curated templates, a 4-step wizard and a live preview of every file before anything is written. Download it from [Releases](https://github.com/umesh-saini/forgestack/releases).
+A Tauri v2 desktop app: configure on the left, read the generated project on the right. Curated templates, four stages (Identity, Stack, Tooling, Review), a live in-memory file tree with a read-only editor, and a dark and a light theme. Download it from [Releases](https://github.com/umesh-saini/forgestack/releases).
 
-| Templates hub | Studio wizard with live file preview | Settings |
+<img src="docs/screenshots/studio-stack-dark.png" alt="Studio Stack stage with the database picker open next to the generated file tree and apps/api/src/server.ts in the editor" width="900" />
+
+| Templates | Tooling | Review |
 |---|---|---|
-| <img src="docs/screenshots/templates-hub.png" alt="Templates hub listing curated presets with Fast Scaffold buttons" width="300" /> | <img src="docs/screenshots/stepper-studio.png" alt="Wizard step 1 with project name, package manager and architecture cards next to a live staged file tree" width="300" /> | <img src="docs/screenshots/app-settings.png" alt="Settings with four themes, default path, package manager and git/install toggles" width="300" /> |
+| <img src="docs/screenshots/studio-hub-dark.png" alt="Templates list with Enterprise Monorepo selected and its layers in an inspector" width="300" /> | <img src="docs/screenshots/studio-tooling-dark.png" alt="Tooling stage with runtime, application, quality and AI agent switches" width="300" /> | <img src="docs/screenshots/studio-review-dark.png" alt="Review stage listing every choice grouped by stage with Edit links" width="300" /> |
 
 ```bash
 pnpm desktop:web     # UI in the browser at http://localhost:1420 (no Rust needed)

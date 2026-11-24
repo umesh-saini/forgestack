@@ -1,17 +1,24 @@
 # DragDropConfigurator()
 
-> God node · 28 connections · `packages/desktop/src/components/wizard/DragDropConfigurator.tsx`
+> God node · 26 connections · `packages/desktop/src/components/wizard/DragDropConfigurator.tsx`
 
-**Community:** [Community 4](Community_4.md)
+**Community:** [Desktop Ecosystem & Tech Icons](Desktop_Ecosystem_&_Tech_Icons.md)
 
 ## Connections by Relation
 
 ### calls
-- [App()](App.md) `EXTRACTED`
 - DockerIcon() `EXTRACTED`
 - ReactIcon() `EXTRACTED`
 - FastifyIcon() `EXTRACTED`
+- ExpressIcon() `EXTRACTED`
+- HonoIcon() `EXTRACTED`
+- PostgresIcon() `EXTRACTED`
+- PrismaIcon() `EXTRACTED`
+- MongoIcon() `EXTRACTED`
+- CursorRulesIcon() `EXTRACTED`
+- OpenSpecIcon() `EXTRACTED`
 - TailwindIcon() `EXTRACTED`
+- SQLiteIcon() `EXTRACTED`
 - LucideIcon() `EXTRACTED`
 - TablerIcon() `EXTRACTED`
 - ReactIconsIcon() `EXTRACTED`
@@ -20,20 +27,10 @@
 - ReactToastifyIcon() `EXTRACTED`
 - ReactHotToastIcon() `EXTRACTED`
 - ReactHookFormIcon() `EXTRACTED`
-- TanStackFormIcon() `EXTRACTED`
-- TanStackQueryIcon() `EXTRACTED`
-- ReduxIcon() `EXTRACTED`
-- ZustandIcon() `EXTRACTED`
-- ExpressIcon() `EXTRACTED`
-- HonoIcon() `EXTRACTED`
-- PostgresIcon() `EXTRACTED`
-- *…and 6 more `calls` connection(s) not listed (lowest-degree first to go)*
+- *…and 5 more `calls` connection(s) not listed (lowest-degree first to go)*
 
 ### contains
 - DragDropConfigurator.tsx `EXTRACTED`
-
-### imports
-- App.tsx `EXTRACTED`
 
 ---
 

@@ -9,6 +9,8 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@fontsource-variable/ibm-plex-sans": "^5.3.0",
+    "@fontsource-variable/jetbrains-mono": "^5.3.0",
     "@forgestack/core": "workspace:*",
     "@monaco-editor/react": "^4.7.0",
     "@tauri-apps/api": "^2.2.0",
@@ -19,6 +21,7 @@
     "clsx": "^2.1.1",
     "jszip": "^3.10.2",
     "lucide-react": "^0.475.0",
+    "motion": "^14.14.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.18.5",

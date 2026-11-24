@@ -1,8 +1,8 @@
 # CodePatcher
 
-> God node · 11 connections · `packages/core/src/utils/code-patcher.ts`
+> God node · 15 connections · `packages/core/src/utils/code-patcher.ts`
 
-**Community:** [Community 17](Community_17.md)
+**Community:** [Core Scaffolding Engine & Slices](Core_Scaffolding_Engine_&_Slices.md)
 
 ## Connections by Relation
 
@@ -10,10 +10,14 @@
 - code-patcher.ts `EXTRACTED`
 
 ### imports
-- ui-extras.ts `EXTRACTED`
+- create-pipeline.ts `EXTRACTED`
 - mongodb.ts `EXTRACTED`
 - postgres.ts `EXTRACTED`
+- sqlite.ts `EXTRACTED`
 - state.ts `EXTRACTED`
+- ui-extras.ts `EXTRACTED`
+- better-auth.ts `EXTRACTED`
+- trpc.ts `EXTRACTED`
 - code-patcher.test.ts `EXTRACTED`
 
 ### method

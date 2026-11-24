@@ -1,8 +1,8 @@
 # VirtualFileSystem
 
-> God node · 46 connections · `packages/core/src/vfs/vfs.ts`
+> God node · 73 connections · `packages/core/src/vfs/vfs.ts`
 
-**Community:** [Community 0](Community_0.md)
+**Community:** [Core Scaffolding Engine & Slices](Core_Scaffolding_Engine_&_Slices.md)
 
 ## Connections by Relation
 
@@ -10,27 +10,27 @@
 - vfs.ts `EXTRACTED`
 
 ### imports
-- App.tsx `EXTRACTED`
 - create-pipeline.ts `EXTRACTED`
+- desktop/src/App.tsx `EXTRACTED`
 - compositor.ts `EXTRACTED`
-- react-vite.ts `EXTRACTED`
-- ui-extras.ts `EXTRACTED`
 - clean-modular.ts `EXTRACTED`
+- react-vite.ts `EXTRACTED`
 - mongodb.ts `EXTRACTED`
 - postgres.ts `EXTRACTED`
+- sqlite.ts `EXTRACTED`
 - state.ts `EXTRACTED`
+- ui-extras.ts `EXTRACTED`
+- better-auth.ts `EXTRACTED`
+- trpc.ts `EXTRACTED`
 - tailwind.ts `EXTRACTED`
-- ai-rules.ts `EXTRACTED`
+- bullmq-worker.ts `EXTRACTED`
+- nextjs.ts `EXTRACTED`
 - monorepo/index.ts `EXTRACTED`
-- shared-packages/index.ts `EXTRACTED`
-- docker.ts `EXTRACTED`
-- flusher.ts `EXTRACTED`
-- mongodb.test.ts `EXTRACTED`
-- postgres.test.ts `EXTRACTED`
-- state.test.ts `EXTRACTED`
-- tailwind.test.ts `EXTRACTED`
-- ui-extras.test.ts `EXTRACTED`
-- *…and 8 more `imports` connection(s) not listed (lowest-degree first to go)*
+- starter-packs.ts `EXTRACTED`
+- electron-vite.ts `EXTRACTED`
+- ai-rules.ts `EXTRACTED`
+- micro-frontend.ts `EXTRACTED`
+- *…and 35 more `imports` connection(s) not listed (lowest-degree first to go)*
 
 ### method
 - .applyAction() `EXTRACTED`

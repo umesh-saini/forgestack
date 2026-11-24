@@ -1,30 +1,13 @@
-import React, { useState } from 'react';
-import {
-  Plus,
-  Rocket,
-  Edit3,
-  Copy,
-  Trash2,
-  FolderOpen,
-  Sparkles,
-  Layers,
-  Search,
-  Check,
-  Moon,
-  Sun,
-  Terminal,
-  Server,
-  Monitor,
-  Laptop,
-} from 'lucide-react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { Copy, FilePlus2, Pencil, Play, Search, SlidersHorizontal, Trash2 } from 'lucide-react';
+import { generateProjectVfs, type ProjectConfig } from '@forgestack/core/browser';
 import type { SavedTemplate } from '../../types/template.js';
-import type { ThemeId } from '../wizard/Header.js';
-import type { ProjectConfig } from '@forgestack/core/browser';
+import { archetypeOf, hasBackend, hasFrontend, label } from '../../data/catalog.js';
+import { Button, IconButton, Segmented, Tag, TextInput, cx } from '../ui/primitives.js';
 
 interface Props {
   templates: SavedTemplate[];
-  theme?: ThemeId;
-  onThemeChange?: (theme: ThemeId) => void;
   onNewStack: () => void;
   onEditTemplate: (template: SavedTemplate) => void;
   onFastScaffold: (template: SavedTemplate) => void;
@@ -33,10 +16,12 @@ interface Props {
   onRenameTemplate: (templateId: string, newName: string) => void;
 }
 
+type Filter = 'all' | 'curated' | 'saved';
+
+const COLS = 'grid grid-cols-[minmax(0,1.6fr)_minmax(0,1.1fr)_minmax(0,0.9fr)_minmax(0,0.8fr)_minmax(0,0.8fr)_64px] gap-4';
+
 export const HomeTemplatesDashboard: React.FC<Props> = ({
   templates,
-  theme,
-  onThemeChange,
   onNewStack,
   onEditTemplate,
   onFastScaffold,
@@ -44,223 +29,345 @@ export const HomeTemplatesDashboard: React.FC<Props> = ({
   onDeleteTemplate,
   onRenameTemplate,
 }) => {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [renameInput, setRenameInput] = useState('');
+  const [filter, setFilter] = useState<Filter>('all');
+  const [query, setQuery] = useState('');
+  const [selectedId, setSelectedId] = useState<string | null>(templates[0]?.id ?? null);
+  const listRef = useRef<HTMLDivElement>(null);
+  const searchRef = useRef<HTMLInputElement>(null);
 
-  const filteredTemplates = templates.filter((t) => {
-    const q = searchQuery.toLowerCase();
-    return (
-      t.name.toLowerCase().includes(q) ||
-      t.description.toLowerCase().includes(q) ||
-      t.config.topology.toLowerCase().includes(q)
-    );
-  });
+  const visible = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return templates.filter((t) => {
+      if (filter === 'curated' && !t.isBuiltIn) return false;
+      if (filter === 'saved' && t.isBuiltIn) return false;
+      if (!q) return true;
+      return `${t.name} ${t.description} ${t.config.topology} ${t.config.frontend.framework} ${t.config.backend.framework} ${t.config.backend.database}`
+        .toLowerCase()
+        .includes(q);
+    });
+  }, [templates, filter, query]);
 
-  const startRename = (t: SavedTemplate) => {
-    setEditingId(t.id);
-    setRenameInput(t.name);
-  };
+  const selected = visible.find((t) => t.id === selectedId) ?? visible[0] ?? null;
+  const savedCount = templates.filter((t) => !t.isBuiltIn).length;
 
-  const saveRename = (t: SavedTemplate) => {
-    if (renameInput.trim()) {
-      onRenameTemplate(t.id, renameInput.trim());
+  // "/" focuses search, as in most dense list tools.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === '/' && document.activeElement?.tagName !== 'INPUT') {
+        e.preventDefault();
+        searchRef.current?.focus();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  const onListKey = (e: React.KeyboardEvent) => {
+    if (!selected) return;
+    const i = visible.findIndex((t) => t.id === selected.id);
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const next = visible[Math.max(0, Math.min(visible.length - 1, i + (e.key === 'ArrowDown' ? 1 : -1)))];
+      if (next) {
+        setSelectedId(next.id);
+        listRef.current?.querySelector<HTMLElement>(`[data-id="${next.id}"]`)?.focus();
+      }
+    } else if (e.key === 'Enter') {
+      onEditTemplate(selected);
     }
-    setEditingId(null);
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col font-sans selection:bg-orange-500/30 selection:text-white transition-colors">
-      {/* Main Content Area with Integrated Search & CTA */}
-      <main className="flex-1 max-w-[1750px] w-full mx-auto p-4 lg:p-8 space-y-8">
-        {/* Banner Section with Integrated Search & Launch CTA */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b pb-6">
-          <div className="space-y-1.5">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-orange-500/10 text-orange-500 border border-orange-500/20 font-bold uppercase tracking-wider">
-                Production Foundations
-              </span>
-              <span className="text-xs opacity-50 font-mono">v{__APP_VERSION__}</span>
-            </div>
-            <h2 className="text-2xl font-black tracking-tight text-[var(--text-main)]">
-              Architecture Templates Hub
-            </h2>
-            <p className="text-xs text-[var(--text-muted)] max-w-xl leading-relaxed">
-              Select a verified production architecture to fast-scaffold a project, or create and save your own reusable custom template presets.
-            </p>
-          </div>
-
-          {/* Search & Launch CTA */}
-          <div className="flex items-center gap-3">
-            <div className="relative min-w-[240px]">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 opacity-50" />
-              <input
-                type="text"
-                placeholder="Search templates (e.g. monorepo, nextjs)..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-8 pr-3 py-2 ui-input rounded-xl text-xs font-mono"
-              />
-            </div>
-            <button
-              onClick={onNewStack}
-              className="px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer shadow-md shadow-orange-600/20 active:scale-95 shrink-0"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span>Launch Studio Wizard</span>
-            </button>
-          </div>
+    <div className="h-full flex flex-col">
+      {/* Toolbar */}
+      <div className="h-14 shrink-0 flex items-center gap-3 px-5 border-b border-line">
+        <h1 className="t-page mr-2">Templates</h1>
+        <div className="relative w-[280px]">
+          <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-faint pointer-events-none" />
+          <TextInput
+            ref={searchRef}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search name, topology or stack"
+            className="pl-8"
+            aria-label="Search templates"
+          />
         </div>
+        <Segmented<Filter>
+          label="Template source"
+          value={filter}
+          onChange={setFilter}
+          options={[
+            { id: 'all', label: `All ${templates.length}` },
+            { id: 'curated', label: 'Curated' },
+            { id: 'saved', label: `Saved ${savedCount}` },
+          ]}
+        />
+        <div className="flex-1" />
+        <Button variant="secondary" onClick={onNewStack}>
+          <FilePlus2 className="w-4 h-4" />
+          New project
+        </Button>
+      </div>
 
-        {/* Template Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* CARD 0: Hero + Create New Stack */}
-          <div
-            onClick={onNewStack}
-            className="group relative rounded-2xl p-6 border-2 border-dashed border-orange-500/30 hover:border-orange-500/80 bg-orange-500/5 hover:bg-orange-500/10 transition-all duration-200 cursor-pointer flex flex-col items-center justify-center text-center space-y-4 min-h-[260px] shadow-sm hover:shadow-xl hover:shadow-orange-500/10 active:scale-[0.99]"
-          >
-            <div className="w-14 h-14 rounded-2xl bg-orange-500/20 text-orange-500 border border-orange-500/40 flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-              <Plus className="w-7 h-7" />
-            </div>
-            <div className="space-y-1">
-              <h3 className="font-bold text-base tracking-tight text-orange-400 group-hover:text-orange-300">
-                Create New Stack
-              </h3>
-              <p className="text-xs opacity-70 max-w-[220px]">
-                Start with empty slots and configure a tailored architecture step-by-step
-              </p>
-            </div>
-            <span className="px-3 py-1 rounded-full text-[11px] font-mono font-medium bg-orange-600 text-white shadow-sm">
-              Launch 4-Step Studio →
-            </span>
+      <div className="flex-1 min-h-0 flex">
+        {/* Catalogue */}
+        <div className="flex-1 min-w-0 flex flex-col">
+          <div className={cx(COLS, 'h-9 shrink-0 items-center px-5 border-b border-line t-label text-faint')}>
+            <span>Name</span>
+            <span>Topology</span>
+            <span>Frontend</span>
+            <span>Backend</span>
+            <span>Database</span>
+            <span className="text-right">Source</span>
           </div>
 
-          {/* Saved & Built-in Templates */}
-          {filteredTemplates.map((template) => {
-            const isEditing = editingId === template.id;
-            const config = template.config;
-
-            return (
-              <div
-                key={template.id}
-                className="ui-panel rounded-2xl p-6 border flex flex-col justify-between space-y-4 transition-all duration-150 hover:shadow-lg relative group"
-              >
-                {/* Header: Title, Badge & Actions */}
-                <div className="space-y-2">
-                  <div className="flex items-start justify-between gap-2">
-                    {isEditing ? (
-                      <div className="flex items-center gap-1.5 flex-1">
-                        <input
-                          type="text"
-                          value={renameInput}
-                          onChange={(e) => setRenameInput(e.target.value)}
-                          className="px-2 py-1 ui-input rounded-lg text-xs font-semibold w-full"
-                          autoFocus
-                          onKeyDown={(e) => {
-                            if (e.key === 'Enter') saveRename(template);
-                            if (e.key === 'Escape') setEditingId(null);
-                          }}
-                        />
-                        <button
-                          onClick={() => saveRename(template)}
-                          className="p-1 hover:bg-emerald-500/20 text-emerald-400 rounded-lg"
-                        >
-                          <Check className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-bold text-sm tracking-tight">{template.name}</h3>
-                        {template.isBuiltIn && (
-                          <span className="text-[9px] font-mono uppercase px-1.5 py-0.5 rounded bg-orange-500/10 text-orange-400 border border-orange-500/20 font-semibold">
-                            Curated
-                          </span>
-                        )}
-                      </div>
-                    )}
-
-                    {/* Quick Management Buttons */}
-                    <div className="flex items-center gap-1 opacity-70 group-hover:opacity-100 transition-opacity">
-                      <button
-                        onClick={() => startRename(template)}
-                        className="p-1 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer text-slate-400 hover:text-white"
-                        title="Rename Template"
-                      >
-                        <Edit3 className="w-3.5 h-3.5" />
-                      </button>
-                      <button
-                        onClick={() => onDuplicateTemplate(template.id)}
-                        className="p-1 hover:bg-slate-800 rounded-lg transition-colors cursor-pointer text-slate-400 hover:text-white"
-                        title="Duplicate Template"
-                      >
-                        <Copy className="w-3.5 h-3.5" />
-                      </button>
-                      {!template.isBuiltIn && (
-                        <button
-                          onClick={() => onDeleteTemplate(template.id)}
-                          className="p-1 hover:bg-rose-500/20 rounded-lg transition-colors cursor-pointer text-slate-400 hover:text-rose-400"
-                          title="Delete Template"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  <p className="text-xs opacity-70 leading-relaxed min-h-[36px]">
-                    {template.description}
-                  </p>
-                </div>
-
-                {/* Stack Tags */}
-                <div className="flex flex-wrap gap-1.5 py-1">
-                  <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium ui-card-subtle border text-orange-400">
-                    {config.topology}
-                  </span>
-                  {config.frontend.framework !== 'none' && (
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium ui-card-subtle border text-cyan-400">
-                      {config.frontend.framework} + {config.frontend.styling}
-                    </span>
+          <div ref={listRef} role="listbox" aria-label="Templates" onKeyDown={onListKey} className="flex-1 overflow-y-auto">
+            {visible.length === 0 ? (
+              <div className="px-5 py-10">
+                <p className="text-[13.5px] text-fg">
+                  {filter === 'saved' && !query ? 'No saved templates yet.' : `No template matches “${query}”.`}
+                </p>
+                <p className="text-[13px] text-muted mt-1">
+                  {filter === 'saved' && !query
+                    ? 'Configure a project in New project, then use Save as template on the Review stage.'
+                    : 'Try a topology like “monorepo” or a database like “postgres”.'}
+                </p>
+                <div className="flex gap-2 mt-4">
+                  {query && (
+                    <Button size="sm" onClick={() => setQuery('')}>
+                      Clear search
+                    </Button>
                   )}
-                  {config.backend.framework !== 'none' && (
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium ui-card-subtle border text-purple-400">
-                      {config.backend.framework} + {config.backend.database}
-                    </span>
-                  )}
-                  {config.backend.processManager && config.backend.processManager !== 'none' && (
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium ui-card-subtle border text-amber-400">
-                      {config.backend.processManager}
-                    </span>
-                  )}
-                  {config.aiGovernance.openSpec && (
-                    <span className="px-2 py-0.5 rounded-md text-[10px] font-mono font-medium ui-card-subtle border text-emerald-400">
-                      {config.aiGovernance.engine || 'openspec'}
-                    </span>
-                  )}
-                </div>
-
-                {/* Card Action Footer */}
-                <div className="pt-3 border-t flex items-center justify-between gap-2">
-                  <button
-                    onClick={() => onEditTemplate(template)}
-                    className="px-3 py-1.5 rounded-xl ui-card-subtle hover:opacity-100 text-xs font-medium border transition-colors cursor-pointer"
-                  >
-                    Customize
-                  </button>
-
-                  <button
-                    onClick={() => onFastScaffold(template)}
-                    className="px-4 py-1.5 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md shadow-orange-600/20 active:scale-95"
-                  >
-                    <Rocket className="w-3.5 h-3.5" />
-                    <span>Fast Scaffold</span>
-                  </button>
+                  <Button size="sm" onClick={onNewStack}>
+                    New project
+                  </Button>
                 </div>
               </div>
-            );
-          })}
+            ) : (
+              visible.map((t, i) => {
+                const on = selected?.id === t.id;
+                const c = t.config;
+                return (
+                  <motion.button
+                    key={t.id}
+                    type="button"
+                    role="option"
+                    aria-selected={on}
+                    data-id={t.id}
+                    data-selected={on}
+                    tabIndex={on ? 0 : -1}
+                    initial={{ opacity: 0, y: 4 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: Math.min(i, 8) * 0.012, duration: 0.14 }}
+                    onClick={() => setSelectedId(t.id)}
+                    onDoubleClick={() => onEditTemplate(t)}
+                    className={cx(
+                      'wipe w-full h-[52px] px-5 items-center text-left border-b border-line',
+                      COLS,
+                      !on && 'hover:bg-surface',
+                    )}
+                  >
+                    <span className="min-w-0">
+                      <span className="block truncate text-[13.5px] font-medium">{t.name}</span>
+                      <span className="wipe-sub block truncate t-mono text-faint">{c.name}</span>
+                    </span>
+                    <span className="truncate text-[13px]">{archetypeOf(c.topology).title}</span>
+                    <span className="wipe-sub truncate text-[13px] text-muted">{hasFrontend(c) ? label(c.frontend.framework) : 'None'}</span>
+                    <span className="wipe-sub truncate text-[13px] text-muted">{hasBackend(c) ? label(c.backend.framework) : 'None'}</span>
+                    <span className="wipe-sub truncate text-[13px] text-muted">{label(c.backend.database)}</span>
+                    <span className="wipe-sub text-right t-mono text-faint">{t.isBuiltIn ? 'curated' : 'saved'}</span>
+                  </motion.button>
+                );
+              })
+            )}
+          </div>
         </div>
-      </main>
+
+        {/* Inspector */}
+        <aside className="w-[424px] shrink-0 border-l border-line bg-surface flex flex-col" aria-label="Template details">
+          <AnimatePresence mode="wait">
+            {selected ? (
+              <motion.div
+                key={selected.id}
+                className="flex-1 min-h-0 flex flex-col"
+                initial={{ opacity: 0, x: 8 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -4 }}
+                transition={{ duration: 0.14, ease: [0.2, 0.8, 0.2, 1] }}
+              >
+                <TemplateInspector
+                  template={selected}
+                  onCustomize={() => onEditTemplate(selected)}
+                  onScaffold={() => onFastScaffold(selected)}
+                  onDuplicate={() => onDuplicateTemplate(selected.id)}
+                  onDelete={() => onDeleteTemplate(selected.id)}
+                  onRename={(name) => onRenameTemplate(selected.id, name)}
+                />
+              </motion.div>
+            ) : (
+              <div className="p-5 text-[13px] text-muted">Select a template to see its layers.</div>
+            )}
+          </AnimatePresence>
+        </aside>
+      </div>
     </div>
+  );
+};
+
+/* ───────────────────────── Inspector ───────────────────────── */
+
+function useFileCount(config: ProjectConfig) {
+  const [count, setCount] = useState<number | null>(null);
+  useEffect(() => {
+    let alive = true;
+    setCount(null);
+    generateProjectVfs(config)
+      .then((vfs) => alive && setCount(vfs.count()))
+      .catch(() => alive && setCount(-1));
+    return () => {
+      alive = false;
+    };
+  }, [config]);
+  return count;
+}
+
+const TemplateInspector: React.FC<{
+  template: SavedTemplate;
+  onCustomize: () => void;
+  onScaffold: () => void;
+  onDuplicate: () => void;
+  onDelete: () => void;
+  onRename: (name: string) => void;
+}> = ({ template, onCustomize, onScaffold, onDuplicate, onDelete, onRename }) => {
+  const c = template.config;
+  const fileCount = useFileCount(c);
+  const [renaming, setRenaming] = useState(false);
+  const [name, setName] = useState(template.name);
+  const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const layers: [string, string][] = [
+    ['Topology', archetypeOf(c.topology).title],
+    ...(hasFrontend(c)
+      ? ([
+          ['Frontend', label(c.frontend.framework)],
+          ['Styling', label(c.frontend.styling)],
+          ['State', label(c.frontend.state)],
+        ] as [string, string][])
+      : []),
+    ...(hasBackend(c) ? ([['Backend', label(c.backend.framework)]] as [string, string][]) : []),
+    ...(c.backend.database !== 'none'
+      ? ([
+          ['Database', label(c.backend.database)],
+          ['ORM', label(c.backend.orm)],
+        ] as [string, string][])
+      : []),
+    ['Auth', label(c.auth)],
+    ['RPC', label(c.rpc)],
+    ['End-to-end tests', label(c.testing?.e2e)],
+    ['CI', label(c.ci)],
+    ['Deployment', label(c.deployment ?? 'docker')],
+  ];
+
+  const governance = [
+    c.aiGovernance.rules && 'Cursor rules',
+    (c.aiGovernance.claude ?? true) && 'CLAUDE.md',
+    c.aiGovernance.skills && 'Agent skills',
+    (c.aiGovernance.mcp ?? false) && 'MCP server',
+  ].filter(Boolean) as string[];
+
+  return (
+    <>
+      <div className="px-5 pt-5 pb-4 border-b border-line">
+        {renaming ? (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (name.trim()) onRename(name.trim());
+              setRenaming(false);
+            }}
+            className="flex gap-2"
+          >
+            <TextInput autoFocus value={name} onChange={(e) => setName(e.target.value)} aria-label="Template name" />
+            <Button type="submit" size="md">
+              Save
+            </Button>
+          </form>
+        ) : (
+          <div className="flex items-start justify-between gap-3">
+            <h2 className="t-section">{template.name}</h2>
+            <div className="flex -mr-1.5 -mt-0.5">
+              {!template.isBuiltIn && (
+                <IconButton label="Rename" onClick={() => setRenaming(true)}>
+                  <Pencil className="w-3.5 h-3.5" />
+                </IconButton>
+              )}
+              <IconButton label="Duplicate" onClick={onDuplicate}>
+                <Copy className="w-3.5 h-3.5" />
+              </IconButton>
+              {!template.isBuiltIn && (
+                <IconButton label="Delete" onClick={() => setConfirmDelete(true)} className="hover:!text-danger">
+                  <Trash2 className="w-3.5 h-3.5" />
+                </IconButton>
+              )}
+            </div>
+          </div>
+        )}
+        <p className="text-[13px] text-muted mt-1.5">{template.description}</p>
+
+        {confirmDelete && (
+          <div className="mt-3 flex items-center justify-between gap-2 p-2 pl-3 rounded-2 border border-danger/50">
+            <span className="text-[13px]">Delete “{template.name}”?</span>
+            <div className="flex gap-1.5">
+              <Button size="sm" variant="ghost" onClick={() => setConfirmDelete(false)}>
+                Cancel
+              </Button>
+              <Button size="sm" variant="danger" onClick={onDelete}>
+                Delete
+              </Button>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="flex-1 min-h-0 overflow-y-auto px-5 py-3">
+        <dl>
+          {layers.map(([k, v]) => (
+            <div key={k} className="h-8 flex items-center justify-between gap-4 border-b border-line last:border-b-0">
+              <dt className="text-[13px] text-muted">{k}</dt>
+              <dd className={cx('text-[13px] truncate', v === 'None' ? 'text-faint' : 'text-fg')}>{v}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <div className="mt-5">
+          <div className="t-label text-muted mb-2">Package manager</div>
+          <Tag>{c.packageManager}</Tag>
+        </div>
+        <div className="mt-4">
+          <div className="t-label text-muted mb-2">AI governance</div>
+          <div className="flex flex-wrap gap-1.5">
+            <Tag>{label(c.aiGovernance.engine ?? 'openspec')}</Tag>
+            {governance.map((g) => (
+              <Tag key={g}>{g}</Tag>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="shrink-0 border-t border-line px-5 py-3 flex items-center gap-2">
+        <span className="t-mono text-muted tabular mr-auto">
+          {fileCount === null ? 'Counting files' : fileCount < 0 ? 'Invalid combination' : `${fileCount} files`}
+        </span>
+        <Button variant="ghost" onClick={onCustomize}>
+          <SlidersHorizontal className="w-4 h-4" />
+          Customize
+        </Button>
+        <Button variant="secondary" onClick={onScaffold}>
+          <Play className="w-3.5 h-3.5" />
+          Quick scaffold
+        </Button>
+      </div>
+    </>
   );
 };
