@@ -1,68 +1,82 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import {
-  HashRouter,
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-  useLocation,
-} from 'react-router-dom';
-import {
-  generateProjectVfs,
-  type ProjectConfig,
-  type TreeNode,
-  type VirtualFileSystem,
-} from '@forgestack/core/browser';
-import type { ThemeId } from './components/wizard/Header.js';
-import { StudioNavbar } from './components/layout/StudioNavbar.js';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { AnimatePresence, motion } from 'motion/react';
+import { FilePlus2, FolderTree, LayoutList, Moon, Play, Settings2, SlidersHorizontal, Sun } from 'lucide-react';
+import { generateProjectVfs, type ProjectConfig, type TreeNode, type VirtualFileSystem } from '@forgestack/core/browser';
+import { useTheme } from './theme.js';
+import { AppShell } from './components/layout/AppShell.js';
+import { CommandPalette, type PaletteCommand } from './components/layout/CommandPalette.js';
 import { HomeTemplatesDashboard } from './components/home/HomeTemplatesDashboard.js';
 import { FastScaffoldModal } from './components/home/FastScaffoldModal.js';
-import { StepperWizard } from './components/wizard/StepperWizard.js';
+import { StudioView } from './components/studio/StudioView.js';
 import { PathSelectorModal } from './components/wizard/PathSelectorModal.js';
-import { VsCodeWorkspace } from './components/preview/VsCodeWorkspace.js';
 import { AppSettingsPage, loadAppSettings } from './components/settings/AppSettingsPage.js';
-import { ScaffoldConsoleView } from './components/home/ScaffoldConsoleView.js';
 import { UpdateModal } from './components/updater/UpdateModal.js';
-import {
-  getAppEnvironment,
-  checkForUpdates,
-  isTauri,
-  type AppEnvironment,
-  type UpdateDetails,
-} from './services/updaterService.js';
-import { type SavedTemplate, BUILTIN_TEMPLATES } from './types/template.js';
+import { log, type LogLine, type Phase } from './components/studio/run-types.js';
+import { checkForUpdates, getAppEnvironment, isTauri, type AppEnvironment, type UpdateDetails } from './services/updaterService.js';
+import { BUILTIN_TEMPLATES, type SavedTemplate } from './types/template.js';
+import { archetypeOf } from './data/catalog.js';
+
+function defaultConfig(name: string): ProjectConfig {
+  const s = loadAppSettings();
+  return {
+    name,
+    targetPath: `${s.defaultTargetPath.replace(/\/+$/, '')}/${name}`,
+    topology: 'monorepo',
+    frontend: {
+      framework: 'react-vite',
+      styling: 'tailwind',
+      state: 'query',
+      icons: 'lucide',
+      toast: 'sonner',
+      forms: 'rhf-zod',
+      dateLib: 'none',
+      uiExtras: { toast: true, icons: true, forms: true },
+    },
+    backend: { framework: 'fastify', database: 'postgres', orm: 'drizzle', container: true, processManager: 'docker' },
+    utilities: { frontendHelpers: false, backendHelpers: false },
+    aiGovernance: {
+      rules: s.defaultCursorRules,
+      claude: true,
+      skills: s.defaultAasSkills,
+      openSpec: true,
+      engine: s.defaultAiEngine,
+    },
+    packageManager: s.defaultPackageManager,
+    git: s.defaultGitInit,
+    install: s.defaultAutoInstall,
+  };
+}
+
+const openWith = async (cmd: 'open_in_vscode' | 'open_in_folder', path: string, fallback: string) => {
+  try {
+    if (isTauri()) {
+      const { invoke } = await import('@tauri-apps/api/core');
+      await invoke(cmd, { path });
+      return;
+    }
+  } catch {
+    // fall through
+  }
+  alert(fallback);
+};
 
 function ForgeStackAppContent() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { theme, preference, setPreference, toggle: toggleTheme } = useTheme();
 
-  // Load User Preferences & Theme
-  const [theme, setTheme] = useState<ThemeId>(() => {
-    return (localStorage.getItem('forgestack-theme') as ThemeId) || 'theme-dark';
-  });
-
-  useEffect(() => {
-    document.documentElement.className = theme;
-    localStorage.setItem('forgestack-theme', theme);
-  }, [theme]);
-
-  // Templates Management State (localStorage with BUILTIN_TEMPLATES fallback)
+  /* Templates (localStorage, with built-ins as fallback) */
   const [templates, setTemplates] = useState<SavedTemplate[]>(() => {
     try {
-      const stored = localStorage.getItem('forgestack-templates');
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          return parsed;
-        }
-      }
+      const parsed = JSON.parse(localStorage.getItem('forgestack-templates') ?? 'null');
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
     } catch {
       // ignore
     }
     return BUILTIN_TEMPLATES;
   });
-
-  const saveTemplatesToStorage = (updated: SavedTemplate[]) => {
+  const saveTemplates = (updated: SavedTemplate[]) => {
     setTemplates(updated);
     try {
       localStorage.setItem('forgestack-templates', JSON.stringify(updated));
@@ -71,671 +85,412 @@ function ForgeStackAppContent() {
     }
   };
 
-  // Software Updates & Packaging State
+  /* Updates */
   const [appEnv, setAppEnv] = useState<AppEnvironment | null>(null);
   const [updateDetails, setUpdateDetails] = useState<UpdateDetails | null>(null);
   const [isUpdateModalOpen, setIsUpdateModalOpen] = useState(false);
   const [isCheckingUpdate, setIsCheckingUpdate] = useState(false);
 
   useEffect(() => {
-    getAppEnvironment().then((env) => {
-      setAppEnv(env);
-    });
-
-    // Background update check on startup
-    checkForUpdates(false).then((details) => {
-      if (details) {
-        setUpdateDetails(details);
-      }
-    });
+    getAppEnvironment().then(setAppEnv);
+    checkForUpdates(false).then((d) => d && setUpdateDetails(d));
   }, []);
 
   const handleManualCheckUpdate = async () => {
     setIsCheckingUpdate(true);
     setIsUpdateModalOpen(true);
     try {
-      const details = await checkForUpdates(true);
-      setUpdateDetails(details);
+      setUpdateDetails(await checkForUpdates(true));
     } finally {
       setIsCheckingUpdate(false);
     }
   };
 
   const handleSimulateUpdate = () => {
-    const isDeb = appEnv?.is_deb_or_system ?? false;
     const isAppImage = appEnv?.is_appimage ?? false;
     setUpdateDetails({
       available: true,
-      currentVersion: appEnv?.current_version || '1.0.0',
+      currentVersion: appEnv?.current_version || __APP_VERSION__,
       newVersion: '1.1.0',
-      releaseNotes: `### ForgeStack Studio v1.1.0 Highlights\n\n• SvelteKit & Remix fullstack framework adapters\n• Real-time dependency conflict resolver\n• Enhanced AST composition engine for zero-merge-conflict scaffolding\n• Linux system security & packaging performance optimizations`,
+      releaseNotes: `### ForgeStack Studio 1.1.0\n\n- SvelteKit and Remix adapters\n- Dependency conflict resolver\n- Faster file tree compilation`,
       releaseDate: new Date().toISOString(),
       supportsInPlace: isAppImage,
-      isDebOrSystem: isDeb || (!isAppImage),
+      isDebOrSystem: (appEnv?.is_deb_or_system ?? false) || !isAppImage,
       platform: appEnv?.platform || 'linux',
-      downloadUrl: 'https://github.com/forgestack/forgestack/releases/tag/v1.1.0',
-      debDownloadUrl: 'https://github.com/forgestack/forgestack/releases/download/v1.1.0/ForgeStack_1.1.0_amd64.deb',
+      downloadUrl: 'https://github.com/umesh-saini/forgestack/releases/tag/v1.1.0',
+      debDownloadUrl: 'https://github.com/umesh-saini/forgestack/releases/download/v1.1.0/ForgeStack_1.1.0_amd64.deb',
     });
     setIsUpdateModalOpen(true);
   };
 
-  // Active Project Configuration
-  const [config, setConfig] = useState<ProjectConfig>(() => {
-    const userSettings = loadAppSettings();
-    return {
-      name: 'enterprise-app',
-      targetPath: `${userSettings.defaultTargetPath}/enterprise-app`,
-      topology: 'monorepo',
-      frontend: {
-        framework: 'react-vite',
-        styling: 'tailwind',
-        state: 'query',
-        icons: 'lucide',
-        toast: 'sonner',
-        forms: 'rhf-zod',
-        dateLib: 'none',
-        uiExtras: { toast: true, icons: true, forms: true },
-      },
-      backend: {
-        framework: 'fastify',
-        database: 'postgres',
-        orm: 'drizzle',
-        container: true,
-        processManager: 'docker',
-      },
-      utilities: {
-        frontendHelpers: false,
-        backendHelpers: false,
-      },
-      aiGovernance: {
-        rules: userSettings.defaultCursorRules,
-        claude: true,
-        skills: userSettings.defaultAasSkills,
-        openSpec: true,
-        engine: userSettings.defaultAiEngine,
-      },
-      packageManager: userSettings.defaultPackageManager,
-      git: userSettings.defaultGitInit,
-      install: userSettings.defaultAutoInstall,
-    };
-  });
-
-  // Fast Scaffold Modal State
-  const [fastScaffoldTemplate, setFastScaffoldTemplate] = useState<SavedTemplate | null>(null);
-
-  // VFS & Staging Preview State
+  /* Active configuration and its in-memory file tree */
+  const [config, setConfig] = useState<ProjectConfig>(() => defaultConfig('enterprise-app'));
   const [currentVfs, setCurrentVfs] = useState<VirtualFileSystem | null>(null);
   const [tree, setTree] = useState<TreeNode[]>([]);
   const [fileCount, setFileCount] = useState(0);
+  const [compileState, setCompileState] = useState<'ready' | 'updating' | 'error'>('updating');
+  const [compileError, setCompileError] = useState<string | null>(null);
 
-  // Tab-based File Preview in VS Code Workspace
   const [openTabs, setOpenTabs] = useState<string[]>([]);
   const [selectedFilePath, setSelectedFilePath] = useState<string | null>(null);
   const [selectedFileContent, setSelectedFileContent] = useState<string | null>(null);
+  const selectedRef = useRef<string | null>(null);
+  selectedRef.current = selectedFilePath;
   const [isWorkspaceMaximized, setIsWorkspaceMaximized] = useState(false);
 
-  // Path Selector Modal
   const [isPathModalOpen, setIsPathModalOpen] = useState(false);
   const [browseCallback, setBrowseCallback] = useState<((p: string) => void) | null>(null);
+  const [fastScaffoldTemplate, setFastScaffoldTemplate] = useState<SavedTemplate | null>(null);
+  const [paletteOpen, setPaletteOpen] = useState(false);
 
-  // Execution & Live Scaffolding Status
+  /* Run state */
   const [isGenerating, setIsGenerating] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const [logs, setLogs] = useState<string[]>([]);
+  const [logs, setLogs] = useState<LogLine[]>([]);
+  const [phases, setPhases] = useState<Phase[]>([]);
 
-  // Recompile Virtual File System whenever Config changes
-  const recompileVfs = useCallback(async (cfgToCompile: ProjectConfig) => {
+  const recompileVfs = useCallback(async (cfg: ProjectConfig) => {
+    setCompileState('updating');
     try {
-      const vfs = await generateProjectVfs(cfgToCompile);
+      const vfs = await generateProjectVfs(cfg);
       setCurrentVfs(vfs);
       setTree(vfs.toTree());
       setFileCount(vfs.count());
-
-      // Live reload active file content if currently open in Monaco editor
-      if (selectedFilePath) {
-        const file = vfs.getFile(selectedFilePath);
-        if (file) {
-          setSelectedFileContent(file.content);
-        }
+      setCompileState('ready');
+      setCompileError(null);
+      const sel = selectedRef.current;
+      if (sel) {
+        const file = vfs.getFile(sel);
+        setSelectedFileContent(file ? file.content : null);
       }
     } catch (err) {
-      console.error('Failed to compile VFS for preview:', err);
+      // Keep the previous tree visible; report why this combination is invalid.
+      setCompileState('error');
+      setCompileError(err instanceof Error ? err.message.replace(/^Invalid combination:\s*/, '') : String(err));
     }
-  }, [selectedFilePath]);
+  }, []);
 
   useEffect(() => {
-    recompileVfs(config);
+    const t = setTimeout(() => recompileVfs(config), 60);
+    return () => clearTimeout(t);
   }, [config, recompileVfs]);
 
-  // Handle File Selection with Tab Support
   const handleSelectFile = (filePath: string) => {
-    if (!currentVfs) return;
-    const file = currentVfs.getFile(filePath);
-    if (file) {
-      setOpenTabs((prev) => (prev.includes(filePath) ? prev : [...prev, filePath]));
-      setSelectedFilePath(filePath);
-      setSelectedFileContent(file.content);
-    }
+    const file = currentVfs?.getFile(filePath);
+    if (!file) return;
+    setOpenTabs((prev) => (prev.includes(filePath) ? prev : [...prev, filePath]));
+    setSelectedFilePath(filePath);
+    setSelectedFileContent(file.content);
   };
 
-  // Close specific tab
   const handleCloseTab = (filePath: string) => {
-    const nextTabs = openTabs.filter((p) => p !== filePath);
-    setOpenTabs(nextTabs);
+    const next = openTabs.filter((p) => p !== filePath);
+    setOpenTabs(next);
     if (selectedFilePath === filePath) {
-      if (nextTabs.length > 0) {
-        const nextActive = nextTabs[nextTabs.length - 1];
-        setSelectedFilePath(nextActive);
-        const file = currentVfs?.getFile(nextActive);
-        setSelectedFileContent(file ? file.content : null);
-      } else {
-        setSelectedFilePath(null);
-        setSelectedFileContent(null);
-        setIsWorkspaceMaximized(false);
-      }
+      const last = next[next.length - 1] ?? null;
+      setSelectedFilePath(last);
+      setSelectedFileContent(last ? (currentVfs?.getFile(last)?.content ?? null) : null);
     }
   };
 
-  // Close full editor pane
-  const handleCloseEditor = () => {
-    setSelectedFilePath(null);
-    setSelectedFileContent(null);
-    setOpenTabs([]);
-    setIsWorkspaceMaximized(false);
-  };
-
-  // Add Custom File In-Memory
-  const handleAddCustomFile = (customPath: string, customContent: string) => {
+  const handleAddCustomFile = (path: string, content: string) => {
     if (!currentVfs) return;
-    currentVfs.applyAction({
-      type: 'CREATE',
-      path: customPath,
-      content: customContent,
-    });
+    currentVfs.applyAction({ type: 'CREATE', path, content });
     setTree(currentVfs.toTree());
     setFileCount(currentVfs.count());
-    handleSelectFile(customPath);
+    handleSelectFile(path);
   };
 
-  // Scaffolding Execution Pipeline
-  const handleExecuteScaffold = async (cfgToScaffold: ProjectConfig) => {
+  const setPhase = (id: string, patch: Partial<Phase>) => setPhases((ps) => ps.map((p) => (p.id === id ? { ...p, ...patch } : p)));
+  const addLog = (...lines: LogLine[]) => setLogs((prev) => [...prev, ...lines]);
+
+  const handleExecuteScaffold = async (cfg: ProjectConfig) => {
+    const native = isTauri();
     setIsGenerating(true);
     setIsComplete(false);
-    setLogs([
-      `[ForgeStack] Initializing synthesis for project: ${cfgToScaffold.name}...`,
-      `[ForgeStack] Target Directory: ${cfgToScaffold.targetPath}`,
-      `[ForgeStack] Architecture Topology: ${cfgToScaffold.topology}`,
-    ]);
+    setLogs([log('config', `${cfg.name}: ${archetypeOf(cfg.topology).title}`, 'muted'), log('config', `destination ${cfg.targetPath}`, 'muted')]);
+    setPhases(
+      native
+        ? [
+            { id: 'compile', label: 'Compile file tree', status: 'running' },
+            { id: 'write', label: 'Write files to disk', detail: cfg.targetPath, status: 'pending' },
+            ...(cfg.git ? [{ id: 'git', label: 'Initialize git repository', status: 'pending' as const }] : []),
+            ...(cfg.install ? [{ id: 'install', label: `Install dependencies with ${cfg.packageManager}`, status: 'pending' as const }] : []),
+          ]
+        : [
+            { id: 'compile', label: 'Compile file tree', status: 'running' },
+            { id: 'zip', label: 'Package ZIP archive', status: 'pending' },
+            { id: 'download', label: 'Download', detail: `${cfg.name}.zip`, status: 'pending' },
+          ],
+    );
 
+    let current = 'compile';
     try {
-      const vfs = await generateProjectVfs(cfgToScaffold);
-      setLogs((prev) => [
-        ...prev,
-        `[ForgeStack VFS] Compiled in-memory file system (${vfs.count()} files staged).`,
-        `[ForgeStack PRE-FLIGHT] Verifying target directory write permissions...`,
-      ]);
+      const vfs = await generateProjectVfs(cfg);
+      addLog(log('vfs', `compiled ${vfs.count()} files in memory`));
+      setPhase('compile', { status: 'done', detail: `${vfs.count()} files` });
 
-      if (isTauri()) {
-        setLogs((prev) => [
-          ...prev,
-          `[ForgeStack TAURI] Writing files natively via Tauri Rust engine...`,
-        ]);
+      if (native) {
+        current = 'write';
+        setPhase('write', { status: 'running' });
+        if (cfg.git) setPhase('git', { status: 'running' });
+        if (cfg.install) setPhase('install', { status: 'running' });
+        addLog(log('write', `writing to ${cfg.targetPath}`));
         const { invoke } = await import('@tauri-apps/api/core');
-        const files = vfs.getAllFiles().map((f) => ({
-          path: f.path,
-          content: f.content,
-          executable: f.executable,
-        }));
-        const writtenCount = await invoke<number>('scaffold_project_files', {
+        const written = await invoke<number>('scaffold_project_files', {
           payload: {
-            target_path: cfgToScaffold.targetPath,
-            files,
-            git_init: cfgToScaffold.git,
-            run_install: cfgToScaffold.install,
-            package_manager: cfgToScaffold.packageManager,
+            target_path: cfg.targetPath,
+            files: vfs.getAllFiles().map((f) => ({ path: f.path, content: f.content, executable: f.executable })),
+            git_init: cfg.git,
+            run_install: cfg.install,
+            package_manager: cfg.packageManager,
           },
         });
-        setLogs((prev) => [
-          ...prev,
-          `[ForgeStack TAURI] Wrote ${writtenCount} files atomically to ${cfgToScaffold.targetPath}`,
-          ...(cfgToScaffold.git
-            ? ['[ForgeStack GIT] Local git repository initialized & staged.']
-            : []),
-          ...(cfgToScaffold.install
-            ? [`[ForgeStack INSTALL] Dependencies installed via ${cfgToScaffold.packageManager}.`]
-            : []),
-          `[ForgeStack SUCCESS] Project scaffolded cleanly on physical disk with Day-One AI Governance!`,
-        ]);
+        addLog(log('write', `wrote ${written} files`, 'ok'));
+        setPhase('write', { status: 'done', detail: `${written} files in ${cfg.targetPath}` });
+        if (cfg.git) {
+          addLog(log('git', 'initialized repository and created first commit', 'ok'));
+          setPhase('git', { status: 'done' });
+        }
+        if (cfg.install) {
+          addLog(log('install', `${cfg.packageManager} install finished`, 'ok'));
+          setPhase('install', { status: 'done' });
+        }
       } else {
-        // Web Browser Mode: Package in-memory VFS into ZIP archive and trigger download
-        setLogs((prev) => [
-          ...prev,
-          `[ForgeStack WEB] Packaging in-memory VFS into browser ZIP archive...`,
-        ]);
+        current = 'zip';
+        setPhase('zip', { status: 'running' });
         const JSZip = (await import('jszip')).default;
         const zip = new JSZip();
+        for (const file of vfs.getAllFiles()) zip.file(file.path.replace(/^\/+/, ''), file.content);
+        const blob = await zip.generateAsync({ type: 'blob' });
+        const kb = (blob.size / 1024).toFixed(1);
+        addLog(log('zip', `${cfg.name}.zip, ${kb} KB, ${vfs.count()} files`));
+        setPhase('zip', { status: 'done', detail: `${kb} KB` });
 
-        for (const file of vfs.getAllFiles()) {
-          const cleanPath = file.path.replace(/^\/+/, '');
-          zip.file(cleanPath, file.content);
-        }
-
-        const zipBlob = await zip.generateAsync({ type: 'blob' });
-        const downloadUrl = URL.createObjectURL(zipBlob);
-        const anchor = document.createElement('a');
-        anchor.href = downloadUrl;
-        anchor.download = `${cfgToScaffold.name}.zip`;
-        document.body.appendChild(anchor);
-        anchor.click();
-        document.body.removeChild(anchor);
-        URL.revokeObjectURL(downloadUrl);
-
-        setLogs((prev) => [
-          ...prev,
-          `[ForgeStack WEB] Generated ${cfgToScaffold.name}.zip (${(zipBlob.size / 1024).toFixed(1)} KB) containing ${vfs.count()} files.`,
-          `[ForgeStack DOWNLOAD] Project ZIP archive downloaded to your browser.`,
-          `[ForgeStack CLI] Terminal command: npx create-forgestack-app ${cfgToScaffold.name} --topology ${cfgToScaffold.topology}`,
-          `[ForgeStack NOTICE] Web sandbox notice: direct disk write, auto git init, and auto install require native CLI or Desktop Studio.`,
-          `[ForgeStack SUCCESS] Project synthesized and downloaded successfully!`,
-        ]);
+        current = 'download';
+        setPhase('download', { status: 'running' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${cfg.name}.zip`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+        addLog(
+          log('download', `${cfg.name}.zip saved by the browser`, 'ok'),
+          log('note', 'writing to disk, git init and install need the desktop app or the CLI', 'muted'),
+        );
+        setPhase('download', { status: 'done' });
       }
-
       setIsComplete(true);
-    } catch (err: any) {
-      setLogs((prev) => [
-        ...prev,
-        `[ForgeStack ERROR] ${err?.message || String(err)}`,
-      ]);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      addLog(log('error', message, 'error'));
+      setPhase(current, { status: 'error', detail: message });
+      setIsComplete(true);
     } finally {
       setIsGenerating(false);
     }
   };
 
-  // Template Lifecycle Handlers
+  const resetRun = () => {
+    setIsComplete(false);
+    setPhases([]);
+  };
+
+  /* Template lifecycle */
   const handleSaveAsTemplate = (name: string, description: string) => {
-    const newTemplate: SavedTemplate = {
-      id: `template-${Date.now()}`,
-      name,
-      description,
-      isBuiltIn: false,
-      config: { ...config },
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-    saveTemplatesToStorage([newTemplate, ...templates]);
+    const now = new Date().toISOString();
+    saveTemplates([{ id: `template-${Date.now()}`, name, description, isBuiltIn: false, config: { ...config }, createdAt: now, updatedAt: now }, ...templates]);
   };
-
-  const handleDuplicateTemplate = (templateId: string) => {
-    const target = templates.find((t) => t.id === templateId);
-    if (!target) return;
-    const cloned: SavedTemplate = {
-      ...target,
-      id: `template-${Date.now()}`,
-      name: `${target.name} (Copy)`,
-      isBuiltIn: false,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    };
-    saveTemplatesToStorage([cloned, ...templates]);
+  const handleDuplicateTemplate = (id: string) => {
+    const t = templates.find((x) => x.id === id);
+    if (!t) return;
+    const now = new Date().toISOString();
+    saveTemplates([{ ...t, id: `template-${Date.now()}`, name: `${t.name} copy`, isBuiltIn: false, createdAt: now, updatedAt: now }, ...templates]);
   };
-
-  const handleDeleteTemplate = (templateId: string) => {
-    saveTemplatesToStorage(templates.filter((t) => t.id !== templateId));
-  };
-
-  const handleRenameTemplate = (templateId: string, newName: string) => {
-    saveTemplatesToStorage(
-      templates.map((t) => (t.id === templateId ? { ...t, name: newName } : t))
-    );
-  };
+  const handleDeleteTemplate = (id: string) => saveTemplates(templates.filter((t) => t.id !== id));
+  const handleRenameTemplate = (id: string, name: string) =>
+    saveTemplates(templates.map((t) => (t.id === id ? { ...t, name, updatedAt: new Date().toISOString() } : t)));
 
   const handleNewStack = () => {
-    const userSettings = loadAppSettings();
-    setConfig({
-      name: 'my-custom-stack',
-      targetPath: `${userSettings.defaultTargetPath}/my-custom-stack`,
-      topology: 'monorepo',
-      frontend: {
-        framework: 'react-vite',
-        styling: 'tailwind',
-        state: 'query',
-        icons: 'lucide',
-        toast: 'sonner',
-        forms: 'rhf-zod',
-        dateLib: 'none',
-        uiExtras: { toast: true, icons: true, forms: true },
-      },
-      backend: {
-        framework: 'fastify',
-        database: 'postgres',
-        orm: 'drizzle',
-        container: true,
-        processManager: 'docker',
-      },
-      utilities: {
-        frontendHelpers: false,
-        backendHelpers: false,
-      },
-      aiGovernance: {
-        rules: userSettings.defaultCursorRules,
-        claude: true,
-        skills: userSettings.defaultAasSkills,
-        openSpec: true,
-        engine: userSettings.defaultAiEngine,
-      },
-      packageManager: userSettings.defaultPackageManager,
-      git: userSettings.defaultGitInit,
-      install: userSettings.defaultAutoInstall,
-    });
+    resetRun();
+    setConfig(defaultConfig('my-app'));
     navigate('/new');
   };
 
   const handleEditTemplate = (template: SavedTemplate) => {
-    const userSettings = loadAppSettings();
-    const base = userSettings.defaultTargetPath || '/home/dev/Documents';
-    const rebasedPath = `${base.replace(/\/+$/, '')}/${template.config.name}`;
+    const s = loadAppSettings();
+    resetRun();
     setConfig({
       ...template.config,
-      targetPath: rebasedPath,
-      git: userSettings.defaultGitInit ?? template.config.git,
-      install: userSettings.defaultAutoInstall ?? template.config.install,
-      packageManager: userSettings.defaultPackageManager || template.config.packageManager,
+      targetPath: `${(s.defaultTargetPath || '/home/dev/Documents').replace(/\/+$/, '')}/${template.config.name}`,
+      git: s.defaultGitInit ?? template.config.git,
+      install: s.defaultAutoInstall ?? template.config.install,
+      packageManager: s.defaultPackageManager || template.config.packageManager,
     });
     navigate('/new');
   };
 
-  // External Action Handlers
-  const handleOpenVsCode = async () => {
-    try {
-      const isTauri =
-        typeof window !== 'undefined' &&
-        ('__TAURI_INTERNALS__' in window || '__TAURI__' in window);
-      if (isTauri) {
-        const { invoke } = await import('@tauri-apps/api/core');
-        await invoke('open_in_vscode', { path: config.targetPath });
-        return;
-      }
-      const { Command } = await import('@tauri-apps/plugin-shell');
-      await Command.create('code', [config.targetPath]).execute();
-    } catch {
-      alert(`To open in VS Code, run in terminal:\ncode "${config.targetPath}"`);
-    }
+  const openBrowse = (cb: ((p: string) => void) | null) => {
+    setBrowseCallback(() => cb);
+    setIsPathModalOpen(true);
   };
 
-  const handleOpenFolder = async () => {
-    try {
-      const isTauri =
-        typeof window !== 'undefined' &&
-        ('__TAURI_INTERNALS__' in window || '__TAURI__' in window);
-      if (isTauri) {
-        const { invoke } = await import('@tauri-apps/api/core');
-        await invoke('open_in_folder', { path: config.targetPath });
-        return;
+  /* Command palette */
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setPaletteOpen((o) => !o);
       }
-      const { open } = await import('@tauri-apps/plugin-shell');
-      await open(config.targetPath);
-    } catch {
-      alert(`Target directory located at:\n${config.targetPath}`);
-    }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  const commands = useMemo<PaletteCommand[]>(
+    () => [
+      { id: 'go-hub', group: 'Go to', title: 'Templates', icon: <LayoutList className="w-4 h-4" />, run: () => navigate('/hub') },
+      { id: 'go-new', group: 'Go to', title: 'Current project', icon: <FolderTree className="w-4 h-4" />, run: () => navigate('/new') },
+      { id: 'go-settings', group: 'Go to', title: 'Settings', icon: <Settings2 className="w-4 h-4" />, run: () => navigate('/settings') },
+      { id: 'new', group: 'Actions', title: 'New project from defaults', icon: <FilePlus2 className="w-4 h-4" />, run: handleNewStack },
+      {
+        id: 'theme',
+        group: 'Actions',
+        title: theme === 'theme-dark' ? 'Switch to light theme' : 'Switch to dark theme',
+        icon: theme === 'theme-dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />,
+        run: toggleTheme,
+      },
+      ...templates.flatMap((t) => [
+        {
+          id: `edit-${t.id}`,
+          group: 'Customize template',
+          title: t.name,
+          hint: archetypeOf(t.config.topology).title,
+          icon: <SlidersHorizontal className="w-4 h-4" />,
+          run: () => handleEditTemplate(t),
+        },
+        {
+          id: `run-${t.id}`,
+          group: 'Quick scaffold',
+          title: t.name,
+          hint: t.config.name,
+          icon: <Play className="w-3.5 h-3.5" />,
+          run: () => setFastScaffoldTemplate(t),
+        },
+      ]),
+    ],
+    [templates, theme],
+  );
+
+  const studioProps = {
+    config,
+    theme,
+    tree,
+    fileCount,
+    compileState,
+    compileError,
+    logs,
+    phases,
+    isGenerating,
+    isComplete,
+    openTabs,
+    activePath: selectedFilePath,
+    activeContent: selectedFileContent,
+    isMaximized: isWorkspaceMaximized,
+    onToggleMaximize: () => setIsWorkspaceMaximized((m) => !m),
+    onChange: setConfig,
+    onBrowseFolder: () => openBrowse(null),
+    onScaffold: () => handleExecuteScaffold(config),
+    onResetRun: resetRun,
+    onSaveAsTemplate: handleSaveAsTemplate,
+    onOpenFolder: () => openWith('open_in_folder', config.targetPath, `Project folder:\n${config.targetPath}`),
+    onOpenVsCode: () => openWith('open_in_vscode', config.targetPath, `Open it with:\ncode "${config.targetPath}"`),
+    onSelectFile: handleSelectFile,
+    onCloseTab: handleCloseTab,
+    onAddCustomFile: handleAddCustomFile,
   };
 
-  const handleOpenAntigravity = async () => {
-    try {
-      const isTauri =
-        typeof window !== 'undefined' &&
-        ('__TAURI_INTERNALS__' in window || '__TAURI__' in window);
-      if (isTauri) {
-        const { invoke } = await import('@tauri-apps/api/core');
-        await invoke('open_in_vscode', { path: config.targetPath });
-        return;
-      }
-      const { Command } = await import('@tauri-apps/plugin-shell');
-      await Command.create('cursor', [config.targetPath]).execute();
-    } catch {
-      alert(`Project directory ready for Antigravity at:\n${config.targetPath}`);
-    }
+  const hubProps = {
+    templates,
+    onNewStack: handleNewStack,
+    onEditTemplate: handleEditTemplate,
+    onFastScaffold: setFastScaffoldTemplate,
+    onDuplicateTemplate: handleDuplicateTemplate,
+    onDeleteTemplate: handleDeleteTemplate,
+    onRenameTemplate: handleRenameTemplate,
   };
+
+  // /new and /scaffold share one surface, so switching between them must not re-animate it.
+  const routeKey = ['/new', '/studio', '/scaffold'].includes(location.pathname) ? 'studio' : location.pathname;
 
   return (
-    <div className="min-h-screen bg-[var(--bg-main)] text-[var(--text-main)] flex flex-col font-sans transition-colors selection:bg-orange-500/30 selection:text-white">
-      {/* Top Universal Navbar with React Router links */}
-      <StudioNavbar
-        targetPath={config.targetPath}
-        onBrowsePath={() => {
-          setBrowseCallback(() => (selected: string) => {
-            setConfig((prev) => ({
-              ...prev,
-              targetPath: selected.endsWith(prev.name) ? selected : `${selected}/${prev.name}`,
-            }));
-          });
-          setIsPathModalOpen(true);
-        }}
-        onOpenUpdateModal={() => setIsUpdateModalOpen(true)}
-        hasUpdate={Boolean(updateDetails?.available)}
-      />
+    <AppShell
+      theme={theme}
+      onToggleTheme={toggleTheme}
+      onOpenPalette={() => setPaletteOpen(true)}
+      update={updateDetails?.available ? { version: updateDetails.newVersion } : null}
+      onOpenUpdate={() => setIsUpdateModalOpen(true)}
+    >
+      <AnimatePresence mode="wait" initial={false}>
+        <motion.div
+          key={routeKey}
+          className="absolute inset-0"
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.16, ease: [0.2, 0.8, 0.2, 1] }}
+        >
+          <Routes location={location}>
+            <Route path="/" element={<HomeTemplatesDashboard {...hubProps} />} />
+            <Route path="/hub" element={<HomeTemplatesDashboard {...hubProps} />} />
+            <Route path="/templates" element={<Navigate to="/hub" replace />} />
+            <Route path="/new" element={<StudioView mode="configure" {...studioProps} />} />
+            <Route path="/studio" element={<Navigate to="/new" replace />} />
+            <Route path="/scaffold" element={<StudioView mode="run" {...studioProps} />} />
+            <Route
+              path="/settings"
+              element={
+                <AppSettingsPage
+                  themePreference={preference}
+                  onThemePreferenceChange={setPreference}
+                  onBrowseFolder={(cb) => openBrowse(cb)}
+                  onCheckForUpdates={handleManualCheckUpdate}
+                  onSimulateUpdate={handleSimulateUpdate}
+                  isCheckingUpdate={isCheckingUpdate}
+                  appEnv={appEnv}
+                  updateDetails={updateDetails}
+                />
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </motion.div>
+      </AnimatePresence>
 
-      {/* Main View Router */}
-      <main className="flex-1">
-        <Routes>
-          {/* VIEW 1: ROOT - Templates Hub (the marketing site lives in packages/website) */}
-          <Route
-            path="/"
-            element={
-              <HomeTemplatesDashboard
-                templates={templates}
-                onNewStack={handleNewStack}
-                onEditTemplate={handleEditTemplate}
-                onFastScaffold={(tpl) => setFastScaffoldTemplate(tpl)}
-                onDuplicateTemplate={handleDuplicateTemplate}
-                onDeleteTemplate={handleDeleteTemplate}
-                onRenameTemplate={handleRenameTemplate}
-              />
-            }
-          />
+      <CommandPalette open={paletteOpen} onClose={() => setPaletteOpen(false)} commands={commands} />
 
-          {/* VIEW 2: TEMPLATES HUB (Direct workspace path /hub & alias /templates) */}
-          <Route
-            path="/hub"
-            element={
-              <HomeTemplatesDashboard
-                templates={templates}
-                onNewStack={handleNewStack}
-                onEditTemplate={handleEditTemplate}
-                onFastScaffold={(tpl) => setFastScaffoldTemplate(tpl)}
-                onDuplicateTemplate={handleDuplicateTemplate}
-                onDeleteTemplate={handleDeleteTemplate}
-                onRenameTemplate={handleRenameTemplate}
-              />
-            }
-          />
-          <Route path="/templates" element={<Navigate to="/hub" replace />} />
-
-          {/* VIEW 3: 4-STEP STEPPER STUDIO (/new or /studio) */}
-          <Route
-            path="/new"
-            element={
-              <div className="max-w-[1750px] mx-auto p-3 lg:p-5 animate-in fade-in duration-150">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-                  {/* Left Column: 4-Step Progressive Stepper */}
-                  <div
-                    className={
-                      isWorkspaceMaximized
-                        ? 'hidden'
-                        : selectedFilePath
-                        ? 'lg:col-span-5 xl:col-span-4'
-                        : 'lg:col-span-7 xl:col-span-7'
-                    }
-                  >
-                    <StepperWizard
-                      config={config}
-                      fileCount={fileCount}
-                      isGenerating={isGenerating}
-                      isComplete={isComplete}
-                      logs={logs}
-                      onChange={setConfig}
-                      onBrowseFolder={() => {
-                        setBrowseCallback(null);
-                        setIsPathModalOpen(true);
-                      }}
-                      onScaffold={() => handleExecuteScaffold(config)}
-                      onSaveAsTemplate={handleSaveAsTemplate}
-                      onOpenFolder={handleOpenFolder}
-                      onOpenVsCode={handleOpenVsCode}
-                      onOpenAntigravity={handleOpenAntigravity}
-                      onBackToHome={() => navigate('/hub')}
-                    />
-                  </div>
-
-                  {/* Right Column: Integrated VS Code Studio Workspace */}
-                  <div
-                    className={
-                      isWorkspaceMaximized
-                        ? 'lg:col-span-12 h-[calc(100vh-85px)] sticky top-16'
-                        : selectedFilePath
-                        ? 'lg:col-span-7 xl:col-span-8 h-[calc(100vh-85px)] sticky top-16'
-                        : 'lg:col-span-5 xl:col-span-5 h-[calc(100vh-85px)] sticky top-16'
-                    }
-                  >
-                    <VsCodeWorkspace
-                      tree={tree}
-                      filesCount={fileCount}
-                      openTabs={openTabs}
-                      activeFilePath={selectedFilePath}
-                      activeFileContent={selectedFileContent}
-                      theme={theme}
-                      isMaximized={isWorkspaceMaximized}
-                      onSelectFile={handleSelectFile}
-                      onCloseTab={handleCloseTab}
-                      onRefresh={() => recompileVfs(config)}
-                      onAddCustomFile={handleAddCustomFile}
-                      onToggleMaximize={() => setIsWorkspaceMaximized(!isWorkspaceMaximized)}
-                      onCloseEditor={handleCloseEditor}
-                    />
-                  </div>
-                </div>
-              </div>
-            }
-          />
-
-          <Route
-            path="/studio"
-            element={<Navigate to="/new" replace />}
-          />
-
-          {/* VIEW 3: FAST SCAFFOLD DEDICATED CONSOLE VIEW */}
-          <Route
-            path="/scaffold"
-            element={
-              <div className="max-w-[1750px] mx-auto p-3 lg:p-5 animate-in fade-in duration-150">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
-                  {/* Left Column: Scaffold Console & Blueprint */}
-                  <div
-                    className={
-                      isWorkspaceMaximized
-                        ? 'hidden'
-                        : selectedFilePath
-                        ? 'lg:col-span-5 xl:col-span-5'
-                        : 'lg:col-span-6 xl:col-span-6'
-                    }
-                  >
-                    <ScaffoldConsoleView
-                      config={config}
-                      fileCount={fileCount}
-                      isGenerating={isGenerating}
-                      isComplete={isComplete}
-                      logs={logs}
-                      onOpenFolder={handleOpenFolder}
-                      onOpenVsCode={handleOpenVsCode}
-                      onOpenAntigravity={handleOpenAntigravity}
-                    />
-                  </div>
-
-                  {/* Right Column: Integrated VS Code Studio Workspace */}
-                  <div
-                    className={
-                      isWorkspaceMaximized
-                        ? 'lg:col-span-12 h-[calc(100vh-85px)] sticky top-16'
-                        : selectedFilePath
-                        ? 'lg:col-span-7 xl:col-span-7 h-[calc(100vh-85px)] sticky top-16'
-                        : 'lg:col-span-6 xl:col-span-6 h-[calc(100vh-85px)] sticky top-16'
-                    }
-                  >
-                    <VsCodeWorkspace
-                      tree={tree}
-                      filesCount={fileCount}
-                      openTabs={openTabs}
-                      activeFilePath={selectedFilePath}
-                      activeFileContent={selectedFileContent}
-                      theme={theme}
-                      isMaximized={isWorkspaceMaximized}
-                      onSelectFile={handleSelectFile}
-                      onCloseTab={handleCloseTab}
-                      onRefresh={() => recompileVfs(config)}
-                      onAddCustomFile={handleAddCustomFile}
-                      onToggleMaximize={() => setIsWorkspaceMaximized(!isWorkspaceMaximized)}
-                      onCloseEditor={handleCloseEditor}
-                    />
-                  </div>
-                </div>
-              </div>
-            }
-          />
-
-          {/* VIEW 4: APP SETTINGS PAGE */}
-          <Route
-            path="/settings"
-            element={
-              <AppSettingsPage
-                currentTheme={theme}
-                onThemeChange={setTheme}
-                onBrowseFolder={(callback) => {
-                  setBrowseCallback(() => callback);
-                  setIsPathModalOpen(true);
-                }}
-                onCheckForUpdates={handleManualCheckUpdate}
-                onSimulateUpdate={handleSimulateUpdate}
-                isCheckingUpdate={isCheckingUpdate}
-                appEnv={appEnv}
-                updateDetails={updateDetails}
-              />
-            }
-          />
-
-          {/* Fallback to Home */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
-
-      {/* Fast Scaffold Modal */}
       <FastScaffoldModal
         isOpen={Boolean(fastScaffoldTemplate)}
         template={fastScaffoldTemplate}
         onClose={() => setFastScaffoldTemplate(null)}
-        onScaffold={(runConfig: ProjectConfig) => {
+        onScaffold={(runConfig) => {
           setConfig(runConfig);
           handleExecuteScaffold(runConfig);
           navigate('/scaffold');
         }}
-        onBrowseFolder={(_curPath: string, onSelect: (p: string) => void) => {
-          setBrowseCallback(() => onSelect);
-          setIsPathModalOpen(true);
-        }}
+        onBrowseFolder={(_cur, onSelect) => openBrowse(onSelect)}
       />
 
-      {/* Directory Browser Modal */}
       <PathSelectorModal
         isOpen={isPathModalOpen}
         currentPath={config.targetPath}
         projectName={browseCallback ? '' : config.name}
-        onSelectPath={(selected: string) => {
-          if (browseCallback) {
-            browseCallback(selected);
-          } else {
-            setConfig((prev) => ({
-              ...prev,
-              targetPath: selected.endsWith(prev.name) ? selected : `${selected}/${prev.name}`,
-            }));
-          }
+        onSelectPath={(selected) => {
+          if (browseCallback) browseCallback(selected);
+          else setConfig((prev) => ({ ...prev, targetPath: selected.endsWith(prev.name) ? selected : `${selected}/${prev.name}` }));
           setIsPathModalOpen(false);
           setBrowseCallback(null);
         }}
@@ -745,14 +500,8 @@ function ForgeStackAppContent() {
         }}
       />
 
-      {/* Software Update Notification & Installation Modal */}
-      <UpdateModal
-        isOpen={isUpdateModalOpen}
-        onClose={() => setIsUpdateModalOpen(false)}
-        updateDetails={updateDetails}
-        isChecking={isCheckingUpdate}
-      />
-    </div>
+      <UpdateModal isOpen={isUpdateModalOpen} onClose={() => setIsUpdateModalOpen(false)} updateDetails={updateDetails} isChecking={isCheckingUpdate} />
+    </AppShell>
   );
 }
 

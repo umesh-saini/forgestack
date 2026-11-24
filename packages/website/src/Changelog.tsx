@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { ChevronDown } from 'lucide-react';
 import changelogSource from '../../../CHANGELOG.md?raw';
 
 interface Release {
@@ -29,7 +32,7 @@ function Inline({ text }: { text: string }) {
     <>
       {text.split(/(`[^`]+`)/).map((part, i) =>
         part.startsWith('`') && part.endsWith('`') ? (
-          <code key={i} className="rounded bg-sunken px-1 py-0.5 text-[0.85em] text-fg">
+          <code key={i} className="rounded-1 bg-sunken px-1 py-0.5 text-[0.88em] text-fg">
             {part.slice(1, -1)}
           </code>
         ) : (
@@ -42,30 +45,54 @@ function Inline({ text }: { text: string }) {
 
 export function Changelog() {
   const releases = parseChangelog(changelogSource);
+  const [open, setOpen] = useState<string | null>(releases[0]?.version ?? null);
   return (
-    <ol className="space-y-8">
-      {releases.map((r) => (
-        <li key={r.version} className="rounded-2xl border border-line bg-raised p-6">
-          <div className="mb-4 flex flex-wrap items-baseline gap-3">
-            <h3 className="text-xl font-semibold">{r.version === 'Unreleased' ? 'Unreleased' : `v${r.version}`}</h3>
-            {r.date && <time className="text-sm text-muted">{r.date}</time>}
-          </div>
-          <div className="grid gap-5 md:grid-cols-2">
-            {r.groups.map((g) => (
-              <div key={g.heading}>
-                <h4 className="mb-2 text-sm font-semibold uppercase tracking-wide text-accent">{g.heading}</h4>
-                <ul className="list-disc space-y-1.5 pl-5 text-sm text-muted">
-                  {g.items.map((item, i) => (
-                    <li key={i}>
-                      <Inline text={item} />
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </li>
-      ))}
+    <ol className="border-t border-line">
+      {releases.map((r) => {
+        const isOpen = open === r.version;
+        const count = r.groups.reduce((n, g) => n + g.items.length, 0);
+        return (
+          <li key={r.version} className="border-b border-line">
+            <button
+              type="button"
+              aria-expanded={isOpen}
+              onClick={() => setOpen(isOpen ? null : r.version)}
+              className="flex h-14 w-full items-center gap-4 text-left"
+            >
+              <span className="w-28 font-mono text-[15px]">{r.version === 'Unreleased' ? 'Unreleased' : `v${r.version}`}</span>
+              {r.date && <time className="font-mono text-[13px] text-faint">{r.date}</time>}
+              <span className="ml-auto text-[13px] text-muted">{count} changes</span>
+              <ChevronDown size={16} className={`text-faint transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+            </button>
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.25, ease: [0.2, 0.8, 0.2, 1] }}
+                  className="overflow-hidden"
+                >
+                  <div className="grid gap-6 pb-6 md:grid-cols-2">
+                    {r.groups.map((g) => (
+                      <div key={g.heading}>
+                        <h4 className="mb-2 text-[14px] font-medium">{g.heading}</h4>
+                        <ul className="space-y-1.5 text-[14px] text-muted">
+                          {g.items.map((item, i) => (
+                            <li key={i} className="relative pl-4 before:absolute before:left-0 before:top-[0.7em] before:h-1 before:w-1 before:bg-line-2">
+                              <Inline text={item} />
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </li>
+        );
+      })}
     </ol>
   );
 }

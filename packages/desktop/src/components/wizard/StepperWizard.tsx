@@ -1,183 +1,186 @@
-import React, { useState } from 'react';
-import {
-  ArrowLeft,
-  ArrowRight,
-  Check,
-  CheckCircle2,
-  FolderOpen,
-  Layers,
-  Rocket,
-  Shield,
-  Sparkles,
-  Wrench,
-} from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
 import type { ProjectConfig } from '@forgestack/core/browser';
 import { Step1IdentityArchetype } from './Step1IdentityArchetype.js';
 import { Step2StackEcosystem } from './Step2StackEcosystem.js';
 import { Step3ToolingGovernance } from './Step3ToolingGovernance.js';
 import { Step4ReviewScaffold } from './Step4ReviewScaffold.js';
+import { Button, Kbd, cx } from '../ui/primitives.js';
+import { isTauri } from '../../services/updaterService.js';
+import type { Phase } from '../studio/run-types.js';
+
+type Stage = 1 | 2 | 3 | 4;
 
 interface Props {
   config: ProjectConfig;
   fileCount: number;
+  phases: Phase[];
   isGenerating: boolean;
   isComplete: boolean;
-  logs: string[];
+  /** null when valid, otherwise the reason scaffolding is blocked */
+  blockedReason: string | null;
   onChange: (updater: (prev: ProjectConfig) => ProjectConfig) => void;
   onBrowseFolder: () => void;
   onScaffold: () => void;
+  onResetRun: () => void;
   onSaveAsTemplate: (name: string, description: string) => void;
   onOpenFolder: () => void;
   onOpenVsCode: () => void;
-  onOpenAntigravity?: () => void;
-  onBackToHome: () => void;
 }
+
+const STAGES: { n: Stage; title: string }[] = [
+  { n: 1, title: 'Identity' },
+  { n: 2, title: 'Stack' },
+  { n: 3, title: 'Tooling' },
+  { n: 4, title: 'Review' },
+];
+
+const isMac = typeof navigator !== 'undefined' && /Mac/i.test(navigator.platform);
 
 export const StepperWizard: React.FC<Props> = ({
   config,
   fileCount,
+  phases,
   isGenerating,
   isComplete,
-  logs,
+  blockedReason,
   onChange,
   onBrowseFolder,
   onScaffold,
+  onResetRun,
   onSaveAsTemplate,
   onOpenFolder,
   onOpenVsCode,
-  onOpenAntigravity,
-  onBackToHome,
 }) => {
-  const [currentStep, setCurrentStep] = useState<1 | 2 | 3 | 4>(1);
+  const [stage, setStage] = useState<Stage>(1);
+  const [dir, setDir] = useState(1);
+  const [visited, setVisited] = useState<Set<Stage>>(new Set([1]));
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const scrollPos = useRef<Record<number, number>>({});
 
-  const steps = [
-    { number: 1, title: 'Identity & Archetype', desc: 'Project name, path, & runtime' },
-    { number: 2, title: 'Stack Ecosystem', desc: 'Framework, state, & database' },
-    { number: 3, title: 'Tooling & Governance', desc: 'DevOps, utilities, & AI specs' },
-    { number: 4, title: 'Review & Synthesize', desc: 'Save preset & scaffold' },
-  ];
+  const go = (next: Stage) => {
+    if (scrollRef.current) scrollPos.current[stage] = scrollRef.current.scrollTop;
+    setDir(next > stage ? 1 : -1);
+    setStage(next);
+    setVisited((v) => new Set(v).add(next));
+  };
+
+  // Mod+Enter advances; on Review it scaffolds.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!(e.metaKey || e.ctrlKey) || e.key !== 'Enter') return;
+      e.preventDefault();
+      if (stage < 4) go((stage + 1) as Stage);
+      else if (!blockedReason && !isGenerating) onScaffold();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  });
+
+  const running = isGenerating || isComplete;
 
   return (
-    <div className="space-y-6">
-      {/* Top Stepper Navigation Header */}
-      <div className="ui-panel rounded-2xl p-4 border space-y-4 shadow-sm">
-        <div className="flex items-center justify-between flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={onBackToHome}
-            className="text-xs text-slate-400 hover:text-white flex items-center gap-1.5 transition-colors cursor-pointer font-medium"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>Back to Templates</span>
-          </button>
-
-          <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-orange-500/10 text-orange-400 border border-orange-500/20 font-semibold">
-            Step {currentStep} of 4: {steps[currentStep - 1].title}
-          </span>
-        </div>
-
-        {/* 4-Step Progress Indicator */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-          {steps.map((s) => {
-            const isCompleted = s.number < currentStep;
-            const isCurrent = s.number === currentStep;
-
-            return (
-              <button
-                key={s.number}
-                type="button"
-                onClick={() => setCurrentStep(s.number as any)}
-                className={`p-3 rounded-xl border text-left transition-all cursor-pointer flex items-center gap-2.5 ${
-                  isCurrent
-                    ? 'ui-active-ring shadow-sm'
-                    : isCompleted
-                    ? 'ui-card-subtle text-emerald-400 border-emerald-500/30'
-                    : 'ui-panel opacity-60 hover:opacity-100'
-                }`}
+    <div className="h-full flex flex-col">
+      {/* Stage tabs */}
+      <div role="tablist" aria-label="Configuration stages" className="h-10 shrink-0 flex border-b border-line px-2">
+        {STAGES.map((s) => {
+          const active = s.n === stage;
+          const done = visited.has(s.n) && s.n < stage;
+          return (
+            <button
+              key={s.n}
+              role="tab"
+              type="button"
+              aria-selected={active}
+              onClick={() => go(s.n)}
+              className={cx(
+                'relative h-full px-3 flex items-center gap-2 text-[13.5px] transition-colors',
+                active ? 'text-fg font-medium' : 'text-muted hover:text-fg',
+              )}
+            >
+              <span
+                className={cx(
+                  'w-4 h-4 rounded-1 flex items-center justify-center t-mono !text-[11px] !leading-none border',
+                  active ? 'border-fg' : done ? 'bg-fg border-fg text-main' : 'border-line-2 text-faint',
+                )}
               >
-                <div
-                  className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold shrink-0 ${
-                    isCurrent
-                      ? 'bg-orange-600 text-white shadow-md shadow-orange-600/30'
-                      : isCompleted
-                      ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30'
-                      : 'ui-card border'
-                  }`}
-                >
-                  {isCompleted ? <Check className="w-3.5 h-3.5" /> : s.number}
-                </div>
-                <div className="min-w-0">
-                  <div className="font-bold text-xs truncate">{s.title}</div>
-                  <div className="text-[10px] opacity-60 truncate">{s.desc}</div>
-                </div>
-              </button>
-            );
-          })}
+                {done ? <Check className="w-2.5 h-2.5" strokeWidth={3.5} /> : s.n}
+              </span>
+              {s.title}
+              {active && (
+                <motion.span
+                  layoutId="stage-underline"
+                  className="absolute left-2 right-2 -bottom-px h-0.5 bg-accent"
+                  transition={{ type: 'spring', stiffness: 600, damping: 45 }}
+                />
+              )}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Stage body */}
+      <div ref={scrollRef} className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden">
+        <AnimatePresence mode="wait" custom={dir} initial={false}>
+          <motion.div
+            key={stage}
+            custom={dir}
+            initial={{ opacity: 0, x: 12 * dir }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -8 * dir }}
+            transition={{ duration: 0.16, ease: [0.2, 0.8, 0.2, 1] }}
+            onAnimationStart={() => {
+              if (scrollRef.current) scrollRef.current.scrollTop = scrollPos.current[stage] ?? 0;
+            }}
+            className="px-5 pt-4 pb-6"
+          >
+            {stage === 1 && <Step1IdentityArchetype config={config} onChange={onChange} onBrowseFolder={onBrowseFolder} />}
+            {stage === 2 && <Step2StackEcosystem config={config} onChange={onChange} />}
+            {stage === 3 && <Step3ToolingGovernance config={config} onChange={onChange} />}
+            {stage === 4 && (
+              <Step4ReviewScaffold
+                config={config}
+                fileCount={fileCount}
+                phases={phases}
+                isGenerating={isGenerating}
+                isComplete={isComplete}
+                onEditStage={go}
+                onSaveAsTemplate={onSaveAsTemplate}
+                onOpenFolder={onOpenFolder}
+                onOpenVsCode={onOpenVsCode}
+              />
+            )}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Action bar */}
+      <div className="h-12 shrink-0 flex items-center gap-2 px-4 border-t border-line bg-surface">
+        {stage > 1 && !running && (
+          <Button variant="ghost" onClick={() => go((stage - 1) as Stage)}>
+            <ArrowLeft className="w-4 h-4" />
+            Back
+          </Button>
+        )}
+        <div className="flex-1 min-w-0 px-1">
+          {blockedReason && stage === 4 && <span className="block truncate text-[12.5px] text-danger">{blockedReason}</span>}
         </div>
-      </div>
-
-      {/* Step Content */}
-      <div className="min-h-[460px]">
-        {currentStep === 1 && (
-          <Step1IdentityArchetype
-            config={config}
-            onChange={onChange}
-            onBrowseFolder={onBrowseFolder}
-          />
-        )}
-        {currentStep === 2 && (
-          <Step2StackEcosystem config={config} onChange={onChange} />
-        )}
-        {currentStep === 3 && (
-          <Step3ToolingGovernance config={config} onChange={onChange} />
-        )}
-        {currentStep === 4 && (
-          <Step4ReviewScaffold
-            config={config}
-            fileCount={fileCount}
-            isGenerating={isGenerating}
-            isComplete={isComplete}
-            logs={logs}
-            onScaffold={onScaffold}
-            onSaveAsTemplate={onSaveAsTemplate}
-            onOpenFolder={onOpenFolder}
-            onOpenVsCode={onOpenVsCode}
-            onOpenAntigravity={onOpenAntigravity}
-          />
-        )}
-      </div>
-
-      {/* Stepper Footer Controls */}
-      <div className="flex items-center justify-between border-t pt-4">
-        <button
-          type="button"
-          onClick={() => setCurrentStep((prev) => Math.max(1, prev - 1) as any)}
-          disabled={currentStep === 1}
-          className="px-4 py-2 rounded-xl ui-card-subtle border text-xs font-medium flex items-center gap-1.5 transition-opacity disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
-        >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Previous Step</span>
-        </button>
-
-        {currentStep < 4 ? (
-          <button
-            type="button"
-            onClick={() => setCurrentStep((prev) => Math.min(4, prev + 1) as any)}
-            className="px-5 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md shadow-orange-600/25 active:scale-95"
-          >
-            <span>Next: {steps[currentStep].title}</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </button>
+        {stage < 4 ? (
+          <Button variant="secondary" onClick={() => go((stage + 1) as Stage)}>
+            {STAGES[stage].title}
+            <ArrowRight className="w-4 h-4" />
+            <Kbd>{isMac ? '⌘↵' : 'Ctrl ↵'}</Kbd>
+          </Button>
+        ) : isComplete ? (
+          <Button variant="secondary" onClick={onResetRun}>
+            Back to configuration
+          </Button>
         ) : (
-          <button
-            type="button"
-            onClick={onScaffold}
-            disabled={isGenerating}
-            className="px-5 py-2 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md shadow-orange-600/30"
-          >
-            <Rocket className="w-3.5 h-3.5" />
-            <span>Scaffold Project ({fileCount} files)</span>
-          </button>
+          <Button variant="primary" onClick={onScaffold} disabled={Boolean(blockedReason) || isGenerating}>
+            {isGenerating ? 'Scaffolding…' : isTauri() ? 'Scaffold project' : 'Download project ZIP'}
+            {!isGenerating && <span className="t-mono opacity-70 tabular">{fileCount}</span>}
+          </Button>
         )}
       </div>
     </div>

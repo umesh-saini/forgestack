@@ -1,25 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Check, Copy } from 'lucide-react';
 import {
-  Sparkles,
-  Download,
-  CheckCircle2,
-  AlertCircle,
-  ExternalLink,
-  Copy,
-  Check,
-  RotateCw,
-  X,
-  Terminal,
-  ShieldCheck,
-  Cpu,
-} from 'lucide-react';
-import {
-  UpdateDetails,
-  DownloadProgress,
   downloadAndInstallUpdate,
-  relaunchApp,
   openExternalUrl,
+  relaunchApp,
+  type DownloadProgress,
+  type UpdateDetails,
 } from '../../services/updaterService';
+import { Button, Dialog, WorkingLine } from '../ui/primitives.js';
 
 interface Props {
   isOpen: boolean;
@@ -28,335 +16,160 @@ interface Props {
   isChecking?: boolean;
 }
 
-export const UpdateModal: React.FC<Props> = ({
-  isOpen,
-  onClose,
-  updateDetails,
-  isChecking = false,
-}) => {
+/** Renders the small markdown subset used in release notes: headings and bullet lines. */
+const Notes: React.FC<{ text: string }> = ({ text }) => (
+  <div className="flex flex-col gap-1">
+    {text.split('\n').map((line, i) => {
+      const l = line.trim();
+      if (!l) return null;
+      if (l.startsWith('#')) return <h3 key={i} className="t-label text-fg mt-2 first:mt-0">{l.replace(/^#+\s*/, '')}</h3>;
+      if (/^[-•*]\s/.test(l))
+        return (
+          <p key={i} className="text-[13px] text-muted pl-4 relative before:absolute before:left-1 before:top-[9px] before:w-1 before:h-1 before:bg-line-2">
+            {l.replace(/^[-•*]\s/, '')}
+          </p>
+        );
+      return <p key={i} className="text-[13px] text-muted">{l}</p>;
+    })}
+  </div>
+);
+
+export const UpdateModal: React.FC<Props> = ({ isOpen, onClose, updateDetails: u, isChecking = false }) => {
   const [status, setStatus] = useState<'idle' | 'downloading' | 'downloaded' | 'error'>('idle');
   const [progress, setProgress] = useState<DownloadProgress>({ percent: 0, downloadedMB: 0, totalMB: 0 });
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [copiedCmd, setCopiedCmd] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
-  if (!isOpen) return null;
+  useEffect(() => {
+    if (!isOpen) {
+      setStatus('idle');
+      setError(null);
+    }
+  }, [isOpen]);
 
-  const handleStartInPlaceUpdate = async () => {
+  const debFile = `ForgeStack_${u?.newVersion ?? ''}_amd64.deb`;
+  const installCmd = `sudo dpkg -i ~/Downloads/${debFile}`;
+
+  const install = async () => {
     setStatus('downloading');
-    setErrorMsg(null);
+    setError(null);
     try {
-      await downloadAndInstallUpdate((p) => {
-        setProgress(p);
-      });
+      await downloadAndInstallUpdate(setProgress);
       setStatus('downloaded');
-    } catch (err: any) {
-      console.error('[Updater] Download and install failed:', err);
+    } catch (err) {
       setStatus('error');
-      setErrorMsg(err?.message || 'Failed to download update bundle. Please check your network connection.');
+      setError(err instanceof Error ? err.message : 'The update could not be downloaded. Check your connection and try again.');
     }
   };
 
-  const handleRelaunch = async () => {
-    try {
-      await relaunchApp();
-    } catch (err: any) {
-      console.error('[Updater] Relaunch failed:', err);
-      setErrorMsg('Could not restart application automatically. Please close and re-open ForgeStack.');
+  const footer = (() => {
+    if (isChecking || !u?.available) return <Button onClick={onClose}>Close</Button>;
+    if (u.supportsInPlace) {
+      return (
+        <>
+          <Button variant="ghost" onClick={onClose}>
+            Later
+          </Button>
+          {status === 'downloaded' ? (
+            <Button variant="primary" onClick={() => relaunchApp().catch(() => setError('Restart ForgeStack to finish updating.'))}>
+              Restart now
+            </Button>
+          ) : (
+            <Button variant="primary" onClick={install} disabled={status === 'downloading'}>
+              {status === 'downloading' ? 'Downloading…' : status === 'error' ? 'Try again' : `Install ${u.newVersion}`}
+            </Button>
+          )}
+        </>
+      );
     }
-  };
-
-  const debFilename = `ForgeStack_${updateDetails?.newVersion || '1.1.0'}_amd64.deb`;
-  const terminalInstallCmd = `sudo dpkg -i ~/Downloads/${debFilename}`;
-
-  const handleCopyCommand = () => {
-    navigator.clipboard.writeText(terminalInstallCmd);
-    setCopiedCmd(true);
-    setTimeout(() => setCopiedCmd(false), 2000);
-  };
+    return (
+      <>
+        <Button variant="ghost" onClick={() => openExternalUrl(u.downloadUrl ?? 'https://github.com/umesh-saini/forgestack/releases')}>
+          Read release notes
+        </Button>
+        {u.debDownloadUrl && (
+          <Button variant="primary" onClick={() => openExternalUrl(u.debDownloadUrl!)}>
+            Download {debFile}
+          </Button>
+        )}
+      </>
+    );
+  })();
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-150">
-      <div className="w-full max-w-xl ui-panel rounded-2xl shadow-2xl border flex flex-col overflow-hidden max-h-[90vh]">
-        {/* Modal Header */}
-        <div className="px-5 py-4 border-b ui-card-subtle flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-500 shrink-0">
-              <Sparkles className="w-4 h-4" />
-            </div>
-            <div>
-              <h3 className="font-bold text-sm tracking-tight text-[var(--text-main)] flex items-center gap-2">
-                <span>ForgeStack Software Update</span>
-                {updateDetails?.available && (
-                  <span className="text-[10px] font-mono px-2 py-0.2 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/40 uppercase font-bold">
-                    v{updateDetails.newVersion}
-                  </span>
-                )}
-              </h3>
-              <p className="text-[11px] text-[var(--text-muted)]">
-                Desktop Scaffolding Studio Version Manager
-              </p>
-            </div>
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      title={isChecking ? 'Checking for updates' : u?.available ? `ForgeStack ${u.newVersion}` : 'Updates'}
+      width={560}
+      footer={footer}
+    >
+      <div className="p-4 max-h-[520px]">
+        {isChecking ? (
+          <div className="py-6">
+            <WorkingLine active />
+            <p className="mt-3 text-[13px] text-muted">Reading the latest release from GitHub.</p>
           </div>
+        ) : !u?.available ? (
+          <p className="py-4 text-[13.5px]">
+            You have the latest version{u?.currentVersion ? `, ${u.currentVersion}` : ''}.
+          </p>
+        ) : (
+          <>
+            <dl className="mb-4 border-b border-line">
+              {(
+                [
+                  ['Installed', u.currentVersion],
+                  ['Available', u.newVersion],
+                  ...(u.releaseDate ? [['Released', new Date(u.releaseDate).toLocaleDateString()]] : []),
+                ] as [string, string][]
+              ).map(([k, v]) => (
+                <div key={k} className="h-9 flex items-center justify-between border-t border-line">
+                  <dt className="text-[13px] text-muted">{k}</dt>
+                  <dd className="t-mono">{v}</dd>
+                </div>
+              ))}
+            </dl>
 
-          <button
-            type="button"
-            onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-[var(--text-main)] hover:bg-slate-500/15 transition-colors cursor-pointer"
-            title="Close dialog"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
+            {u.releaseNotes && <Notes text={u.releaseNotes} />}
 
-        {/* Modal Body */}
-        <div className="p-6 space-y-5 overflow-y-auto">
-          {/* 1. Checking State */}
-          {isChecking && (
-            <div className="py-10 flex flex-col items-center justify-center gap-3 text-center">
-              <RotateCw className="w-8 h-8 text-orange-500 animate-spin" />
-              <h4 className="text-sm font-semibold text-[var(--text-main)]">
-                Querying ForgeStack Release Manifest...
-              </h4>
-              <p className="text-xs text-[var(--text-muted)] max-w-xs">
-                Checking cryptographic signatures and remote release channels.
-              </p>
-            </div>
-          )}
-
-          {/* 2. Up to Date State */}
-          {!isChecking && updateDetails && !updateDetails.available && (
-            <div className="py-8 flex flex-col items-center justify-center gap-3 text-center">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                <ShieldCheck className="w-6 h-6" />
-              </div>
-              <div>
-                <h4 className="text-sm font-bold text-[var(--text-main)]">
-                  ForgeStack Studio is Up to Date
-                </h4>
-                <p className="text-xs text-[var(--text-muted)] mt-1 font-mono">
-                  Current build: v{updateDetails.currentVersion} • Platform: {updateDetails.platform}
+            {status === 'downloading' && (
+              <div className="mt-4">
+                <div className="h-1 bg-raised overflow-hidden">
+                  <div className="h-full bg-accent transition-[width] duration-200" style={{ width: `${progress.percent}%` }} />
+                </div>
+                <p className="mt-2 t-mono text-muted tabular">
+                  {progress.downloadedMB.toFixed(1)} of {progress.totalMB.toFixed(1)} MB
                 </p>
               </div>
-              <p className="text-xs text-[var(--text-muted)] max-w-sm mt-2">
-                You are currently running the latest certified production release with full slice support.
-              </p>
-            </div>
-          )}
+            )}
+            {status === 'downloaded' && <p className="mt-4 text-[13px] text-ok">Installed. Restart ForgeStack to use {u.newVersion}.</p>}
+            {error && <p className="mt-4 text-[13px] text-danger">{error}</p>}
 
-          {/* 3. Update Available State */}
-          {!isChecking && updateDetails && updateDetails.available && (
-            <div className="space-y-4">
-              {/* Version Comparison Card */}
-              <div className="p-4 rounded-xl ui-card-subtle border flex items-center justify-between gap-4">
-                <div className="space-y-0.5">
-                  <span className="text-[10px] uppercase font-bold text-[var(--text-muted)] tracking-wider">
-                    Current Version
-                  </span>
-                  <div className="font-mono text-xs font-bold text-slate-400">
-                    v{updateDetails.currentVersion}
-                  </div>
-                </div>
-
-                <div className="h-6 w-px bg-slate-700/50" />
-
-                <div className="space-y-0.5 text-right">
-                  <span className="text-[10px] uppercase font-bold text-orange-400 tracking-wider">
-                    Available Update
-                  </span>
-                  <div className="font-mono text-sm font-extrabold text-orange-500 flex items-center justify-end gap-1.5">
-                    <span>v{updateDetails.newVersion}</span>
-                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-orange-500/15 text-orange-400 border border-orange-500/30 uppercase font-sans">
-                      Latest
-                    </span>
-                  </div>
+            {!u.supportsInPlace && u.isDebOrSystem && (
+              <div className="mt-5">
+                <p className="text-[13px] text-muted mb-2">This install is managed by your system. After downloading, run:</p>
+                <div className="flex items-stretch rounded-2 border border-line bg-sunken">
+                  <code className="flex-1 px-3 py-2 t-mono truncate select-all">{installCmd}</code>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigator.clipboard.writeText(installCmd).then(() => {
+                        setCopied(true);
+                        setTimeout(() => setCopied(false), 1500);
+                      });
+                    }}
+                    className="px-3 border-l border-line text-muted hover:text-fg flex items-center gap-1.5 text-[12.5px]"
+                  >
+                    {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
+                    {copied ? 'Copied' : 'Copy'}
+                  </button>
                 </div>
               </div>
-
-              {/* Release Notes Preview */}
-              {updateDetails.releaseNotes && (
-                <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-muted)] block">
-                    What's New in v{updateDetails.newVersion}
-                  </label>
-                  <div className="p-3.5 rounded-xl ui-input border font-mono text-xs max-h-40 overflow-y-auto leading-relaxed text-[var(--text-main)] whitespace-pre-line select-text">
-                    {updateDetails.releaseNotes}
-                  </div>
-                </div>
-              )}
-
-              {/* ========================================================= */}
-              {/* SCENARIO A: In-Place Auto-Update Supported (AppImage / Windows / Mac) */}
-              {/* ========================================================= */}
-              {updateDetails.supportsInPlace && (
-                <div className="space-y-3 pt-2">
-                  {status === 'idle' && (
-                    <div className="p-3.5 rounded-xl bg-orange-500/10 border border-orange-500/20 text-xs text-[var(--text-main)] flex items-start gap-2.5">
-                      <Cpu className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
-                      <div>
-                        <strong className="font-bold text-orange-500 block">
-                          Self-Mutating In-Place Update Supported
-                        </strong>
-                        <span className="text-[11px] text-[var(--text-muted)]">
-                          ForgeStack will download the signed delta package and hot-swap the binary automatically.
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {status === 'downloading' && (
-                    <div className="space-y-2 p-4 rounded-xl ui-card-subtle border">
-                      <div className="flex items-center justify-between text-xs font-mono">
-                        <span className="text-orange-500 font-bold flex items-center gap-1.5">
-                          <RotateCw className="w-3.5 h-3.5 animate-spin" />
-                          Downloading v{updateDetails.newVersion}...
-                        </span>
-                        <span className="font-bold">{progress.percent}%</span>
-                      </div>
-                      <div className="w-full h-2 rounded-full bg-slate-800 overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-orange-600 to-amber-500 transition-all duration-200"
-                          style={{ width: `${progress.percent}%` }}
-                        />
-                      </div>
-                      {progress.totalMB > 0 && (
-                        <div className="text-[10px] font-mono text-[var(--text-muted)] text-right">
-                          {progress.downloadedMB} MB / {progress.totalMB} MB
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {status === 'downloaded' && (
-                    <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-xs text-emerald-400 flex items-start gap-2.5">
-                      <CheckCircle2 className="w-5 h-5 shrink-0" />
-                      <div>
-                        <strong className="font-bold text-sm block">Update Ready to Apply!</strong>
-                        <p className="text-[11px] text-emerald-400/80 mt-0.5">
-                          The new binary has been verified and staged. Click below to restart ForgeStack Studio.
-                        </p>
-                      </div>
-                    </div>
-                  )}
-
-                  {status === 'error' && (
-                    <div className="p-3.5 rounded-xl bg-rose-500/10 border border-rose-500/30 text-xs text-rose-400 flex items-start gap-2.5">
-                      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-                      <div>
-                        <strong className="font-bold block">Update Failed</strong>
-                        <span className="text-[11px] opacity-90">{errorMsg}</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {/* ========================================================= */}
-              {/* SCENARIO B: System Package Detected (.deb / .rpm) */}
-              {/* ========================================================= */}
-              {!updateDetails.supportsInPlace && updateDetails.isDebOrSystem && (
-                <div className="space-y-3 pt-2">
-                  <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs space-y-2">
-                    <div className="flex items-center gap-2 text-amber-500 font-bold">
-                      <Terminal className="w-4 h-4" />
-                      <span>System Package Installation Detected (.deb)</span>
-                    </div>
-                    <p className="text-[11px] text-[var(--text-muted)] leading-relaxed">
-                      ForgeStack is installed as a Debian root package in <code className="text-amber-400 font-mono">/usr/bin/forgestack-desktop</code>.
-                      For security and permission boundaries, standard user processes cannot self-overwrite system binaries. Please install the updated package directly:
-                    </p>
-
-                    {/* Copyable Terminal Snippet */}
-                    <div className="p-2.5 rounded-lg ui-input border font-mono text-xs flex items-center justify-between gap-2">
-                      <code className="text-amber-400 truncate select-all">{terminalInstallCmd}</code>
-                      <button
-                        type="button"
-                        onClick={handleCopyCommand}
-                        className="px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 text-[11px] flex items-center gap-1 shrink-0 transition-colors cursor-pointer"
-                        title="Copy command"
-                      >
-                        {copiedCmd ? (
-                          <>
-                            <Check className="w-3 h-3 text-emerald-400" />
-                            <span>Copied</span>
-                          </>
-                        ) : (
-                          <>
-                            <Copy className="w-3 h-3" />
-                            <span>Copy</span>
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Modal Footer / Actions */}
-        <div className="px-5 py-3.5 border-t ui-card-subtle flex items-center justify-between gap-2 shrink-0">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 rounded-xl ui-card-subtle border text-xs font-semibold hover:ui-panel transition-colors cursor-pointer"
-          >
-            {updateDetails?.available ? 'Remind Me Later' : 'Close'}
-          </button>
-
-          <div className="flex items-center gap-2">
-            {updateDetails?.available && updateDetails.supportsInPlace && (
-              <>
-                {status === 'idle' && (
-                  <button
-                    type="button"
-                    onClick={handleStartInPlaceUpdate}
-                    className="px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md shadow-orange-600/30"
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                    <span>Download & Install</span>
-                  </button>
-                )}
-
-                {status === 'downloaded' && (
-                  <button
-                    type="button"
-                    onClick={handleRelaunch}
-                    className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md shadow-emerald-600/30"
-                  >
-                    <RotateCw className="w-3.5 h-3.5" />
-                    <span>Restart ForgeStack</span>
-                  </button>
-                )}
-              </>
             )}
-
-            {updateDetails?.available && !updateDetails.supportsInPlace && (
-              <>
-                {updateDetails.debDownloadUrl && (
-                  <button
-                    type="button"
-                    onClick={() => openExternalUrl(updateDetails.debDownloadUrl!)}
-                    className="px-4 py-2 rounded-xl bg-orange-600 hover:bg-orange-500 text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-md shadow-orange-600/30"
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                    <span>Download .deb Package</span>
-                  </button>
-                )}
-
-                <button
-                  type="button"
-                  onClick={() => openExternalUrl(updateDetails.downloadUrl || 'https://github.com/forgestack/forgestack/releases')}
-                  className="px-3.5 py-2 rounded-xl ui-card-subtle border text-xs font-semibold hover:ui-panel flex items-center gap-1.5 transition-colors cursor-pointer"
-                >
-                  <ExternalLink className="w-3.5 h-3.5" />
-                  <span>GitHub Release</span>
-                </button>
-              </>
-            )}
-          </div>
-        </div>
+          </>
+        )}
       </div>
-    </div>
+    </Dialog>
   );
 };

@@ -1,272 +1,278 @@
 @import "tailwindcss";
 
+/*
+ * ForgeStack Studio — "graphite & sulphur"
+ * Graphite neutrals carry structure (tone steps + 1px hairlines).
+ * Sulphur is a flat selection plane: selection, focus, the primary action. Never a glow or gradient.
+ */
+
+@custom-variant dark (&:where(.theme-dark, .theme-dark *));
+
 @layer base {
   :root,
   .theme-dark {
-    --bg-main: #09090b;
-    --bg-surface: #121215;
-    --bg-card: #18181b;
-    --bg-card-subtle: #202024;
-    --bg-input: #141417;
-    --border-color: #27272a;
-    --border-hover: #3f3f46;
-    --text-main: #f4f4f5;
-    --text-muted: #a1a1aa;
-    --accent: #fb5c0b;
-    --accent-hover: #ea580c;
-    --accent-bg: rgba(251, 92, 11, 0.14);
-    --accent-border: rgba(251, 92, 11, 0.45);
-    --badge-bg: #27272a;
-  }
+    --main: #121311;
+    --sunken: #0c0d0b;
+    --surface: #181a16;
+    --raised: #1f211c;
+    --hairline: #2a2c26;
+    --hairline-2: #3a3d34;
+    --text-main: #ecede6;
+    --text-muted: #9a9e90;
+    --text-faint: #868a7d;
 
-  .theme-midnight {
-    --bg-main: #050816;
-    --bg-surface: #0a1128;
-    --bg-card: #101c42;
-    --bg-card-subtle: #172554;
-    --bg-input: #070d20;
-    --border-color: #1e293b;
-    --border-hover: #334155;
-    --text-main: #f8fafc;
-    --text-muted: #94a3b8;
-    --accent: #38bdf8;
-    --accent-bg: rgba(56, 189, 248, 0.15);
-    --accent-border: rgba(56, 189, 248, 0.4);
-    --badge-bg: #1e293b;
-  }
+    --accent: #dfe34a;
+    --accent-hover: #ebee6b;
+    --accent-press: #c9cd31;
+    --on-accent: #14150f;
+    --accent-ink: #dfe34a;
+    --accent-wash: rgb(223 227 74 / 0.08);
 
-  .theme-matrix {
-    --bg-main: #020d04;
-    --bg-surface: #051908;
-    --bg-card: #0b2910;
-    --bg-card-subtle: #123819;
-    --bg-input: #031206;
-    --border-color: #14431d;
-    --border-hover: #1f642c;
-    --text-main: #e8f5e9;
-    --text-muted: #81c784;
-    --accent: #00e676;
-    --accent-bg: rgba(0, 230, 118, 0.15);
-    --accent-border: rgba(0, 230, 118, 0.4);
-    --badge-bg: #14431d;
+    --ok: #6fbf95;
+    --warn: #dfe34a;
+    --danger: #e4735c;
+    --info: #7ba7c9;
+
+    --elev-modal: 0 24px 48px -16px rgb(0 0 0 / 0.55);
+    --scrim: rgb(6 7 5 / 0.72);
+    color-scheme: dark;
   }
 
   .theme-light {
-    --bg-main: #f8fafc;
-    --bg-surface: #ffffff;
-    --bg-card: #ffffff;
-    --bg-card-subtle: #f1f5f9;
-    --bg-input: #ffffff;
-    --border-color: #cbd5e1;
-    --border-hover: #94a3b8;
-    --text-main: #0f172a;
-    --text-muted: #334155;
-    --accent: #ea580c;
-    --accent-hover: #c2410c;
-    --accent-bg: rgba(234, 88, 12, 0.10);
-    --accent-border: rgba(234, 88, 12, 0.40);
-    --badge-bg: #e2e8f0;
+    --main: #f1f1ec;
+    --sunken: #e7e7df;
+    --surface: #fafaf6;
+    --raised: #ffffff;
+    --hairline: #dcdcd2;
+    --hairline-2: #c4c4b7;
+    --text-main: #1a1b14;
+    --text-muted: #5e6154;
+    --text-faint: #686b5d;
+
+    --accent: #dfe34a;
+    --accent-hover: #d2d735;
+    --accent-press: #bfc42a;
+    --on-accent: #14150f;
+    --accent-ink: #6c7218;
+    --accent-wash: rgb(108 114 24 / 0.08);
+
+    --ok: #2f7a55;
+    --warn: #6c7218;
+    --danger: #a63e2a;
+    --info: #2e5c7a;
+
+    --elev-modal: 0 20px 40px -20px rgb(0 0 0 / 0.18);
+    --scrim: rgb(26 27 20 / 0.32);
+    color-scheme: light;
   }
 
   * {
-    border-color: var(--border-color);
+    border-color: var(--hairline);
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
   }
 
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: var(--bg-main);
+    font-family: var(--font-sans);
+    font-size: 13.5px;
+    line-height: 20px;
+    background-color: var(--main);
     color: var(--text-main);
     -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    overflow-x: hidden;
-    transition: background-color 0.2s ease, color 0.2s ease;
+    font-feature-settings: 'ss02';
+    overflow: hidden;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+
+  :focus-visible {
+    outline: 1px solid var(--accent);
+    outline-offset: 1px;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  button:not(:disabled) {
+    cursor: pointer;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--hairline);
+    border: 3px solid transparent;
+    background-clip: padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--hairline-2);
+    border: 3px solid transparent;
+    background-clip: padding-box;
   }
 }
 
-/* Theme-reactive Utility Classes */
-.ui-panel {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
+@theme inline {
+  --font-sans: 'IBM Plex Sans Variable', 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  --color-main: var(--main);
+  --color-sunken: var(--sunken);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-line: var(--hairline);
+  --color-line-2: var(--hairline-2);
+  --color-fg: var(--text-main);
+  --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-press: var(--accent-press);
+  --color-on-accent: var(--on-accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-wash: var(--accent-wash);
+  --color-ok: var(--ok);
+  --color-warn: var(--warn);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-3: 6px;
+
+  --ease-forge: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --shadow-modal: var(--elev-modal);
 }
 
-.ui-card {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
-  transition: all 0.15s ease-in-out;
+/* Type roles */
+@utility t-page {
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+@utility t-section {
+  font-size: 15px;
+  line-height: 22px;
+  font-weight: 500;
+}
+@utility t-label {
+  font-size: 12.5px;
+  line-height: 16px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+@utility t-mono {
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  line-height: 20px;
+}
+@utility tabular {
+  font-variant-numeric: tabular-nums;
 }
 
-.ui-card:hover {
-  border-color: var(--border-hover);
-}
-
-.ui-card-subtle {
-  background-color: var(--bg-card-subtle);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
-}
-
-.ui-input {
-  background-color: var(--bg-input);
-  border: 1px solid var(--border-color);
-  color: var(--text-main);
-}
-
-.ui-input:focus {
-  border-color: var(--accent);
-  outline: none;
-}
-
-.ui-active-ring {
-  border-color: var(--accent) !important;
-  background-color: var(--accent-bg) !important;
-  box-shadow: 0 0 0 1px var(--accent-border), 0 0 12px var(--accent-bg);
-}
-
-/* High-contrast tree overrides for light mode */
-.staging-title {
-  color: var(--text-main) !important;
-}
-
-.theme-light .staging-title {
-  color: #0f172a !important;
-  font-weight: 700 !important;
-}
-
-.tree-row {
-  border-radius: 4px;
-  transition: background-color 0.1s ease, color 0.1s ease;
-}
-
-/* Light Theme Tree Styling */
-.theme-light .tree-dir-text {
-  color: #0f172a !important;
-  font-weight: 600;
-}
-.theme-light .tree-file-text {
-  color: #334155 !important;
-}
-.theme-light .tree-row:hover {
-  background-color: rgba(0, 0, 0, 0.06) !important;
-}
-.theme-light .tree-row.is-selected {
-  background-color: #fff7ed !important;
-  color: #c2410c !important;
-}
-.theme-light .tree-row.is-selected .tree-file-text,
-.theme-light .tree-row.is-selected .tree-dir-text {
-  color: #c2410c !important;
-}
-
-/* Dark Themes Tree Styling */
-.theme-dark .tree-row:hover,
-.theme-midnight .tree-row:hover,
-.theme-matrix .tree-row:hover {
-  background-color: rgba(255, 255, 255, 0.07) !important;
-}
-.theme-dark .tree-row.is-selected {
-  background-color: rgba(251, 92, 11, 0.22) !important;
-  color: #ffffff !important;
-}
-.theme-midnight .tree-row.is-selected {
-  background-color: rgba(56, 189, 248, 0.22) !important;
-  color: #ffffff !important;
-}
-.theme-matrix .tree-row.is-selected {
-  background-color: rgba(0, 230, 118, 0.22) !important;
-  color: #ffffff !important;
-}
-
-/* Custom dark/light scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--border-hover);
-}
-
-/* Background Subtle Dot Pattern */
-.bg-grid-pattern {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-.theme-light .bg-grid-pattern {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px);
-}
-
-/* Shimmer Effect for Cards */
-@keyframes shimmer {
-  0% {
-    background-position: -1000px 0;
+/*
+ * Signature move — the sulphur wipe.
+ * The accent plane wipes in from the row's left edge; ink arrives 60ms later.
+ */
+@layer components {
+  .wipe {
+    position: relative;
+    isolation: isolate;
+    transition: color 90ms var(--ease-forge);
   }
-  100% {
-    background-position: 1000px 0;
+  .wipe::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 120ms linear;
+    border-radius: inherit;
+  }
+  .wipe[data-selected='true'] {
+    color: var(--on-accent);
+    transition: color 60ms linear 60ms;
+  }
+  .wipe[data-selected='true']::before {
+    transform: scaleX(1);
+  }
+
+  .hatched {
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent 0 6px,
+      color-mix(in srgb, var(--hairline) 70%, transparent) 6px 7px
+    );
   }
 }
 
-.shimmer-effect {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.03),
-    transparent
-  );
-  background-size: 1000px 100%;
-  animation: shimmer 3s infinite;
+/* Unlayered so it wins over text-* utilities inside a selected row. */
+.wipe[data-selected='true'] .wipe-sub {
+  color: color-mix(in srgb, var(--on-accent) 66%, transparent) !important;
 }
 
-.theme-light .shimmer-effect {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(0, 0, 0, 0.02),
-    transparent
-  );
-  background-size: 1000px 100%;
-}
-
-/* Gradient Border Animation */
-@keyframes gradient-border {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-.gradient-border {
-  background: linear-gradient(90deg, #fb5c0b, #ea580c, #fb5c0b);
-  background-size: 200% 100%;
-  animation: gradient-border 3s ease infinite;
-}
-
-/* Fade in animations */
-@keyframes fadeInUp {
+@keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(4px);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
+.rise {
+  animation: rise 140ms var(--ease-forge) both;
+}
 
-.animate-fade-in-up {
-  animation: fadeInUp 0.6s ease-out forwards;
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+.caret {
+  animation: caret 1s steps(1) infinite;
+}
+
+@keyframes scan {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(400%);
+  }
+}
+.scan {
+  animation: scan 1.1s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wipe::before,
+  .wipe {
+    transition: none !important;
+  }
+  .rise,
+  .scan {
+    animation: none !important;
+  }
 }

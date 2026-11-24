@@ -1,78 +1,186 @@
 @import 'tailwindcss';
 
-/* Brand tokens: ember on charcoal (matches the desktop studio). Light scheme follows the OS. */
-:root {
-  --bg: #0b0b0d;
-  --bg-raised: #141417;
-  --bg-sunken: #08080a;
-  --border: #26262b;
-  --text: #ececf1;
-  --text-muted: #a1a1aa;
-  --accent: #f97316;
-  --accent-strong: #ea580c;
-  --accent-soft: rgb(249 115 22 / 0.12);
-  --on-accent: #0b0b0d; /* ~7:1 on #f97316 */
-  --ok: #22c55e;
+/* ForgeStack — "graphite & sulphur", shared with the desktop studio.
+ * Dark by default; light follows the OS unless the visitor picks one (data-theme). */
+:root,
+[data-theme='dark'] {
+  --main: #121311;
+  --sunken: #0c0d0b;
+  --surface: #181a16;
+  --raised: #1f211c;
+  --hairline: #2a2c26;
+  --hairline-2: #3a3d34;
+  --text: #ecede6;
+  --text-muted: #9a9e90;
+  --text-faint: #868a7d;
+  --accent: #dfe34a;
+  --accent-hover: #ebee6b;
+  --on-accent: #14150f;
+  --accent-ink: #dfe34a;
+  --ok: #6fbf95;
+  --danger: #e4735c;
   color-scheme: dark;
 }
 
 @media (prefers-color-scheme: light) {
-  :root {
-    --bg: #fafaf9;
-    --bg-raised: #ffffff;
-    --bg-sunken: #f1f1ef;
-    --border: #e4e4e0;
-    --text: #18181b;
-    --text-muted: #52525b;
-    --accent: #c2410c;
-    --accent-strong: #9a3412;
-    --accent-soft: rgb(194 65 12 / 0.08);
-    --on-accent: #ffffff; /* ~5.2:1 on #c2410c */
-    --ok: #15803d;
+  :root:not([data-theme='dark']) {
+    --main: #f1f1ec;
+    --sunken: #e7e7df;
+    --surface: #fafaf6;
+    --raised: #ffffff;
+    --hairline: #dcdcd2;
+    --hairline-2: #c4c4b7;
+    --text: #1a1b14;
+    --text-muted: #5e6154;
+    --text-faint: #686b5d;
+    --accent: #dfe34a;
+    --accent-hover: #d2d735;
+    --on-accent: #14150f;
+    --accent-ink: #6c7218;
+    --ok: #2f7a55;
+    --danger: #a63e2a;
     color-scheme: light;
   }
 }
 
+[data-theme='light'] {
+  --main: #f1f1ec;
+  --sunken: #e7e7df;
+  --surface: #fafaf6;
+  --raised: #ffffff;
+  --hairline: #dcdcd2;
+  --hairline-2: #c4c4b7;
+  --text: #1a1b14;
+  --text-muted: #5e6154;
+  --text-faint: #686b5d;
+  --accent: #dfe34a;
+  --accent-hover: #d2d735;
+  --on-accent: #14150f;
+  --accent-ink: #6c7218;
+  --ok: #2f7a55;
+  --danger: #a63e2a;
+  color-scheme: light;
+}
+
 @theme inline {
-  --color-bg: var(--bg);
-  --color-raised: var(--bg-raised);
-  --color-sunken: var(--bg-sunken);
-  --color-line: var(--border);
+  --font-sans: 'IBM Plex Sans Variable', 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  --color-main: var(--main);
+  --color-sunken: var(--sunken);
+  --color-surface: var(--surface);
+  --color-raised: var(--raised);
+  --color-line: var(--hairline);
+  --color-line-2: var(--hairline-2);
   --color-fg: var(--text);
   --color-muted: var(--text-muted);
+  --color-faint: var(--text-faint);
   --color-accent: var(--accent);
-  --color-accent-strong: var(--accent-strong);
-  --color-accent-soft: var(--accent-soft);
+  --color-accent-hover: var(--accent-hover);
   --color-on-accent: var(--on-accent);
+  --color-accent-ink: var(--accent-ink);
   --color-ok: var(--ok);
+  --color-danger: var(--danger);
+
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-3: 6px;
+  --ease-forge: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: 5rem;
 }
 
 body {
   margin: 0;
-  background: var(--bg);
+  background: var(--main);
   color: var(--text);
-  font-family: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
 }
 
-code,
-pre {
-  font-family: ui-monospace, 'JetBrains Mono', 'Fira Code', Menlo, monospace;
+::selection {
+  background: var(--accent);
+  color: var(--on-accent);
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 1px solid var(--accent);
   outline-offset: 2px;
-  border-radius: 6px;
+}
+
+code,
+pre,
+kbd {
+  font-family: var(--font-mono);
+}
+
+/* Sulphur wipe — the selection plane enters from the left edge. Shared with the studio. */
+.wipe {
+  position: relative;
+  isolation: isolate;
+  transition: color 90ms var(--ease-forge);
+}
+.wipe::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 140ms linear;
+  border-radius: inherit;
+}
+.wipe[data-selected='true'] {
+  color: var(--on-accent);
+  transition: color 60ms linear 60ms;
+}
+.wipe[data-selected='true']::before {
+  transform: scaleX(1);
+}
+.wipe[data-selected='true'] .wipe-sub {
+  color: color-mix(in srgb, var(--on-accent) 66%, transparent) !important;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+.marquee {
+  animation: marquee var(--marquee-duration, 60s) linear infinite;
+}
+.marquee-host:hover .marquee {
+  animation-play-state: paused;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+.caret {
+  animation: caret 1s steps(1) infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  .marquee {
+    animation: none;
+  }
+  .wipe::before,
+  .wipe {
+    transition: none !important;
   }
 }
