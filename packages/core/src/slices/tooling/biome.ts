@@ -21,7 +21,10 @@ export const biomeSlice: FeatureSlice = {
       },
       files: {
         ignoreUnknown: true,
-        includes: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.json'],
+        // Biome 1.x key (`includes` is 2.x syntax and is rejected by the pinned ^1.9.4)
+        include: ['**/*.ts', '**/*.tsx', '**/*.js', '**/*.jsx', '**/*.json'],
+        // Explicit, because the VCS ignore file only applies once the project is a git repo
+        ignore: ['**/dist/**', '**/out/**', '**/.next/**', '**/node_modules/**', '**/migrations/**', '**/src-tauri/**', '**/next-env.d.ts'],
       },
       formatter: {
         enabled: true,
@@ -35,6 +38,16 @@ export const biomeSlice: FeatureSlice = {
           recommended: true,
           correctness: {
             noUnusedVariables: 'warn',
+          },
+          // The generated code uses static service classes (Database, controllers) by design
+          complexity: {
+            noStaticOnlyClass: 'off',
+            noThisInStatic: 'warn',
+            noForEach: 'warn',
+          },
+          style: {
+            noParameterAssign: 'warn',
+            noNonNullAssertion: 'warn',
           },
           suspicious: {
             noExplicitAny: 'off',
@@ -57,16 +70,8 @@ export const biomeSlice: FeatureSlice = {
     });
 
     // 2. Update package.json scripts and devDependencies
-    const candidatePaths = ['package.json'];
-    if (config.topology === 'separate-folders') {
-      candidatePaths.push('frontend/package.json', 'backend/package.json');
-    } else if (
-      config.topology === 'monorepo' ||
-      config.topology === 'ai-agent-rag' ||
-      config.topology === 'micro-frontend'
-    ) {
-      candidatePaths.push('apps/web/package.json', 'apps/api/package.json');
-    }
+    // Every generated package, not a hard-coded list (desktop/worker/micro-frontend apps were missed).
+    const candidatePaths = vfs.getAllFiles().map((f) => f.path).filter((p) => p === 'package.json' || p.endsWith('/package.json'));
 
     for (const pkgPath of candidatePaths) {
       if (vfs.hasFile(pkgPath)) {
@@ -75,7 +80,8 @@ export const biomeSlice: FeatureSlice = {
           path: pkgPath,
           content: {
             scripts: {
-              lint: 'biome check .',
+              // lint only: `biome check` also fails on formatting, which `format` handles
+              lint: 'biome lint .',
               'lint:fix': 'biome check --write .',
               format: 'biome format --write .',
             },

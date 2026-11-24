@@ -2,6 +2,7 @@ import type { FeatureSlice } from '../../engine/compositor.js';
 import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const cleanModularBackendSlice: FeatureSlice = {
   id: 'be-clean-modular',
@@ -11,15 +12,7 @@ export const cleanModularBackendSlice: FeatureSlice = {
       return;
     }
 
-    const basePath =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend' || config.topology === 'ai-agent-rag'
-        ? 'apps/api'
-        : config.topology === 'separate-folders'
-        ? 'backend'
-        : config.topology === 'electron-desktop' || config.topology === 'nextjs-fullstack'
-        ? 'server'
-        : '';
-    const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
+    const resolvePath = layoutFor(config).be;
 
     const isFastify = config.backend.framework === 'fastify';
     const isHono = config.backend.framework === 'hono';
@@ -40,7 +33,7 @@ export const cleanModularBackendSlice: FeatureSlice = {
         build: 'tsc',
         start: 'node dist/server.js',
         lint: 'eslint .',
-        test: 'vitest run',
+        test: 'vitest run --dir src', // unit tests only; Playwright owns tests/e2e
       },
       dependencies: {
         dotenv: DEPENDENCY_REGISTRY.dotenv,
@@ -563,7 +556,7 @@ bootstrap().catch((err) => {
         : `import { app } from './app.js';
 import { env } from './config/env.js';
 import { logger } from './shared/utils/logger.js';
-import type { Server } from 'http';
+import type { Server } from 'node:http';
 
 /* FORGESTACK_DB_IMPORT_SLOT */
 

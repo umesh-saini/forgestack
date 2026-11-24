@@ -3,6 +3,7 @@ import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import { CodePatcher } from '../../utils/code-patcher.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const trpcSlice: FeatureSlice = {
   id: 'rpc-trpc',
@@ -12,25 +13,7 @@ export const trpcSlice: FeatureSlice = {
       return;
     }
 
-    const isMonorepo =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend';
-    const isSeparate = config.topology === 'separate-folders';
-
-    const apiPath = isMonorepo
-      ? 'apps/api'
-      : isSeparate
-      ? 'backend'
-      : config.topology === 'electron-desktop'
-      ? 'server'
-      : '';
-    const resolveApiPath = (p: string) => (apiPath ? `${apiPath}/${p}` : p);
-
-    const webPath = isMonorepo
-      ? 'apps/web'
-      : isSeparate
-      ? 'frontend'
-      : '';
-    const resolveWebPath = (p: string) => (webPath ? `${webPath}/${p}` : p);
+    const { be: resolveApiPath, fe: resolveWebPath, isWorkspace: isMonorepo, backendDir: apiPath } = layoutFor(config);
 
     const hasBackend = config.backend.framework !== 'none';
     const hasFrontend = config.frontend.framework !== 'none';
@@ -115,6 +98,30 @@ export * from './router.js';
       });
     }
 
+    // 1b. Serve the router over HTTP at /api/trpc (it was generated but never mounted)
+    const trpcMount: Record<string, [string[], string]> = {
+      fastify: [
+        ["import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';", "import { appRouter, createContext } from './trpc/index.js';"],
+        "await app.register(fastifyTRPCPlugin, { prefix: '/api/trpc', trpcOptions: { router: appRouter, createContext } });",
+      ],
+      express: [
+        ["import { createExpressMiddleware } from '@trpc/server/adapters/express';", "import { appRouter, createContext } from './trpc/index.js';"],
+        "app.use('/api/trpc', createExpressMiddleware({ router: appRouter, createContext }));",
+      ],
+      hono: [
+        ["import { fetchRequestHandler } from '@trpc/server/adapters/fetch';", "import { appRouter, createContext } from './trpc/index.js';"],
+        "app.all('/api/trpc/*', (c) => fetchRequestHandler({ endpoint: '/api/trpc', req: c.req.raw, router: appRouter, createContext }));",
+      ],
+    };
+    const trpcRoute = hasBackend ? trpcMount[config.backend.framework] : undefined;
+    if (trpcRoute && vfs.hasFile(resolveApiPath('src/app.ts'))) {
+      vfs.applyAction({
+        type: 'PATCH_AST',
+        path: resolveApiPath('src/app.ts'),
+        patcher: (src) => CodePatcher.registerRoute(CodePatcher.addImports(src, trpcRoute[0]), trpcRoute[1]),
+      });
+    }
+
     // 2. Monorepo Shared Client Package (@repo/api-client)
     if (isMonorepo) {
       vfs.applyAction({
@@ -178,6 +185,8 @@ export type { AppRouter };
           dependencies: {
             '@trpc/client': DEPENDENCY_REGISTRY['@trpc/client'],
             '@trpc/react-query': DEPENDENCY_REGISTRY['@trpc/react-query'],
+            // trpc-provider.tsx wraps the app in QueryClientProvider, whatever state library was chosen
+            '@tanstack/react-query': DEPENDENCY_REGISTRY['@tanstack/react-query'],
             ...(isMonorepo ? { '@repo/api-client': 'workspace:*' } : {}),
           },
         },
@@ -193,12 +202,12 @@ export const trpc = createTRPCReact<AppRouter>();`;
       vfs.applyAction({
         type: 'CREATE',
         path: resolveWebPath('src/providers/trpc-provider.tsx'),
-        content: `import React, { useState } from 'react';
+        content: `import { useState, type ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 ${apiClientImport}
 
-export function TRPCProvider({ children }: { children: React.ReactNode }) {
+export function TRPCProvider({ children }: { children: ReactNode }) {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({

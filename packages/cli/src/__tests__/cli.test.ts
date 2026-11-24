@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { createCli } from '../cli.js';
 
@@ -171,15 +174,23 @@ describe('ForgeStack CLI', () => {
   it('should support init-skills with --tools flag', async () => {
     const cli = createCli();
     cli.exitOverride();
+    // Write into a temp dir — without a [dir] arg this would provision into the repo itself.
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'forgestack-init-skills-'));
 
-    await expect(
-      cli.parseAsync([
-        'node',
-        'create-forgestack-app',
-        'init-skills',
-        '--tools',
-        'cursor,claude',
-      ])
-    ).resolves.toBeDefined();
+    try {
+      await expect(
+        cli.parseAsync([
+          'node',
+          'create-forgestack-app',
+          'init-skills',
+          dir,
+          '--tools',
+          'cursor,claude',
+        ])
+      ).resolves.toBeDefined();
+      expect(fs.existsSync(path.join(dir, '.cursor'))).toBe(true);
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
   });
 });

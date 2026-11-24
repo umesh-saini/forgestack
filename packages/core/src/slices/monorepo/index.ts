@@ -3,10 +3,13 @@ import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
 
+const PACKAGE_MANAGER_VERSIONS = { pnpm: 'pnpm@10.33.4', npm: 'npm@10.9.2', yarn: 'yarn@4.6.0', bun: 'bun@1.2.2' } as const;
+
 export const monorepoKernelSlice: FeatureSlice = {
   id: 'kernel-monorepo',
   name: 'Monorepo Kernel (pnpm + Turborepo)',
   apply: (vfs: VirtualFileSystem, config: ProjectConfig) => {
+    const pm = config.packageManager;
     if (config.topology === 'separate-folders') {
       vfs.applyAction({
         type: 'CREATE',
@@ -17,10 +20,13 @@ export const monorepoKernelSlice: FeatureSlice = {
             version: '0.0.1',
             private: true,
             scripts: {
-              'dev:frontend': 'cd frontend && pnpm dev',
-              'dev:backend': 'cd backend && pnpm dev',
-              'build:frontend': 'cd frontend && pnpm build',
-              'build:backend': 'cd backend && pnpm build',
+              // Two independent apps: one install/build at the root sets up both.
+              postinstall: `cd frontend && ${pm} install && cd ../backend && ${pm} install`,
+              build: `cd frontend && ${pm} run build && cd ../backend && ${pm} run build`,
+              'dev:frontend': `cd frontend && ${pm} run dev`,
+              'dev:backend': `cd backend && ${pm} run dev`,
+              'build:frontend': `cd frontend && ${pm} run build`,
+              'build:backend': `cd backend && ${pm} run build`,
             },
           },
           null,
@@ -48,6 +54,11 @@ export const monorepoKernelSlice: FeatureSlice = {
       config.topology !== 'ai-agent-rag'
     ) {
       return;
+    }
+
+    // Yarn 4 defaults to Plug'n'Play, which Vite/Next/tsc tooling here doesn't expect.
+    if (pm === 'yarn') {
+      vfs.applyAction({ type: 'CREATE', path: '.yarnrc.yml', content: 'nodeLinker: node-modules\n' });
     }
 
     // 1. Root pnpm-workspace.yaml
@@ -156,7 +167,9 @@ pnpm-debug.log*
           version: '0.0.1',
           private: true,
           type: 'module',
-          packageManager: 'pnpm@10.33.4',
+          packageManager: PACKAGE_MANAGER_VERSIONS[pm],
+          // pnpm reads pnpm-workspace.yaml; npm, yarn and bun read this field
+          ...(pm === 'pnpm' ? {} : { workspaces: ['apps/*', 'packages/*'] }),
           scripts: {
             build: 'turbo run build',
             dev: 'turbo run dev',

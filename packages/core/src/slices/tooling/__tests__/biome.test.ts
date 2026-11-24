@@ -47,7 +47,7 @@ describe('Biome Tooling Slice', () => {
     expect(biomeConfig.linter.enabled).toBe(true);
 
     const pkgJson = JSON.parse(vfs.getFileContent('package.json')!);
-    expect(pkgJson.scripts.lint).toBe('biome check .');
+    expect(pkgJson.scripts.lint).toBe('biome lint .');
     expect(pkgJson.devDependencies['@biomejs/biome']).toBeDefined();
   });
 

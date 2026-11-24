@@ -23,7 +23,15 @@ import { VsCodeWorkspace } from './components/preview/VsCodeWorkspace.js';
 import { AppSettingsPage, loadAppSettings } from './components/settings/AppSettingsPage.js';
 import { ScaffoldConsoleView } from './components/home/ScaffoldConsoleView.js';
 import { UpdateModal } from './components/updater/UpdateModal.js';
-import { LandingPage } from './components/landing/LandingPage.js';
+// Lazy: the landing page pulls in three.js/R3F/framer-motion, which native desktop users never see.
+const LazyLandingPage = React.lazy(() =>
+  import('./components/landing/LandingPage.js').then((m) => ({ default: m.LandingPage }))
+);
+const LandingPage = () => (
+  <React.Suspense fallback={null}>
+    <LazyLandingPage />
+  </React.Suspense>
+);
 import {
   getAppEnvironment,
   checkForUpdates,

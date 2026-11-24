@@ -32,6 +32,8 @@ describe('Better-Auth Primitive Slice', () => {
     // Dependencies
     const apiPkg = JSON.parse(vfs.getFileContent('apps/api/package.json')!);
     expect(apiPkg.dependencies['better-auth']).toBeDefined();
+    // Final pipeline pass gives every TS workspace package a typecheck script
+    expect(apiPkg.scripts.typecheck).toBe('tsc --noEmit');
 
     const webPkg = JSON.parse(vfs.getFileContent('apps/web/package.json')!);
     expect(webPkg.dependencies['better-auth']).toBeDefined();
@@ -53,6 +55,11 @@ describe('Better-Auth Primitive Slice', () => {
 
     const schemaIndex = vfs.getFileContent('apps/api/src/database/schema/index.ts')!;
     expect(schemaIndex).toContain("export * from './auth.js';");
+    // Better-Auth owns the user table: no duplicate starter users table (exported a clashing `User` type)
+    expect(vfs.hasFile('apps/api/src/database/schema/users.ts')).toBe(false);
+    expect(schemaIndex).not.toContain('users.js');
+    // auth.ts must import modules that actually exist
+    expect(authConfig).not.toContain('database/client');
 
     // Client Helper
     expect(vfs.hasFile('apps/web/src/auth/client.ts')).toBe(true);
@@ -99,8 +106,8 @@ describe('Better-Auth Primitive Slice', () => {
     expect(authConfig).toContain("provider: 'sqlite'");
 
     // Next.js Route Handler
-    expect(vfs.hasFile('src/app/api/auth/[...all]/route.ts')).toBe(true);
-    const routeHandler = vfs.getFileContent('src/app/api/auth/[...all]/route.ts')!;
+    expect(vfs.hasFile('app/api/auth/[...all]/route.ts')).toBe(true);
+    const routeHandler = vfs.getFileContent('app/api/auth/[...all]/route.ts')!;
     expect(routeHandler).toContain("import { toNextJsHandler } from 'better-auth/next-js';");
 
     // SQLite Schema Augmentation

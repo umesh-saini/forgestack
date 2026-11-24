@@ -2,6 +2,7 @@ import type { FeatureSlice } from '../../engine/compositor.js';
 import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const bullmqWorkerSlice: FeatureSlice = {
   id: 'backend-bullmq-worker',
@@ -16,18 +17,7 @@ export const bullmqWorkerSlice: FeatureSlice = {
       return;
     }
 
-    const isMonorepo =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend';
-    const isSeparate = config.topology === 'separate-folders';
-
-    const basePath = isMonorepo
-      ? 'apps/api'
-      : isSeparate
-      ? 'backend'
-      : config.topology === 'electron-desktop'
-      ? 'server'
-      : '';
-    const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
+    const resolvePath = layoutFor(config).be;
 
     // 1. Dependencies and worker scripts in backend package.json
     vfs.applyAction({
@@ -41,6 +31,9 @@ export const bullmqWorkerSlice: FeatureSlice = {
         scripts: {
           worker: 'tsx watch src/worker.ts',
           'worker:build': 'tsup src/worker.ts --format esm --clean',
+        },
+        devDependencies: {
+          tsup: DEPENDENCY_REGISTRY.tsup,
         },
       },
     });

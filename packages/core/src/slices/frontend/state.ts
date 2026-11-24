@@ -3,6 +3,7 @@ import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import { CodePatcher } from '../../utils/code-patcher.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const stateSlice: FeatureSlice = {
   id: 'fe-state',
@@ -19,16 +20,7 @@ export const stateSlice: FeatureSlice = {
       return;
     }
 
-    const isMonorepoTopology =
-      config.topology === 'monorepo' ||
-      config.topology === 'ai-agent-rag';
-
-    const basePath = isMonorepoTopology
-      ? 'apps/web'
-        : config.topology === 'separate-folders'
-        ? 'frontend'
-        : '';
-    const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
+    const resolvePath = layoutFor(config).fe;
 
     // 1. TanStack Query v5
     if (config.frontend.state === 'query') {
@@ -67,11 +59,11 @@ export const apiClient = axios.create({
       vfs.applyAction({
         type: 'CREATE',
         path: resolvePath('src/providers/query-provider.tsx'),
-        content: `import React, { useState } from 'react';
+        content: `import { useState, type FC, type ReactNode } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-export const QueryProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const QueryProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -102,7 +94,7 @@ export const QueryProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         content: `import { useQuery } from '@tanstack/react-query';
 import { apiClient } from '../../../lib/api-client.js';
 ${
-  isMonorepoTopology
+  layoutFor(config).isWorkspace
     ? "import type { UserResponseDto } from '@repo/contracts';"
     : 'export interface UserResponseDto { id: string; email: string; name: string; }'
 }

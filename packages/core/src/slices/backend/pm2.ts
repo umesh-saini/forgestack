@@ -1,6 +1,7 @@
 import type { FeatureSlice } from '../../engine/compositor.js';
 import type { ProjectConfig } from '../../types/config.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const pm2Slice: FeatureSlice = {
   id: 'be-pm2',
@@ -10,13 +11,7 @@ export const pm2Slice: FeatureSlice = {
       return;
     }
 
-    const basePath =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend'
-        ? 'apps/api'
-        : config.topology === 'separate-folders'
-        ? 'backend'
-        : '';
-    const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
+    const resolvePath = layoutFor(config).be;
 
     vfs.applyAction({
       type: 'CREATE',

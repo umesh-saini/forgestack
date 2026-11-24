@@ -79,7 +79,7 @@ services:
         condition: service_healthy
 
   postgres:
-    image: postgres:16-alpine
+    image: ${config.topology === 'ai-agent-rag' ? 'pgvector/pgvector:pg16  # Postgres 16 + pgvector' : 'postgres:16-alpine'}
     restart: always
     environment:
       POSTGRES_USER: postgres
@@ -121,7 +121,7 @@ services:
         condition: service_healthy
 
   mongodb:
-    image: mongo:7-alpine
+    image: mongo:7  # MongoDB publishes no Alpine images
     restart: always
     ports:
       - '27017:27017'

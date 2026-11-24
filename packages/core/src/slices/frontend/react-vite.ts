@@ -2,6 +2,7 @@ import type { FeatureSlice } from '../../engine/compositor.js';
 import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const reactViteSlice: FeatureSlice = {
   id: 'fe-react-vite',
@@ -17,13 +18,7 @@ export const reactViteSlice: FeatureSlice = {
       return;
     }
 
-    const basePath =
-      config.topology === 'monorepo' || config.topology === 'ai-agent-rag'
-        ? 'apps/web'
-        : config.topology === 'separate-folders'
-        ? 'frontend'
-        : '';
-    const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
+    const resolvePath = layoutFor(config).fe;
 
     // 1. package.json
     const packageJsonContent = {
@@ -126,7 +121,7 @@ export const reactViteSlice: FeatureSlice = {
       path: resolvePath('vite.config.ts'),
       content: `import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path';
+import path from 'node:path';
 
 // https://vite.dev/config/
 export default defineConfig({

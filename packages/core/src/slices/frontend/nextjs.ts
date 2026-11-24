@@ -2,6 +2,7 @@ import type { FeatureSlice } from '../../engine/compositor.js';
 import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const nextjsSlice: FeatureSlice = {
   id: 'fe-nextjs',
@@ -12,13 +13,7 @@ export const nextjsSlice: FeatureSlice = {
       return;
     }
 
-    const basePath =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend'
-        ? 'apps/web'
-        : config.topology === 'separate-folders'
-        ? 'frontend'
-        : '';
-    const resolvePath = (p: string) => (basePath ? `${basePath}/${p}` : p);
+    const resolvePath = layoutFor(config).fe;
 
     // 1. package.json
     const packageJson = {
@@ -75,6 +70,11 @@ export const nextjsSlice: FeatureSlice = {
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Let ESM-style imports ('./schema.js') resolve to TypeScript sources.
+  webpack: (config) => {
+    config.resolve.extensionAlias = { '.js': ['.ts', '.tsx', '.js'] };
+    return config;
+  },
 };
 
 export default nextConfig;
@@ -216,7 +216,8 @@ export default function Home() {
             },
           },
           include: ['next-env.d.ts', '**/*.ts', '**/*.tsx', '.next/types/**/*.ts'],
-          exclude: ['node_modules'],
+          // server/ is a standalone package (own package.json) when a backend is added alongside Next.js
+          exclude: ['node_modules', 'server'],
         },
         null,
         2

@@ -27,9 +27,78 @@ import { bullmqWorkerSlice } from '../slices/backend/bullmq-worker.js';
 import { playwrightSlice } from '../slices/testing/playwright.js';
 import { ciWorkflowsSlice } from '../slices/devops/ci-workflows.js';
 import { biomeSlice } from '../slices/tooling/biome.js';
+import { eslintSlice } from '../slices/tooling/eslint.js';
 import { deploymentTargetsSlice } from '../slices/devops/deployment-targets.js';
-import type { ProjectConfig } from '../types/config.js';
+import type { FeatureSlice } from './compositor.js';
+import { CodePatcher } from '../utils/code-patcher.js';
+import { normalizeConfig, type ProjectConfig } from '../types/config.js';
 import type { VirtualFileSystem } from '../vfs/vfs.js';
+
+/**
+ * Final pass: give every workspace package that has a tsconfig and depends on TypeScript a
+ * `typecheck` script, so `turbo run typecheck` covers the whole repo instead of a few packages.
+ */
+/**
+ * pnpm 10 skips dependency build scripts unless allow-listed, which leaves native modules
+ * (better-sqlite3), Prisma engines and esbuild/Tailwind binaries broken after install.
+ * Allow-list them in every pnpm project root (separate-folders has two independent roots).
+ */
+const PNPM_BUILT_DEPENDENCIES = ['better-sqlite3', 'esbuild', 'prisma', '@prisma/client', '@prisma/engines', 'sharp', '@tailwindcss/oxide', 'electron', '@swc/core', 'unrs-resolver'];
+const pnpmBuildScriptsSlice: FeatureSlice = {
+  id: 'tooling-pnpm-built-dependencies',
+  name: 'pnpm build-script allow-list',
+  apply: (vfs: VirtualFileSystem, config: ProjectConfig) => {
+    if (config.packageManager !== 'pnpm') return;
+    const roots = config.topology === 'separate-folders' ? ['package.json', 'frontend/package.json', 'backend/package.json'] : ['package.json'];
+    for (const path of roots.filter((p) => vfs.hasFile(p))) {
+      vfs.applyAction({ type: 'MERGE_JSON', path, content: { pnpm: { onlyBuiltDependencies: PNPM_BUILT_DEPENDENCIES } } });
+    }
+  },
+};
+
+/**
+ * Last pass: remove unused injection slots. Inside JSX a leftover `/* FORGESTACK_PROVIDER_SLOT *\/`
+ * is text, not a comment, so every React app rendered it on the page.
+ */
+const cleanSlotsSlice: FeatureSlice = {
+  id: 'tooling-clean-slots',
+  name: 'Strip unused injection slots',
+  apply: (vfs: VirtualFileSystem) => {
+    for (const file of vfs.getAllFiles()) {
+      if (!/\.(ts|tsx|js|jsx|mjs|cjs)$/.test(file.path) || !file.content.includes('FORGESTACK_')) continue;
+      vfs.applyAction({ type: 'OVERWRITE', path: file.path, content: CodePatcher.cleanSlots(file.content) });
+    }
+  },
+};
+
+/** npm links workspace packages by name but can't parse pnpm's `workspace:*` protocol. */
+const npmWorkspaceProtocolSlice: FeatureSlice = {
+  id: 'tooling-npm-workspace-protocol',
+  name: 'npm workspace dependency versions',
+  apply: (vfs: VirtualFileSystem, config: ProjectConfig) => {
+    if (config.packageManager !== 'npm') return;
+    for (const file of vfs.getAllFiles()) {
+      if (!(file.path === 'package.json' || file.path.endsWith('/package.json')) || !file.content.includes('"workspace:')) continue;
+      vfs.applyAction({ type: 'OVERWRITE', path: file.path, content: file.content.replace(/"workspace:[^"]*"/g, '"*"') });
+    }
+  },
+};
+
+const typecheckScriptsSlice: FeatureSlice = {
+  id: 'tooling-typecheck-scripts',
+  name: 'Workspace typecheck scripts',
+  apply: (vfs: VirtualFileSystem) => {
+    for (const file of vfs.getAllFiles()) {
+      if (!file.path.endsWith('/package.json')) continue; // nested packages only; root runs turbo
+      const dir = file.path.slice(0, -'/package.json'.length);
+      if (!vfs.hasFile(`${dir}/tsconfig.json`)) continue;
+      const pkg = JSON.parse(file.content);
+      const hasTs = Boolean(pkg.devDependencies?.typescript || pkg.dependencies?.typescript);
+      if (!hasTs || pkg.scripts?.typecheck) continue;
+      vfs.applyAction({ type: 'MERGE_JSON', path: file.path, content: { scripts: { typecheck: 'tsc --noEmit' } } });
+    }
+  },
+};
 
 /**
  * Creates and configures the complete, ordered recipe compositor pipeline.
@@ -64,7 +133,12 @@ export function createProjectPipeline(): RecipeCompositor {
     .registerSlice(playwrightSlice)
     .registerSlice(ciWorkflowsSlice)
     .registerSlice(biomeSlice)
-    .registerSlice(deploymentTargetsSlice);
+    .registerSlice(eslintSlice)
+    .registerSlice(deploymentTargetsSlice)
+    .registerSlice(typecheckScriptsSlice)
+    .registerSlice(npmWorkspaceProtocolSlice)
+    .registerSlice(pnpmBuildScriptsSlice)
+    .registerSlice(cleanSlotsSlice);
 }
 
 /**
@@ -72,5 +146,5 @@ export function createProjectPipeline(): RecipeCompositor {
  */
 export async function generateProjectVfs(config: ProjectConfig): Promise<VirtualFileSystem> {
   const pipeline = createProjectPipeline();
-  return pipeline.compose(config);
+  return pipeline.compose(normalizeConfig(config));
 }

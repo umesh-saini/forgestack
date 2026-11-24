@@ -3,6 +3,7 @@ import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import { CodePatcher } from '../../utils/code-patcher.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const betterAuthSlice: FeatureSlice = {
   id: 'auth-better-auth',
@@ -12,46 +13,10 @@ export const betterAuthSlice: FeatureSlice = {
       return;
     }
 
-    const isNextjsFullstack =
-      config.topology === 'nextjs-fullstack' ||
-      (config.frontend.framework === 'nextjs' && config.backend.framework === 'none');
-
-    const isMonorepo =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend';
-    const isSeparate = config.topology === 'separate-folders';
-
-    // 1. Resolve Server / Backend Root Path
-    const serverRoot = isNextjsFullstack
-      ? isMonorepo
-        ? 'apps/web'
-        : isSeparate
-        ? 'frontend'
-        : ''
-      : isMonorepo
-      ? 'apps/api'
-      : isSeparate
-      ? 'backend'
-      : config.topology === 'electron-desktop'
-      ? 'server'
-      : '';
-
-    const resolveServerPath = (p: string) => (serverRoot ? `${serverRoot}/${p}` : p);
-
-    // 2. Resolve Frontend Root Path
-    const frontendRoot = isNextjsFullstack
-      ? isMonorepo
-        ? 'apps/web'
-        : isSeparate
-        ? 'frontend'
-        : ''
-      : isMonorepo
-      ? 'apps/web'
-      : isSeparate
-      ? 'frontend'
-      : '';
-
-    const resolveFrontendPath = (p: string) =>
-      frontendRoot ? `${frontendRoot}/${p}` : p;
+    const layout = layoutFor(config);
+    const isNextjsFullstack = layout.nextIsServer;
+    const resolveServerPath = layout.be;
+    const resolveFrontendPath = layout.fe;
 
     const hasFrontend = config.frontend.framework !== 'none';
     const hasBackend = config.backend.framework !== 'none' || isNextjsFullstack;
@@ -73,7 +38,7 @@ export const betterAuthSlice: FeatureSlice = {
     if (hasFrontend && !isNextjsFullstack) {
       vfs.applyAction({
         type: 'MERGE_JSON',
-        path: resolveFrontendPath('package.json'),
+        path: layout.fePkg('package.json'),
         content: {
           dependencies: {
             'better-auth': DEPENDENCY_REGISTRY['better-auth'],
@@ -86,6 +51,16 @@ export const betterAuthSlice: FeatureSlice = {
     const isPrisma = config.backend.orm === 'prisma';
     const isSqlite = config.backend.database === 'sqlite';
     const isPostgres = config.backend.database === 'postgres';
+
+    // Better-Auth owns the user table: drop the database slice's starter `users` table
+    // (otherwise two user tables exist and both export a `User` type, which breaks `export *`).
+    const replaceStarterUsersSchema = () => {
+      vfs.applyAction({ type: 'DELETE', path: resolveServerPath('src/database/schema/users.ts') });
+      // Edit the barrel rather than replace it, so other tables (e.g. RAG embeddings) stay exported.
+      const indexPath = resolveServerPath('src/database/schema/index.ts');
+      const others = (vfs.getFileContent(indexPath) ?? '').split('\n').filter((l) => l.trim() && !l.includes("'./users.js'"));
+      vfs.applyAction({ type: 'OVERWRITE', path: indexPath, content: [...others, "export * from './auth.js';"].join('\n') + '\n' });
+    };
 
     // 5. Database Schema Augmentation
     if (isDrizzle) {
@@ -141,27 +116,12 @@ export const verification = pgTable('verification', {
   updatedAt: timestamp('updated_at').defaultNow(),
 });
 `;
-          if (vfs.hasFile(nextSchemaPath)) {
-            const current = vfs.getFileContent(nextSchemaPath) || '';
-            let updated = current;
-            if (!updated.includes('boolean')) {
-              updated = updated.replace(
-                "import { pgTable, text, timestamp } from 'drizzle-orm/pg-core';",
-                "import { pgTable, text, timestamp, boolean } from 'drizzle-orm/pg-core';"
-              );
-            }
-            vfs.applyAction({
-              type: 'OVERWRITE',
-              path: nextSchemaPath,
-              content: `${updated}\n${authSchemaSnippet}`,
-            });
-          } else {
-            vfs.applyAction({
-              type: 'CREATE',
-              path: nextSchemaPath,
-              content: `import { pgTable, text, timestamp, boolean } from 'drizzle-orm/pg-core';\n${authSchemaSnippet}`,
-            });
-          }
+          // Better-Auth owns the user table: replace the starter `users` table instead of adding a second one.
+          vfs.applyAction({
+            type: 'OVERWRITE',
+            path: nextSchemaPath,
+            content: `import { pgTable, text, timestamp, boolean } from 'drizzle-orm/pg-core';\n${authSchemaSnippet}`,
+          });
         } else {
           // Standard Postgres backend
           const authSchemaPath = resolveServerPath('src/database/schema/auth.ts');
@@ -221,15 +181,7 @@ export type Session = typeof session.$inferSelect;
 `,
           });
 
-          // Re-export in src/database/schema/index.ts
-          const schemaIndexPath = resolveServerPath('src/database/schema/index.ts');
-          if (vfs.hasFile(schemaIndexPath)) {
-            vfs.applyAction({
-              type: 'APPEND',
-              path: schemaIndexPath,
-              content: "\nexport * from './auth.js';\n",
-            });
-          }
+          replaceStarterUsersSchema();
         }
       } else if (isSqlite) {
         if (isNextjsFullstack) {
@@ -282,13 +234,11 @@ export const verification = sqliteTable('verification', {
   updatedAt: integer('updated_at', { mode: 'timestamp' }),
 });
 `;
-          if (vfs.hasFile(nextSchemaPath)) {
-            vfs.applyAction({
-              type: 'APPEND',
-              path: nextSchemaPath,
-              content: `\n${sqliteAuthSnippet}`,
-            });
-          }
+          vfs.applyAction({
+            type: 'OVERWRITE',
+            path: nextSchemaPath,
+            content: `import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';\n${sqliteAuthSnippet}`,
+          });
         } else {
           // Standard SQLite backend
           const authSchemaPath = resolveServerPath('src/database/schema/auth.ts');
@@ -348,15 +298,7 @@ export type Session = typeof session.$inferSelect;
 `,
           });
 
-          // Re-export in src/database/schema/index.ts
-          const schemaIndexPath = resolveServerPath('src/database/schema/index.ts');
-          if (vfs.hasFile(schemaIndexPath)) {
-            vfs.applyAction({
-              type: 'APPEND',
-              path: schemaIndexPath,
-              content: "\nexport * from './auth.js';\n",
-            });
-          }
+          replaceStarterUsersSchema();
         }
       }
     } else if (isPrisma) {
@@ -414,10 +356,12 @@ model Verification {
 }
 `;
       if (vfs.hasFile(prismaSchemaPath)) {
+        // Replace the starter `model User` (duplicate model names fail `prisma generate`).
+        const current = (vfs.getFileContent(prismaSchemaPath) || '').replace(/model User \{[\s\S]*?\n\}\n?/, '');
         vfs.applyAction({
-          type: 'APPEND',
+          type: 'OVERWRITE',
           path: prismaSchemaPath,
-          content: `\n${prismaAuthModels}`,
+          content: `${current.trimEnd()}\n${prismaAuthModels}`,
         });
       }
     }
@@ -431,8 +375,8 @@ model Verification {
         if (isNextjsFullstack) {
           authConfigContent = `import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { db } from '../db/client.js';
-import * as schema from '../db/schema.js';
+import { db } from '../db/index';
+import * as schema from '../db/schema';
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -454,8 +398,23 @@ export type Auth = typeof auth;
         } else {
           authConfigContent = `import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { db } from '../database/client.js';
+${
+  isSqlite
+    ? `import DatabaseDriver from 'better-sqlite3';
+import { drizzle } from 'drizzle-orm/better-sqlite3';`
+    : `import { drizzle } from 'drizzle-orm/node-postgres';
+import pg from 'pg';`
+}
+import { env } from '../config/env.js';
 import * as schema from '../database/schema/index.js';
+
+// Database.db is only set after Database.connect(), but the adapter needs a db at import time,
+// so auth gets its own small handle on the same database.
+const db = ${
+  isSqlite
+    ? `drizzle(new DatabaseDriver(env.DATABASE_URL.replace(/^file:/, '')), { schema });`
+    : `drizzle(new pg.Pool({ connectionString: env.DATABASE_URL, max: 5 }), { schema });`
+}
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -478,7 +437,7 @@ export type Auth = typeof auth;
       } else if (isPrisma) {
         authConfigContent = `import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
-import { prisma } from '../database/client.js';
+${isNextjsFullstack ? "import { prisma } from '../db/index';" : "import { Database } from '../database/connection.js';\n\nconst { prisma } = Database;"}
 
 export const auth = betterAuth({
   database: prismaAdapter(prisma, {
@@ -522,11 +481,11 @@ export type Auth = typeof auth;
 
       // 7. Route Handlers
       if (isNextjsFullstack) {
-        // App router handler
+        // App router handler — must live in the root app/ dir (Next ignores src/app when app/ exists)
         vfs.applyAction({
           type: 'CREATE',
-          path: resolveServerPath('src/app/api/auth/[...all]/route.ts'),
-          content: `import { auth } from '@/auth/auth';
+          path: resolveServerPath('app/api/auth/[...all]/route.ts'),
+          content: `import { auth } from '@/src/auth/auth';
 import { toNextJsHandler } from 'better-auth/next-js';
 
 export const { GET, POST } = toNextJsHandler(auth.handler);
@@ -595,6 +554,21 @@ authRoutes.all('/*', async (req, res) => {
 `,
         });
       }
+    }
+
+    // 7b. Mount the auth handler in the server app (it was generated but never registered)
+    const authMount: Record<string, [string, string]> = {
+      fastify: ["import { authRoutes } from './modules/auth/auth.routes.js';", "await app.register(authRoutes, { prefix: '/api/auth' });"],
+      express: ["import { authRoutes } from './modules/auth/auth.routes.js';", "app.use('/api/auth', authRoutes);"],
+      hono: ["import { authRouter } from './routes/auth.routes.js';", "app.route('/api/auth', authRouter);"],
+    };
+    const mount = hasBackend && !isNextjsFullstack ? authMount[config.backend.framework] : undefined;
+    if (mount && vfs.hasFile(resolveServerPath('src/app.ts'))) {
+      vfs.applyAction({
+        type: 'PATCH_AST',
+        path: resolveServerPath('src/app.ts'),
+        patcher: (src) => CodePatcher.registerRoute(CodePatcher.addImports(src, [mount[0]]), mount[1]),
+      });
     }
 
     // 8. Scaffold React Client Helper (src/auth/client.ts)

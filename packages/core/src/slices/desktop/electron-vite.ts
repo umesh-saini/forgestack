@@ -21,7 +21,7 @@ export const electronViteSlice: FeatureSlice = {
       scripts: {
         format: 'prettier --write "src/**/*.{ts,tsx,css,html}"',
         lint: 'eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix',
-        typecheck: 'npm run typecheck:node && npm run typecheck:web',
+        typecheck: `${config.packageManager} run typecheck:node && ${config.packageManager} run typecheck:web`,
         'typecheck:node': 'tsc --noEmit -p tsconfig.node.json --composite false',
         'typecheck:web': 'tsc --noEmit -p tsconfig.web.json --composite false',
         start: 'electron-vite preview',
@@ -69,7 +69,7 @@ export const electronViteSlice: FeatureSlice = {
     vfs.applyAction({
       type: 'CREATE',
       path: 'electron.vite.config.ts',
-      content: `import { resolve } from 'path';
+      content: `import { resolve } from 'node:path';
 import { defineConfig, externalizeDepsPlugin } from 'electron-vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
@@ -113,7 +113,7 @@ export default defineConfig({
       type: 'CREATE',
       path: 'src/main/index.ts',
       content: `import { app, shell, BrowserWindow, ipcMain } from 'electron';
-import { join } from 'path';
+import { join } from 'node:path';
 import { electronApp, optimizer, is } from '@electron-toolkit/utils';
 
 function createWindow(): void {
@@ -139,8 +139,8 @@ function createWindow(): void {
     return { action: 'deny' };
   });
 
-  if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
-    mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL']);
+  if (is.dev && process.env.ELECTRON_RENDERER_URL) {
+    mainWindow.loadURL(process.env.ELECTRON_RENDERER_URL);
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
   }
@@ -156,7 +156,7 @@ app.whenReady().then(() => {
   // Secure IPC Handlers
   ipcMain.handle('profile:create', async (_event, input: { name: string; email: string; role?: string }) => {
     return {
-      id: 'prof_' + Math.random().toString(36).substring(2, 9),
+      id: \`prof_\${Math.random().toString(36).substring(2, 9)}\`,
       name: input.name,
       email: input.email,
       role: input.role || 'developer',
@@ -292,7 +292,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     vfs.applyAction({
       type: 'CREATE',
       path: 'src/renderer/src/App.tsx',
-      content: `import React, { useState, useEffect } from 'react';
+      content: `import { useState, useEffect, type FormEvent } from 'react';
 import { Shield, Terminal, UserPlus, RefreshCw, CheckCircle2 } from 'lucide-react';
 
 export default function App() {
@@ -308,11 +308,12 @@ export default function App() {
     }
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: load once on mount (fetchLogs is recreated each render)
   useEffect(() => {
     fetchLogs();
   }, []);
 
-  const handleCreateProfile = async (e: React.FormEvent) => {
+  const handleCreateProfile = async (e: FormEvent) => {
     e.preventDefault();
     if (!profileName || !profileEmail) return;
 
@@ -385,6 +386,7 @@ export default function App() {
               <span>IPC Dispatch: log:getAll</span>
             </h2>
             <button
+              type="button"
               onClick={fetchLogs}
               className="p-1.5 hover:bg-slate-800 rounded-lg text-slate-400 hover:text-white transition-colors cursor-pointer"
             >
@@ -447,6 +449,8 @@ export default function App() {
             module: 'ESNext',
             moduleResolution: 'Bundler',
             allowSyntheticDefaultImports: true,
+            // electron.d.ts and @types/node disagree on process.noDeprecation
+            skipLibCheck: true,
           },
           include: ['electron.vite.config.ts', 'src/main/**/*', 'src/preload/**/*'],
         },
@@ -466,8 +470,11 @@ export default function App() {
             module: 'ESNext',
             moduleResolution: 'Bundler',
             allowSyntheticDefaultImports: true,
+            // electron.d.ts and @types/node disagree on process.noDeprecation
+            skipLibCheck: true,
           },
-          include: ['src/renderer/src/**/*'],
+          // preload/index.d.ts declares window.electronAPI for the renderer
+          include: ['src/renderer/src/**/*', 'src/preload/*.d.ts'],
         },
         null,
         2

@@ -38,13 +38,11 @@ export const agentRagSlice: FeatureSlice = {
       },
     });
 
-    // 3. apps/api/src/ai/vector-store.ts with pgvector Drizzle integration
+    // 3a. Embeddings table lives in the drizzle schema folder so `db:generate` migrates it.
     vfs.applyAction({
       type: 'CREATE',
-      path: `${apiPath}/src/ai/vector-store.ts`,
+      path: `${apiPath}/src/database/schema/embeddings.ts`,
       content: `import { customType, pgTable, text, timestamp, uuid } from 'drizzle-orm/pg-core';
-import { sql } from 'drizzle-orm';
-import { db } from '../database/client.js';
 
 // Custom pgvector type for Drizzle ORM
 export const vector = customType<{ data: number[]; driverData: string }>({
@@ -67,8 +65,39 @@ export const documentEmbeddings = pgTable('document_embeddings', {
   embedding: vector('embedding').notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
+`,
+    });
+    vfs.applyAction({ type: 'APPEND', path: `${apiPath}/src/database/schema/index.ts`, content: "export * from './embeddings.js';\n" });
+
+    // 3b. The vector type needs the pgvector extension before migrations run (any Postgres, not just Docker).
+    vfs.applyAction({
+      type: 'CREATE',
+      path: `${apiPath}/src/database/ensure-extensions.ts`,
+      content: `import pg from 'pg';
+
+const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+await pool.query('CREATE EXTENSION IF NOT EXISTS vector');
+await pool.end();
+console.log('pgvector extension ready');
+`,
+    });
+    vfs.applyAction({
+      type: 'MERGE_JSON',
+      path: `${apiPath}/package.json`,
+      content: { scripts: { 'db:migrate': 'tsx src/database/ensure-extensions.ts && drizzle-kit migrate' } },
+    });
+
+    // 3c. apps/api/src/ai/vector-store.ts with pgvector similarity search
+    vfs.applyAction({
+      type: 'CREATE',
+      path: `${apiPath}/src/ai/vector-store.ts`,
+      content: `import { sql } from 'drizzle-orm';
+import { Database } from '../database/connection.js';
+import { documentEmbeddings } from '../database/schema/embeddings.js';
 
 export async function findSimilarDocuments(queryEmbedding: number[], limit = 5) {
+  const db = Database.db;
+  if (!db) throw new Error('Database not connected. Call Database.connect() first.');
   const similarity = sql<number>\`1 - (\${documentEmbeddings.embedding} <=> \${JSON.stringify(queryEmbedding)}::vector)\`;
   return db
     .select({
@@ -327,14 +356,14 @@ export function useAgentChat(endpoint = '/api/chat') {
     vfs.applyAction({
       type: 'CREATE',
       path: `${webPath}/src/components/chat-interface.tsx`,
-      content: `import React, { useState } from 'react';
+      content: `import { useState, type FormEvent } from 'react';
 import { useAgentChat } from '../hooks/use-agent-chat.js';
 
 export function ChatInterface() {
   const { messages, isLoading, sendMessage, abort } = useAgentChat();
   const [input, setInput] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
     sendMessage(input);

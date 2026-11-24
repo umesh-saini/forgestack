@@ -1,30 +1,14 @@
 import type { FeatureSlice } from '../../engine/compositor.js';
+import { DEPENDENCY_REGISTRY } from '../../registry/dependencies.js';
 import type { ProjectConfig } from '../../types/config.js';
 import type { VirtualFileSystem } from '../../vfs/vfs.js';
+import { layoutFor } from '../../utils/layout.js';
 
 export const starterUtilitiesSlice: FeatureSlice = {
   id: 'starter-utilities',
   name: 'Production Frontend & Backend Utility Starter Packs',
   apply: (vfs: VirtualFileSystem, config: ProjectConfig) => {
-    const feBasePath =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend'
-        ? 'apps/web'
-        : config.topology === 'separate-folders'
-        ? 'frontend'
-        : config.topology === 'electron-desktop'
-        ? 'src/renderer'
-        : '';
-    const resolveFePath = (p: string) => (feBasePath ? `${feBasePath}/${p}` : p);
-
-    const beBasePath =
-      config.topology === 'monorepo' || config.topology === 'micro-frontend'
-        ? 'apps/api'
-        : config.topology === 'separate-folders'
-        ? 'backend'
-        : config.topology === 'electron-desktop' || config.topology === 'nextjs-fullstack'
-        ? 'server'
-        : '';
-    const resolveBePath = (p: string) => (beBasePath ? `${beBasePath}/${p}` : p);
+    const { fe: resolveFePath, be: resolveBePath, fePkg } = layoutFor(config);
 
     // 1. Frontend Helper Pack
     if (config.utilities?.frontendHelpers && config.frontend.framework !== 'none') {
@@ -70,6 +54,18 @@ export const tokenManager = new TokenManager();
 `,
       });
 
+      // axios-client.ts imports axios, so declare it here (the state slice only adds it for some choices).
+      vfs.applyAction({
+        type: 'MERGE_JSON',
+        path: fePkg('package.json'),
+        content: { dependencies: { axios: DEPENDENCY_REGISTRY.axios } },
+      });
+
+      // Vite apps read import.meta.env below, which needs Vite's client types in every topology
+      if (config.frontend.framework !== 'nextjs' && !vfs.hasFile(resolveFePath('src/vite-env.d.ts'))) {
+        vfs.applyAction({ type: 'CREATE', path: resolveFePath('src/vite-env.d.ts'), content: '/// <reference types="vite/client" />\n' });
+      }
+
       vfs.applyAction({
         type: 'CREATE',
         path: resolveFePath('src/lib/axios-client.ts'),
@@ -77,7 +73,7 @@ export const tokenManager = new TokenManager();
 import { tokenManager } from './token-manager.js';
 
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL: ${config.frontend.framework === 'nextjs' ? 'process.env.NEXT_PUBLIC_API_URL' : 'import.meta.env.VITE_API_URL'} || '/api',
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',
