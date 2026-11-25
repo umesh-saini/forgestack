@@ -24,3 +24,8 @@ Thumbs.db
 
 # Graphify Cache
 graphify-out/cache/
+
+# AI-tooling & spec artifacts
+graphify-out/
+openspec/
+PROJECT_SPECIFICATION.md

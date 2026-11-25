@@ -52,7 +52,7 @@ cd my-app && pnpm dev
 
 | | |
 |---|---|
-| **Verified, not just generated** | Every one of **~636,000** option combinations is checked on every push for broken imports, missing dependencies and invalid scripts. A pairwise sample of ~100 projects is installed, built, linted, unit-tested, migrated against real Postgres/MongoDB/Redis, **started**, and probed over HTTP, including a real sign-up and sign-in. |
+| **Statically checked + runtime-tested** | A pairwise sample of **~100 projects** is installed, built, linted, unit-tested, migrated against real Postgres/MongoDB/Redis, **started**, and probed over HTTP nightly. On every push, static integrity checks verify imports, dependencies, and scripts across the full option space (~636k combinations). |
 | **Compose, don't clone** | Projects are assembled in memory from small feature slices, so any combination works and nothing goes stale like a template repo. Nothing touches disk until the whole tree is valid. |
 | **Wired end to end** | Better-Auth sign-up/sign-in, tRPC routers, Drizzle/Prisma migrations and BullMQ workers are mounted and working, not left as TODOs. |
 | **Built for AI agents** | A local MCP server lets Claude Code, Codex, Antigravity and others scaffold for you in one tool call. Every project ships rules and skills for **40 AI coding tools**. |
@@ -309,6 +309,20 @@ pnpm desktop:build   # installers: .deb/.AppImage, .dmg, .msi/.exe
 | Runtime matrix | ~100 pairwise projects installed, built, typechecked, linted, unit-tested, migrated against real databases, **started** and probed over HTTP (health, sign-up, sign-in, tRPC, Vite preview, BullMQ worker) | `pnpm matrix:runtime` (Docker) | nightly |
 
 The option space lives in [`scripts/matrix/space.mjs`](scripts/matrix/space.mjs). Add an option there and every level picks it up.
+
+### Dependency pinning & refresh cadence
+
+Every generated `package.json` uses **exact pinned versions** (no floating `*` or `^` drift) from [`DEPENDENCY_REGISTRY`](packages/core/src/registry/dependencies.ts). Versions are refreshed **monthly** (and immediately for security advisories) and validated against the full static and runtime matrices before release.
+
+---
+
+## 🤔 Why not `create-t3-app`, Nx, or Yeoman?
+
+| Tool | What it does well | Where ForgeStack differs |
+|---|---|---|
+| **`create-t3-app`** | Great for a Next.js + tRPC + Prisma/Drizzle app | Locked to Next.js. ForgeStack covers monorepos, Fastify/Express/Hono, Tauri/Electron, micro-frontends, and BullMQ workers—plus Better-Auth, Docker, CI, and a local MCP server. |
+| **Nx / Turborepo** | Task orchestration and caching for existing monorepos | Doesn't wire your auth, database migrations, tRPC routers, or Docker setup from scratch. ForgeStack scaffolds a Turborepo monorepo with those layers already connected. |
+| **Yeoman** | Flexible imperative file generators | Older template-copying model without type-safe config validation or in-memory VFS composition. ForgeStack validates the full stack in memory before writing a file, and exposes the same engine to AI agents via `forgestack-mcp`. |
 
 ---
 

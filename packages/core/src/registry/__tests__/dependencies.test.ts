@@ -63,9 +63,9 @@ describe('Dependency Registry', () => {
   it('should resolve multiple dependencies into a valid package.json dictionary', () => {
     const resolved = resolveDependencies(['react', 'tailwindcss', 'zod']);
     expect(resolved).toEqual({
-      react: '^19.0.0',
-      tailwindcss: '^4.0.0',
-      zod: '^3.24.2',
+      react: '19.0.0',
+      tailwindcss: '4.0.0',
+      zod: '3.24.2',
     });
   });
 
