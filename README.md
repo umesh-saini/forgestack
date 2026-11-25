@@ -283,7 +283,7 @@ npx -p @forgestk/cli forgestack template delete team-api
 
 ## 🖥️ Desktop studio
 
-A Tauri v2 desktop app: configure on the left, read the generated project on the right. Curated templates, four stages (Identity, Stack, Tooling, Review), a live in-memory file tree with a read-only editor, and a dark and a light theme. Download it from [Releases](https://github.com/umesh-saini/forgestack/releases).
+A Tauri v2 desktop app: configure on the left, read the generated project on the right. Curated templates, four stages (Identity, Stack, Tooling, Review), a live in-memory file tree with a read-only editor, and a dark and a light theme. Desktop installers coming soon. For now run `pnpm desktop:web`.
 
 <img src="docs/screenshots/studio-stack-dark.png" alt="Studio Stack stage with the database picker open next to the generated file tree and apps/api/src/server.ts in the editor" width="900" />
 
@@ -363,7 +363,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md), the [Local Testing Guide](docs/LOCAL_TES
 
 ### Roadmap
 
-- [ ] Publish `create-forgestack-app` so `npm create forgestack-app` works
+- [ ] Publish `@forgestk/create-app` (or `create-forgestack-app`) for `npm create` shorthand
 - [ ] Kubernetes & Helm deployment slice
 - [ ] GraphQL / federation archetype
 - [ ] Oxlint option
