@@ -23,6 +23,9 @@ async function sweep(choices: Iterable<Choice>) {
     if (seen.has(key)) continue;
     seen.add(key);
     generated++;
+    if (generated % 250 === 0) {
+      await new Promise<void>((resolve) => setImmediate(resolve));
+    }
     let found: string[];
     try {
       found = checkProject((await generateProjectVfs(cfg)).getAllFiles(), cfg);

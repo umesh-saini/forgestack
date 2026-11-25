@@ -1700,9 +1700,9 @@
     "semantic_hash": ""
   },
   "packages/website/src/App.tsx": {
-    "mtime": 1795544759.4942968,
-    "seen": 1795544796.2562869,
-    "ast_hash": "f6e809b147350b5da84aae2cd6075f2b",
+    "mtime": 1795545445.978906,
+    "seen": 1795545481.8960037,
+    "ast_hash": "30fc3482db487da8ba75a81032e671a7",
     "semantic_hash": ""
   },
   "packages/website/src/Changelog.tsx": {
@@ -1808,9 +1808,9 @@
     "semantic_hash": ""
   },
   "docs/screenshots/website.png": {
-    "mtime": 1795543362.2304924,
-    "seen": 1795544796.25665,
-    "ast_hash": "d615ba98fb093773f767cf9db4ab71ce",
+    "mtime": 1795545404.9071076,
+    "seen": 1795545481.896409,
+    "ast_hash": "4300ec024252354b4e51d1b5ee75adf9",
     "semantic_hash": ""
   },
   "packages/website/public/favicon.png": {
@@ -1892,9 +1892,9 @@
     "semantic_hash": ""
   },
   "packages/website/src/screens.ts": {
-    "mtime": 1795544759.3893032,
-    "seen": 1795544796.2563028,
-    "ast_hash": "19d905f23e63ae7c05eae316c7845da0",
+    "mtime": 1795545445.5569077,
+    "seen": 1795545481.8960333,
+    "ast_hash": "c5202ed5f35423d78ba4eac6c573cdf9",
     "semantic_hash": ""
   },
   "packages/website/src/sections/Opening.tsx": {
@@ -1910,9 +1910,9 @@
     "semantic_hash": ""
   },
   "packages/website/src/sections/StudioTour.tsx": {
-    "mtime": 1795543765.4004462,
-    "seen": 1795544796.2563117,
-    "ast_hash": "d378ef5cdc9259964be642706dc0099c",
+    "mtime": 1795545445.8059068,
+    "seen": 1795545481.8960447,
+    "ast_hash": "d7b3871ee1764cbb649f3bbf0b34fc0e",
     "semantic_hash": ""
   },
   "packages/website/src/sections/Use.tsx": {
@@ -1958,8 +1958,92 @@
     "semantic_hash": ""
   },
   "docs/screenshots/studio-tooling-dark.png": {
-    "mtime": 1795543734.6433604,
-    "seen": 1795544796.2566462,
+    "mtime": 1795545332.6996436,
+    "seen": 1795545481.8964028,
+    "ast_hash": "03e8f0add178e0c78ab3c9b8cd7ed213",
+    "semantic_hash": ""
+  },
+  "docs/screenshots/studio-hub-light.png": {
+    "mtime": 1795545332.9556413,
+    "seen": 1795545481.8963792,
+    "ast_hash": "401aa5a1f94e1dcf264ffd2e401e039a",
+    "semantic_hash": ""
+  },
+  "docs/screenshots/studio-review-light.png": {
+    "mtime": 1795545333.319638,
+    "seen": 1795545481.8963861,
+    "ast_hash": "536753af8502f8f221a32ee758f5af90",
+    "semantic_hash": ""
+  },
+  "docs/screenshots/studio-settings-light.png": {
+    "mtime": 1795545333.5866356,
+    "seen": 1795545481.896393,
+    "ast_hash": "4aecac1a69ff4179c245e86fa1b8e733",
+    "semantic_hash": ""
+  },
+  "docs/screenshots/studio-tooling-light.png": {
+    "mtime": 1795545332.3846464,
+    "seen": 1795545481.8964057,
+    "ast_hash": "e05b98f1b57942fb2e45f33fde0922dc",
+    "semantic_hash": ""
+  },
+  "screenshot/studio-hub-dark.png": {
+    "mtime": 1795543733.5243206,
+    "seen": 1795545481.896583,
+    "ast_hash": "560fd071d8b45f671689862ae4e39e82",
+    "semantic_hash": ""
+  },
+  "screenshot/studio-hub-light.png": {
+    "mtime": 1795545332.9556413,
+    "seen": 1795545481.8965862,
+    "ast_hash": "401aa5a1f94e1dcf264ffd2e401e039a",
+    "semantic_hash": ""
+  },
+  "screenshot/studio-review-dark.png": {
+    "mtime": 1795543734.9033697,
+    "seen": 1795545481.8965893,
+    "ast_hash": "1ab26a60dd78df64820b9d568b7f3587",
+    "semantic_hash": ""
+  },
+  "screenshot/studio-review-light.png": {
+    "mtime": 1795545333.319638,
+    "seen": 1795545481.896592,
+    "ast_hash": "536753af8502f8f221a32ee758f5af90",
+    "semantic_hash": ""
+  },
+  "screenshot/studio-settings-dark.png": {
+    "mtime": 1795543735.2043803,
+    "seen": 1795545481.8965945,
+    "ast_hash": "a4d6a162b92aadcfc0c828af2101236c",
+    "semantic_hash": ""
+  },
+  "screenshot/studio-settings-light.png": {
+    "mtime": 1795545333.5866356,
+    "seen": 1795545481.896597,
+    "ast_hash": "4aecac1a69ff4179c245e86fa1b8e733",
+    "semantic_hash": ""
+  },
+  "screenshot/studio-stack-dark.png": {
+    "mtime": 1795543734.2583468,
+    "seen": 1795545481.8965995,
+    "ast_hash": "288dbbe072a5019ff8ea10f4065a85cd",
+    "semantic_hash": ""
+  },
+  "screenshot/studio-stack-light.png": {
+    "mtime": 1795544161.225266,
+    "seen": 1795545481.8966024,
+    "ast_hash": "5a44811c725a472eb34a2e1295089929",
+    "semantic_hash": ""
+  },
+  "screenshot/studio-tooling-dark.png": {
+    "mtime": 1795545332.6996436,
+    "seen": 1795545481.896605,
+    "ast_hash": "03e8f0add178e0c78ab3c9b8cd7ed213",
+    "semantic_hash": ""
+  },
+  "screenshot/studio-tooling-light.png": {
+    "mtime": 1795545332.3846464,
+    "seen": 1795545481.8966074,
     "ast_hash": "e05b98f1b57942fb2e45f33fde0922dc",
     "semantic_hash": ""
   },
