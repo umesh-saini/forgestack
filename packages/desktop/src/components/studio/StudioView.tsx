@@ -2,7 +2,7 @@ import React from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { AlertTriangle, CheckCircle2, FolderOpen, Loader } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import type { ProjectConfig, TreeNode } from '@forgestack/core/browser';
+import type { ProjectConfig, TreeNode } from '@forgestk/core/browser';
 import type { ThemeId } from '../../theme.js';
 import { archetypeOf } from '../../data/catalog.js';
 import { StepperWizard } from '../wizard/StepperWizard.js';

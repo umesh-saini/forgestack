@@ -5,7 +5,7 @@ description: Modernize and animate the ForgeStack Desktop Studio UI (Tauri v2 + 
 
 # ForgeStack Desktop UI Update Bot
 
-A reusable, repeatable procedure for modernizing the `@forgestack/desktop` UI so it stops reading as "AI generated" and gains real motion + a scroll-driven 3D centerpiece. Follow it end-to-end for a refresh, or pull the relevant section for a targeted change.
+A reusable, repeatable procedure for modernizing the `@forgestk/desktop` UI so it stops reading as "AI generated" and gains real motion + a scroll-driven 3D centerpiece. Follow it end-to-end for a refresh, or pull the relevant section for a targeted change.
 
 ---
 
@@ -46,8 +46,8 @@ A sticky mid-landing section where vertical scroll moves nine 3D figures. Each f
 
 ```bash
 # from repo root
-pnpm --filter @forgestack/desktop exec tsc --noEmit   # types must pass
-pnpm --filter @forgestack/desktop build               # tsc -b && vite build
+pnpm --filter @forgestk/desktop exec tsc --noEmit   # types must pass
+pnpm --filter @forgestk/desktop build               # tsc -b && vite build
 pnpm desktop:web                                      # http://localhost:1420, eyeball / and /landing
 ```
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ProjectConfig } from '@forgestack/core/browser';
+import type { ProjectConfig } from '@forgestk/core/browser';
 import { ClaudeIcon, CursorRulesIcon, DockerIcon, OpenSpecIcon } from '../common/TechIcons.js';
 import { ConfigGroup, PickerRow } from '../studio/PickerRow.js';
 import { Switch, cx } from '../ui/primitives.js';

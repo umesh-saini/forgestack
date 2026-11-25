@@ -30,7 +30,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and
 ## [1.0.0] - 2026-11-18
 
 ### Added
-- Headless scaffolding engine (`@forgestack/core`) with in-memory virtual file system, additive feature slices and transactional flush.
+- Headless scaffolding engine (`@forgestk/core`) with in-memory virtual file system, additive feature slices and transactional flush.
 - `create-forgestack-app` CLI with interactive wizard, `--yes` defaults, curated templates and saved custom templates.
 - Tauri v2 desktop studio with live file-tree preview, topology visualizer and auto-updater.
 - 9 topologies, React/Next.js frontends, Fastify/Express/Hono backends, PostgreSQL/MongoDB/SQLite with Drizzle/Prisma/Mongoose.

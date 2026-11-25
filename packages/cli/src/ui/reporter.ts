@@ -1,7 +1,7 @@
 import * as p from '@clack/prompts';
 import path from 'node:path';
 import color from 'picocolors';
-import type { ProjectConfig } from '@forgestack/core';
+import type { ProjectConfig } from '@forgestk/core';
 
 export class CliReporter {
   public static printBanner(): void {

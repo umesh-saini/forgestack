@@ -66,7 +66,7 @@ ForgeStack is a production-grade project scaffolding platform and AST compositio
 
 ## 1. Core Architecture Concepts
 
-- **Virtual File System (VFS)**: Projects are compiled in-memory first (\`@forgestack/core/browser\`). Files, directories, permissions, and executable bits are staged in RAM before touching physical storage.
+- **Virtual File System (VFS)**: Projects are compiled in-memory first (\`@forgestk/core/browser\`). Files, directories, permissions, and executable bits are staged in RAM before touching physical storage.
 - **AST Recipe Compositor**: Rather than using static folder templates that conflict when composed, ForgeStack slices modify files programmatically (merging \`package.json\` dependencies, injecting TypeScript path mappings, updating \`tsconfig.json\`, and composing Tailwind configs).
 - **Day-One AI Governance**: Projects are scaffolded with autonomous AI guidelines pre-configured:
   - **OpenSpec**: Spec-driven change management (\`openspec/specs/\`, \`openspec/changes/\`).

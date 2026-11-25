@@ -22,7 +22,7 @@ cd forgestack
 # Install workspace dependencies
 pnpm install
 
-# Build all packages (@forgestack/core, @forgestack/cli, @forgestack/desktop)
+# Build all packages (@forgestk/core, @forgestk/cli, @forgestk/desktop)
 pnpm build
 ```
 

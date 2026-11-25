@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { motion } from 'motion/react';
 import { FolderOpen } from 'lucide-react';
-import type { ProjectConfig } from '@forgestack/core/browser';
+import type { ProjectConfig } from '@forgestk/core/browser';
 import { ARCHETYPES, archetypeOf } from '../../data/catalog.js';
 import { Button, ChoiceRow, Field, Segmented, TextInput } from '../ui/primitives.js';
 import { ConfigGroup } from '../studio/PickerRow.js';

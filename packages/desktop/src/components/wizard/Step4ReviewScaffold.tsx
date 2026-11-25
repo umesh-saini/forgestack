@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { BookmarkPlus, Check } from 'lucide-react';
-import type { ProjectConfig } from '@forgestack/core/browser';
+import type { ProjectConfig } from '@forgestk/core/browser';
 import { archetypeOf, hasBackend, hasFrontend, label } from '../../data/catalog.js';
 import { Button, Field, TextInput, cx } from '../ui/primitives.js';
 import { RunPanel } from '../studio/RunPanel.js';

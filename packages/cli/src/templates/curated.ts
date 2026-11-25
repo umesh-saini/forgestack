@@ -1,4 +1,4 @@
-import type { ProjectConfig } from '@forgestack/core';
+import type { ProjectConfig } from '@forgestk/core';
 
 export interface CuratedTemplate {
   id: string;

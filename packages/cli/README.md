@@ -2,7 +2,7 @@
 
 > Production-grade scaffolding platform for scalable TypeScript monorepos, standalone polyrepos, native desktop apps, and distributed microservices with built-in AI Agent governance.
 
-[![npm version](https://img.shields.io/npm/v/@forgestack/cli.svg?style=flat-square)](https://www.npmjs.com/package/@forgestack/cli)
+[![npm version](https://img.shields.io/npm/v/@forgestk/cli.svg?style=flat-square)](https://www.npmjs.com/package/@forgestk/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
 
 ---

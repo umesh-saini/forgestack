@@ -10,7 +10,7 @@ Monorepos, full-stack apps, desktop apps and workers, with auth, database, RPC, 
 Use it from the terminal, a desktop app, or let your AI assistant do it for you.
 
 [![CI](https://github.com/umesh-saini/forgestack/actions/workflows/ci.yml/badge.svg)](https://github.com/umesh-saini/forgestack/actions/workflows/ci.yml)
-[![npm](https://img.shields.io/npm/v/@forgestack/cli.svg?label=%40forgestack%2Fcli)](https://www.npmjs.com/package/@forgestack/cli)
+[![npm](https://img.shields.io/npm/v/@forgestk/cli.svg?label=%40forgestk%2Fcli)](https://www.npmjs.com/package/@forgestk/cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/umesh-saini/forgestack?style=social)](https://github.com/umesh-saini/forgestack)
 
@@ -29,20 +29,20 @@ Use it from the terminal, a desktop app, or let your AI assistant do it for you.
 No global install needed:
 
 ```bash
-npx -p @forgestack/cli create-forgestack-app my-app
+npx -p @forgestk/cli create-forgestack-app my-app
 ```
 
 That opens an interactive wizard. Prefer one shot with recommended defaults?
 
 ```bash
-npx -p @forgestack/cli create-forgestack-app my-app --yes
+npx -p @forgestk/cli create-forgestack-app my-app --yes
 cd my-app && pnpm dev
 ```
 
 > **Why `-p`?** The package ships two programs (`create-forgestack-app` and the `forgestack-mcp` AI server), so npm needs to be told which one to run. Installing globally gives you the short form:
 >
 > ```bash
-> npm i -g @forgestack/cli
+> npm i -g @forgestk/cli
 > create-forgestack-app my-app     # or: forgestack my-app
 > ```
 
@@ -94,7 +94,7 @@ Add it **once at user/global level** and every AI session, in every project, can
 <summary><b>Claude Code</b></summary>
 
 ```bash
-claude mcp add --scope user forgestack -- npx -y -p @forgestack/cli forgestack-mcp
+claude mcp add --scope user forgestack -- npx -y -p @forgestk/cli forgestack-mcp
 ```
 `--scope user` makes it available in every project. Check with `claude mcp list`.
 </details>
@@ -103,13 +103,13 @@ claude mcp add --scope user forgestack -- npx -y -p @forgestack/cli forgestack-m
 <summary><b>Codex (OpenAI)</b></summary>
 
 ```bash
-codex mcp add forgestack -- npx -y -p @forgestack/cli forgestack-mcp
+codex mcp add forgestack -- npx -y -p @forgestk/cli forgestack-mcp
 ```
 Or add it to `~/.codex/config.toml` (global):
 ```toml
 [mcp_servers.forgestack]
 command = "npx"
-args = ["-y", "-p", "@forgestack/cli", "forgestack-mcp"]
+args = ["-y", "-p", "@forgestk/cli", "forgestack-mcp"]
 ```
 </details>
 
@@ -120,7 +120,7 @@ Agent panel → **⋯** → **MCP Servers** → **Manage MCP Servers** → **Vie
 ```json
 {
   "mcpServers": {
-    "forgestack": { "command": "npx", "args": ["-y", "-p", "@forgestack/cli", "forgestack-mcp"] }
+    "forgestack": { "command": "npx", "args": ["-y", "-p", "@forgestk/cli", "forgestack-mcp"] }
   }
 }
 ```
@@ -144,11 +144,11 @@ Add the same `mcpServers` entry as Antigravity above to your tool's **global** c
 <summary><b>VS Code (GitHub Copilot)</b></summary>
 
 ```bash
-code --add-mcp '{"name":"forgestack","command":"npx","args":["-y","-p","@forgestack/cli","forgestack-mcp"]}'
+code --add-mcp '{"name":"forgestack","command":"npx","args":["-y","-p","@forgestk/cli","forgestack-mcp"]}'
 ```
 </details>
 
-> Config file locations change between tool versions. If one above doesn't work, search your tool's docs for "MCP server"; the command is always `npx -y -p @forgestack/cli forgestack-mcp`.
+> Config file locations change between tool versions. If one above doesn't work, search your tool's docs for "MCP server"; the command is always `npx -y -p @forgestk/cli forgestack-mcp`.
 
 ### Step 2: Ask in plain language
 
@@ -164,14 +164,14 @@ The agent validates the config, previews the tree if you ask, and writes the pro
 Skills teach the agent ForgeStack's flags and conventions, which is useful even without MCP. Install them globally for Claude Code and Codex:
 
 ```bash
-npx -p @forgestack/cli forgestack init-skills ~ --tools claude,codex
+npx -p @forgestk/cli forgestack init-skills ~ --tools claude,codex
 ```
 
 Or inside a project, for any of the 40 supported tools (it auto-detects the ones you use):
 
 ```bash
-npx -p @forgestack/cli forgestack init-skills .            # detected tools
-npx -p @forgestack/cli forgestack init-skills . --all      # all 40
+npx -p @forgestk/cli forgestack init-skills .            # detected tools
+npx -p @forgestk/cli forgestack init-skills . --all      # all 40
 ```
 
 <details>
@@ -220,29 +220,29 @@ Mix and match any layer. Impossible combinations (e.g. SQLite + Mongoose) are re
 
 ```bash
 # Interactive wizard
-npx -p @forgestack/cli create-forgestack-app my-app
+npx -p @forgestk/cli create-forgestack-app my-app
 
 # Into the current folder (like create-next-app .)
-npx -p @forgestack/cli create-forgestack-app . --yes
+npx -p @forgestk/cli create-forgestack-app . --yes
 
 # From a curated template
-npx -p @forgestack/cli create-forgestack-app my-app --template nextjs-fullstack
+npx -p @forgestk/cli create-forgestack-app my-app --template nextjs-fullstack
 
 # Pick every layer yourself
-npx -p @forgestack/cli create-forgestack-app my-api \
+npx -p @forgestk/cli create-forgestack-app my-api \
   --topology standalone-be --be hono --db postgres --orm drizzle \
   --auth better-auth --linter biome --pm npm --yes
 
 # Preview the file tree without writing anything
-npx -p @forgestack/cli create-forgestack-app my-app --yes --dry-run
+npx -p @forgestk/cli create-forgestack-app my-app --yes --dry-run
 
 # Save your stack as a reusable template, then reuse it
-npx -p @forgestack/cli create-forgestack-app my-api --topology standalone-be --save-template team-api --yes
-npx -p @forgestack/cli create-forgestack-app service-2 --template team-api
+npx -p @forgestk/cli create-forgestack-app my-api --topology standalone-be --save-template team-api --yes
+npx -p @forgestk/cli create-forgestack-app service-2 --template team-api
 
 # Manage templates
-npx -p @forgestack/cli forgestack template list
-npx -p @forgestack/cli forgestack template delete team-api
+npx -p @forgestk/cli forgestack template list
+npx -p @forgestk/cli forgestack template delete team-api
 ```
 
 <details>
@@ -342,7 +342,7 @@ git clone https://github.com/umesh-saini/forgestack.git && cd forgestack
 pnpm install && pnpm build
 pnpm test                                       # unit + pairwise static matrix
 pnpm cli:dev my-test-app --yes --no-install     # run the local CLI
-pnpm --filter @forgestack/website dev           # website
+pnpm --filter @forgestk/website dev           # website
 ```
 
 See [CONTRIBUTING.md](CONTRIBUTING.md), the [Local Testing Guide](docs/LOCAL_TESTING_GUIDE.md) and the [npm publishing guide](docs/NPM_DEPLOYMENT_GUIDE.md).

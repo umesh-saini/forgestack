@@ -1,4 +1,4 @@
-import type { ArchitectureTopology, ProjectConfig } from '@forgestack/core/browser';
+import type { ArchitectureTopology, ProjectConfig } from '@forgestk/core/browser';
 
 export interface Archetype {
   id: ArchitectureTopology;

@@ -1,5 +1,5 @@
 {
-  "name": "@forgestack/cli",
+  "name": "@forgestk/cli",
   "version": "1.0.0",
   "description": "Interactive CLI and headless generator for ForgeStack scaffolding platform",
   "type": "module",
@@ -20,7 +20,7 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@forgestack/core": "workspace:*",
+    "@forgestk/core": "workspace:*",
     "@clack/prompts": "^0.9.1",
     "@modelcontextprotocol/sdk": "^1.32.2",
     "commander": "^13.1.0",

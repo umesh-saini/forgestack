@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { FilePlus2, FolderTree, LayoutList, Moon, Play, Settings2, SlidersHorizontal, Sun } from 'lucide-react';
-import { generateProjectVfs, type ProjectConfig, type TreeNode, type VirtualFileSystem } from '@forgestack/core/browser';
+import { generateProjectVfs, type ProjectConfig, type TreeNode, type VirtualFileSystem } from '@forgestk/core/browser';
 import { useTheme } from './theme.js';
 import { AppShell } from './components/layout/AppShell.js';
 import { CommandPalette, type PaletteCommand } from './components/layout/CommandPalette.js';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FolderOpen } from 'lucide-react';
-import type { ProjectConfig } from '@forgestack/core/browser';
+import type { ProjectConfig } from '@forgestk/core/browser';
 import type { SavedTemplate } from '../../types/template.js';
 import { loadAppSettings } from '../settings/AppSettingsPage.js';
 import { isTauri } from '../../services/updaterService.js';

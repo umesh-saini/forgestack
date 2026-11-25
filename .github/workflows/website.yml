@@ -39,8 +39,8 @@ jobs:
       - name: Install & build
         run: |
           pnpm install --frozen-lockfile
-          pnpm --filter @forgestack/core build
-          pnpm --filter @forgestack/website build
+          pnpm --filter @forgestk/core build
+          pnpm --filter @forgestk/website build
         env:
           # Project page is served from /<repo>/; set to '/' when using a custom domain
           WEBSITE_BASE: /${{ github.event.repository.name }}/

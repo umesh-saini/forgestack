@@ -55,7 +55,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Core workspace dependency
-        run: pnpm --filter @forgestack/core run build
+        run: pnpm --filter @forgestk/core run build
 
       - name: Build & Publish Tauri Release
         uses: tauri-apps/tauri-action@v0
