@@ -1,6 +1,6 @@
 {
   "name": "@forgestk/cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Interactive CLI and headless generator for ForgeStack scaffolding platform",
   "type": "module",
   "main": "./dist/index.js",
