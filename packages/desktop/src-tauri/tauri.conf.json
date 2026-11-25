@@ -42,9 +42,9 @@
     "dialog": null,
     "shell": null,
     "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDc5RkMzQTRCQTU4MzdGRTgKUldUb2Y0T2xTenI4ZVZFeGNaME85a3pYbHhwZ3BOSXF4RU1ESE1TUHJuOWQzQ3V1M1Q0dWR2RFQK",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDA3ODMxNkY1QzgzODBERjUKUldUMURUakk5UmFEQjV1V3NrbEF1dGk2K3hFaW4wSjhuaXNXL2VYOEh2RWxqUk0yZFMrUFF1bUcK",
       "endpoints": [
-        "https://github.com/forgestack/forgestack/releases/latest/download/latest.json"
+        "https://github.com/umesh-saini/forgestack/releases/latest/download/latest.json"
       ]
     }
   }
