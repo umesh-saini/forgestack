@@ -60,12 +60,12 @@ npx -p @forgestk/cli create-forgestack-app . --force
 
 **Claude Code:**
 ```bash
-claude mcp add --scope user forgestack -- npx -y -p @forgestk/cli forgestack-mcp
+claude mcp add --scope user forgestack -- npx -y -p @forgestk/cli@1.0.1 forgestack-mcp
 ```
 
 **Codex (OpenAI):**
 ```bash
-codex mcp add forgestack -- npx -y -p @forgestk/cli forgestack-mcp
+codex mcp add forgestack -- npx -y -p @forgestk/cli@1.0.1 forgestack-mcp
 ```
 
 **Cursor / Antigravity / MCP JSON config:**
@@ -74,7 +74,7 @@ codex mcp add forgestack -- npx -y -p @forgestk/cli forgestack-mcp
   "mcpServers": {
     "forgestack": {
       "command": "npx",
-      "args": ["-y", "-p", "@forgestk/cli", "forgestack-mcp"]
+      "args": ["-y", "-p", "@forgestk/cli@1.0.1", "forgestack-mcp"]
     }
   }
 }

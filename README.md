@@ -4,7 +4,7 @@
 
 # ForgeStack
 
-**Production-ready TypeScript projects in one command, verified to build, run and lint.**
+**Verified TypeScript starter projects in one command—built, linted, and tested.**
 
 Monorepos, full-stack apps, desktop apps and workers, with auth, database, RPC, CI and AI-agent rules already wired.
 Use it from the terminal, a desktop app, or let your AI assistant do it for you.
@@ -25,6 +25,8 @@ Use it from the terminal, a desktop app, or let your AI assistant do it for you.
 ---
 
 ## 🚀 Quick start
+
+> **Prerequisites:** Node.js `>= 20` (`v22+` recommended). Database-backed templates require Docker (or a running Postgres / MongoDB / Redis instance) to start.
 
 No global install needed:
 
@@ -53,7 +55,7 @@ cd my-app && pnpm dev
 | | |
 |---|---|
 | **Statically checked + runtime-tested** | A pairwise sample of **~100 projects** is installed, built, linted, unit-tested, migrated against real Postgres/MongoDB/Redis, **started**, and probed over HTTP nightly. On every push, static integrity checks verify imports, dependencies, and scripts across the full option space (~636k combinations). |
-| **Compose, don't clone** | Projects are assembled in memory from small feature slices, so any combination works and nothing goes stale like a template repo. Nothing touches disk until the whole tree is valid. |
+| **Compose, don't clone** | Projects are assembled in memory from small feature slices, so any valid combination works, and the generator stays current instead of a template repo rotting. Nothing touches disk until the whole tree is valid. |
 | **Wired end to end** | Better-Auth sign-up/sign-in, tRPC routers, Drizzle/Prisma migrations and BullMQ workers are mounted and working, not left as TODOs. |
 | **Built for AI agents** | A local MCP server lets Claude Code, Codex, Antigravity and others scaffold for you in one tool call. Every project ships rules and skills for **40 AI coding tools**. |
 | **Any package manager** | pnpm, npm, yarn and bun monorepos get the right workspace setup and build-script allow-lists. |
@@ -69,6 +71,8 @@ Asking an AI agent to set up a project from zero means it writes dozens of files
 | Standalone frontend or API (~25 files) | ~150k – 600k tokens | 15 – 45 min | **~2k – 5k tokens · < 1 min** |
 | Next.js full-stack with auth + database (~25 files) | ~300k – 1M tokens | 30 – 90 min | **~2k – 5k tokens · < 1 min** |
 | Monorepo: React + API + DB + auth + tRPC + CI (80–90 files) | ~800k – 3M+ tokens | 1 – 4 h | **~3k – 6k tokens · < 1 min** |
+
+> **Governance defaults:** All five AI-governance flags (`--rules`, `--skills`, `--openspec`, `--mcp`, `--claude`) default to `on` and add ~40k–53k tokens of generated governance files. Pass `--no-rules --no-skills --no-openspec --no-mcp --no-claude` to scaffold code only (~2k–15k output tokens).
 
 <sub>Estimates. How we got them: the generated code alone is **2k–15k tokens of output** (measured across the 8 curated templates; ~40k–53k including the AI-governance files). Agent sessions process far more than they output (typically 10–100×) because context is re-sent on every step and build errors take several fix loops. Your numbers depend on the model, prompt caching and the stack. The ForgeStack column is the MCP tool call plus the agent reading the summary.</sub>
 
@@ -88,39 +92,39 @@ ForgeStack includes **`forgestack-mcp`**, a local [Model Context Protocol](https
 
 ### Step 1: Add the MCP server (globally, recommended)
 
-Add it **once at user/global level** and every AI session, in every project, can scaffold for you.
+Add it **once at user/global level** and every AI session, in every project, can scaffold for you. All commands below pin `@forgestk/cli@1.0.1` so your AI assistant runs a known, immutable release rather than pulling unpinned `latest`.
 
-<details open>
+<details>
 <summary><b>Claude Code</b></summary>
 
 ```bash
-claude mcp add --scope user forgestack -- npx -y -p @forgestk/cli forgestack-mcp
+claude mcp add --scope user forgestack -- npx -y -p @forgestk/cli@1.0.1 forgestack-mcp
 ```
 `--scope user` makes it available in every project. Check with `claude mcp list`.
 </details>
 
-<details open>
+<details>
 <summary><b>Codex (OpenAI)</b></summary>
 
 ```bash
-codex mcp add forgestack -- npx -y -p @forgestk/cli forgestack-mcp
+codex mcp add forgestack -- npx -y -p @forgestk/cli@1.0.1 forgestack-mcp
 ```
 Or add it to `~/.codex/config.toml` (global):
 ```toml
 [mcp_servers.forgestack]
 command = "npx"
-args = ["-y", "-p", "@forgestk/cli", "forgestack-mcp"]
+args = ["-y", "-p", "@forgestk/cli@1.0.1", "forgestack-mcp"]
 ```
 </details>
 
-<details open>
+<details>
 <summary><b>Antigravity</b></summary>
 
 Agent panel → **⋯** → **MCP Servers** → **Manage MCP Servers** → **View raw config**, then add:
 ```json
 {
   "mcpServers": {
-    "forgestack": { "command": "npx", "args": ["-y", "-p", "@forgestk/cli", "forgestack-mcp"] }
+    "forgestack": { "command": "npx", "args": ["-y", "-p", "@forgestk/cli@1.0.1", "forgestack-mcp"] }
   }
 }
 ```
@@ -144,11 +148,11 @@ Add the same `mcpServers` entry as Antigravity above to your tool's **global** c
 <summary><b>VS Code (GitHub Copilot)</b></summary>
 
 ```bash
-code --add-mcp '{"name":"forgestack","command":"npx","args":["-y","-p","@forgestk/cli","forgestack-mcp"]}'
+code --add-mcp '{"name":"forgestack","command":"npx","args":["-y","-p","@forgestk/cli@1.0.1","forgestack-mcp"]}'
 ```
 </details>
 
-> Config file locations change between tool versions. If one above doesn't work, search your tool's docs for "MCP server"; the command is always `npx -y -p @forgestk/cli forgestack-mcp`.
+> Config file locations change between tool versions. If one above doesn't work, search your tool's docs for "MCP server"; the command is always `npx -y -p @forgestk/cli@1.0.1 forgestack-mcp`.
 
 ### Step 2: Ask in plain language
 
@@ -283,7 +287,7 @@ npx -p @forgestk/cli forgestack template delete team-api
 
 ## 🖥️ Desktop studio
 
-A Tauri v2 desktop app: configure on the left, read the generated project on the right. Curated templates, four stages (Identity, Stack, Tooling, Review), a live in-memory file tree with a read-only editor, and a dark and a light theme. Desktop installers coming soon. For now run `pnpm desktop:web`.
+A Tauri v2 desktop app: configure on the left, read the generated project on the right. Curated templates, four stages (Identity, Stack, Tooling, Review), a live in-memory file tree with a read-only editor, and a dark and a light theme. Desktop installers coming soon. For now, run `pnpm desktop:web` from a clone of this repo (after `pnpm install`).
 
 <img src="docs/screenshots/studio-stack-dark.png" alt="Studio Stack stage with the database picker open next to the generated file tree and apps/api/src/server.ts in the editor" width="900" />
 
@@ -312,17 +316,18 @@ The option space lives in [`scripts/matrix/space.mjs`](scripts/matrix/space.mjs)
 
 ### Dependency pinning & refresh cadence
 
-Every generated `package.json` uses **exact pinned versions** (no floating `*` or `^` drift) from [`DEPENDENCY_REGISTRY`](packages/core/src/registry/dependencies.ts). Versions are refreshed **monthly** (and immediately for security advisories) and validated against the full static and runtime matrices before release.
+Every generated `package.json` uses **exact pinned versions** (no floating `*` or `^` drift) from [`DEPENDENCY_REGISTRY`](packages/core/src/registry/dependencies.ts). Versions are refreshed **monthly** (and immediately for security advisories) and validated against the static matrix and the runtime sample before release.
 
 ---
 
-## 🤔 Why not `create-t3-app`, Nx, or Yeoman?
+## 🤔 Why not `create-t3-app`, `create-better-t-stack`, Nx generators, or Yeoman?
 
 | Tool | What it does well | Where ForgeStack differs |
 |---|---|---|
-| **`create-t3-app`** | Great for a Next.js + tRPC + Prisma/Drizzle app | Locked to Next.js. ForgeStack covers monorepos, Fastify/Express/Hono, Tauri/Electron, micro-frontends, and BullMQ workers—plus Better-Auth, Docker, CI, and a local MCP server. |
-| **Nx / Turborepo** | Task orchestration and caching for existing monorepos | Doesn't wire your auth, database migrations, tRPC routers, or Docker setup from scratch. ForgeStack scaffolds a Turborepo monorepo with those layers already connected. |
-| **Yeoman** | Flexible imperative file generators | Older template-copying model without type-safe config validation or in-memory VFS composition. ForgeStack validates the full stack in memory before writing a file, and exposes the same engine to AI agents via `forgestack-mcp`. |
+| **`create-t3-app`** | Fast Next.js + tRPC + Prisma/Drizzle starter | Locked to Next.js. ForgeStack covers monorepos, Fastify/Express/Hono, Tauri/Electron, micro-frontends, and BullMQ workers—plus Better-Auth, Docker, CI, and a local MCP server. |
+| **`create-better-t-stack`** | Broad TypeScript stack matrix (backends, ORMs, Better-Auth, Turborepo, Tauri) | ForgeStack focuses on verified end-to-end wiring (nightly runtime matrix with real DB migrations + HTTP probes), a Tauri Desktop Studio, and a local `forgestack-mcp` server with 40-tool AI skill provisioning. |
+| **`create-turbo` / Nx generators** | Task orchestration and workspace-level code generation | `create-turbo` gives an unopinionated monorepo shell (ForgeStack actually uses Turborepo inside its monorepo output); Nx focuses on workspace plugins/orchestration. ForgeStack wires auth, DB migrations, tRPC, Docker, and AI governance end to end. |
+| **Yeoman** | Flexible imperative generators | ForgeStack is declarative: one validated config, a tested option matrix, and the same engine exposed to AI agents via MCP. |
 
 ---
 
@@ -363,7 +368,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md), the [Local Testing Guide](docs/LOCAL_TES
 
 ### Roadmap
 
-- [ ] Publish `@forgestk/create-app` (or `create-forgestack-app`) for `npm create` shorthand
+- [ ] Publish `create-forgestack-app` so `npm create forgestack-app` works
 - [ ] Kubernetes & Helm deployment slice
 - [ ] GraphQL / federation archetype
 - [ ] Oxlint option
