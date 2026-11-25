@@ -1,6 +1,6 @@
 [package]
 name = "forgestack-desktop"
-version = "1.0.0"
+version = "1.0.1"
 description = "ForgeStack Project Scaffolding Desktop Client"
 authors = ["ForgeStack Team"]
 edition = "2021"
