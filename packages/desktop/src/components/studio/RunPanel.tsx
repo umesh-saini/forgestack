@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Check, Code2, Copy, FolderOpen, Play, X } from 'lucide-react';
-import type { ProjectConfig } from '@forgestack/core/browser';
+import type { ProjectConfig } from '@forgestk/core/browser';
 import { isTauri } from '../../services/updaterService.js';
 import { Button, WorkingLine, cx } from '../ui/primitives.js';
 import type { Phase } from './run-types.js';

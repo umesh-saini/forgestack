@@ -13,7 +13,7 @@ import {
   detectPresentTools,
   AGENT_TARGETS,
   type AgentToolId,
-} from '@forgestack/core';
+} from '@forgestk/core';
 import { runInteractiveWizard } from './prompts/wizard.js';
 import { CliReporter } from './ui/reporter.js';
 import { resolveProjectDirectory } from './utils/directory.js';

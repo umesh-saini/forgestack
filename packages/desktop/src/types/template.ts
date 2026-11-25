@@ -1,4 +1,4 @@
-import type { ProjectConfig } from '@forgestack/core/browser';
+import type { ProjectConfig } from '@forgestk/core/browser';
 
 export interface SavedTemplate {
   id: string;

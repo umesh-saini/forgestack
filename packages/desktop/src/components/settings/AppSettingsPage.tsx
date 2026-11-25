@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { motion } from 'motion/react';
 import { Check, FolderOpen, RotateCcw, Search } from 'lucide-react';
-import { AGENT_TARGETS, FORGESTACK_CANONICAL_SKILL, type AgentToolId } from '@forgestack/core/browser';
+import { AGENT_TARGETS, FORGESTACK_CANONICAL_SKILL, type AgentToolId } from '@forgestk/core/browser';
 import type { ThemePreference } from '../../theme.js';
 import { isTauri, type AppEnvironment, type UpdateDetails } from '../../services/updaterService.js';
 import { Button, ChoiceRow, Segmented, SettingRow, Switch, TextInput, cx } from '../ui/primitives.js';
@@ -185,7 +185,7 @@ export const AppSettingsPage: React.FC<Props> = ({
         });
         setProvisionResult({ ok: true, text: `Wrote ${files.length} skill files to ${settings.defaultTargetPath}.` });
       } else {
-        setProvisionResult({ ok: true, text: `Writing files needs the desktop app. From a terminal: npx -p @forgestack/cli create-forgestack-app init-skills` });
+        setProvisionResult({ ok: true, text: `Writing files needs the desktop app. From a terminal: npx -p @forgestk/cli create-forgestack-app init-skills` });
       }
     } catch (err) {
       setProvisionResult({ ok: false, text: err instanceof Error ? err.message : String(err) });

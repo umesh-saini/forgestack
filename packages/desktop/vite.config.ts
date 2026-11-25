@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
-import { generateProjectVfs, TransactionalFlusher, ProcessRunner } from '@forgestack/core';
+import { generateProjectVfs, TransactionalFlusher, ProcessRunner } from '@forgestk/core';
 
 function scaffoldApiPlugin(): Plugin {
   return {
@@ -74,8 +74,8 @@ export default defineConfig({
   clearScreen: false,
   resolve: {
     alias: {
-      '@forgestack/core/browser': path.resolve(__dirname, '../core/src/browser.ts'),
-      '@forgestack/core': path.resolve(__dirname, '../core/src/index.ts'),
+      '@forgestk/core/browser': path.resolve(__dirname, '../core/src/browser.ts'),
+      '@forgestk/core': path.resolve(__dirname, '../core/src/index.ts'),
     },
   },
   server: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import type { ProjectConfig } from '@forgestack/core/browser';
+import type { ProjectConfig } from '@forgestk/core/browser';
 import {
   DrizzleIcon,
   ExpressIcon,

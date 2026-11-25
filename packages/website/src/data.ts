@@ -1,4 +1,4 @@
-import { AGENT_TARGETS, projectConfigSchema } from '@forgestack/core/browser';
+import { AGENT_TARGETS, projectConfigSchema } from '@forgestk/core/browser';
 
 // Read option values straight from the engine's zod schema so the site never drifts from the engine.
 type AnySchema = { _def?: { innerType?: AnySchema; values?: readonly string[] }; options?: readonly string[]; shape?: Record<string, AnySchema> };

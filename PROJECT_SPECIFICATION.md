@@ -18,10 +18,10 @@ Existing scaffolding tools (e.g., `create-react-app`, `create-next-app`, standar
 
 ### 1.2 The ForgeStack Solution
 **ForgeStack** is a modular, recipe-driven project generation engine delivered through two interfaces:
-- **CLI (`npx create-forgestack-app` / `@forgestack/cli`)**: An interactive terminal UI (TUI) powered by `@clack/prompts` with scriptable CI flags.
-- **Desktop Application (`@forgestack/desktop`)**: A cross-platform GUI built with **Tauri v2** + React + Tailwind, offering native directory pickers, live dependency conflict resolution, visual file-tree previews, and one-click initialization.
+- **CLI (`npx create-forgestack-app` / `@forgestk/cli`)**: An interactive terminal UI (TUI) powered by `@clack/prompts` with scriptable CI flags.
+- **Desktop Application (`@forgestk/desktop`)**: A cross-platform GUI built with **Tauri v2** + React + Tailwind, offering native directory pickers, live dependency conflict resolution, visual file-tree previews, and one-click initialization.
 
-Both interfaces invoke a shared, headless, deterministic generation core: **`@forgestack/core`**.
+Both interfaces invoke a shared, headless, deterministic generation core: **`@forgestk/core`**.
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
@@ -35,7 +35,7 @@ Both interfaces invoke a shared, headless, deterministic generation core: **`@fo
                   │                                    │
                   ▼                                    ▼
 ┌────────────────────────────────────────────────────────────────────────┐
-│              Headless Generator Engine (`@forgestack/core`)            │
+│              Headless Generator Engine (`@forgestk/core`)            │
 ├────────────────────────────────────────────────────────────────────────┤
 │ • Preset & Recipe Composition Engine (Additive File Slices)            │
 │ • Dependency Matrix Resolver & Semantic Version Pinning                │
@@ -607,7 +607,7 @@ Preconfigures spec-driven development workflows where features are proposed, rev
 
 ---
 
-## 7. Generator Engine Architecture (`@forgestack/core`)
+## 7. Generator Engine Architecture (`@forgestk/core`)
 
 The generator engine implements a **Virtual Staging Engine** with a deterministic **Layered Recipe Pipeline**:
 
@@ -687,7 +687,7 @@ export const DEPENDENCY_REGISTRY = {
 
 ## 8. Client Interfaces Specification
 
-### 8.1 CLI Interface (`@forgestack/cli`)
+### 8.1 CLI Interface (`@forgestk/cli`)
 Distributed via `npx create-forgestack-app`.
 - **Interactive Mode:** Built with `@clack/prompts` featuring colorful steps, validation guards, and keyboard shortcuts.
 - **CI / Non-Interactive Mode:** Fully scriptable via CLI arguments:
@@ -706,7 +706,7 @@ Distributed via `npx create-forgestack-app`.
     --install
   ```
 
-### 8.2 Desktop Application (`@forgestack/desktop`)
+### 8.2 Desktop Application (`@forgestk/desktop`)
 Built with **Tauri v2** + **Vite/React** + **Tailwind CSS**.
 
 #### Application Screen Flow:
@@ -800,7 +800,7 @@ To eliminate template decay, ForgeStack runs a GitHub Actions cron job across al
   4. Fails CI if any peer dependency warnings or TypeScript compilation errors are encountered.
 
 ### 10.2 Roadmap & Milestones
-- **Phase 1 (Weeks 1–2):** Core VFS engine (`@forgestack/core`), Layered Slices, and Dependency Matrix.
-- **Phase 2 (Weeks 3–4):** CLI implementation (`@forgestack/cli`) with `@clack/prompts` and flags.
+- **Phase 1 (Weeks 1–2):** Core VFS engine (`@forgestk/core`), Layered Slices, and Dependency Matrix.
+- **Phase 2 (Weeks 3–4):** CLI implementation (`@forgestk/cli`) with `@clack/prompts` and flags.
 - **Phase 3 (Weeks 5–6):** Tauri v2 Desktop App with native directory selector and live file-tree preview.
 - **Phase 4 (Weeks 7–8):** OpenSpec workflows, Agent rules integration, Docker compose generation, and Daily Matrix CI.

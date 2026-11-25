@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Editor, { type BeforeMount } from '@monaco-editor/react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Check, ChevronDown, Copy, FilePlus2, Maximize2, Minimize2, Search, TerminalSquare, X } from 'lucide-react';
-import { normalizeConfig, type ProjectConfig, type TreeNode } from '@forgestack/core/browser';
+import { normalizeConfig, type ProjectConfig, type TreeNode } from '@forgestk/core/browser';
 import type { ThemeId } from '../../theme.js';
 import { getFileIcon } from '../common/TechIcons.js';
 import { IconButton, TextInput, cx } from '../ui/primitives.js';

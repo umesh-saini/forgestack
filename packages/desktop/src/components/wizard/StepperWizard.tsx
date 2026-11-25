@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowLeft, ArrowRight, Check } from 'lucide-react';
-import type { ProjectConfig } from '@forgestack/core/browser';
+import type { ProjectConfig } from '@forgestk/core/browser';
 import { Step1IdentityArchetype } from './Step1IdentityArchetype.js';
 import { Step2StackEcosystem } from './Step2StackEcosystem.js';
 import { Step3ToolingGovernance } from './Step3ToolingGovernance.js';

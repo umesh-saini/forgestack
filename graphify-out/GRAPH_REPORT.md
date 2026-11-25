@@ -6,12 +6,12 @@
 - Unclassified: 14 file(s) not represented in the graph (top: (none) 6, .ico 2, .xml 2)
 
 ## Summary
-- 1093 nodes · 2629 edges · 66 communities (46 shown, 20 thin omitted)
+- 1092 nodes · 2632 edges · 66 communities (46 shown, 20 thin omitted)
 - Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 7 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `9b4b3452`
+- Built from commit: `848c9675`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -29,13 +29,13 @@
 - CLI Package Dependencies & Binaries
 - Root TypeScript Configuration
 - Publish Release Workflow
-- ref_react
+- AppShell.tsx
 - Tauri Native File System Commands
 - devDependencies
 - JSON Merge & Utility Functions
 - Root Monorepo Tooling & Dependencies
 - Tauri Security & Permissions Capabilities
-- CLI Executable Entrypoint
+- create-forgestack-app.js
 - Turborepo Pipeline Configuration
 - Proof.tsx
 - Pnpm Workspace Configuration
@@ -59,7 +59,7 @@
 - dependencies
 - primitives.tsx
 - desktop/package.json
-- theme.ts
+- FastScaffoldModal.tsx
 - scripts
 - clsx@^2.1.1
 - lucide-react@^0.475.0
@@ -77,11 +77,11 @@
 - Changelog.tsx
 
 ## God Nodes (most connected - your core abstractions)
-1. `ProjectConfig` - 98 edges
+1. `ProjectConfig` - 99 edges
 2. `VirtualFileSystem` - 73 edges
 3. `cx()` - 36 edges
 4. `FeatureSlice` - 35 edges
-5. `generateProjectVfs()` - 25 edges
+5. `generateProjectVfs()` - 27 edges
 6. `DEPENDENCY_REGISTRY` - 25 edges
 7. `Button` - 23 edges
 8. `ForgeStackAppContent()` - 22 edges
@@ -89,16 +89,16 @@
 10. `Step2StackEcosystem()` - 18 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `sweep()` --calls--> `checkProject()`  [EXTRACTED]
-  tests/e2e/combination-matrix.test.ts → scripts/matrix/integrity.mjs
-- `sweep()` --calls--> `effectiveChoice()`  [EXTRACTED]
-  tests/e2e/combination-matrix.test.ts → scripts/matrix/space.mjs
-- `sweep()` --calls--> `toConfig()`  [EXTRACTED]
-  tests/e2e/combination-matrix.test.ts → scripts/matrix/space.mjs
-- `firstChoice()` --calls--> `allInteractingCombinations()`  [EXTRACTED]
-  tests/e2e/combination-matrix.test.ts → scripts/matrix/space.mjs
+- `sweep()` --calls--> `generateProjectVfs()`  [EXTRACTED]
+  tests/e2e/combination-matrix.test.ts → packages/core/src/engine/create-pipeline.ts
+- `sweep()` --calls--> `normalizeConfig()`  [EXTRACTED]
+  tests/e2e/combination-matrix.test.ts → packages/core/src/types/config.ts
+- `scaffoldApiPlugin()` --calls--> `generateProjectVfs()`  [EXTRACTED]
+  packages/desktop/vite.config.ts → packages/core/src/engine/create-pipeline.ts
 - `Props` --references--> `ProjectConfig`  [EXTRACTED]
   packages/desktop/src/components/wizard/Step1IdentityArchetype.tsx → packages/core/src/types/config.ts
+- `Props` --references--> `ProjectConfig`  [EXTRACTED]
+  packages/desktop/src/components/wizard/Step2StackEcosystem.tsx → packages/core/src/types/config.ts
 
 ## Import Cycles
 - None detected.
@@ -110,20 +110,20 @@ Cohesion: 0.07
 Nodes (55): FeatureSlice, RecipeCompositor, cleanSlotsSlice, createProjectPipeline(), generateProjectVfs(), npmWorkspaceProtocolSlice, PNPM_BUILT_DEPENDENCIES, pnpmBuildScriptsSlice (+47 more)
 
 ### Community 1 - "HomeTemplatesDashboard.tsx"
-Cohesion: 0.21
-Nodes (23): ArchitectureTopology, Filter, HomeTemplatesDashboard(), TemplateInspector(), useFileCount(), Marker(), RunPanel(), StudioView() (+15 more)
+Cohesion: 0.23
+Nodes (24): ArchitectureTopology, Filter, HomeTemplatesDashboard(), TemplateInspector(), useFileCount(), Marker(), RunPanel(), StudioView() (+16 more)
 
 ### Community 2 - "ForgeStack CLI & Template Store"
 Cohesion: 0.05
 Nodes (40): createCli(), spinner(), createMcpServer(), runMcpServer(), runInteractiveWizard(), CURATED_TEMPLATES, CuratedTemplate, findCuratedTemplate() (+32 more)
 
 ### Community 3 - "E2E Combination Matrix & Runtime Testing"
-Cohesion: 0.06
+Cohesion: 0.07
 Nodes (41): BIN_TO_PKG, BUILTINS, checkProject(), EXTS, IMPORT_RE, parseJson(), pkgNameOf(), SHELL (+33 more)
 
 ### Community 4 - "Desktop Ecosystem & Tech Icons"
-Cohesion: 0.08
-Nodes (27): ClaudeIcon(), CursorRulesIcon(), DockerIcon(), DrizzleIcon(), ExpressIcon(), FastifyIcon(), getFileIcon(), HonoIcon() (+19 more)
+Cohesion: 0.09
+Nodes (20): DrizzleIcon(), ExpressIcon(), FastifyIcon(), getFileIcon(), HonoIcon(), IconProps, JsonIcon(), MongoIcon() (+12 more)
 
 ### Community 5 - "CI Workflow & Matrix Testing"
 Cohesion: 0.06
@@ -142,12 +142,12 @@ Cohesion: 0.08
 Nodes (24): app, security, windows, build, beforeBuildCommand, beforeDevCommand, devUrl, frontendDist (+16 more)
 
 ### Community 9 - "desktop/src/App.tsx"
-Cohesion: 0.14
-Nodes (25): App(), defaultConfig(), ForgeStackAppContent(), openWith(), CommandPalette(), log(), Dialog(), Field() (+17 more)
+Cohesion: 0.17
+Nodes (20): App(), defaultConfig(), ForgeStackAppContent(), openWith(), CommandPalette(), log(), WorkingLine(), Notes() (+12 more)
 
 ### Community 10 - "CLI Package Dependencies & Binaries"
 Cohesion: 0.07
-Nodes (31): bin, create-forgestack-app, forgestack, forgestack-mcp, dependencies, @clack/prompts@^0.9.1, commander@^13.1.0, @forgestack/core@workspace:* (+23 more)
+Nodes (31): bin, create-forgestack-app, forgestack, forgestack-mcp, dependencies, @clack/prompts@^0.9.1, commander@^13.1.0, @forgestk/core@workspace:* (+23 more)
 
 ### Community 11 - "Root TypeScript Configuration"
 Cohesion: 0.14
@@ -157,9 +157,9 @@ Nodes (13): compilerOptions, declaration, declarationMap, esModuleInterop, force
 Cohesion: 0.09
 Nodes (22): NODE_AUTH_TOKEN, jobs, publish, name, on, push, contents, id-token (+14 more)
 
-### Community 13 - "ref_react"
-Cohesion: 0.14
-Nodes (20): TreeNode, AppShell(), NAV, Props, PaletteCommand, Props, Props, LogLine (+12 more)
+### Community 13 - "AppShell.tsx"
+Cohesion: 0.40
+Nodes (5): AppShell(), NAV, Props, Kbd(), react-router-dom
 
 ### Community 14 - "Tauri Native File System Commands"
 Cohesion: 0.17
@@ -198,8 +198,8 @@ Cohesion: 0.50
 Nodes (3): date, name, schema
 
 ### Community 30 - "AppSettingsPage.tsx"
-Cohesion: 0.15
-Nodes (20): baseDir(), FastScaffoldModal(), Props, Props, AppSettings, AppSettingsPage(), DEFAULT_APP_SETTINGS, loadAppSettings() (+12 more)
+Cohesion: 0.18
+Nodes (15): AppSettings, AppSettingsPage(), DEFAULT_APP_SETTINGS, POPULAR, Props, saveAppSettings(), SectionId, SECTIONS (+7 more)
 
 ### Community 31 - "Website Deployment Workflow"
 Cohesion: 0.06
@@ -207,7 +207,7 @@ Nodes (35): runs-on, steps, concurrency, cancel-in-progress, group, environment,
 
 ### Community 32 - "Website Package Dependencies"
 Cohesion: 0.07
-Nodes (39): dependencies, @fontsource-variable/ibm-plex-sans@^5.3.0, @fontsource-variable/jetbrains-mono@^5.3.0, @forgestack/core@workspace:*, lucide-react@^0.475.0, motion@^14.14.0, react@^19.0.0, react-dom@^19.0.0 (+31 more)
+Nodes (39): dependencies, @fontsource-variable/ibm-plex-sans@^5.3.0, @fontsource-variable/jetbrains-mono@^5.3.0, @forgestk/core@workspace:*, lucide-react@^0.475.0, motion@^14.14.0, react@^19.0.0, react-dom@^19.0.0 (+31 more)
 
 ### Community 33 - "OpenSpec NextGen Archetypes Spec Archive"
 Cohesion: 0.50
@@ -242,24 +242,24 @@ Cohesion: 0.50
 Nodes (3): date, name, schema
 
 ### Community 45 - "cx"
-Cohesion: 0.24
-Nodes (13): collectFiles(), FileTree(), filterTree(), Props, useFreshPaths(), Console(), editorOptions, getMonacoLanguage() (+5 more)
+Cohesion: 0.14
+Nodes (22): TreeNode, collectFiles(), FileTree(), filterTree(), Props, useFreshPaths(), Console(), editorOptions (+14 more)
 
 ### Community 47 - "dependencies"
 Cohesion: 0.13
 Nodes (15): dependencies, @fontsource-variable/jetbrains-mono@^5.3.0, jszip@^3.10.2, motion@^14.14.0, react-router-dom@^7.18.5, @tauri-apps/api@^2.2.0, @tauri-apps/plugin-dialog@^2.2.0, @tauri-apps/plugin-process@^2.4.0 (+7 more)
 
 ### Community 48 - "primitives.tsx"
-Cohesion: 0.22
-Nodes (12): ConfigGroup(), PickerOption, PickerRow(), ButtonVariant, buttonVariants, ChoiceRow(), inputClass, PaneHeading() (+4 more)
+Cohesion: 0.13
+Nodes (25): ClaudeIcon(), CursorRulesIcon(), DockerIcon(), OpenSpecIcon(), PaletteCommand, Props, ConfigGroup(), PickerOption (+17 more)
 
 ### Community 49 - "desktop/package.json"
 Cohesion: 0.22
-Nodes (8): @fontsource-variable/ibm-plex-sans@^5.3.0, @forgestack/core@workspace:*, @fontsource-variable/ibm-plex-sans, @forgestack/core, name, private, type, version
+Nodes (8): @fontsource-variable/ibm-plex-sans@^5.3.0, @forgestk/core@workspace:*, @fontsource-variable/ibm-plex-sans, @forgestk/core, name, private, type, version
 
-### Community 50 - "theme.ts"
-Cohesion: 0.70
-Nodes (4): loadThemePreference(), resolveTheme(), systemPrefersLight(), useTheme()
+### Community 50 - "FastScaffoldModal.tsx"
+Cohesion: 0.22
+Nodes (13): baseDir(), FastScaffoldModal(), Props, Props, loadAppSettings(), Dialog(), Field(), SettingRow() (+5 more)
 
 ### Community 51 - "scripts"
 Cohesion: 0.50
@@ -290,24 +290,24 @@ Cohesion: 0.60
 Nodes (4): Changelog(), Inline(), parseChangelog(), Release
 
 ## Knowledge Gaps
-- **5 isolated node(s):** `forgestack-desktop`, `../../tsconfig.json`, `../../tsconfig.json`, `../../tsconfig.json`, `../../tsconfig.json`
-  These have ≤1 connection - possible missing edges. (Counts symbols only; 397 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **5 isolated node(s):** `../../tsconfig.json`, `../../tsconfig.json`, `forgestack-desktop`, `../../tsconfig.json`, `../../tsconfig.json`
+  These have ≤1 connection - possible missing edges. (Counts symbols only; 395 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
 - **20 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `ProjectConfig` connect `Core Scaffolding Engine & Slices` to `HomeTemplatesDashboard.tsx`, `ForgeStack CLI & Template Store`, `Desktop Ecosystem & Tech Icons`, `desktop/src/App.tsx`, `cx`, `ref_react`, `primitives.tsx`, `AppSettingsPage.tsx`?**
-  _High betweenness centrality (0.108) - this node is a cross-community bridge._
-- **What connects `forgestack-desktop`, `../../tsconfig.json`, `../../tsconfig.json` to the rest of the system?**
+- **Why does `ProjectConfig` connect `Core Scaffolding Engine & Slices` to `HomeTemplatesDashboard.tsx`, `ForgeStack CLI & Template Store`, `E2E Combination Matrix & Runtime Testing`, `Desktop Ecosystem & Tech Icons`, `desktop/src/App.tsx`, `cx`, `primitives.tsx`, `FastScaffoldModal.tsx`?**
+  _High betweenness centrality (0.114) - this node is a cross-community bridge._
+- **What connects `../../tsconfig.json`, `../../tsconfig.json`, `forgestack-desktop` to the rest of the system?**
   _5 weakly-connected nodes found - possible missing edges._
 - **Should `Core Scaffolding Engine & Slices` be split into smaller, more focused modules?**
   _Cohesion score 0.0722507708119219 - nodes in this community are weakly interconnected._
-- **Why does `generateProjectVfs()` connect `Core Scaffolding Engine & Slices` to `desktop/src/App.tsx`, `ForgeStack CLI & Template Store`, `HomeTemplatesDashboard.tsx`?**
-  _High betweenness centrality (0.035) - this node is a cross-community bridge._
+- **Why does `react-router-dom` connect `AppShell.tsx` to `desktop/package.json`, `cx`, `desktop/src/App.tsx`, `dependencies`?**
+  _High betweenness centrality (0.043) - this node is a cross-community bridge._
 - **Should `ForgeStack CLI & Template Store` be split into smaller, more focused modules?**
   _Cohesion score 0.0546984572230014 - nodes in this community are weakly interconnected._
-- **Why does `normalizeConfig()` connect `ForgeStack CLI & Template Store` to `Core Scaffolding Engine & Slices`, `E2E Combination Matrix & Runtime Testing`, `cx`?**
-  _High betweenness centrality (0.029) - this node is a cross-community bridge._
+- **Why does `zod` connect `Core Engine Package Configuration` to `Core Scaffolding Engine & Slices`?**
+  _High betweenness centrality (0.034) - this node is a cross-community bridge._
 - **Should `E2E Combination Matrix & Runtime Testing` be split into smaller, more focused modules?**
-  _Cohesion score 0.06334841628959276 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06887755102040816 - nodes in this community are weakly interconnected._

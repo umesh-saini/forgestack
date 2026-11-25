@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-import type { TreeNode } from '@forgestack/core/browser';
+import type { TreeNode } from '@forgestk/core/browser';
 import { getFileIcon } from '../common/TechIcons.js';
 import { cx } from '../ui/primitives.js';
 

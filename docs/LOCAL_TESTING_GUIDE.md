@@ -39,7 +39,7 @@ pnpm cli:dev template list
 
 To test the CLI exactly as an end-user would run `create-forgestack-app` or `forgestack` anywhere in their terminal:
 
-### Step 1: Link `@forgestack/core` and `@forgestack/cli`
+### Step 1: Link `@forgestk/core` and `@forgestk/cli`
 ```bash
 # In the root repository:
 pnpm build
@@ -301,7 +301,7 @@ Run the automated test matrix to ensure zero regressions across all workspaces:
 
 ```bash
 # Run CLI package tests (34 tests in ~900ms)
-pnpm --filter @forgestack/cli test
+pnpm --filter @forgestk/cli test
 
 # Run full monorepo test suite (123 tests across 38 files)
 pnpm test

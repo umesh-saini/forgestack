@@ -1,6 +1,6 @@
 # ForgeStack CLI — NPM Deployment & Publishing Guide
 
-This guide details the complete architecture, setup, and step-by-step procedure for deploying and publishing `@forgestack/cli` (`create-forgestack-app`) and `@forgestack/core` to the npm registry.
+This guide details the complete architecture, setup, and step-by-step procedure for deploying and publishing `@forgestk/cli` (`create-forgestack-app`) and `@forgestk/core` to the npm registry.
 
 ---
 
@@ -27,12 +27,12 @@ npm looks directly for the package named `create-forgestack-app`.
 
 ### Package Naming Strategy
 In this monorepo, we have two core packages:
-1. **`@forgestack/core`**: The headless Virtual File System (VFS), template compositors, and Zod schemas.
-2. **`@forgestack/cli`** (or `create-forgestack-app`): The interactive OpenSpec TUI, terminal wizard, and CLI binary.
+1. **`@forgestk/core`**: The headless Virtual File System (VFS), template compositors, and Zod schemas.
+2. **`@forgestk/cli`** (or `create-forgestack-app`): The interactive OpenSpec TUI, terminal wizard, and CLI binary.
 
 > [!IMPORTANT]
-> If you publish the CLI as `@forgestack/cli`, users can run it via `npx @forgestack/cli my-app`.
-> If you want users to be able to run `npx create-forgestack-app my-app` or `pnpm create forgestack-app my-app`, the package name in `packages/cli/package.json` must either be `"name": "create-forgestack-app"`, or you must publish a lightweight proxy package `create-forgestack-app` that delegates to `@forgestack/cli`.
+> If you publish the CLI as `@forgestk/cli`, users can run it via `npx @forgestk/cli my-app`.
+> If you want users to be able to run `npx create-forgestack-app my-app` or `pnpm create forgestack-app my-app`, the package name in `packages/cli/package.json` must either be `"name": "create-forgestack-app"`, or you must publish a lightweight proxy package `create-forgestack-app` that delegates to `@forgestk/cli`.
 
 ---
 
@@ -76,10 +76,10 @@ npx openspec validate
 
 ## 4. Manual Publishing Workflow
 
-In a pnpm monorepo, packages must be published in dependency order: `@forgestack/core` first, followed by `@forgestack/cli`.
+In a pnpm monorepo, packages must be published in dependency order: `@forgestk/core` first, followed by `@forgestk/cli`.
 
-### Step 1: Publish `@forgestack/core`
-`@forgestack/cli` depends on `@forgestack/core`. Therefore, `@forgestack/core` must be available on the registry first.
+### Step 1: Publish `@forgestk/core`
+`@forgestk/cli` depends on `@forgestk/core`. Therefore, `@forgestk/core` must be available on the registry first.
 
 ```bash
 cd packages/core
@@ -87,14 +87,14 @@ cd packages/core
 # Ensure package is clean and built
 pnpm run build
 
-# Publish as public package (required for scoped @forgestack/* packages)
+# Publish as public package (required for scoped @forgestk/* packages)
 pnpm publish --access public
 ```
 
 > [!NOTE]
 > `pnpm publish` automatically converts `workspace:*` dependencies into concrete SemVer versions (e.g. `^1.0.0`) in the published tarball manifest.
 
-### Step 2: Publish `@forgestack/cli`
+### Step 2: Publish `@forgestk/cli`
 Once core is available on npm:
 
 ```bash
@@ -181,14 +181,14 @@ jobs:
           pnpm run build
           pnpm run test
 
-      - name: Publish @forgestack/core
+      - name: Publish @forgestk/core
         run: |
           cd packages/core
           pnpm publish --access public --no-git-checks
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Publish @forgestack/cli
+      - name: Publish @forgestk/cli
         run: |
           cd packages/cli
           pnpm publish --access public --no-git-checks
@@ -209,8 +209,8 @@ When releasing an update:
 1. Bump version across packages:
    ```bash
    # Patch update (1.0.0 -> 1.0.1)
-   pnpm --filter @forgestack/core exec npm version patch
-   pnpm --filter @forgestack/cli exec npm version patch
+   pnpm --filter @forgestk/core exec npm version patch
+   pnpm --filter @forgestk/cli exec npm version patch
    ```
 2. Build and verify test suite:
    ```bash
@@ -228,7 +228,7 @@ When releasing an update:
 ## 8. Common Deployment Errors & Fixes
 
 ### Error: `403 Forbidden - You do not have permission to publish`
-- **Cause**: The package name is scoped (`@forgestack/cli`) but `--access public` was omitted, or you are not a member of the `@forgestack` npm organization.
+- **Cause**: The package name is scoped (`@forgestk/cli`) but `--access public` was omitted, or you are not a member of the `@forgestack` npm organization.
 - **Fix**: Run `pnpm publish --access public`. If creating an unscoped package (`create-forgestack-app`), check whether the name is already claimed on npm.
 
 ### Error: `Unsupported URL Type "workspace:*"`

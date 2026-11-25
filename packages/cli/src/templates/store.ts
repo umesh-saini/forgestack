@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import type { ProjectConfig } from '@forgestack/core';
+import type { ProjectConfig } from '@forgestk/core';
 import {
   CURATED_TEMPLATES,
   findCuratedTemplate,

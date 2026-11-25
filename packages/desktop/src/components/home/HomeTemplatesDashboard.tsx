@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import { Copy, FilePlus2, Pencil, Play, Search, SlidersHorizontal, Trash2 } from 'lucide-react';
-import { generateProjectVfs, type ProjectConfig } from '@forgestack/core/browser';
+import { generateProjectVfs, type ProjectConfig } from '@forgestk/core/browser';
 import type { SavedTemplate } from '../../types/template.js';
 import { archetypeOf, hasBackend, hasFrontend, label } from '../../data/catalog.js';
 import { Button, IconButton, Segmented, Tag, TextInput, cx } from '../ui/primitives.js';
